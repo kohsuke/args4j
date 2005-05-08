@@ -1,5 +1,7 @@
 package org.kohsuke.args4j;
 
+import org.kohsuke.CmdLineException;
+
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.util.ArrayList;

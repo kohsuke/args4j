@@ -1,6 +1,8 @@
 package org.kohsuke;
 
 /**
+ * Signals an error in the user input.
+ *
  * @author Kohsuke Kawaguchi
  */
 public class CmdLineException extends Exception {

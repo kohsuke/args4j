@@ -12,15 +12,15 @@ public abstract class OptionHandler {
     /**
      * The annotation.
      */
-    protected final Option option;
+    public final Option option;
     /**
      * Object to be used for setting value.
      */
-    protected final Setter setter;
+    public final Setter setter;
     /**
      * The owner to which this handler belongs to.
      */
-    protected final CmdLineParser owner;
+    public final CmdLineParser owner;
 
     protected OptionHandler(CmdLineParser parser, Option option, Setter setter) {
         this.owner = parser;

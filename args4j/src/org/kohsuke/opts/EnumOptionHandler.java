@@ -10,13 +10,23 @@ import org.kohsuke.CmdLineException;
  * @author Kohsuke Kawaguchi
  */
 public class EnumOptionHandler extends OptionHandler {
-    public EnumOptionHandler(CmdLineParser parser, Option option, Setter setter) {
+
+    private final Class<? extends Enum> enumType;
+
+    public EnumOptionHandler(CmdLineParser parser, Option option, Setter setter, Class<? extends Enum> enumType) {
         super(parser, option, setter);
+        this.enumType = enumType;
     }
 
     public int parseArguments(Parameters params) throws CmdLineException {
         String s = params.getParameter(0);
-        // parse this into enum
+        Enum value = null;
+        try {
+            value = Enum.valueOf(enumType,s);
+        } catch (IllegalArgumentException e) {
+            throw new CmdLineException(Messages.ILLEVAL_VALUE.format(s));
+        }
+        setter.addValue(value);
         return 1;
     }
 }

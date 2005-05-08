@@ -7,7 +7,7 @@ import org.kohsuke.CmdLineException;
  *
  * @author Kohsuke Kawaguchi
  */
-public interface Setter {
+public interface Setter<T> {
     /**
      * Adds/sets a value to the property of the option bean.
      *
@@ -15,5 +15,10 @@ public interface Setter {
      * A {@link Setter} object has an implicit knowledge about the property it's setting,
      * and the instance of the option bean.
      */
-    void addValue(Object value) throws CmdLineException;
+    void addValue(T value) throws CmdLineException;
+
+    /**
+     * Gets the type of the underlying method/field.
+     */
+    Class<T> getType();
 }

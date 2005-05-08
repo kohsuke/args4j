@@ -10,7 +10,7 @@ import org.kohsuke.CmdLineException;
  * {@link OptionHandler}s to make it easy/safe to parse
  * additional parameters for options.
  */
-abstract class Parameters  {
+public abstract class Parameters  {
     /**
      * Gets the additional parameter to this option.
      *
@@ -25,13 +25,7 @@ abstract class Parameters  {
      *      made to access a non-existent index, this method throws
      *      appropriate {@link org.kohsuke.args4j.CmdLineException}.
      */
-    public String getParameter(int idx) throws CmdLineException {
-        try {
-            return values[idx+1];
-        } catch( ArrayIndexOutOfBoundsException e ) {
-            throw new MissingOptionParameterException(getOptionName());
-        }
-    }
+    public abstract String getParameter(int idx) throws CmdLineException;
 
     /**
      * The convenience method of

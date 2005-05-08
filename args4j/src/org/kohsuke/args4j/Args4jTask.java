@@ -1,12 +1,13 @@
 package org.kohsuke.args4j;
 
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DynamicConfigurator;
 import org.apache.tools.ant.Task;
+import org.kohsuke.CmdLineException;
+
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Ant {@link Task} implementation that lets args4j
