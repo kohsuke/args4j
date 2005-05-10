@@ -1,4 +1,4 @@
-package org.kohsuke;
+package org.kohsuke.args4j;
 
 /**
  * Signals an incorrect use of args4j annotations.

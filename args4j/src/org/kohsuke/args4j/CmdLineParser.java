@@ -1,276 +1,226 @@
 package org.kohsuke.args4j;
 
-import org.kohsuke.CmdLineException;
+import org.kohsuke.args4j.spi.EnumOptionHandler;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.spi.BooleanOptionHandler;
+import org.kohsuke.args4j.spi.FileOptionHandler;
+import org.kohsuke.args4j.spi.StringOptionHandler;
+import org.kohsuke.args4j.spi.IntOptionHandler;
 
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.io.Writer;
+import java.io.File;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.ResourceBundle;
+import java.util.TreeMap;
+
 
 /**
  * Command line argument owner.
- * 
+ *
  * @author
  *     Kohsuke Kawaguchi (kk@kohsuke.org)
  */
-public final class CmdLineParser {
+public class CmdLineParser {
     /**
-     * Set of registered {@link CmdLineOption}s.
+     * Option bean instance.
      */
-    private final List options = new ArrayList(50);
-    
-    /**
-     * Registered {@link Argument}s.
-     */
-    private final List arguments = new ArrayList(50);
-    
-    /**
-     * Current index in {@link #arguments}.
-     */
-    private int argIdx=0;
-    
-    /**
-     * Adds a new option to the owner.
-     * 
-     * @return
-     *      The value passed as the <code>opt</code> parameter.
-     */
-    public CmdLineOption addOption( CmdLineOption opt ) {
-        this.options.add(opt);
-        return opt;
-    }
-    
-    /**
-     * Adds new argument owner.
-     * 
-     * @return
-     *      The value passed as the <code>arg</code> parameter.
-     */
-    public Argument addArgument( Argument arg ) {
-        this.arguments.add(arg);
-        return arg;
-    }
-    
-    /**
-     * Adds all the {@link CmdLineOption}-derived fields on
-     * this object.
-     * 
-     * <p>
-     * This method uses Java reflection to the specified object,
-     * and looks for fields whose types derive from {@link CmdLineOption}.
-     * All such fields are added through {@link #addOption(CmdLineOption)}
-     * method.
-     * 
-     * <p>
-     * This method would be convenient if you have a class that
-     * defines a bunch of {@link CmdLineOption}s as its fields.
-     * For example,
-     * 
-     * <pre>
-     * class MyMain {
-     *     private {@link org.kohsuke.args4j.opts.BooleanCmdLineItem} opt1 = ...;
-     *     private {@link org.kohsuke.args4j.opts.StringCmdLineItem}  opt2 = ...;
-     *     private {@link org.kohsuke.args4j.opts.IntCmdLineItem}     opt3 = ...;
-     *     ...
-     * 
-     *     void doMain( {@link String}[] args ) {
-     *         {@link CmdLineParser} owner = new {@link CmdLineParser}();
-     *         owner.addOptionClass(this);
-     * 
-     *         owner.parse(args);
-     * 
-     *         ....
-     *     }
-     * }
-     * </pre>
-     * 
-     * @throws IllegalArgumentException
-     *      If the specified object doesn't contain any 
-     *      {@link CmdLineOption} fields. Given the typical
-     *      use case, this is more likely to be a bug of the
-     *      caller, but I appreciate your input on this behavior.
-     */
-    public void addOptionClass( Object obj ) {
-        boolean added = false;
-        
-        for( Class c = obj.getClass(); c!=null; c=c.getSuperclass() ) {
-            Field[] fields = c.getDeclaredFields();
-            
-            // make them accessible
-            Field.setAccessible(fields,true);
-            
-            for( int i=0; i<fields.length; i++ ) {
-                if( CmdLineOption.class.isAssignableFrom(fields[i].getType()) )
-                    try {
-                        // a CmdLineOption field
-                        CmdLineOption f = (CmdLineOption) fields[i].get(obj);
-                        if( f instanceof Argument && !f.getName().startsWith("-") )
-                            // if it's also an argument and the name suggests that it is an argument,
-                            // don't add it.
-                            ;
-                        else
-                            addOption( f );
-                        added = true;
-                    } catch (IllegalArgumentException e) {
-                        // can't happen
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        // can't happen, too.
-                        e.printStackTrace();
-                    }
-            }
-        }
-        
-        if( !added )
-            throw new IllegalArgumentException(
-                "the specified class "+obj.getClass().getName()+" doesn't have any option field");
-    }
-    
-    /**
-     * Parse the arguments.
-     * 
-     * Can be invoked multiple times or recursively if necessary.
-     */
-    public void parse( String[] args ) throws CmdLineException {
-        CmdLineImpl cmdLine = new CmdLineImpl(args);
-        
-        while( cmdLine.hasMore() ) {
-            String arg = cmdLine.getOptionName();
-            if( isOption(arg) & arg.length()>1 ) {
-                // parse this as an option.
-                int j;
-                for( j=0; j<options.size(); j++ ) {
-                    CmdLineOption opt = (CmdLineOption)options.get(j);
-                    if( opt.getName().equals(arg) ) {
-                        int diff = opt.parseArguments(this,cmdLine);
-                        cmdLine.proceed(diff+1);
-                        break;
-                    }
-                }
-                if( j==options.size() )
-                    throw new UndefinedOptionException(arg);
-            } else {
-                // parse this as arguments
-                Argument a = (Argument)arguments.get(argIdx);
-                if(argIdx!=arguments.size()-1)    argIdx++;
-                a.addArgument(this,arg);
-                cmdLine.proceed(1);
-            }
-        }
-    }
-    
-    /**
-     * Prints the usage screen.
-     */
-    public void printUsage( String programName, PrintWriter o ) {
-        StringBuffer args = new StringBuffer();
-        
-        if(options.size()!=0) {
-            args.append(' ');
-            args.append(Messages.format("CmdLineParser.OptionsInArg"));
-        }
-            
-        for( int i=0; i<arguments.size(); i++ ) {
-            Argument arg = (Argument)arguments.get(i);
-            args.append(" <");
-            args.append(arg.getName());
-            args.append(">");
-            if(arg.acceptsMultiValues())
-                args.append(" ...");
-        }
-        o.println(Messages.format("CmdLineParser.Usage",programName,args));
+    private final Object bean;
 
-        int width = Math.max(getWidth(arguments),getWidth(options))+1;
-        
-        if(arguments.size()!=0) {
-            o.println(Messages.format("CmdLineParser.Arguments"));
-            for( int i=0; i<arguments.size(); i++ ) {
-                Argument arg = (Argument)arguments.get(i);
-                o.print("  "+arg.getName());
-                for(int j=width-arg.getName().length();j>0;j--)  o.print(' ');
-                o.print(':');
-                o.println(arg.getDescription());
+    /**
+     * Discovered {@link OptionHandler}s keyed by their option names.
+     */
+    private final Map<String,OptionHandler> options = new TreeMap<String,OptionHandler>();
+
+    /**
+     * {@link Setter} that accepts the arguments.
+     */
+    private Setter argumentSetter;
+
+    /**
+     * Creates a new command line owner that
+     * parses arguments/options and set them into
+     * the given object.
+     *
+     * @param bean
+     *      instance of a class annotated by {@link Option} and {@link Argument}.
+     *      this object will receive values.
+     *
+     * @throws IllegalAnnotationError
+     *      if the option bean class is using args4j annotations incorrectly.
+     */
+    public CmdLineParser(Object bean) {
+        this.bean = bean;
+
+        // recursively process all the methods/fields.
+        for( Class c=bean.getClass(); c!=null; c=c.getSuperclass()) {
+            for( Method m : c.getDeclaredMethods() ) {
+                Option o = m.getAnnotation(Option.class);
+                if(o!=null) {
+                    addOption(new MethodSetter(bean,m),o);
+                    continue;
+                }
+                Argument a = m.getAnnotation(Argument.class);
+                if(a!=null) {
+                    addArgument(new MethodSetter(bean,m));
+                    continue;
+                }
+            }
+
+            for( Field f : c.getDeclaredFields() ) {
+                Option o = f.getAnnotation(Option.class);
+                if(o!=null) {
+                    addOption(createFieldSetter(f),o);
+                    continue;
+                }
+                Argument a = f.getAnnotation(Argument.class);
+                if(a!=null) {
+                    addArgument(createFieldSetter(f));
+                    continue;
+                }
             }
         }
-        
-        if(options.size()!=0) {
-            o.println(Messages.format("CmdLineParser.Options"));
-            for( int i=0; i<options.size(); i++ ) {
-                CmdLineOption opt = (CmdLineOption)options.get(i);
-                o.print("  "+opt.getName());
-                for(int j=width-opt.getName().length();j>0;j--)  o.print(' ');
-                o.print(':');
-                o.println(opt.getDescription());
+    }
+
+    private Setter createFieldSetter(Field f) {
+        if(List.class.isAssignableFrom(f.getType()))
+            return new MultiValueFieldSetter(bean,f);
+        else
+            return new FieldSetter(bean,f);
+    }
+
+    private void addArgument(Setter setter) {
+        if(argumentSetter!=null)
+            throw new IllegalAnnotationError("@Argument is used more than once");
+        argumentSetter = setter;
+    }
+
+    private void addOption(Setter setter, Option o) {
+        OptionHandler h = createOptionHandler(o,setter);
+        if(options.put(h.option.name(),h)!=null) {
+            throw new IllegalAnnotationError("Option name "+h.option.name()+" is used more than once");
+        }
+    }
+
+    /**
+     * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
+     * and the {@link Setter} instance.
+     */
+    protected OptionHandler createOptionHandler(Option o, Setter setter) {
+        // enum is the special case
+        Class t = setter.getType();
+
+        if(Enum.class.isAssignableFrom(t))
+            return new EnumOptionHandler(this,o,setter,t);
+
+        Constructor<? extends OptionHandler> handlerType = handlerClasses.get(t);
+        if(handlerType==null)
+            throw new IllegalAnnotationError("No OptionHandler is registered to handle "+t);
+        try {
+            return handlerType.newInstance(this,o,setter);
+        } catch (InstantiationException e) {
+            throw new IllegalAnnotationError(e);
+        } catch (IllegalAccessException e) {
+            throw new IllegalAnnotationError(e);
+        } catch (InvocationTargetException e) {
+            throw new IllegalAnnotationError(e);
+        }
+    }
+
+    /**
+     * Prints the list of options and their usages to the screen.
+     */
+    public void printUsage(OutputStream out) {
+        printUsage(new OutputStreamWriter(out),null);
+    }
+    /**
+     * Prints the list of options and their usages to the screen.
+     *
+     * @param rb
+     *      if this is non-null, {@link Option#usage()} is treated
+     *      as a key to obtain the actual message from this resource bundle.
+     */
+    public void printUsage(Writer out, ResourceBundle rb) {
+        PrintWriter w = new PrintWriter(out);
+        // determine the length of the option first
+        int len = 0;
+        for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
+            String usage = e.getValue().option.usage();
+            if(usage.length()==0)   continue;   // ignore
+
+            len = Math.max(len,e.getKey().length());
+        }
+
+        int descriptionWidth = 72-len-4;    // 3 for " : " + 1 for left-most SP
+
+        // then print
+        for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
+            String usage = e.getValue().option.usage();
+            if(usage.length()==0)   continue;   // ignore
+
+            String option = e.getKey();
+            w.print(' ');
+            w.print(option);
+            for( int i=option.length(); i<len; i++ )
+                w.print(' ');
+            w.print(" : ");
+
+            if(rb!=null)
+                usage = rb.getString(usage);
+
+            while(usage!=null && usage.length()>0) {
+                int idx = usage.indexOf('\n');
+                if(idx>=0 && idx<=descriptionWidth) {
+                    w.println(usage.substring(0,idx));
+                    usage = usage.substring(idx+1);
+                    if(usage.length()>0)
+                        indent(w,len+4);
+                    continue;
+                }
+                if(usage.length()<=descriptionWidth) {
+                    w.println(usage);
+                    break;
+                }
+
+                w.println(usage.substring(0,descriptionWidth));
+                usage = usage.substring(descriptionWidth);
+                indent(w,len+4);
             }
         }
-        
-        o.flush();
+
+        w.flush();
     }
-    
-    private int getWidth(List lst) {
-        int w=0;
-        for( int i=0; i<lst.size(); i++ ) {
-            CmdLineItem item = (CmdLineItem)lst.get(i);
-            w = Math.max(w,item.getName().length());
-        }
-        return w;
+
+    private void indent(PrintWriter w, int i) {
+        for( ; i>0; i-- )
+            w.print(' ');
     }
-    
-    
-    
-    /**
-     * Returns an {@link Iterator} that walks over
-     * both arguments and options.
-     */
-    protected Iterator iterateCmdLineItems() {
-        return new SequentialIterator(arguments.iterator(),options.iterator());
-    }
-    
-//    /**
-//     * Gets the usage message generated from registered options.
-//     * 
-//     * @return
-//     *      non-null valid string that ends with '\n' and that
-//     *      doesn't begin with '\n' (or "" if no option is registered.)
-//     */
-//    public final String getUsage() {
-//        StringBuffer buf = new StringBuffer();
-//        for( int i=0; i<options.size(); i++ )
-//            ((CmdLineOption)options.get(i)).appendUsage(buf);
-//        return buf.toString();
-//    }
-//    
-//    /**
-//     * Prints the usage messages.
-//     * 
-//     * Just a convenience method for <code>out.print(getUsage())</code>.
-//     */
-//    public final void printUsage( PrintStream out ) {
-//        out.print(getUsage());
-//    }
-    
-    /**
-     * Returns true if the given token is an option
-     * (as opposed to an argument.)
-     */
-    private boolean isOption(String arg) {
-        return arg.startsWith("-");
-    }
+
 
     /**
      * Essentially a pointer over a {@link String} array.
      * Can move forward, can look ahead.
      */
-    private class CmdLineImpl extends AbstractParametersImpl {
+    private class CmdLineImpl extends Parameters {
         private final String[] args;
         private int pos;
-        
+
         CmdLineImpl( String[] args ) {
             this.args = args;
             pos = 0;
         }
-        
+
         private boolean hasMore() {
             return pos<args.length;
         }
@@ -278,11 +228,11 @@ public final class CmdLineParser {
         private String getCurrentToken() {
             return args[pos];
         }
-        
+
         private void proceed( int n ) {
             pos += n;
         }
-        
+
 
         public String getOptionName() {
             return getCurrentToken();
@@ -290,49 +240,98 @@ public final class CmdLineParser {
 
         public String getParameter(int idx) throws CmdLineException {
             if( pos+idx+1>=args.length )
-                throw new MissingOptionParameterException(getOptionName());
+                throw new CmdLineException(Messages.MISSING_OPERAND.format(getOptionName()));
             return args[pos+idx+1];
         }
     }
 
     /**
-     * 
-     * <p>
-     * This method is called only from {@link Args4jTask}.
-     * 
-     * @param antProject
-     *      {@link org.apache.tools.ant.Project} object.
-     * @param name
-     *      element name.
-     * @return
-     *      null if the element is not recognized.
+     * Parses the command line arguments and set them to the option bean
+     * given in the constructor.
+     *
+     * @throws CmdLineException
+     *      if there's any error parsing arguments.
      */
-    protected AntElementParser createAntElementParser(Object antProject,String name) throws CmdLineException {
-        Iterator itr = iterateCmdLineItems();
-        while(itr.hasNext()) {
-            CmdLineItem cli = (CmdLineItem)itr.next();
-            AntElementParser p = cli.createAntElementParser(this,antProject,name);
-            if(p!=null)     return p;
+    public void parseArgument(final String... args) throws CmdLineException {
+        CmdLineImpl cmdLine = new CmdLineImpl(args);
+
+        while( cmdLine.hasMore() ) {
+            String arg = cmdLine.getOptionName();
+            if( isOption(arg) ) {
+                // parse this as an option.
+                OptionHandler handler = options.get(arg);
+                if(handler!=null) {
+                    // known option
+                    int diff = handler.parseArguments(cmdLine);
+                    cmdLine.proceed(diff+1);
+                    continue;
+                }
+
+                // TODO: insert dynamic handler processing
+
+                throw new CmdLineException(Messages.UNDEFINED_OPTION.format(arg));
+            } else {
+                // parse this as arguments
+                if(argumentSetter==null)
+                    throw new CmdLineException(Messages.NO_ARGUMENT_ALLOWED.format(arg));
+                argumentSetter.addValue(arg);
+                cmdLine.proceed(1);
+            }
         }
-        return null;
     }
 
     /**
-     * @param name
-     *      attribute name
-     * @param antProject
-     *      {@link org.apache.tools.ant.Project} object.
-     * @param value
-     *      attribute value
+     * Returns true if the given token is an option
+     * (as opposed to an argument.)
      */
-    public void setAntAttribute(Object antProject, String name, String value) throws CmdLineException {
-        Iterator itr = iterateCmdLineItems();
-        while(itr.hasNext()) {
-            CmdLineItem cli = (CmdLineItem)itr.next();
-            if(cli.parseAntAttribute(this,antProject,name,value))
-                return; // processed
-        }
-        throw new CmdLineException(Messages.format("UndefinedAttribute",name));
+    protected boolean isOption(String arg) {
+        return arg.startsWith("-");
     }
-    
+
+
+    /**
+     * All {@link OptionHandler}s known to the {@link CmdLineParser}.
+     *
+     * Constructors of {@link OptionHandler}-derived class keyed by their supported types.
+     */
+    private static final Map<Class,Constructor<? extends OptionHandler>> handlerClasses =
+            Collections.synchronizedMap(new HashMap<Class,Constructor<? extends OptionHandler>>());
+
+    /**
+     * Registers a user-defined {@link OptionHandler} class with args4j.
+     *
+     * <p>
+     * This method allows users to extend the behavior of args4j by writing
+     * their own {@link OptionHandler} implementation.
+     *
+     * @param valueType
+     *      The specified handler is used when the field/method annotated by {@link Option}
+     *      is of this type.
+     * @param handlerClass
+     *      This class must have the constructor that has the same signature as
+     *      {@link OptionHandler#OptionHandler(CmdLineParser, Option, Setter)}.
+     */
+    public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
+        if(valueType==null || handlerClass==null)
+            throw new IllegalArgumentException();
+        if(!OptionHandler.class.isAssignableFrom(handlerClass))
+            throw new IllegalArgumentException("Not an OptionHandler class");
+
+        try {
+            Constructor<? extends OptionHandler> c = handlerClass.getConstructor(CmdLineParser.class,Option.class,Setter.class);
+            handlerClasses.put(valueType,c);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException(handlerClass+" does not have the proper constructor");
+        }
+    }
+
+    static {
+        registerHandler(Boolean.class,BooleanOptionHandler.class);
+        registerHandler(boolean.class,BooleanOptionHandler.class);
+        registerHandler(File.class,FileOptionHandler.class);
+        registerHandler(Integer.class,IntOptionHandler.class);
+        registerHandler(int.class,IntOptionHandler.class);
+        registerHandler(String.class,StringOptionHandler.class);
+        // enum is a special case
+    }
 }

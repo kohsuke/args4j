@@ -1,8 +1,8 @@
-package org.kohsuke.opts;
+package org.kohsuke.args4j.spi;
 
-import org.kohsuke.CmdLineException;
-import org.kohsuke.CmdLineParser;
-import org.kohsuke.Option;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 
 /**

@@ -1,9 +1,9 @@
-package org.kohsuke;
+package org.kohsuke.args4j;
 
+import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AccessibleObject;
-import java.io.File;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
@@ -85,7 +85,7 @@ public @interface Option {
      * invoked multiple times for each occurence of the option),
      * or a field must be assignable to {@link Collection}&lt;T>.
      */
-    boolean repeatable() default false;
+    boolean repeatable() default true;
 
     /**
      * Help string used to display the usage screen.
@@ -104,7 +104,7 @@ public @interface Option {
      * screen to be properly localized.
      *
      * <p>
-     * If thiss value is empty, the option will not be displayed
+     * If this value is empty, the option will not be displayed
      * in the usage screen.
      */
     String usage() default "";

@@ -1,6 +1,6 @@
-package org.kohsuke.opts;
+package org.kohsuke.args4j.spi;
 
-import org.kohsuke.CmdLineException;
+import org.kohsuke.args4j.CmdLineException;
 
 /**
  * List of arguments.
@@ -11,6 +11,14 @@ import org.kohsuke.CmdLineException;
  * additional parameters for options.
  */
 public abstract class Parameters  {
+
+    /**
+     * Returns the option name for which the current {@link OptionHandler} is invoked.
+     *
+     * @return always non-null.
+     */
+    public abstract String getOptionName();
+
     /**
      * Gets the additional parameter to this option.
      *
@@ -41,7 +49,7 @@ public abstract class Parameters  {
         try {
             return Integer.parseInt(token);
         } catch( NumberFormatException e ) {
-            throw new IllegalOptionParameterException(getOptionName(),token);
+            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(getOptionName(),token));
         }
     }
 }

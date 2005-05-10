@@ -1,6 +1,6 @@
-package org.kohsuke.opts;
+package org.kohsuke.args4j.spi;
 
-import org.kohsuke.CmdLineException;
+import org.kohsuke.args4j.CmdLineException;
 
 /**
  * Abstraction of the value setter.
