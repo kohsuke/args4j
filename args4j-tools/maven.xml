@@ -1,0 +1,10 @@
+<project xmlns:j="jelly:core" xmlns:u="jelly:util">
+  
+  <postGoal name="dist:prepare-bin-filesystem">
+    <!-- copy additional files into the distribution zip/tgz -->
+    <deploy:copy-deps xmlns:deploy="deploy"
+      todir="${maven.dist.bin.archive.dir}/${maven.final.name}"
+      excludes="ant,tools"
+    />
+  </postGoal>
+</project>

@@ -14,6 +14,9 @@
     <dependency>
       <id>args4j</id>
       <version>2.0</version>
+      <properties>
+        <jar.manifest.classpath>true</jar.manifest.classpath>
+      </properties>
     </dependency>
     <dependency>
       <groupId>jdk</groupId>
