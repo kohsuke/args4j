@@ -29,6 +29,9 @@ import java.util.TreeMap;
 /**
  * Command line argument owner.
  *
+ * <p>
+ * For a typical usage, see <a href="https://args4j.dev.java.net/source/browse/args4j/args4j/examples/SampleMain.java?view=markup">this example</a>.
+ *
  * @author
  *     Kohsuke Kawaguchi (kk@kohsuke.org)
  */
@@ -140,6 +143,10 @@ public class CmdLineParser {
 
     /**
      * Prints the list of options and their usages to the screen.
+     *
+     * <p>
+     * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
+     * so that you can do {@code printUsage(System.err)}.
      */
     public void printUsage(OutputStream out) {
         printUsage(new OutputStreamWriter(out),null);
