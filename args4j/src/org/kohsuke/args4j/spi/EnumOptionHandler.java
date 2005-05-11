@@ -11,21 +11,24 @@ import org.kohsuke.args4j.CmdLineException;
  */
 public class EnumOptionHandler extends OptionHandler {
 
-    private final Class<? extends Enum> enumType;
+    private final Class<? extends Enum<?>> enumType;
 
-    public EnumOptionHandler(CmdLineParser parser, Option option, Setter setter, Class<? extends Enum> enumType) {
+    public EnumOptionHandler(CmdLineParser parser, Option option, Setter setter, Class<? extends Enum<?>> enumType) {
         super(parser, option, setter);
         this.enumType = enumType;
     }
 
     public int parseArguments(Parameters params) throws CmdLineException {
         String s = params.getParameter(0);
-        Enum value;
-        try {
-            value = Enum.valueOf(enumType,s);
-        } catch (IllegalArgumentException e) {
+        Enum value = null;
+        for( Enum o : enumType.getEnumConstants() )
+            if(o.name().equalsIgnoreCase(s)) {
+                value = o;
+                break;
+            }
+
+        if(value==null)
             throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(params.getOptionName(),s));
-        }
         setter.addValue(value);
         return 1;
     }
