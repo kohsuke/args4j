@@ -177,6 +177,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/args4j.iml" filepath="$PROJECT_DIR$/args4j.iml" />
+      <module fileurl="file://C:/kohsuke/My Projects/args4j/args4j-tools/args4j-tools.iml" filepath="C:/kohsuke/My Projects/args4j/args4j-tools/args4j-tools.iml" />
     </modules>
   </component>
   <component name="ProjectRootManager" version="2" assert-keyword="true" jdk-15="true" project-jdk-name="JDK1.5" />
