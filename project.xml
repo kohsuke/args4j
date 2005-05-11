@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <name>args4j-site</name>
+  <id>args4j-site</id>
+  <currentVersion>2.0</currentVersion>
+  
+  <organization>
+    <name>Kohsuke Kawaguchi</name>
+    <url>http://www.kohsuke.org/</url>
+  </organization>
+  
+  <logo>/images/args4j.png</logo>
+  <inceptionYear>2003</inceptionYear>
+ 
+  <package>org.kohsuke.args4j</package>
+  
+  
+  <shortDescription>args4j : Java command line arguments parser</shortDescription>
+
+  <description>args4j : Java command line arguments parser</description>
+  
+  <url>http://args4j.dev.java.net/</url>
+
+  <repository>
+    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvsroot:args4j</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvsroot:args4j</developerConnection>
+    <url>https://args4j.dev.java.net/source/browse/args4j/</url>
+  </repository>
+   
+  <mailingLists>
+    <mailingList>
+      <name>discussion list</name>
+      <subscribe    >users-subscribe@args4j.dev.java.net</subscribe>
+      <unsubscribe>users-ubsubscribe@args4j.dev.java.net</unsubscribe>
+      <archive>https://args4j.dev.java.net/servlets/SummarizeList?listName=users</archive>
+    </mailingList>
+  </mailingLists>
+
+  
+  <developers>
+    <developer>
+      <name>Kohsuke Kawaguchi</name>
+      <id>kohsuke</id>
+      <email>kk@kohsuke.org</email>
+      <organization>Sun Microsystems</organization>
+    </developer>
+  </developers>
+</project>

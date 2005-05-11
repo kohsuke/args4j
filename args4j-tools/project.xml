@@ -1,53 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
+  <extend>../project.xml</extend>
+  
   <pomVersion>3</pomVersion>
   <name>args4j-tools</name>
   <id>args4j-tools</id>
-  <currentVersion>2.0</currentVersion>
-  
-  <organization>
-    <name>Kohsuke Kawaguchi</name>
-    <url>http://www.kohsuke.org/</url>
-    <logo>http://sourceforge.net/sflogo.php?group_id=91437</logo>
-  </organization>
-  
-  <logo>/images/args4j.png</logo>
-  <inceptionYear>2003</inceptionYear>
- 
-  <package>org.kohsuke.args4j</package>
-  
-  
-  <shortDescription>args4j : Java command line arguments parser</shortDescription>
-  <!--gumpRepositoryId>javanettasks</gumpRepositoryId-->
-
-  <description>args4j : Java command line arguments parser</description>
-  
-  <url>http://args4j.dev.java.net/</url>
-
-  <repository>
-    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvsroot:args4j/args4j-tools</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvsroot:args4j/args4j-tools</developerConnection>
-    <url>https://args4j.dev.java.net/source/browse/args4j/</url>
-  </repository>
-   
-  <mailingLists>
-    <mailingList>
-      <name>discussion list</name>
-      <subscribe    >users-subscribe@args4j.dev.java.net</subscribe>
-      <unsubscribe>users-ubsubscribe@args4j.dev.java.net</unsubscribe>
-      <archive>https://args4j.dev.java.net/servlets/SummarizeList?listName=users</archive>
-    </mailingList>
-  </mailingLists>
-
-  
-  <developers>
-    <developer>
-      <name>Kohsuke Kawaguchi</name>
-      <id>kohsuke</id>
-      <email>kk@kohsuke.org</email>
-      <organization>Sun Microsystems</organization>
-    </developer>
-  </developers>
   
   <dependencies>
     <dependency>
@@ -99,15 +56,4 @@
       </includes>
     </unitTest>
   </build>
-  
-  <reports>
-    <report>maven-changelog-plugin</report>
-    <report>maven-changes-plugin</report>
-    <report>maven-developer-activity-plugin</report>
-    <report>maven-file-activity-plugin</report>
-    <report>maven-javadoc-plugin</report>
-    <report>maven-license-plugin</report>
-    <!--report>maven-pmd-plugin</report-->
-    <!--report>maven-tasklist-plugin</report-->
-  </reports>
 </project>
