@@ -45,10 +45,13 @@ public class Main {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             System.err.println(e.getMessage());
-            System.err.println("argsj-tools [options...] sourcefiles...");
-            System.err.println("  Generates the list of options in XML/HTML");
-            parser.printUsage(System.err);
+            printUsage(parser);
             return -1;
+        }
+
+        if(aptArgs.isEmpty()) {
+            printUsage(parser);
+            return 0;
         }
 
         // we'll use a separate class loader to reload our classes,
@@ -66,6 +69,12 @@ public class Main {
         return (Integer)main.invoke(null,new Object[]{
             cl.loadClass("org.kohsuke.args4j.apt.AnnotationProcessorFactoryImpl").newInstance(),
             aptArgs.toArray(new String[0])});
+    }
+
+    private void printUsage(CmdLineParser parser) {
+        System.err.println("argsj-tools [options...] sourcefiles...");
+        System.err.println("  Generates the list of options in XML/HTML");
+        parser.printUsage(System.err);
     }
 
     private Method getProcessMethod(Class<?> apt) {
