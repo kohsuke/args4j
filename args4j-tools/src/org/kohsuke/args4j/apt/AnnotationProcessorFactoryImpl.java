@@ -9,6 +9,7 @@ import com.sun.mirror.declaration.Declaration;
 import com.sun.mirror.declaration.FieldDeclaration;
 import com.sun.mirror.declaration.MethodDeclaration;
 import com.sun.mirror.declaration.TypeDeclaration;
+import com.sun.mirror.declaration.MemberDeclaration;
 import com.sun.mirror.type.ClassType;
 import com.sun.mirror.util.SimpleDeclarationVisitor;
 import org.kohsuke.args4j.Argument;
@@ -17,11 +18,13 @@ import org.kohsuke.args4j.Option;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.FileInputStream;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.Properties;
 
 /**
  * {@link AnnotationProcessorFactory} to be invoked by APT.
@@ -34,10 +37,21 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
 
     private File outDir;
     private String format;
+    private Properties resource = null;
 
     public AnnotationProcessorFactoryImpl() {
         outDir = new File(System.getProperty("args4j.outdir"));
         format = System.getProperty("args4j.format");
+
+        String res = System.getProperty("args4j.resource");
+        if(res!=null) {
+            try {
+                resource = new Properties();
+                resource.load(new FileInputStream(res));
+            } catch (IOException e) {
+                throw new Error(e);
+            }
+        }
     }
 
     public Collection<String> supportedOptions() {
@@ -94,17 +108,11 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
 
     private void scan(ClassDeclaration decl, AnnotationVisitor visitor) {
         while(decl!=null) {
-            for( FieldDeclaration f : decl.getFields() ) {
-                Option o = f.getAnnotation(Option.class);
-                if(o!=null)
-                    visitor.onOption(o);
-            }
+            for( FieldDeclaration f : decl.getFields() )
+                scan(f, visitor);
 
-            for (MethodDeclaration m : decl.getMethods()) {
-                Option o = m.getAnnotation(Option.class);
-                if(o!=null)
-                    visitor.onOption(o);
-            }
+            for (MethodDeclaration m : decl.getMethods())
+                scan(m, visitor);
 
             ClassType sc = decl.getSuperclass();
             if(sc==null)    break;
@@ -113,6 +121,22 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
         }
 
         visitor.done();
+    }
+
+    private void scan(MemberDeclaration f, AnnotationVisitor visitor) {
+        Option o = f.getAnnotation(Option.class);
+        if(o==null) return;
+
+        String usage = getUsage(o);
+        if(usage==null || usage.length()==0)    return;   // hidden
+        visitor.onOption(o.name(),usage);
+    }
+
+    private String getUsage(Option o) {
+        if(resource==null)
+            return o.usage();
+        else
+            return resource.getProperty(o.usage());
     }
 
 }

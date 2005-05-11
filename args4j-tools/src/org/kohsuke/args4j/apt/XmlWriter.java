@@ -1,14 +1,13 @@
 package org.kohsuke.args4j.apt;
 
 import com.sun.mirror.declaration.ClassDeclaration;
-import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 import java.io.Writer;
 
 /**
  * Writes the option list as XML to a {@link Writer}.
- * 
+ *
  * @author Kohsuke Kawaguchi
  */
 class XmlWriter implements AnnotationVisitor {
@@ -19,10 +18,10 @@ class XmlWriter implements AnnotationVisitor {
         this.out.println("<usage class=\'"+d.getQualifiedName()+"\'>");
     }
 
-    public void onOption(Option a) {
+    public void onOption( String name, String usage ) {
         out.println("  <option>");
-        writeTag("name",a.name());
-        writeTag("usage",a.usage());
+        writeTag("name",name);
+        writeTag("usage",usage);
         out.println("  </option>");
     }
 

@@ -1,15 +1,15 @@
 package org.kohsuke.args4j.apt;
 
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.Argument;
+import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 
 import java.io.File;
-import java.net.URLClassLoader;
-import java.net.URL;
-import java.net.MalformedURLException;
 import java.lang.reflect.Method;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,9 +24,16 @@ public class Main {
 
     @Option(name="-mode",usage="output format. 'XML' or 'HTML'")
     private Mode mode = Mode.HTML;
+    
+    @Option(name="-res",usage="resource file name to obtain usage strings from.\n"+
+            "Using this option will cause Option.usage() to be used as a key to this resource")
+    private String resourceName = null;
+
+    @Option(name="-r")
+    private boolean hidden = false; // for testing
 
     @Argument
-    private List<String> sourceFiles = new ArrayList<String>();
+    private List<String> aptArgs = new ArrayList<String>();
 
     public static void main(String[] args) throws Exception {
         System.exit(new Main().run(args));
@@ -48,6 +55,9 @@ public class Main {
         // so parameters need to be set as system properties. Ouch!
         System.setProperty("args4j.outdir",outDir.getPath());
         System.setProperty("args4j.format",mode.name());
+        System.setProperty("args4j.resource",resourceName); // can be null
+
+        aptArgs.add(0,"-nocompile");
 
         // locate tools.jar
         ClassLoader cl = loadToolsJar();
@@ -55,7 +65,7 @@ public class Main {
         Method main = getProcessMethod(apt);
         return (Integer)main.invoke(null,new Object[]{
             cl.loadClass("org.kohsuke.args4j.apt.AnnotationProcessorFactoryImpl").newInstance(),
-            sourceFiles.toArray(new String[0])});
+            aptArgs.toArray(new String[0])});
     }
 
     private Method getProcessMethod(Class<?> apt) {

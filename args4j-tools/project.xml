@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
+  <pomVersion>3</pomVersion>
+  <name>args4j-tools</name>
+  <id>args4j-tools</id>
+  <currentVersion>2.0</currentVersion>
+  
+  <organization>
+    <name>Kohsuke Kawaguchi</name>
+    <url>http://www.kohsuke.org/</url>
+    <logo>http://sourceforge.net/sflogo.php?group_id=91437</logo>
+  </organization>
+  
+  <logo>/images/args4j.png</logo>
+  <inceptionYear>2003</inceptionYear>
+ 
+  <package>org.kohsuke.args4j</package>
+  
+  
+  <shortDescription>args4j : Java command line arguments parser</shortDescription>
+  <!--gumpRepositoryId>javanettasks</gumpRepositoryId-->
+
+  <description>args4j : Java command line arguments parser</description>
+  
+  <url>http://args4j.dev.java.net/</url>
+
+  <repository>
+    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvsroot:args4j/args4j-tools</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvsroot:args4j/args4j-tools</developerConnection>
+    <url>https://args4j.dev.java.net/source/browse/args4j/</url>
+  </repository>
+   
+  <mailingLists>
+    <mailingList>
+      <name>discussion list</name>
+      <subscribe    >users-subscribe@args4j.dev.java.net</subscribe>
+      <unsubscribe>users-ubsubscribe@args4j.dev.java.net</unsubscribe>
+      <archive>https://args4j.dev.java.net/servlets/SummarizeList?listName=users</archive>
+    </mailingList>
+  </mailingLists>
+
+  
+  <developers>
+    <developer>
+      <name>Kohsuke Kawaguchi</name>
+      <id>kohsuke</id>
+      <email>kk@kohsuke.org</email>
+      <organization>Sun Microsystems</organization>
+    </developer>
+  </developers>
+  
+  <dependencies>
+    <dependency>
+      <id>ant</id>
+      <version>1.5</version>
+    </dependency>
+    <dependency>
+      <id>args4j</id>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>jdk</groupId>
+      <artifactId>tools</artifactId>
+      <version>5.0</version>
+      <jar>${java.home}/../lib/tools.jar</jar>
+      <url>http://java.sun.com/j2se/5.0/download.html</url>
+      <properties>
+        <comment>Needed to run HttpUnit tests. This is the tools.jar from sun jdk. Jar in not in maven repository
+  but is set to JAVA_HOME/../lib/tools.jar in project.properties</comment>
+      </properties>
+    </dependency>
+    <!--dependency>
+      <id></id>
+      <version></version>
+    </dependency-->
+  </dependencies>
+  
+  <build>
+    <nagEmailAddress>kk@kohsuke.org</nagEmailAddress>
+    
+    <sourceDirectory>src</sourceDirectory>
+    <unitTestSourceDirectory>test</unitTestSourceDirectory>
+
+    <!-- Resources that are packaged up inside the JAR file -->
+    <resources>
+      <resource>
+        <directory>src</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>META-INF/services/*</include>
+        </includes>
+      </resource>
+    </resources>
+    
+    <!-- Unit test classes -->
+    <unitTest>
+      <includes>
+        <include>**/Test*.java</include>
+      </includes>
+    </unitTest>
+  </build>
+  
+  <reports>
+    <report>maven-changelog-plugin</report>
+    <report>maven-changes-plugin</report>
+    <report>maven-developer-activity-plugin</report>
+    <report>maven-file-activity-plugin</report>
+    <report>maven-javadoc-plugin</report>
+    <report>maven-license-plugin</report>
+    <!--report>maven-pmd-plugin</report-->
+    <!--report>maven-tasklist-plugin</report-->
+  </reports>
+</project>
