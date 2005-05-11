@@ -6,6 +6,15 @@ import org.kohsuke.args4j.Option;
 
 
 /**
+ * Code that parses operands of an option into Java.
+ *
+ * <p>
+ * This class can be extended by application to support additional Java datatypes in option operands.
+ *
+ * <p>
+ * Implementation of this class needs to be registered to args4j by using
+ * {@link CmdLineParser#registerHandler(Class,Class)} 
+ *
  * @author Kohsuke Kawaguchi
  */
 public abstract class OptionHandler {
