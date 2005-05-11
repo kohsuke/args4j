@@ -4,7 +4,6 @@ import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 import java.lang.reflect.AccessibleObject;
-import java.util.Collection;
 import java.util.ResourceBundle;
 
 import static java.lang.annotation.ElementType.FIELD;
@@ -70,22 +69,6 @@ public @interface Option {
      * Name of the option, such as "-foo" or "-bar".
      */
     String name();
-
-    /**
-     * Whether this switch must be present on the command line.
-     */
-    boolean required() default false;
-
-    /**
-     * If true, this option can be specified multiple times.
-     *
-     * <p>
-     * When this flag is true, this annotation must be either
-     * on a setter method (in which case the setter will be
-     * invoked multiple times for each occurence of the option),
-     * or a field must be assignable to {@link Collection}&lt;T>.
-     */
-    boolean repeatable() default true;
 
     /**
      * Help string used to display the usage screen.
