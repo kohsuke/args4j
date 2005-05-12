@@ -32,4 +32,11 @@ public class EnumOptionHandler extends OptionHandler {
         setter.addValue(value);
         return 1;
     }
+
+    public String getDefaultMetaVariable() {
+        String n = enumType.getName();
+        int idx = n.lastIndexOf(n,'.');
+        if(idx>=0)  n = n.substring(idx+1);
+        return n.toUpperCase();
+    }
 }

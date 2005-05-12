@@ -91,4 +91,21 @@ public @interface Option {
      * in the usage screen.
      */
     String usage() default "";
+
+    /**
+     * When the option takes an operand, the usage screen will show something like this:
+     * <pre>
+     * -x FOO  : blah blah blah
+     * </pre>
+     * You can replace the 'FOO' token by using this parameter.
+     *
+     * <p>
+     * If left unspecifiied, this value is infered from the type of the option.
+     *
+     * <p>
+     * Just like {@link #usage()}, normally, this value is printed as is.
+     * But if a {@link ResourceBundle} is given to the {@link CmdLineParser},
+     * it will be used to obtain the locale-specific value.
+     */
+    String metaVar() default "";
 }

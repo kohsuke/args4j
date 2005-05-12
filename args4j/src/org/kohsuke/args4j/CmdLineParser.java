@@ -160,13 +160,15 @@ public class CmdLineParser {
      */
     public void printUsage(Writer out, ResourceBundle rb) {
         PrintWriter w = new PrintWriter(out);
-        // determine the length of the option first
+        // determine the length of the option + metavar first
         int len = 0;
         for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
             String usage = e.getValue().option.usage();
             if(usage.length()==0)   continue;   // ignore
 
-            len = Math.max(len,e.getKey().length());
+            String metaVar = e.getValue().getMetaVariable(rb);
+            int metaLen = (metaVar!=null?metaVar.length()+1:0);
+            len = Math.max(len,e.getKey().length()+metaLen);
         }
 
         int descriptionWidth = 72-len-4;    // 3 for " : " + 1 for left-most SP
@@ -177,9 +179,17 @@ public class CmdLineParser {
             if(usage.length()==0)   continue;   // ignore
 
             String option = e.getKey();
+            int headLen = option.length();
             w.print(' ');
             w.print(option);
-            for( int i=option.length(); i<len; i++ )
+
+            String metaVar = e.getValue().getMetaVariable(rb);
+            if(metaVar!=null) {
+                w.print(' ');
+                w.print(metaVar);
+                headLen += metaVar.length()+1;
+            }
+            for( ; headLen<len; headLen++ )
                 w.print(' ');
             w.print(" : ");
 

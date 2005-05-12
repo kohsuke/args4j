@@ -18,4 +18,8 @@ public class StringOptionHandler extends OptionHandler {
         setter.addValue(params.getParameter(0));
         return 1;
     }
+
+    public String getDefaultMetaVariable() {
+        return "VAL";
+    }
 }

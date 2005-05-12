@@ -18,4 +18,8 @@ public class BooleanOptionHandler extends OptionHandler {
         setter.addValue(true);
         return 0;
     }
+
+    public String getDefaultMetaVariable() {
+        return null;
+    }
 }

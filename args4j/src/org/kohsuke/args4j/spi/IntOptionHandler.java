@@ -18,4 +18,8 @@ public class IntOptionHandler extends OptionHandler {
         setter.addValue(params.getIntParameter(0));
         return 1;
     }
+
+    public String getDefaultMetaVariable() {
+        return "N";
+    }
 }

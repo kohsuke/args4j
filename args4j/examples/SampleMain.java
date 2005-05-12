@@ -20,7 +20,7 @@ public class SampleMain {
     @Option(name="-r",usage="recursively run something")
     private boolean recursive;
 
-    @Option(name="-o",usage="output to this file")
+    @Option(name="-o",usage="output to this file",metaVar="OUTPUT")
     private File out = new File(".");
 
     @Option(name="-str")        // no usage

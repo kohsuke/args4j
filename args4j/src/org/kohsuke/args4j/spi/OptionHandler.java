@@ -4,6 +4,8 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
+import java.util.ResourceBundle;
+
 
 /**
  * Code that parses operands of an option into Java.
@@ -51,4 +53,26 @@ public abstract class OptionHandler {
      *      if this option doesn't take any parameter.
      */
     public abstract int parseArguments( Parameters params ) throws CmdLineException;
+
+    /**
+     * Gets the default meta variable name used to print the usage screen.
+     *
+     * @return null to hide a meta variable.
+     */
+    public abstract String getDefaultMetaVariable();
+
+    public final String getMetaVariable(ResourceBundle rb) {
+        String token = option.metaVar();
+        if(token.length()==0)
+            token = getDefaultMetaVariable();
+        if(token==null) return null;
+
+        if(rb!=null) {
+            String localized = rb.getString(token);
+            if(localized!=null)
+                token = localized;
+        }
+
+        return token;
+    }
 }
