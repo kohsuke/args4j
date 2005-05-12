@@ -3,7 +3,7 @@
   <pomVersion>3</pomVersion>
   <name>args4j-site</name>
   <id>args4j-site</id>
-  <currentVersion>2.0</currentVersion>
+  <currentVersion>2.0.1</currentVersion>
   
   <organization>
     <name>Kohsuke Kawaguchi</name>
