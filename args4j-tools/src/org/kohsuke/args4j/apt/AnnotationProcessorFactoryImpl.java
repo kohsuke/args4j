@@ -44,7 +44,7 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
         format = System.getProperty("args4j.format");
 
         String res = System.getProperty("args4j.resource");
-        if(res!=null) {
+        if(res!=null && res.length()>0) {
             try {
                 resource = new Properties();
                 resource.load(new FileInputStream(res));

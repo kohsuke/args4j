@@ -58,7 +58,8 @@ public class Main {
         // so parameters need to be set as system properties. Ouch!
         System.setProperty("args4j.outdir",outDir.getPath());
         System.setProperty("args4j.format",mode.name());
-        System.setProperty("args4j.resource",resourceName); // can be null
+        if(resourceName==null)  resourceName = "";  // can't have null in properties
+        System.setProperty("args4j.resource",resourceName);
 
         aptArgs.add(0,"-nocompile");
 

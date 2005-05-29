@@ -35,7 +35,7 @@ public class EnumOptionHandler extends OptionHandler {
 
     public String getDefaultMetaVariable() {
         String n = enumType.getName();
-        int idx = n.lastIndexOf(n,'.');
+        int idx = n.lastIndexOf('.');
         if(idx>=0)  n = n.substring(idx+1);
         return n.toUpperCase();
     }
