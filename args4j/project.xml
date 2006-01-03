@@ -11,6 +11,10 @@
       <id>ant</id>
       <version>1.5</version>
     </dependency>
+    <dependency>
+      <id>junit</id>
+      <version>3.8.1</version>
+    </dependency>
     <!--dependency>
       <id></id>
       <version></version>

@@ -3,6 +3,44 @@
   <component name="AntConfiguration">
     <defaultAnt bundledAnt="true" />
   </component>
+  <component name="BSFConsole">
+    <sendcommandbycontrolenter>false</sendcommandbycontrolenter>
+    <restoresystemstreams>false</restoresystemstreams>
+    <outwaitsforerr>false</outwaitsforerr>
+    <errwaitsforout>false</errwaitsforout>
+    <storedupsinrecentcommands>false</storedupsinrecentcommands>
+    <moduleforclasspath />
+    <includeoutputpath>false</includeoutputpath>
+    <includetestsoutputpath>false</includetestsoutputpath>
+    <languages>
+      <language name="ant" engine="org.kos.bsfconsoleplugin.languages.AntConsoleBSFEngine" />
+      <language name="beanshell" engine="bsh.util.BeanShellBSFEngine" />
+      <language name="netrexx" engine="org.apache.bsf.engines.netrexx.NetRexxEngine" />
+      <language name="xslt" engine="org.apache.bsf.engines.xslt.XSLTEngine" />
+      <language name="beanbasic" engine="org.apache.bsf.engines.beanbasic.BeanBasicEngine" />
+      <language name="bml" engine="org.apache.bml.ext.BMLEngine" />
+      <language name="groovy" engine="org.codehaus.groovy.bsf.GroovyEngine" />
+      <language name="jacl" engine="org.apache.bsf.engines.jacl.JaclEngine" />
+      <language name="java" engine="org.apache.bsf.engines.java.JavaEngine" />
+      <language name="javaclass" engine="org.apache.bsf.engines.javaclass.JavaClassEngine" />
+      <language name="javascript" engine="org.apache.bsf.engines.javascript.JavaScriptEngine" />
+      <language name="jpython" engine="org.apache.bsf.engines.jpython.JPythonEngine" />
+      <language name="jruby" engine="org.jruby.javasupport.bsf.JRubyEngine" />
+      <language name="jscript" engine="org.apache.bsf.engines.activescript.ActiveScriptEngine" />
+      <language name="judoscript" engine="com.judoscript.BSFJudoEngine" />
+      <language name="jython" engine="org.apache.bsf.engines.jython.JythonEngine" />
+      <language name="lotusscript" engine="org.apache.bsf.engines.lotusscript.LsEngine" />
+      <language name="perl" engine="org.apache.bsf.engines.perl.PerlEngine" />
+      <language name="perlscript" engine="org.apache.bsf.engines.activescript.ActiveScriptEngine" />
+      <language name="pnuts" engine="pnuts.ext.PnutsBSFEngine" />
+      <language name="vbscript" engine="org.apache.bsf.engines.activescript.ActiveScriptEngine" />
+    </languages>
+    <startupscripts />
+    <preferredrecentcommandsdividerlocations />
+    <BSFConsoleSearchOptions searchfromcursor="false">
+      <recentsearches />
+    </BSFConsoleSearchOptions>
+  </component>
   <component name="CodeStyleSettingsManager">
     <option name="PER_PROJECT_SETTINGS" />
     <option name="USE_PER_PROJECT_SETTINGS" value="false" />
@@ -28,6 +66,9 @@
     </wildcardResourcePatterns>
   </component>
   <component name="DataSourceManagerImpl" />
+  <component name="DependenciesAnalyzeManager">
+    <option name="myForwardDirection" value="false" />
+  </component>
   <component name="DependencyValidationManager" />
   <component name="EntryPointsManager">
     <entry_points />
@@ -44,7 +85,6 @@
     <option name="DEPRECATION" value="true" />
     <option name="ADDITIONAL_OPTIONS_STRING" value="" />
     <option name="MAXIMUM_HEAP_SIZE" value="128" />
-    <option name="USE_GENERICS_COMPILER" value="false" />
   </component>
   <component name="JavadocGenerationManager">
     <option name="OUTPUT_DIRECTORY" />
@@ -193,5 +233,6 @@
     <option name="INSTRUMENT_CLASSES" value="true" />
     <option name="COPY_FORMS_RUNTIME_TO_OUTPUT" value="true" />
   </component>
+  <UsedPathMacros />
 </project>
 
