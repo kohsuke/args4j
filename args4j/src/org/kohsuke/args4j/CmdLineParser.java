@@ -144,6 +144,67 @@ public class CmdLineParser {
     }
 
     /**
+     * Formats a command line example into a string.
+     *
+     * See {@link #printExample(ExampleMode, ResourceBundle)} for more details.
+     *
+     * @param mode
+     *      must not be null.
+     * @return
+     *      always non-null.
+     */
+    public String printExample(ExampleMode mode) {
+        return printExample(mode,null);
+    }
+
+    /**
+     * Formats a command line example into a string.
+     *
+     * <p>
+     * This method produces a string like " -d &lt;dir> -v -b",
+     * which is useful for printing a command line example, perhaps
+     * as a part of the usage screen.
+     *
+     *
+     * @param mode
+     *      One of the {@link ExampleMode} constants. Must not be null.
+     *      This determines what option should be a part of the returned string.
+     * @param rb
+     *      If non-null, meta variables (&lt;dir> in the above example)
+     *      is treated as a key to this resource bundle, and the associated
+     *      value is printed. See {@link Option#metaVar()}. This is to support
+     *      localization.
+     *
+     *      Passing <tt>null</tt> would print {@link Option#metaVar()} directly.
+     * @return
+     *      always non-null. If there's no option, this method returns
+     *      just the empty string "". Otherwise, this method returns a
+     *      string that contains a space at the beginning (but not at the end.)
+     *      This allows you to do something like:
+     *
+     *      <pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre> 
+     */
+    public String printExample(ExampleMode mode,ResourceBundle rb) {
+        StringBuilder buf = new StringBuilder();
+
+        for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
+            Option option = e.getValue().option;
+            if(option.usage().length()==0)  continue;   // ignore
+            if(!mode.print(option))         continue;
+
+            buf.append(' ');
+            buf.append(e.getKey());
+
+            String metaVar = e.getValue().getMetaVariable(rb);
+            if(metaVar!=null) {
+                buf.append(' ').append(metaVar);
+            }
+        }
+
+        return buf.toString();
+    }
+
+    /**
      * Prints the list of options and their usages to the screen.
      *
      * <p>
