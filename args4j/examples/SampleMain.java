@@ -1,7 +1,9 @@
+import static org.kohsuke.args4j.ExampleMode.ALL;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.ExampleMode;
 
 import java.io.File;
 import java.io.IOException;
@@ -58,7 +60,13 @@ public class SampleMain {
             // an error message.
             System.err.println(e.getMessage());
             System.err.println("java SampleMain [options...] arguments...");
+            // print the list of available options
             parser.printUsage(System.err);
+            System.err.println();
+
+            // print option sample. This is useful some time
+            System.err.println("  Example: java SampleMain"+parser.printExample(ALL));
+
             return;
         }
         
