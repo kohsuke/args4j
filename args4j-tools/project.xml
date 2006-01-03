@@ -5,6 +5,8 @@
   <pomVersion>3</pomVersion>
   <name>args4j-tools</name>
   <id>args4j-tools</id>
+  <description>development-time tool for generating additional artifacits</description>
+  <shortDescription>development-time tool for generating additional artifacits</shortDescription>
   
   <dependencies>
     <dependency>
