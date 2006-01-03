@@ -12,6 +12,7 @@ enum Messages {
     NO_ARGUMENT_ALLOWED,
     ILLEGAL_METHOD_SIGNATURE,
     ILLEGAL_FIELD_SIGNATURE,
+    REQUIRED_OPTION_MISSING
     ;
 
     private static ResourceBundle rb;

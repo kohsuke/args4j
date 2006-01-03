@@ -108,4 +108,19 @@ public @interface Option {
      * it will be used to obtain the locale-specific value.
      */
     String metaVar() default "";
+
+    /**
+     * Specify that the option is mandatory.
+     *
+     * <p>
+     * At the end of {@link CmdLineParser#parseArgument(String...)},
+     * a {@link CmdLineException} will be thrown if a required option
+     * is not present.
+     *
+     * <p>
+     * Note that in most of the command line interface design principles,
+     * options should be really optional. So use caution when using this
+     * flag.
+     */
+    boolean required() default false;
 }

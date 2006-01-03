@@ -24,6 +24,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.TreeMap;
+import java.util.Set;
+import java.util.HashSet;
 
 
 /**
@@ -267,10 +269,13 @@ public class CmdLineParser {
      * given in the constructor.
      *
      * @throws CmdLineException
-     *      if there's any error parsing arguments.
+     *      if there's any error parsing arguments, or if
+     *      {@link Option#required() required} option was not given.
      */
     public void parseArgument(final String... args) throws CmdLineException {
         CmdLineImpl cmdLine = new CmdLineImpl(args);
+
+        Set<OptionHandler> present = new HashSet<OptionHandler>();
 
         while( cmdLine.hasMore() ) {
             String arg = cmdLine.getOptionName();
@@ -281,6 +286,7 @@ public class CmdLineParser {
                     // known option
                     int diff = handler.parseArguments(cmdLine);
                     cmdLine.proceed(diff+1);
+                    present.add(handler);
                     continue;
                 }
 
@@ -295,6 +301,11 @@ public class CmdLineParser {
                 cmdLine.proceed(1);
             }
         }
+
+        // make sure that all mandatory options are present
+        for (OptionHandler handler : options.values())
+            if(handler.option.required() && !present.contains(handler))
+                throw new CmdLineException(Messages.REQUIRED_OPTION_MISSING.format(handler.option.name()));
     }
 
     /**
