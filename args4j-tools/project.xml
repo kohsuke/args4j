@@ -4,7 +4,7 @@
   
   <pomVersion>3</pomVersion>
   <name>args4j-tools</name>
-  <id>args4j-tools</id>
+  <artifactId>args4j-tools</artifactId>
   <description>development-time tool for generating additional artifacits</description>
   <shortDescription>development-time tool for generating additional artifacits</shortDescription>
   
@@ -15,7 +15,7 @@
     </dependency>
     <dependency>
       <id>args4j</id>
-      <version>2.0.1</version>
+      <version>${pom.currentVersion}</version>
       <properties>
         <jar.manifest.classpath>true</jar.manifest.classpath>
       </properties>
