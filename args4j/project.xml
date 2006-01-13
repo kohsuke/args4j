@@ -4,7 +4,7 @@
   
   <pomVersion>3</pomVersion>
   <name>args4j</name>
-  <id>args4j</id>
+  <artifactId>args4j</artifactId>
   
   <dependencies>
     <dependency>

@@ -8,6 +8,7 @@ import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
+import org.kohsuke.args4j.spi.DoubleOptionHandler;
 
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
@@ -420,6 +421,8 @@ public class CmdLineParser {
         registerHandler(File.class,FileOptionHandler.class);
         registerHandler(Integer.class,IntOptionHandler.class);
         registerHandler(int.class,IntOptionHandler.class);
+        registerHandler(Double.class, DoubleOptionHandler.class);
+        registerHandler(double.class,DoubleOptionHandler.class);
         registerHandler(String.class,StringOptionHandler.class);
         // enum is a special case
     }
