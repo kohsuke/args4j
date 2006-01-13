@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <pomVersion>3</pomVersion>
-  <name>args4j-site</name>
-  <id>args4j-site</id>
-  <currentVersion>2.0.1</currentVersion>
+  <name>args4j</name>
+  <groupId>args4j</groupId>
+  <artifactId>args4j-site</artifactId>
+  <currentVersion>2.0.3</currentVersion>
   
   <organization>
     <name>Kohsuke Kawaguchi</name>
