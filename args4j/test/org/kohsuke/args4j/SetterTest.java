@@ -1,6 +1,6 @@
 package org.kohsuke.args4j;
 
-public class SetterTest extends Args4JTest {
+public class SetterTest extends Args4JTestBase {
     @Override
     public Object getTestObject() {
         return new Setter();

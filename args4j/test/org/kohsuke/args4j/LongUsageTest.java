@@ -1,6 +1,6 @@
 package org.kohsuke.args4j;
 
-public class LongUsageTest extends Args4JTest {
+public class LongUsageTest extends Args4JTestBase {
     @Override
     public Object getTestObject() {
         return new LongUsage();

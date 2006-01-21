@@ -1,6 +1,6 @@
 package org.kohsuke.args4j;
 
-public class StringWithMetavarTest extends Args4JTest {
+public class StringWithMetavarTest extends Args4JTestBase {
     @Override
     public Object getTestObject() {
         return new StringWithMetavar();

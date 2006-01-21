@@ -1,7 +1,11 @@
 package org.kohsuke.args4j;
 
-import java.util.Map;
-
+/**
+ * Test object for long option names.
+ * One short and one long name too 'see' the differences.
+ * 
+ * @author Jan Matèrne
+ */
 public class LongUsage {
 
     @Option(name="-LongNamedStringOption",usage="set a string",metaVar="USE_A_NICE_STRING")
@@ -9,9 +13,5 @@ public class LongUsage {
 
     @Option(name="-i",usage="set an int")
     private int i;
-
-    //TODO implement parsing properties
-    //@Property(prefix="-P",usage="sets a key-value-pair")
-    private Map props;
 
 }
