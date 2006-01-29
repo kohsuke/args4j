@@ -124,15 +124,24 @@ public class CmdLineParser {
      * and the {@link Setter} instance.
      */
     protected OptionHandler createOptionHandler(Option o, Setter setter) {
-        // enum is the special case
-        Class t = setter.getType();
 
-        if(Enum.class.isAssignableFrom(t))
-            return new EnumOptionHandler(this,o,setter,t);
+        Constructor<? extends OptionHandler> handlerType;
+        Class<? extends OptionHandler> h = o.handler();
+        if(h==OptionHandler.class) {
+            // infer the type
 
-        Constructor<? extends OptionHandler> handlerType = handlerClasses.get(t);
-        if(handlerType==null)
-            throw new IllegalAnnotationError("No OptionHandler is registered to handle "+t);
+            // enum is the special case
+            Class t = setter.getType();
+            if(Enum.class.isAssignableFrom(t))
+                return new EnumOptionHandler(this,o,setter,t);
+
+            handlerType = handlerClasses.get(t);
+            if(handlerType==null)
+                throw new IllegalAnnotationError("No OptionHandler is registered to handle "+t);
+        } else {
+            handlerType = getConstructor(h);
+        }
+
         try {
             return handlerType.newInstance(this,o,setter);
         } catch (InstantiationException e) {
@@ -407,9 +416,13 @@ public class CmdLineParser {
         if(!OptionHandler.class.isAssignableFrom(handlerClass))
             throw new IllegalArgumentException("Not an OptionHandler class");
 
+        Constructor<? extends OptionHandler> c = getConstructor(handlerClass);
+        handlerClasses.put(valueType,c);
+    }
+
+    private static Constructor<? extends OptionHandler> getConstructor(Class<? extends OptionHandler> handlerClass) {
         try {
-            Constructor<? extends OptionHandler> c = handlerClass.getConstructor(CmdLineParser.class,Option.class,Setter.class);
-            handlerClasses.put(valueType,c);
+            return handlerClass.getConstructor(CmdLineParser.class, Option.class, Setter.class);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(handlerClass+" does not have the proper constructor");
         }

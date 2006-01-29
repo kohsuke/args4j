@@ -1,5 +1,7 @@
 package org.kohsuke.args4j;
 
+import org.kohsuke.args4j.spi.OptionHandler;
+
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
@@ -123,4 +125,32 @@ public @interface Option {
      * flag.
      */
     boolean required() default false;
+
+    /**
+     * Specify the {@link OptionHandler} that processes the command line arguments.
+     *
+     * <p>
+     * The default value {@link OptionHandler} indicates that
+     * the {@link OptionHandler} will be infered from
+     * the type of the field/method where a {@link Option} annotation
+     * is placed.
+     *
+     * <p>
+     * If this annotation element is used, it overrides the inference
+     * and determines the handler to be used. This is convenient for
+     * defining a non-standard option parsing semantics.
+     *
+     * <h3>Example</h3>
+     * <pre>
+     * // this is a normal "-r" option
+     * &#64;Option(name="-r")
+     * boolean value;
+     *
+     * // this causes arg4j to use MyHandler, not the default
+     * // handler provided for boolean
+     * &#64;Option(name="-b",handler=MyHandler.class)
+     * boolean value;
+     * </pre>
+     */
+    Class<? extends OptionHandler> handler() default OptionHandler.class;
 }
