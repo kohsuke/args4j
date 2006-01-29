@@ -4,6 +4,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.ExampleMode;
+import org.kohsuke.args4j.spi.BooleanOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +31,12 @@ public class SampleMain {
 
     @Option(name="-n",usage="repeat <n> times\nusage can have new lines in it and also it can be verrrrrrrrrrrrrrrrrry long")
     private int num = -1;
+
+    // using 'handler=...' allows you to specify a custom OptionHandler
+    // implementation class. This allows you to bind a standard Java type
+    // with a non-standard option syntax
+    @Option(name="-custom",handler=BooleanOptionHandler.class)
+    private boolean data;
 
     // receives other command line parameters than options
     @Argument
