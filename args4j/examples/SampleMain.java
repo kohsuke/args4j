@@ -3,7 +3,6 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 
 import java.io.File;
