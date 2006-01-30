@@ -7,4 +7,13 @@
      </copy>
    </postGoal>
 
+   <postGoal name="test:compile">
+     <echo>compile the examples</echo>
+     <mkdir dir="${basedir}/target/examples"/>
+     <javac srcdir="${basedir}/examples"
+            destdir="${basedir}/target/examples"
+            classpath="${basedir}/target/classes">
+     </javac>
+   </postGoal>
+
 </project>
