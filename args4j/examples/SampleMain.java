@@ -14,12 +14,12 @@ import java.util.List;
 
 /**
  * Sample program that shows how you can use args4j.
- * 
+ *
  * @author
  *      Kohsuke Kawaguchi (kk@kohsuke.org)
  */
 public class SampleMain {
-    
+
     @Option(name="-r",usage="recursively run something")
     private boolean recursive;
 
@@ -35,7 +35,7 @@ public class SampleMain {
     // using 'handler=...' allows you to specify a custom OptionHandler
     // implementation class. This allows you to bind a standard Java type
     // with a non-standard option syntax
-    @Option(name="-custom",handler=BooleanOptionHandler.class)
+    @Option(name="-custom",handler=BooleanOptionHandler.class,usage="boolean value for checking the custom handler")
     private boolean data;
 
     // receives other command line parameters than options
@@ -45,22 +45,22 @@ public class SampleMain {
     public static void main(String[] args) throws IOException {
         new SampleMain().doMain(args);
     }
-    
+
     public void doMain(String[] args) throws IOException {
         CmdLineParser parser = new CmdLineParser(this);
 
         try {
             // parse the arguments.
             parser.parseArgument(args);
-            
+
             // you can parse additional arguments if you want.
             // parser.parseArgument("more","args");
-            
+
             // after parsing arguments, you should check
             // if enough arguments are given.
             if( arguments.isEmpty() )
                 throw new CmdLineException("No argument is given");
-            
+
         } catch( CmdLineException e ) {
             // if there's a problem in the command line,
             // you'll get this exception. this will report
@@ -76,18 +76,21 @@ public class SampleMain {
 
             return;
         }
-        
+
         // this will redirect the output to the specified output
         System.out.println(out);
 
         if( recursive )
             System.out.println("-r flag is set");
-        
+
+        if( data )
+            System.out.println("-custom flag is set");
+
         System.out.println("-str was "+str);
 
         if( num>=0 )
             System.out.println("-n was "+num);
-        
+
         // access non-option arguments
         System.out.println("other arguments are:");
         for( String s : arguments )
