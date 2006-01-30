@@ -15,6 +15,9 @@ import java.util.TreeMap;
  * @author
  *      Jan Matèrne
  */
+// Field are are access by args4j per reflection. The compiler does not know that.
+// So catch these compiler warnings.
+@SuppressWarnings("unused")  
 public class SampleAnt {
 
     // 'normal' use
@@ -26,7 +29,7 @@ public class SampleAnt {
     // we use a workaround: a setter gets the abbreviation
     // A 'usage' would duplicate the info message, but without the possibility
     // of '-h' is hidden.
-    @Option(name="-h")
+	@Option(name="-h")
     private void setHelp(boolean h) { help = h; }
 
 
