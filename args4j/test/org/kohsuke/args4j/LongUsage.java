@@ -6,6 +6,7 @@ package org.kohsuke.args4j;
  * 
  * @author Jan Matèrne
  */
+@SuppressWarnings("unused")  
 public class LongUsage {
 
     @Option(name="-LongNamedStringOption",usage="set a string",metaVar="USE_A_NICE_STRING")
