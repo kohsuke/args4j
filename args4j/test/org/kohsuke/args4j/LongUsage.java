@@ -2,7 +2,7 @@ package org.kohsuke.args4j;
 
 /**
  * Test object for long option names.
- * One short and one long name too 'see' the differences.
+ * One short and one long name to 'see' the differences.
  * 
  * @author Jan Matèrne
  */
