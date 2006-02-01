@@ -13,9 +13,6 @@ public class LongUsageTest extends Args4JTestBase {
         } catch (CmdLineException e) {
             String expectedLine1 = " -LongNamedStringOption USE_A_NICE_STRING : set a string";
             String expectedLine2 = " -i N                                     : set an int";
-            //TODO test for implementation of parsing properties
-            //String expectedLine3 = " -P<KEY>=<VALUE>                          : sets a key-value-pair";
-
             //TODO check the correct usage message - needs return value from parser
             /*
             String usageMessage = parser.printUsage(null).toString();
