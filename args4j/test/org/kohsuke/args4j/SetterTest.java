@@ -36,11 +36,11 @@ public class SetterTest extends Args4JTestBase {
         } catch (CmdLineException e) {
             String expectedError = "\"-wrong-usage\" is not a valid option";
             String expectedUsage   = " -str VAL : set a string";
-            //TODO check the correct usage message - needs return value from parser
-            //String usageMessage = parser.printUsage(null).toString();
             String errorMessage = e.getMessage();
+            String[] usageLines = getUsageMessage();
+            assertUsageLength(1);
             assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
-            //assertTrue("Got wrong usage message", usageMessage.startsWith(expectedUsage));
+            assertEquals(expectedUsage, usageLines[0]);
         }
     }
 
@@ -52,11 +52,12 @@ public class SetterTest extends Args4JTestBase {
         } catch (CmdLineException e) {
             String expectedError = "Option \"-str\" takes an operand";
             String expectedUsage   = " -str VAL : set a string";
-            //TODO check the correct usage message - needs return value from parser
-            //String usageMessage = parser.printUsage(null).toString();
+            
+            String[] usageLines = getUsageMessage();
             String errorMessage = e.getMessage();
+            assertUsageLength(1);
             assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
-            //assertTrue("Got wrong usage message", usageMessage.startsWith(expectedUsage));
+            assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
     }
 
