@@ -10,8 +10,8 @@ public class PropsTest extends Args4JTestBase {
     }
     
     public void testDoNothing() {
-    	// ignore, that the other test cases are commented out
-    	// JUnit doesnt like TestCases without a test-method.
+        // ignore, that the other test cases are commented out
+        // JUnit doesnt like TestCases without a test-method.
     }
 
     public void _testNoValues() {

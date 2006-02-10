@@ -44,7 +44,7 @@ public abstract class Args4JTestBase extends TestCase {
      * @see Args4JTestBase#getUsageMessage()
      */
     public void assertUsageLength(int expectedLength) {
-    	assertEquals("Wrong amount of lines in usage message", getUsageMessage().length, expectedLength);
+        assertEquals("Wrong amount of lines in usage message", getUsageMessage().length, expectedLength);
     }
     
     /**
@@ -53,9 +53,9 @@ public abstract class Args4JTestBase extends TestCase {
      * @see CmdLineParser#printUsage(OutputStream)
      */
     public String[] getUsageMessage() {
-    	Stream2String s2w = new Stream2String();
-		parser.printUsage(s2w);
-		return s2w.getString().split(System.getProperty("line.separator"));
+        Stream2String s2w = new Stream2String();
+        parser.printUsage(s2w);
+        return s2w.getString().split(System.getProperty("line.separator"));
     }
     
     /**
@@ -63,16 +63,16 @@ public abstract class Args4JTestBase extends TestCase {
      * @author Jan
      */
     private class Stream2String extends OutputStream {
-    	private StringBuffer sb = new StringBuffer();
-    	
-		@Override
-		public void write(int b) throws IOException {
-			sb.append((char)b);
-		}
+        private StringBuffer sb = new StringBuffer();
+        
+        @Override
+        public void write(int b) throws IOException {
+            sb.append((char)b);
+        }
 
-		public String getString() {
-			return sb.toString();
-		}
+        public String getString() {
+            return sb.toString();
+        }
     }
 
 }
