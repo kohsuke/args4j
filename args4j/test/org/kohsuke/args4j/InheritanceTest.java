@@ -45,9 +45,9 @@ public class InheritanceTest extends Args4JTestBase {
         Inheritance bo = (Inheritance)testObject;
         try {
             parser.parseArgument(args);
-            assertEquals("Value for class itself not arrived", "Hi mom", bo.mom);
+            assertNull("Annotations are not designed for use in interfaces", bo.mom);
         } catch (CmdLineException e) {
-            fail("This exception should not occur");
+            //no-op
         }
     }
     
