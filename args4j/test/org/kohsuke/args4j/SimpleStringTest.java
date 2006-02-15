@@ -1,14 +1,14 @@
 package org.kohsuke.args4j;
 
-public class SimpleStringTest extends Args4JTestBase {
+public class SimpleStringTest extends Args4JTestBase<SimpleString> {
 
     @Override
-    public Object getTestObject() {
+    public SimpleString getTestObject() {
         return new SimpleString();
     }
 
     public void testSettingStringNoValues() {
-        SimpleString bo = (SimpleString)testObject;
+        SimpleString bo = testObject;
         args = new String[]{};
         try {
             parser.parseArgument(args);
@@ -19,7 +19,7 @@ public class SimpleStringTest extends Args4JTestBase {
     }
 
     public void testSettingString() {
-        SimpleString bo = (SimpleString)testObject;
+        SimpleString bo = testObject;
         args = new String[]{"-str","test"};
         try {
             parser.parseArgument(args);

@@ -1,13 +1,13 @@
 package org.kohsuke.args4j;
 
-public class SetterTest extends Args4JTestBase {
+public class SetterTest extends Args4JTestBase<Setter> {
     @Override
-    public Object getTestObject() {
+    public Setter getTestObject() {
         return new Setter();
     }
 
     public void testSettingStringNoValues() {
-        Setter bo = (Setter)testObject;
+        Setter bo = testObject;
         args = new String[]{};
         try {
             parser.parseArgument(args);
@@ -18,7 +18,7 @@ public class SetterTest extends Args4JTestBase {
     }
 
     public void testSettingString() {
-        Setter bo = (Setter)testObject;
+        Setter bo = testObject;
         args = new String[]{"-str","test"};
         try {
             parser.parseArgument(args);

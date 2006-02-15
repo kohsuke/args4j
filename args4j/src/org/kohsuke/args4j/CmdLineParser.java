@@ -75,12 +75,10 @@ public class CmdLineParser {
                 Option o = m.getAnnotation(Option.class);
                 if(o!=null) {
                     addOption(new MethodSetter(bean,m),o);
-                    continue;
                 }
                 Argument a = m.getAnnotation(Argument.class);
                 if(a!=null) {
                     addArgument(new MethodSetter(bean,m));
-                    continue;
                 }
             }
 
@@ -88,12 +86,10 @@ public class CmdLineParser {
                 Option o = f.getAnnotation(Option.class);
                 if(o!=null) {
                     addOption(createFieldSetter(f),o);
-                    continue;
                 }
                 Argument a = f.getAnnotation(Argument.class);
                 if(a!=null) {
                     addArgument(createFieldSetter(f));
-                    continue;
                 }
             }
         }
@@ -332,6 +328,10 @@ public class CmdLineParser {
             if( pos+idx+1>=args.length )
                 throw new CmdLineException(Messages.MISSING_OPERAND.format(getOptionName()));
             return args[pos+idx+1];
+        }
+
+        public int getParameterCount() {
+            return args.length-(pos+1);
         }
     }
 

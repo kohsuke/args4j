@@ -36,6 +36,15 @@ public abstract class Parameters  {
     public abstract String getParameter(int idx) throws CmdLineException;
 
     /**
+     * Returns the number of available parameters.
+     *
+     * @return
+     *      the smallest integer for which {@link #getParameter(int)} reports
+     *      an error.
+     */
+    public abstract int getParameterCount();
+
+    /**
      * The convenience method of
      * <code>Integer.parseInt(getParameter(idx))</code>
      * with proper error handling.

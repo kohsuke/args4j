@@ -14,17 +14,17 @@ import junit.framework.TestCase;
  * 
  * @author Jan Matèrne
  */
-public abstract class Args4JTestBase extends TestCase {
+public abstract class Args4JTestBase<T> extends TestCase {
 
     CmdLineParser parser;
     String[] args;
-    Object testObject;
+    T testObject;
 
     /**
      * Specifies which concrete object to return as test object.
      * @return the test object
      */
-    public abstract Object getTestObject();
+    public abstract T getTestObject();
 
     /**
      * Initializes the testObject and the parser for that object. 
