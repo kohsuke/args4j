@@ -23,11 +23,17 @@
 
   <url>http://args4j.dev.java.net/</url>
 
+  <reports>
+    <report>maven-changes-plugin</report>
+  </reports> 
+
   <repository>
     <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvsroot:args4j</connection>
     <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvsroot:args4j</developerConnection>
     <url>https://args4j.dev.java.net/source/browse/args4j/</url>
   </repository>
+
+  <issueTrackingUrl>https://args4j.dev.java.net/issues</issueTrackingUrl>
 
   <mailingLists>
     <mailingList>

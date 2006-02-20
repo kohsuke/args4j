@@ -1,0 +1,48 @@
+<document>
+  <properties>
+    <title>Args4J changes</title>
+    <author email="kk@kohsuke.org">Kohsuke Kawaguchi</author>
+    <author email="jhm@apache.org">Jan Materne</author>
+  </properties>
+  <body>
+    <release version="HEAD">
+      <action dev="jhm" type="add">add a changes document (this)</action>
+    </release>
+    <release version="2.0.5" date="2006-02-15" description="tests, few more features">
+      <action dev="kohsuke" type="add">implemented the stop option <code>--</code> </action>
+      <action dev="kohsuke" type="update">modified test cases to use generics to avoid casting</action>
+      <action dev="jhm" type="add">check the usage messages in the test cases</action>
+      <action dev="jhm" type="add">test the inheritance of annotations</action>
+
+      <action dev="jhm" type="update">usage info for the -custom option and use of that data inside the SampleMain</action>
+    </release>
+    <release version="2.0.4" date="2006-01-29" description="tests, few more features">
+      <action dev="jhm" type="add">more test cases</action>
+      <action dev="jhm" type="add">tried to rebuild the Apache Ant command line interface in SampleAnt</action>
+      <action dev="kohsuke" type="add">expanded @Option to allow a Handler to be explicitly specified</action>
+    </release>
+
+    <release version="2.0.3" date="2006-01-13" description="tests, few more features">
+      <action dev="kohsuke" type="add">add DoubleOptionHandler</action>
+      <action dev="kohsuke" type="add">a few test cases</action>
+      <action dev="kohsuke" type="fix" issue="2">printExample provides the ability to generate list of available parameters with usage samples</action>
+      <action dev="kohsuke" type="fix" issue="1">handle mandatory options</action>
+      <action dev="kohsuke" type="add">fully supports localization</action>
+
+    </release>
+    <release version="2.0.1" date="2005-05-12" description="few more features">
+      <action dev="kohsuke" type="add">implemented metavariable support</action>
+      <action dev="kohsuke" type="update">split out args4j-tools</action>
+      <action dev="kohsuke" type="add">implemented a case-insensitive search</action>
+    </release>
+    <release version="2.0.0" date="2005-05-11" description="Move to dev.java.net">
+
+      <action dev="kohsuke" type="add">moving the repository from SourceForge <code>http://sourceforge.net/projects/args4j</code> </action>
+      <action dev="kohsuke" type="add">implemented args4j 2.0</action>
+    </release>
+    <release version="1.0-RC" datei="2003-10-01" description="Initial release">
+      <action dev="kohsuke" type="add">initial release</action>
+    </release>
+
+  </body>
+</document>
