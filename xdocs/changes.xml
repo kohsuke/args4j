@@ -7,6 +7,8 @@
   <body>
     <release version="HEAD">
       <action dev="jhm" type="add">add a changes document (this)</action>
+      <action dev="jhm" type="add">add a starter class</action>
+      <action dev="jhm" type="add">a short manual</action>
     </release>
     <release version="2.0.5" date="2006-02-15" description="tests, few more features">
       <action dev="kohsuke" type="add">implemented the stop option <code>--</code> </action>
