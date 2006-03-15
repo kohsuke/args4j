@@ -9,8 +9,8 @@ import org.kohsuke.args4j.CmdLineException;
  *
  * @author Leif Wickland
  */
-public class DoubleOptionHandler extends OptionHandler {
-    public DoubleOptionHandler(CmdLineParser parser, Option option, Setter setter) {
+public class DoubleOptionHandler extends OptionHandler<Double> {
+    public DoubleOptionHandler(CmdLineParser parser, Option option, Setter<? super Double> setter) {
         super(parser, option, setter);
     }
 

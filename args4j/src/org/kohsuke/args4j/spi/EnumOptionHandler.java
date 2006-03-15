@@ -9,19 +9,19 @@ import org.kohsuke.args4j.CmdLineException;
  *
  * @author Kohsuke Kawaguchi
  */
-public class EnumOptionHandler extends OptionHandler {
+public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
 
-    private final Class<? extends Enum<?>> enumType;
+    private final Class<T> enumType;
 
-    public EnumOptionHandler(CmdLineParser parser, Option option, Setter setter, Class<? extends Enum<?>> enumType) {
+    public EnumOptionHandler(CmdLineParser parser, Option option, Setter<? super T> setter, Class<T> enumType) {
         super(parser, option, setter);
         this.enumType = enumType;
     }
 
     public int parseArguments(Parameters params) throws CmdLineException {
         String s = params.getParameter(0);
-        Enum value = null;
-        for( Enum o : enumType.getEnumConstants() )
+        T value = null;
+        for( T o : enumType.getEnumConstants() )
             if(o.name().equalsIgnoreCase(s)) {
                 value = o;
                 break;

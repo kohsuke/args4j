@@ -9,8 +9,8 @@ import org.kohsuke.args4j.Option;
  *
  * @author Kohsuke Kawaguchi
  */
-public class StringOptionHandler extends OptionHandler {
-    public StringOptionHandler(CmdLineParser parser, Option option, Setter setter) {
+public class StringOptionHandler extends OptionHandler<String> {
+    public StringOptionHandler(CmdLineParser parser, Option option, Setter<? super String> setter) {
         super(parser, option, setter);
     }
 

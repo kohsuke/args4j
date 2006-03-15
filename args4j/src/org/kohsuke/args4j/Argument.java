@@ -15,7 +15,6 @@ import static java.lang.annotation.ElementType.METHOD;
  * <ol>
  *  <li>Argument by definition doesn't have an option name.
  *  <li>Arguments are always allowed to occur multiple times.
- *      (IOW, it works like {@link Option#repeatable()}==true.
  * </ol>
  * 
  * @author Kohsuke Kawaguchi

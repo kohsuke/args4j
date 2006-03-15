@@ -11,8 +11,8 @@ import java.io.File;
  *
  * @author Kohsuke Kawaguchi
  */
-public class FileOptionHandler extends OptionHandler {
-    public FileOptionHandler(CmdLineParser parser, Option option, Setter setter) {
+public class FileOptionHandler extends OptionHandler<File> {
+    public FileOptionHandler(CmdLineParser parser, Option option, Setter<? super File> setter) {
         super(parser, option, setter);
     }
 

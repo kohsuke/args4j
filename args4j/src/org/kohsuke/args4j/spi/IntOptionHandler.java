@@ -9,8 +9,8 @@ import org.kohsuke.args4j.CmdLineException;
  *
  * @author Kohsuke Kawaguchi
  */
-public class IntOptionHandler extends OptionHandler {
-    public IntOptionHandler(CmdLineParser parser, Option option, Setter setter) {
+public class IntOptionHandler extends OptionHandler<Integer> {
+    public IntOptionHandler(CmdLineParser parser, Option option, Setter<? super Integer> setter) {
         super(parser, option, setter);
     }
 

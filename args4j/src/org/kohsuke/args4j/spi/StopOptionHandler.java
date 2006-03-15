@@ -31,8 +31,8 @@ import org.kohsuke.args4j.CmdLineException;
  *
  * @author Kohsuke Kawaguchi
  */
-public class StopOptionHandler extends OptionHandler {
-    public StopOptionHandler(CmdLineParser parser, Option option, Setter setter) {
+public class StopOptionHandler extends OptionHandler<String> {
+    public StopOptionHandler(CmdLineParser parser, Option option, Setter<? super String> setter) {
         super(parser, option, setter);
     }
 

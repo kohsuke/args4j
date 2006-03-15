@@ -52,7 +52,7 @@ public class CmdLineParser {
     /**
      * {@link Setter} that accepts the arguments.
      */
-    private Setter argumentSetter;
+    private Setter<String> argumentSetter;
 
     /**
      * Creates a new command line owner that
@@ -102,7 +102,7 @@ public class CmdLineParser {
             return new FieldSetter(bean,f);
     }
 
-    private void addArgument(Setter setter) {
+    private void addArgument(Setter<String> setter) {
         if(argumentSetter!=null)
             throw new IllegalAnnotationError("@Argument is used more than once");
         argumentSetter = setter;

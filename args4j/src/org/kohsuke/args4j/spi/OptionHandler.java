@@ -17,9 +17,12 @@ import java.util.ResourceBundle;
  * Implementation of this class needs to be registered to args4j by using
  * {@link CmdLineParser#registerHandler(Class,Class)} 
  *
+ * @param <T>
+ *      The type of the field that this {@link OptionHandler} works with.
+ *
  * @author Kohsuke Kawaguchi
  */
-public abstract class OptionHandler {
+public abstract class OptionHandler<T> {
     /**
      * The annotation.
      */
@@ -27,13 +30,13 @@ public abstract class OptionHandler {
     /**
      * Object to be used for setting value.
      */
-    public final Setter setter;
+    public final Setter<? super T> setter;
     /**
      * The owner to which this handler belongs to.
      */
     public final CmdLineParser owner;
 
-    protected OptionHandler(CmdLineParser parser, Option option, Setter setter) {
+    protected OptionHandler(CmdLineParser parser, Option option, Setter<? super T> setter) {
         this.owner = parser;
         this.option = option;
         this.setter = setter;

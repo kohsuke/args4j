@@ -9,8 +9,8 @@ import org.kohsuke.args4j.Option;
  * 
  * @author Kohsuke Kawaguchi
  */
-public class BooleanOptionHandler extends OptionHandler {
-    public BooleanOptionHandler(CmdLineParser parser, Option option, Setter setter) {
+public class BooleanOptionHandler extends OptionHandler<Boolean> {
+    public BooleanOptionHandler(CmdLineParser parser, Option option, Setter<? super Boolean> setter) {
         super(parser, option, setter);
     }
 
