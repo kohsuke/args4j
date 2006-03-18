@@ -13,7 +13,7 @@ import java.util.TreeMap;
  * Showing the Ant command line interface as args4j annotations.
  *
  * @author
- *      Jan Matèrne
+ *      Jan Materne
  */
 // Field are are access by args4j per reflection. The compiler does not know that.
 // So catch these compiler warnings.
