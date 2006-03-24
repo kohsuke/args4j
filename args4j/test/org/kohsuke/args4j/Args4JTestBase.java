@@ -9,10 +9,10 @@ import junit.framework.TestCase;
 /**
  * Base class for Args4J Tests.
  * It instanstiates the test object, the CmdLineParser for
- * that test object and provides a String array for passing 
+ * that test object and provides a String array for passing
  * to the parser.
- * 
- * @author Jan Matèrne
+ *
+ * @author Jan Materne
  */
 public abstract class Args4JTestBase<T> extends TestCase {
 
@@ -27,7 +27,7 @@ public abstract class Args4JTestBase<T> extends TestCase {
     public abstract T getTestObject();
 
     /**
-     * Initializes the testObject and the parser for that object. 
+     * Initializes the testObject and the parser for that object.
      * @see junit.framework.TestCase#setUp()
      */
     @Override
@@ -36,17 +36,17 @@ public abstract class Args4JTestBase<T> extends TestCase {
         testObject = getTestObject();
         parser = new CmdLineParser(testObject);
     }
-    
+
     /**
      * Checks the number of lines of the parsers usage message.
-     * @param expectedLength 
+     * @param expectedLength
      * @see TestCase#assertEquals(String, int, int)
      * @see Args4JTestBase#getUsageMessage()
      */
     public void assertUsageLength(int expectedLength) {
         assertEquals("Wrong amount of lines in usage message", getUsageMessage().length, expectedLength);
     }
-    
+
     /**
      * Extracts the usage message from the parser as String array.
      * @return the usage message
@@ -57,14 +57,14 @@ public abstract class Args4JTestBase<T> extends TestCase {
         parser.printUsage(s2w);
         return s2w.getString().split(System.getProperty("line.separator"));
     }
-    
+
     /**
      * Utility class for capturing an OutputStream into a String.
      * @author Jan
      */
     private class Stream2String extends OutputStream {
         private StringBuffer sb = new StringBuffer();
-        
+
         @Override
         public void write(int b) throws IOException {
             sb.append((char)b);
