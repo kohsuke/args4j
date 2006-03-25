@@ -67,4 +67,17 @@ public class PropsTest extends Args4JTestBase {
             // TODO: or did an exception occur?
         }
     }
+    
+    public void _testInitialisation() {
+        args = new String[]{"-Tkey1=value1"};
+        try {
+            ((Props)testObject).props = null;
+            parser.parseArgument(args);
+            Map map = ((Props)testObject).props;
+            assertEquals("Key has wrong value", map.get("key1"), "value1");
+        } catch (CmdLineException e) {
+            // maybe a NPE?
+        }
+    }
+    
 }
