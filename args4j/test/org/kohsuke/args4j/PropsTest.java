@@ -1,6 +1,6 @@
 package org.kohsuke.args4j;
 
-import java.util.Map;
+import java.util.Map; 
 
 public class PropsTest extends Args4JTestBase {
 

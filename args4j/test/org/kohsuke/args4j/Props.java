@@ -11,8 +11,7 @@ import java.util.Map;
 public class Props {
 
     //TODO implement parsing properties
-    //@Property(prefix="-T",usage="sets a key-value-pair")
-    @Option(name="-T",usage="sets a key-value-pair")
+    //@Option(name="-T",usage="sets a key-value-pair")
     public Map props;
 
 }
