@@ -1,32 +1,33 @@
 package org.kohsuke.args4j;
 
-import org.kohsuke.args4j.spi.EnumOptionHandler;
-import org.kohsuke.args4j.spi.OptionHandler;
-import org.kohsuke.args4j.spi.Parameters;
-import org.kohsuke.args4j.spi.Setter;
-import org.kohsuke.args4j.spi.BooleanOptionHandler;
-import org.kohsuke.args4j.spi.FileOptionHandler;
-import org.kohsuke.args4j.spi.StringOptionHandler;
-import org.kohsuke.args4j.spi.IntOptionHandler;
-import org.kohsuke.args4j.spi.DoubleOptionHandler;
-
+import java.io.File;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.TreeMap;
 import java.util.Set;
-import java.util.HashSet;
+import java.util.TreeMap;
+
+import org.kohsuke.args4j.spi.BooleanOptionHandler;
+import org.kohsuke.args4j.spi.DoubleOptionHandler;
+import org.kohsuke.args4j.spi.EnumOptionHandler;
+import org.kohsuke.args4j.spi.FileOptionHandler;
+import org.kohsuke.args4j.spi.IntOptionHandler;
+import org.kohsuke.args4j.spi.MapOptionHandler;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.spi.StringOptionHandler;
 
 
 /**
@@ -53,6 +54,14 @@ public class CmdLineParser {
      * {@link Setter} that accepts the arguments.
      */
     private Setter<String> argumentSetter;
+
+    
+	/**
+	 *  The length of a usage line. 
+	 *  If the usage message is longer than this value, the parser
+	 *  wraps the line. Defaults to 80.
+	 */
+	private int usageWidth = 80;
 
     /**
      * Creates a new command line owner that
@@ -98,6 +107,8 @@ public class CmdLineParser {
     private Setter createFieldSetter(Field f) {
         if(List.class.isAssignableFrom(f.getType()))
             return new MultiValueFieldSetter(bean,f);
+        else if(Map.class.isAssignableFrom(f.getType()))
+            return new MapFieldSetter(bean,f);
         else
             return new FieldSetter(bean,f);
     }
@@ -240,7 +251,7 @@ public class CmdLineParser {
             len = Math.max(len,e.getKey().length()+metaLen);
         }
 
-        int descriptionWidth = 72-len-4;    // 3 for " : " + 1 for left-most SP
+        int descriptionWidth = usageWidth-len-4;    // 3 for " : " + 1 for left-most SP
 
         // then print
         for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
@@ -352,7 +363,10 @@ public class CmdLineParser {
             String arg = cmdLine.getOptionName();
             if( isOption(arg) ) {
                 // parse this as an option.
-                OptionHandler handler = options.get(arg);
+                OptionHandler handler = (arg.indexOf('=')==-1) 
+                                      ? options.get(arg)         // normal option
+                                      : findOptionHandler(arg);  // key=value pair
+                
                 if(handler!=null) {
                     // known option
                     int diff = handler.parseArguments(cmdLine);
@@ -379,6 +393,32 @@ public class CmdLineParser {
                 throw new CmdLineException(Messages.REQUIRED_OPTION_MISSING.format(handler.option.name()));
     }
 
+    
+	private OptionHandler findOptionHandler(String name) {
+		OptionHandler handler = options.get(name);
+		if (handler==null) {
+			// Have not found by its name, maybe its a property?
+			// Search for parts of the name (=prefix) - most specific first 
+			for (int i=name.length(); i>1; i--) {
+				String prefix = name.substring(0, i);
+				Map<String,OptionHandler> possibleHandlers = filter(options, prefix);
+				handler = possibleHandlers.get(prefix);
+				if (handler!=null) return handler;
+			}
+		}
+		return handler;
+	}
+	
+	
+	private Map<String,OptionHandler> filter(Map<String,OptionHandler> map, String keyFilter) {
+		Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
+		for (String key : map.keySet()) {
+			if (key.startsWith(keyFilter)) rv.put(key, map.get(key));
+		}
+		return rv;
+	}
+
+	
     /**
      * Returns true if the given token is an option
      * (as opposed to an argument.)
@@ -438,5 +478,10 @@ public class CmdLineParser {
         registerHandler(double.class,DoubleOptionHandler.class);
         registerHandler(String.class,StringOptionHandler.class);
         // enum is a special case
+        registerHandler(Map.class,MapOptionHandler.class);
     }
+
+	public void setUsageWidth(int usageWidth) {
+		this.usageWidth = usageWidth;
+	}
 }

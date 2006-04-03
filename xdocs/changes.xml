@@ -5,11 +5,12 @@
     <author email="jhm@apache.org">Jan Materne</author>
   </properties>
   <body>
-    <release version="HEAD">
+    <release version="2.0.6">
       <action dev="jhm" type="add">add a changes document (this)</action>
       <action dev="jhm" type="add">add a starter class</action>
       <action dev="jhm" type="add">a short manual</action>
       <action dev="jhm" type="add">args4j is running on Gump</action>
+      <action dev="jhm" type="fix" issue="3">allow to specify the console width for wrapping the usage message</action>
     </release>
     <release version="2.0.5" date="2006-02-15" description="tests, few more features">
       <action dev="kohsuke" type="add">implemented the stop option <code>--</code> </action>
