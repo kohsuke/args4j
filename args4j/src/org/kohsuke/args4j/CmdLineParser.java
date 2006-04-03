@@ -23,7 +23,7 @@ import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
-import org.kohsuke.args4j.spi.MapOptionHandler;
+//import org.kohsuke.args4j.spi.MapOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
@@ -478,7 +478,7 @@ public class CmdLineParser {
         registerHandler(double.class,DoubleOptionHandler.class);
         registerHandler(String.class,StringOptionHandler.class);
         // enum is a special case
-        registerHandler(Map.class,MapOptionHandler.class);
+        //registerHandler(Map.class,MapOptionHandler.class);
     }
 
 	public void setUsageWidth(int usageWidth) {
