@@ -107,8 +107,8 @@ public class CmdLineParser {
     private Setter createFieldSetter(Field f) {
         if(List.class.isAssignableFrom(f.getType()))
             return new MultiValueFieldSetter(bean,f);
-        else if(Map.class.isAssignableFrom(f.getType()))
-            return new MapFieldSetter(bean,f);
+        //else if(Map.class.isAssignableFrom(f.getType()))
+        //    return new MapFieldSetter(bean,f);
         else
             return new FieldSetter(bean,f);
     }
