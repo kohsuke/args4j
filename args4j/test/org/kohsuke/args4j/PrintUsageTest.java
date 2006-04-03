@@ -1,11 +1,9 @@
 package org.kohsuke.args4j;
 
-import junit.framework.TestCase;
-
 public class PrintUsageTest extends Args4JTestBase {
 
 	private class Bean {
-		@Option(name="s",usage="1234567890123456789012345678901234567890")
+		@Option(name = "s", usage = "1234567890123456789012345678901234567890")
 		public String s;
 	}
 
@@ -13,11 +11,9 @@ public class PrintUsageTest extends Args4JTestBase {
 	public Object getTestObject() {
 		return new Bean();
 	}
-	
-	
-	
+
 	public void testEnoughLength() {
-		String[] args = {"-wrong"};
+		String[] args = { "-wrong" };
 		try {
 			parser.parseArgument(args);
 		} catch (CmdLineException e) {
@@ -27,7 +23,7 @@ public class PrintUsageTest extends Args4JTestBase {
 	}
 
 	public void testTooSmallLength() {
-		String[] args = {"-wrong"};
+		String[] args = { "-wrong" };
 		try {
 			parser.setUsageWidth(30);
 			parser.parseArgument(args);
@@ -36,6 +32,5 @@ public class PrintUsageTest extends Args4JTestBase {
 			assertEquals("Should split the lines.", 2, usageMessage.length);
 		}
 	}
-	
-	
+
 }
