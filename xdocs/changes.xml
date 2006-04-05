@@ -5,7 +5,7 @@
     <author email="jhm@apache.org">Jan Materne</author>
   </properties>
   <body>
-    <release version="2.0.6">
+    <release version="2.0.6" date="2006-04-05" description="document improvements and few more features">
       <action dev="jhm" type="add">add a changes document (this)</action>
       <action dev="jhm" type="add">add a starter class</action>
       <action dev="jhm" type="add">a short manual</action>
