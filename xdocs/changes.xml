@@ -6,7 +6,7 @@
   </properties>
   <body>
     <release version="2.0.7" date="2006-08-15" description="fixed a packaging problem">
-      <action dev="jhm" type="fix">Fixed a packaging error where APT service entry was in args4j.jar</action>
+      <action dev="kohsuke" type="fix">Fixed a packaging error where APT service entry was in args4j.jar</action>
     </release>
     <release version="2.0.6" date="2006-04-05" description="document improvements and few more features">
       <action dev="jhm" type="add">add a changes document (this)</action>
