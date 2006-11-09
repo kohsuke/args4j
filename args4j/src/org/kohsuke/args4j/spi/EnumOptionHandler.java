@@ -18,6 +18,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
         this.enumType = enumType;
     }
 
+    @Override
     public int parseArguments(Parameters params) throws CmdLineException {
         String s = params.getParameter(0);
         T value = null;
@@ -33,6 +34,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
         return 1;
     }
 
+    @Override
     public String getDefaultMetaVariable() {
         String n = enumType.getName();
         int idx = n.lastIndexOf('.');

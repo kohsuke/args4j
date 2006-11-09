@@ -20,6 +20,7 @@ public class BooleanOptionHandler extends OptionHandler<Boolean> {
         super(parser, option, setter);
     }
 
+    @Override
     public int parseArguments(Parameters params) throws CmdLineException {
     	if (option.isArgument()) {
     		String valueStr = params.getParameter(0).toLowerCase();
@@ -35,6 +36,7 @@ public class BooleanOptionHandler extends OptionHandler<Boolean> {
     	}
     }
 
+    @Override
     public String getDefaultMetaVariable() {
         return null;
     }

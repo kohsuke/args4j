@@ -366,10 +366,12 @@ public class CmdLineParser {
         }
 
 
+        @Override
         public String getOptionName() {
             return getCurrentToken();
         }
 
+        @Override
         public String getParameter(int idx) throws CmdLineException {
         	boolean isOption = isOption(getOptionName());
             int posIdx = pos+idx+(isOption ? 1 : 0);
@@ -382,6 +384,8 @@ public class CmdLineParser {
     /**
      * Parses the command line arguments and set them to the option bean
      * given in the constructor.
+     * 
+     * @param args arguments to parse
      *
      * @throws CmdLineException
      *      if there's any error parsing arguments, or if
@@ -492,7 +496,7 @@ public class CmdLineParser {
      *      is of this type.
      * @param handlerClass
      *      This class must have the constructor that has the same signature as
-     *      {@link OptionHandler#OptionHandler(CmdLineParser, Option, Setter)}.
+     *      {@link OptionHandler#OptionHandler(CmdLineParser, OptionDef, Setter)}.
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
         if(valueType==null || handlerClass==null)

@@ -13,6 +13,7 @@ public enum ExampleMode {
      * This would be useful only when you have small number of options.
      */
     ALL() {
+    	@Override
         /*package*/ boolean print(OptionDef o) {
             return true;
         }
@@ -22,6 +23,7 @@ public enum ExampleMode {
      * Print all {@link Option#required() required} option.
      */
     REQUIRED() {
+    	@Override
         /*package*/ boolean print(OptionDef o) {
             return o.required();
         }

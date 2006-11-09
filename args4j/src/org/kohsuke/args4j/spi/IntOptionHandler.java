@@ -14,6 +14,7 @@ public class IntOptionHandler extends OptionHandler<Integer> {
 		super(parser, option, setter);
 	}
 
+    @Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		String token = params.getParameter(0);
 		try {
@@ -25,6 +26,7 @@ public class IntOptionHandler extends OptionHandler<Integer> {
 		return 1;
 	}
 
+    @Override
 	public String getDefaultMetaVariable() {
 		return "N";
 	}

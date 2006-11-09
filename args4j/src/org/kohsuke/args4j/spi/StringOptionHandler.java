@@ -14,11 +14,13 @@ public class StringOptionHandler extends OptionHandler<String> {
         super(parser, option, setter);
     }
 
+    @Override
     public int parseArguments(Parameters params) throws CmdLineException {
         setter.addValue(params.getParameter(0));
         return 1;
     }
 
+    @Override
     public String getDefaultMetaVariable() {
         return "VAL";
     }

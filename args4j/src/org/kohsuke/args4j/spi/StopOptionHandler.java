@@ -36,11 +36,13 @@ public class StopOptionHandler extends OptionHandler<String> {
         super(parser, option, setter);
     }
 
+    @Override
     public int parseArguments(Parameters params) throws CmdLineException {
     	owner.stopOptionParsing();
     	return 0;
     }
 
+    @Override
     public String getDefaultMetaVariable() {
         return "ARGUMENTS";
     }

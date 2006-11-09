@@ -14,6 +14,7 @@ public class DoubleOptionHandler extends OptionHandler<Double> {
         super(parser, option, setter);
     }
 
+    @Override
     public int parseArguments(Parameters params) throws CmdLineException {
         String token = params.getParameter(0);
         try {
@@ -26,6 +27,7 @@ public class DoubleOptionHandler extends OptionHandler<Double> {
         return 1;
     }
 
+    @Override
     public String getDefaultMetaVariable() {
         return "N";
     }
