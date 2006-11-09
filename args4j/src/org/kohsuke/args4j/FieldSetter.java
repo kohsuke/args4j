@@ -21,6 +21,10 @@ final class FieldSetter implements Setter {
     public Class getType() {
         return f.getType();
     }
+    
+    public boolean isMultiValued() {
+    	return false;
+    }
 
     public void addValue(Object value) {
         try {

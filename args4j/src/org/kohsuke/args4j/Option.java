@@ -153,4 +153,10 @@ public @interface Option {
      * </pre>
      */
     Class<? extends OptionHandler> handler() default OptionHandler.class;
+    
+    /**
+     * Whether the option is multi-valued.
+     * For mappings to List<...>, this defaults to true, otherwise false 
+     */
+    boolean multiValued() default false;
 }

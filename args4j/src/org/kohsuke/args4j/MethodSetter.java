@@ -25,6 +25,10 @@ final class MethodSetter implements Setter {
         return m.getParameterTypes()[0];
     }
 
+    public boolean isMultiValued() {
+    	return false;
+    }
+
     public void addValue(Object value) throws CmdLineException {
         try {
             try {

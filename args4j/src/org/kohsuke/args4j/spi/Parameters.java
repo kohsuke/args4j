@@ -34,31 +34,4 @@ public abstract class Parameters  {
      *      appropriate {@link org.kohsuke.args4j.CmdLineException}.
      */
     public abstract String getParameter(int idx) throws CmdLineException;
-
-    /**
-     * Returns the number of available parameters.
-     *
-     * @return
-     *      the smallest integer for which {@link #getParameter(int)} reports
-     *      an error.
-     */
-    public abstract int getParameterCount();
-
-    /**
-     * The convenience method of
-     * <code>Integer.parseInt(getParameter(idx))</code>
-     * with proper error handling.
-     *
-     * @exception CmdLineException
-     *      If the parameter is not an integer, it throws an
-     *      approrpiate {@link CmdLineException}.
-     */
-    public int getIntParameter(int idx) throws CmdLineException {
-        String token = getParameter(idx);
-        try {
-            return Integer.parseInt(token);
-        } catch( NumberFormatException e ) {
-            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(getOptionName(),token));
-        }
-    }
 }

@@ -86,7 +86,8 @@ public class Starter {
 			if (classHasOptions)  System.err.print(" [options]");
 			if (classHasArgument) System.err.print(" arguments");
 			System.err.println();
-			parser.printUsage(System.err);
+			if (parser != null)
+				parser.printUsage(System.err);
 		} catch (Exception e) {
 			// Must be an unhandled business exception, so we can only
 			// print stacktraces.

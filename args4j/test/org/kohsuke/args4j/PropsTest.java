@@ -2,10 +2,10 @@ package org.kohsuke.args4j;
 
 import java.util.Map; 
 
-public class PropsTest extends Args4JTestBase {
+public class PropsTest extends Args4JTestBase<Props> {
 
     @Override
-    public Object getTestObject() {
+    public Props getTestObject() {
         return new Props();
     }
     
@@ -18,7 +18,7 @@ public class PropsTest extends Args4JTestBase {
         args = new String[]{};
         try {
             parser.parseArgument(args);
-            Map map = ((Props)testObject).props;
+            Map map = testObject.props;
             assertTrue("Values illegally arrived.", map.size()==0);
         } catch (CmdLineException e) {
             fail("Call without parameters is valid!");
@@ -29,7 +29,7 @@ public class PropsTest extends Args4JTestBase {
         args = new String[]{"-Tkey1=value1"};
         try {
             parser.parseArgument(args);
-            Map map = ((Props)testObject).props;
+            Map map = testObject.props;
             assertTrue("The key was not set.", map.containsKey("key1"));
             assertEquals("More keys than expected.", map.size(), 1);
             assertEquals("Key has wrong value", map.get("key1"), "value1");
@@ -42,7 +42,7 @@ public class PropsTest extends Args4JTestBase {
         args = new String[]{"-Tkey1=value1", "-Tkey2=value2", "-Tkey3=value3"};
         try {
             parser.parseArgument(args);
-            Map map = ((Props)testObject).props;
+            Map map = testObject.props;
             assertTrue("A key was not set.", map.containsKey("key1"));
             assertTrue("A key was not set.", map.containsKey("key2"));
             assertTrue("A key was not set.", map.containsKey("key3"));
@@ -59,7 +59,7 @@ public class PropsTest extends Args4JTestBase {
         args = new String[]{"-Tkey1=value1", "-Tkey1=value1"};
         try {
             parser.parseArgument(args);
-            Map map = ((Props)testObject).props;
+            Map map = testObject.props;
             assertTrue("A key was not set.", map.containsKey("key1"));
             assertEquals("Wrong number of keys.", map.size(), 1);
             // TODO: which value is set?
@@ -71,9 +71,9 @@ public class PropsTest extends Args4JTestBase {
     public void _testInitialisation() {
         args = new String[]{"-Tkey1=value1"};
         try {
-            ((Props)testObject).props = null;
+            testObject.props = null;
             parser.parseArgument(args);
-            Map map = ((Props)testObject).props;
+            Map map = testObject.props;
             assertEquals("Key has wrong value", map.get("key1"), "value1");
         } catch (CmdLineException e) {
             // maybe a NPE?

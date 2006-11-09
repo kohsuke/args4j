@@ -1,8 +1,8 @@
 package org.kohsuke.args4j.spi;
 
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionDef;
 
 /**
  * {@link OptionHandler} for the option terminator "--".
@@ -32,16 +32,13 @@ import org.kohsuke.args4j.CmdLineException;
  * @author Kohsuke Kawaguchi
  */
 public class StopOptionHandler extends OptionHandler<String> {
-    public StopOptionHandler(CmdLineParser parser, Option option, Setter<? super String> setter) {
+    public StopOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super String> setter) {
         super(parser, option, setter);
     }
 
     public int parseArguments(Parameters params) throws CmdLineException {
-        int len = params.getParameterCount();
-        for( int i=0; i<len; i++ ) {
-            setter.addValue(params.getParameter(i));
-        }
-        return len;
+    	owner.stopOptionParsing();
+    	return 0;
     }
 
     public String getDefaultMetaVariable() {

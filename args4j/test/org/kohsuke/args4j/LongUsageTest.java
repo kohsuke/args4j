@@ -15,8 +15,8 @@ public class LongUsageTest extends Args4JTestBase<LongUsage> {
             String expectedLine2 = " -i N                                     : set an int";
             String[] usageLines = getUsageMessage();
             assertUsageLength(2);
-            assertTrue("First line wrong", expectedLine1.equals(usageLines[0]));
-            assertTrue("Second line wrong", expectedLine2.equals(usageLines[1]));
+            assertEquals("First line wrong", expectedLine1, usageLines[0]);
+            assertEquals("Second line wrong", expectedLine2, usageLines[1]);
         }
     }
    

@@ -1,8 +1,8 @@
 package org.kohsuke.args4j.spi;
 
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionDef;
 
 /**
  * {@link Enum} {@link OptionHandler}.
@@ -13,7 +13,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
 
     private final Class<T> enumType;
 
-    public EnumOptionHandler(CmdLineParser parser, Option option, Setter<? super T> setter, Class<T> enumType) {
+    public EnumOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super T> setter, Class<T> enumType) {
         super(parser, option, setter);
         this.enumType = enumType;
     }
@@ -28,7 +28,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
             }
 
         if(value==null)
-            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(params.getOptionName(),s));
+            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(option.name(),s));
         setter.addValue(value);
         return 1;
     }

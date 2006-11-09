@@ -21,4 +21,9 @@ public interface Setter<T> {
      * Gets the type of the underlying method/field.
      */
     Class<T> getType();
+    
+    /**
+     * Whether this setter is instrinsically multi-valued.
+     */
+    boolean isMultiValued();
 }

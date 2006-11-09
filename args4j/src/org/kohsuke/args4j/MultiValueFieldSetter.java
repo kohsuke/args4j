@@ -25,6 +25,10 @@ final class MultiValueFieldSetter  implements Setter {
             throw new IllegalAnnotationError(Messages.ILLEGAL_FIELD_SIGNATURE.format(f.getType()));
     }
 
+    public boolean isMultiValued() {
+    	return true;
+    }
+
     public Class getType() {
         // TODO: compute this correctly
         Type t = f.getGenericType();

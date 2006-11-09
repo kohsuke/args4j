@@ -13,7 +13,7 @@ public enum ExampleMode {
      * This would be useful only when you have small number of options.
      */
     ALL() {
-        /*package*/ boolean print(Option o) {
+        /*package*/ boolean print(OptionDef o) {
             return true;
         }
     },
@@ -22,10 +22,10 @@ public enum ExampleMode {
      * Print all {@link Option#required() required} option.
      */
     REQUIRED() {
-        /*package*/ boolean print(Option o) {
+        /*package*/ boolean print(OptionDef o) {
             return o.required();
         }
     };
 
-    /*package*/ abstract boolean print(Option o);
+    /*package*/ abstract boolean print(OptionDef o);
 }

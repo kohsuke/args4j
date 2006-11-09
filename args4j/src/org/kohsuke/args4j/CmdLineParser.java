@@ -9,6 +9,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,7 +24,6 @@ import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
-//import org.kohsuke.args4j.spi.MapOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
@@ -51,11 +51,12 @@ public class CmdLineParser {
     private final Map<String,OptionHandler> options = new TreeMap<String,OptionHandler>();
 
     /**
-     * {@link Setter} that accepts the arguments.
+     * Discovered {@link OptionHandler}s for arguments.
      */
-    private Setter<String> argumentSetter;
-
+    private final List<OptionHandler> arguments = new ArrayList<OptionHandler>();
     
+    private boolean parsingOptions = true;
+
 	/**
 	 *  The length of a usage line. 
 	 *  If the usage message is longer than this value, the parser
@@ -87,7 +88,7 @@ public class CmdLineParser {
                 }
                 Argument a = m.getAnnotation(Argument.class);
                 if(a!=null) {
-                    addArgument(new MethodSetter(bean,m));
+                    addArgument(new MethodSetter(bean,m),a);
                 }
             }
 
@@ -98,9 +99,14 @@ public class CmdLineParser {
                 }
                 Argument a = f.getAnnotation(Argument.class);
                 if(a!=null) {
-                    addArgument(createFieldSetter(f));
+                    addArgument(createFieldSetter(f),a);
                 }
             }
+        }
+        for (int i=0;i<arguments.size();++i) {
+        	if (arguments.get(i)==null) {
+                throw new IllegalAnnotationError("No argument annotation for index "+i);
+        	}
         }
     }
 
@@ -113,14 +119,21 @@ public class CmdLineParser {
             return new FieldSetter(bean,f);
     }
 
-    private void addArgument(Setter<String> setter) {
-        if(argumentSetter!=null)
-            throw new IllegalAnnotationError("@Argument is used more than once");
-        argumentSetter = setter;
+    private void addArgument(Setter setter, Argument a) {
+        OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
+    	int index = a.index();
+    	// make sure the argument will fit in the list
+    	while (index >= arguments.size()) {
+    		arguments.add(null);
+    	}
+    	if(arguments.get(index)!=null) {
+            throw new IllegalAnnotationError("Argument with index "+index+" is used more than once");
+        }
+    	arguments.set(index,h);
     }
 
     private void addOption(Setter setter, Option o) {
-        OptionHandler h = createOptionHandler(o,setter);
+        OptionHandler h = createOptionHandler(new OptionDef(o,setter.isMultiValued()),setter);
         if(options.put(h.option.name(),h)!=null) {
             throw new IllegalAnnotationError("Option name "+h.option.name()+" is used more than once");
         }
@@ -130,7 +143,7 @@ public class CmdLineParser {
      * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
      * and the {@link Setter} instance.
      */
-    protected OptionHandler createOptionHandler(Option o, Setter setter) {
+    protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
 
         Constructor<? extends OptionHandler> handlerType;
         Class<? extends OptionHandler> h = o.handler();
@@ -205,7 +218,7 @@ public class CmdLineParser {
         StringBuilder buf = new StringBuilder();
 
         for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
-            Option option = e.getValue().option;
+            OptionDef option = e.getValue().option;
             if(option.usage().length()==0)  continue;   // ignore
             if(!mode.print(option))         continue;
 
@@ -242,62 +255,84 @@ public class CmdLineParser {
         PrintWriter w = new PrintWriter(out);
         // determine the length of the option + metavar first
         int len = 0;
-        for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
-            String usage = e.getValue().option.usage();
-            if(usage.length()==0)   continue;   // ignore
-
-            String metaVar = e.getValue().getMetaVariable(rb);
-            int metaLen = (metaVar!=null?metaVar.length()+1:0);
-            len = Math.max(len,e.getKey().length()+metaLen);
+        for (OptionHandler h : arguments) {
+            int curLen = getPrefixLen(h, rb);
+            len = Math.max(len,curLen);
+        }
+        for (OptionHandler h: options.values()) {
+            int curLen = getPrefixLen(h, rb);
+            len = Math.max(len,curLen);
         }
 
-        int descriptionWidth = usageWidth-len-4;    // 3 for " : " + 1 for left-most SP
-
         // then print
-        for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
-            String usage = e.getValue().option.usage();
-            if(usage.length()==0)   continue;   // ignore
-
-            String option = e.getKey();
-            int headLen = option.length();
-            w.print(' ');
-            w.print(option);
-
-            String metaVar = e.getValue().getMetaVariable(rb);
-            if(metaVar!=null) {
-                w.print(' ');
-                w.print(metaVar);
-                headLen += metaVar.length()+1;
-            }
-            for( ; headLen<len; headLen++ )
-                w.print(' ');
-            w.print(" : ");
-
-            if(rb!=null)
-                usage = rb.getString(usage);
-
-            while(usage!=null && usage.length()>0) {
-                int idx = usage.indexOf('\n');
-                if(idx>=0 && idx<=descriptionWidth) {
-                    w.println(usage.substring(0,idx));
-                    usage = usage.substring(idx+1);
-                    if(usage.length()>0)
-                        indent(w,len+4);
-                    continue;
-                }
-                if(usage.length()<=descriptionWidth) {
-                    w.println(usage);
-                    break;
-                }
-
-                w.println(usage.substring(0,descriptionWidth));
-                usage = usage.substring(descriptionWidth);
-                indent(w,len+4);
-            }
+        for (OptionHandler h : arguments) {
+        	printOption(w, h, len, rb);
+        }
+        for (OptionHandler h : options.values()) {
+        	printOption(w, h, len, rb);
         }
 
         w.flush();
     }
+    
+    private void printOption(PrintWriter w, OptionHandler h, int len, ResourceBundle rb) {
+        int descriptionWidth = usageWidth-len-4;    // 3 for " : " + 1 for left-most SP
+
+        String usage = h.option.usage();
+        if(usage.length()==0)   return;   // ignore
+
+        int headLen = h.option.name().length();
+        w.print(' ');
+       	w.print(h.option.name());
+
+        String metaVar = h.getMetaVariable(rb);
+        if(metaVar!=null) {
+        	if (h.option.name().length() != 0)
+        		w.print(' ');
+            w.print(metaVar);
+            headLen += metaVar.length()+1;
+        }
+        for( ; headLen<len; headLen++ )
+            w.print(' ');
+        w.print(" : ");
+
+        if(rb!=null)
+            usage = rb.getString(usage);
+
+        while(usage!=null && usage.length()>0) {
+            int idx = usage.indexOf('\n');
+            if(idx>=0 && idx<=descriptionWidth) {
+                w.println(usage.substring(0,idx));
+                usage = usage.substring(idx+1);
+                if(usage.length()>0)
+                    indent(w,len+4);
+                continue;
+            }
+            if(usage.length()<=descriptionWidth) {
+                w.println(usage);
+                break;
+            }
+
+            w.println(usage.substring(0,descriptionWidth));
+            usage = usage.substring(descriptionWidth);
+            indent(w,len+4);
+        }
+    }
+
+	private int getPrefixLen(OptionHandler h, ResourceBundle rb) {
+		if(h.option.usage().length()==0)
+			return 0;
+         
+		String name = h.option.name();
+		int curLen = 0;	
+		String metaVar = h.getMetaVariable(rb);
+		if (metaVar != null)
+			curLen += metaVar.length();
+		curLen += name.length();
+		if (metaVar != null)
+			curLen++;
+		return curLen;
+	}
 
     private void indent(PrintWriter w, int i) {
         for( ; i>0; i-- )
@@ -336,13 +371,11 @@ public class CmdLineParser {
         }
 
         public String getParameter(int idx) throws CmdLineException {
-            if( pos+idx+1>=args.length )
+        	boolean isOption = isOption(getOptionName());
+            int posIdx = pos+idx+(isOption ? 1 : 0);
+			if( posIdx>=args.length )
                 throw new CmdLineException(Messages.MISSING_OPERAND.format(getOptionName()));
-            return args[pos+idx+1];
-        }
-
-        public int getParameterCount() {
-            return args.length-(pos+1);
+            return args[posIdx];
         }
     }
 
@@ -358,6 +391,8 @@ public class CmdLineParser {
         CmdLineImpl cmdLine = new CmdLineImpl(args);
 
         Set<OptionHandler> present = new HashSet<OptionHandler>();
+        Set<OptionHandler> argsPresent = new HashSet<OptionHandler>();
+        int argIndex = 0;
 
         while( cmdLine.hasMore() ) {
             String arg = cmdLine.getOptionName();
@@ -367,23 +402,28 @@ public class CmdLineParser {
                                       ? options.get(arg)         // normal option
                                       : findOptionHandler(arg);  // key=value pair
                 
-                if(handler!=null) {
-                    // known option
-                    int diff = handler.parseArguments(cmdLine);
-                    cmdLine.proceed(diff+1);
-                    present.add(handler);
-                    continue;
+                if(handler==null) {
+                    // TODO: insert dynamic handler processing
+
+                    throw new CmdLineException(Messages.UNDEFINED_OPTION.format(arg));
                 }
 
-                // TODO: insert dynamic handler processing
-
-                throw new CmdLineException(Messages.UNDEFINED_OPTION.format(arg));
+                // known option
+                int diff = handler.parseArguments(cmdLine);
+                cmdLine.proceed(diff+1);
+                present.add(handler);
             } else {
-                // parse this as arguments
-                if(argumentSetter==null)
-                    throw new CmdLineException(Messages.NO_ARGUMENT_ALLOWED.format(arg));
-                argumentSetter.addValue(arg);
-                cmdLine.proceed(1);
+            	if (argIndex >= arguments.size()) {
+            		Messages msg = arguments.size() == 0 ? Messages.NO_ARGUMENT_ALLOWED : Messages.TOO_MANY_ARGUMENTS;
+                    throw new CmdLineException(msg.format(arg));
+            	}
+                // known option
+            	OptionHandler handler = arguments.get(argIndex); 
+            	int diff = handler.parseArguments(cmdLine);
+            	cmdLine.proceed(diff);
+            	argsPresent.add(handler);
+            	if (!handler.option.isMultiValued())
+            		argIndex++;
             }
         }
 
@@ -391,8 +431,12 @@ public class CmdLineParser {
         for (OptionHandler handler : options.values())
             if(handler.option.required() && !present.contains(handler))
                 throw new CmdLineException(Messages.REQUIRED_OPTION_MISSING.format(handler.option.name()));
-    }
 
+        // make sure that all mandatory arguments are present
+        for (OptionHandler handler : arguments)
+            if(handler.option.required() && !argsPresent.contains(handler))
+                throw new CmdLineException(Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.metaVar()));
+    }
     
 	private OptionHandler findOptionHandler(String name) {
 		OptionHandler handler = options.get(name);
@@ -424,7 +468,7 @@ public class CmdLineParser {
      * (as opposed to an argument.)
      */
     protected boolean isOption(String arg) {
-        return arg.startsWith("-");
+        return parsingOptions && arg.startsWith("-");
     }
 
 
@@ -462,7 +506,7 @@ public class CmdLineParser {
 
     private static Constructor<? extends OptionHandler> getConstructor(Class<? extends OptionHandler> handlerClass) {
         try {
-            return handlerClass.getConstructor(CmdLineParser.class, Option.class, Setter.class);
+            return handlerClass.getConstructor(CmdLineParser.class, OptionDef.class, Setter.class);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException(handlerClass+" does not have the proper constructor");
         }
@@ -484,4 +528,55 @@ public class CmdLineParser {
 	public void setUsageWidth(int usageWidth) {
 		this.usageWidth = usageWidth;
 	}
+	
+	public void stopOptionParsing() {
+		parsingOptions = false;
+	}
+
+    /**
+     * Prints a single-line usage to the screen.
+     *
+     * <p>
+     * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
+     * so that you can do {@code printUsage(System.err)}.
+     */
+	public void printSingleLineUsage(OutputStream out) {
+		printSingleLineUsage(new OutputStreamWriter(out),null);
+	}
+	
+    /**
+     * Prints a single-line usage to the screen.
+     *
+     * @param rb
+     *      if this is non-null, {@link Option#usage()} is treated
+     *      as a key to obtain the actual message from this resource bundle.
+     */
+	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
+		PrintWriter pw = new PrintWriter(w);
+		for (OptionHandler h : arguments) {
+			printSingleLineOption(pw, h, rb);
+		}
+		for (OptionHandler h : options.values()) {
+			printSingleLineOption(pw, h, rb);
+		}
+		pw.flush();
+	}
+
+	private void printSingleLineOption(PrintWriter pw, OptionHandler h, ResourceBundle rb) {
+		String metaVar = h.getMetaVariable(rb);
+		pw.print(' ');
+		if (!h.option.required())
+			pw.print('[');
+		pw.print(h.option.name());
+		if (metaVar != null) {
+			if (h.option.name().length() > 0)
+				pw.print(' ');
+			pw.print(metaVar);
+		}
+		if (h.option.isMultiValued()) {
+			pw.print(" ...");
+		}
+		if (!h.option.required())
+			pw.print(']');
+	} 
 }

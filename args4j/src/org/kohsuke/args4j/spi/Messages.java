@@ -7,7 +7,8 @@ import java.util.ResourceBundle;
  * @author Kohsuke Kawaguchi
  */
 enum Messages {
-    ILLEGAL_OPERAND
+    ILLEGAL_OPERAND,
+    ILLEGAL_BOOLEAN
     ;
 
     private static ResourceBundle rb;

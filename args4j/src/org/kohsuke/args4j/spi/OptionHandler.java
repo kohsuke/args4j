@@ -1,10 +1,10 @@
 package org.kohsuke.args4j.spi;
 
+import java.util.ResourceBundle;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.Option;
-
-import java.util.ResourceBundle;
+import org.kohsuke.args4j.OptionDef;
 
 
 /**
@@ -26,7 +26,7 @@ public abstract class OptionHandler<T> {
     /**
      * The annotation.
      */
-    public final Option option;
+    public final OptionDef option;
     /**
      * Object to be used for setting value.
      */
@@ -36,7 +36,7 @@ public abstract class OptionHandler<T> {
      */
     public final CmdLineParser owner;
 
-    protected OptionHandler(CmdLineParser parser, Option option, Setter<? super T> setter) {
+    protected OptionHandler(CmdLineParser parser, OptionDef option, Setter<? super T> setter) {
         this.owner = parser;
         this.option = option;
         this.setter = setter;
