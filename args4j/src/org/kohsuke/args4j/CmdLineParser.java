@@ -344,7 +344,7 @@ public class CmdLineParser {
      * Essentially a pointer over a {@link String} array.
      * Can move forward, can look ahead.
      */
-    private class CmdLineImpl extends Parameters {
+    private class CmdLineImpl implements Parameters {
         private final String[] args;
         private int pos;
 
@@ -353,11 +353,11 @@ public class CmdLineParser {
             pos = 0;
         }
 
-        private boolean hasMore() {
+        protected boolean hasMore() {
             return pos<args.length;
         }
 
-        private String getCurrentToken() {
+        protected String getCurrentToken() {
             return args[pos];
         }
 
@@ -365,19 +365,14 @@ public class CmdLineParser {
             pos += n;
         }
 
-
-        @Override
-        public String getOptionName() {
-            return getCurrentToken();
+        private String getOptionName() {
+            return args[pos-1];
         }
 
-        @Override
         public String getParameter(int idx) throws CmdLineException {
-        	boolean isOption = isOption(getOptionName());
-            int posIdx = pos+idx+(isOption ? 1 : 0);
-			if( posIdx>=args.length )
+			if( pos+idx>=args.length )
                 throw new CmdLineException(Messages.MISSING_OPERAND.format(getOptionName()));
-            return args[posIdx];
+            return args[pos+idx];
         }
     }
 
@@ -395,40 +390,38 @@ public class CmdLineParser {
         CmdLineImpl cmdLine = new CmdLineImpl(args);
 
         Set<OptionHandler> present = new HashSet<OptionHandler>();
-        Set<OptionHandler> argsPresent = new HashSet<OptionHandler>();
         int argIndex = 0;
 
         while( cmdLine.hasMore() ) {
-            String arg = cmdLine.getOptionName();
+            String arg = cmdLine.getCurrentToken();
+            OptionHandler handler = null;
             if( isOption(arg) ) {
                 // parse this as an option.
-                OptionHandler handler = (arg.indexOf('=')==-1) 
+                handler = (arg.indexOf('=')==-1) 
                                       ? options.get(arg)         // normal option
                                       : findOptionHandler(arg);  // key=value pair
                 
                 if(handler==null) {
                     // TODO: insert dynamic handler processing
-
                     throw new CmdLineException(Messages.UNDEFINED_OPTION.format(arg));
                 }
 
-                // known option
-                int diff = handler.parseArguments(cmdLine);
-                cmdLine.proceed(diff+1);
-                present.add(handler);
+                // known option; skip its name
+                cmdLine.proceed(1);
             } else {
             	if (argIndex >= arguments.size()) {
             		Messages msg = arguments.size() == 0 ? Messages.NO_ARGUMENT_ALLOWED : Messages.TOO_MANY_ARGUMENTS;
                     throw new CmdLineException(msg.format(arg));
             	}
-                // known option
-            	OptionHandler handler = arguments.get(argIndex); 
-            	int diff = handler.parseArguments(cmdLine);
-            	cmdLine.proceed(diff);
-            	argsPresent.add(handler);
+
+            	// known argument
+            	handler = arguments.get(argIndex); 
             	if (!handler.option.isMultiValued())
             		argIndex++;
             }
+        	int diff = handler.parseArguments(cmdLine);
+        	cmdLine.proceed(diff);
+        	present.add(handler);
         }
 
         // make sure that all mandatory options are present
@@ -438,7 +431,7 @@ public class CmdLineParser {
 
         // make sure that all mandatory arguments are present
         for (OptionHandler handler : arguments)
-            if(handler.option.required() && !argsPresent.contains(handler))
+            if(handler.option.required() && !present.contains(handler))
                 throw new CmdLineException(Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.metaVar()));
     }
     

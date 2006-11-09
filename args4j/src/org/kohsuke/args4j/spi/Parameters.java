@@ -10,15 +10,7 @@ import org.kohsuke.args4j.CmdLineException;
  * {@link OptionHandler}s to make it easy/safe to parse
  * additional parameters for options.
  */
-public abstract class Parameters  {
-
-    /**
-     * Returns the option name for which the current {@link OptionHandler} is invoked.
-     *
-     * @return always non-null.
-     */
-    public abstract String getOptionName();
-
+public interface Parameters  {
     /**
      * Gets the additional parameter to this option.
      *
@@ -33,5 +25,5 @@ public abstract class Parameters  {
      *      made to access a non-existent index, this method throws
      *      appropriate {@link org.kohsuke.args4j.CmdLineException}.
      */
-    public abstract String getParameter(int idx) throws CmdLineException;
+    public String getParameter(int idx) throws CmdLineException;
 }
