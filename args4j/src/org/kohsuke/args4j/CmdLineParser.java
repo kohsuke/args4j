@@ -11,6 +11,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -46,9 +47,9 @@ public class CmdLineParser {
     private final Object bean;
 
     /**
-     * Discovered {@link OptionHandler}s keyed by their option names.
+     * Discovered {@link OptionHandler}s for options.
      */
-    private final Map<String,OptionHandler> options = new TreeMap<String,OptionHandler>();
+    private final List<OptionHandler> options = new ArrayList<OptionHandler>();
 
     /**
      * Discovered {@link OptionHandler}s for arguments.
@@ -109,6 +110,13 @@ public class CmdLineParser {
                 throw new IllegalAnnotationError("No argument annotation for index "+i);
         	}
         }
+
+        // for display purposes, we like the arguments in argument order, but the options in alphabetical order
+        Collections.sort(options, new Comparator<OptionHandler>() {
+			public int compare(OptionHandler o1, OptionHandler o2) {
+				return o1.option.toString().compareTo(o2.option.toString());
+			} 
+		});
     }
 
     private Setter createFieldSetter(Field f) {
@@ -135,10 +143,18 @@ public class CmdLineParser {
 
     private void addOption(Setter setter, Option o) {
         OptionHandler h = createOptionHandler(new NamedOptionDef(o,setter.isMultiValued()),setter);
-        if(options.put(o.name(),h)!=null) {
-            throw new IllegalAnnotationError("Option name "+o.name()+" is used more than once");
+        checkOptionNotInMap(o.name());
+        for (String alias : o.aliases()) {
+        	checkOptionNotInMap(alias);
         }
+        options.add(h);
     }
+
+	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
+		if(findOptionByName(name)!=null) {
+            throw new IllegalAnnotationError("Option name "+name+" is used more than once");
+        }
+	}
 
     /**
      * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
@@ -218,18 +234,13 @@ public class CmdLineParser {
     public String printExample(ExampleMode mode,ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
 
-        for (Map.Entry<String, OptionHandler> e : options.entrySet()) {
-            OptionDef option = e.getValue().option;
+        for (OptionHandler h : options) {
+            OptionDef option = h.option;
             if(option.usage().length()==0)  continue;   // ignore
             if(!mode.print(option))         continue;
 
             buf.append(' ');
-            buf.append(e.getKey());
-
-            String metaVar = e.getValue().getMetaVariable(rb);
-            if(metaVar!=null) {
-                buf.append(' ').append(metaVar);
-            }
+            buf.append(h.getNameAndMeta(rb));
         }
 
         return buf.toString();
@@ -260,7 +271,7 @@ public class CmdLineParser {
             int curLen = getPrefixLen(h, rb);
             len = Math.max(len,curLen);
         }
-        for (OptionHandler h: options.values()) {
+        for (OptionHandler h: options) {
             int curLen = getPrefixLen(h, rb);
             len = Math.max(len,curLen);
         }
@@ -269,7 +280,7 @@ public class CmdLineParser {
         for (OptionHandler h : arguments) {
         	printOption(w, h, len, rb);
         }
-        for (OptionHandler h : options.values()) {
+        for (OptionHandler h : options) {
         	printOption(w, h, len, rb);
         }
 
@@ -381,10 +392,9 @@ public class CmdLineParser {
         while( cmdLine.hasMore() ) {
             String arg = cmdLine.getCurrentToken();
             if( isOption(arg) ) {
+            	boolean isKeyValuePair = arg.indexOf('=')!=-1; 
                 // parse this as an option.
-                currentOptionHandler = (arg.indexOf('=')==-1) 
-                                      ? options.get(arg)         // normal option
-                                      : findOptionHandler(arg);  // key=value pair
+                currentOptionHandler = isKeyValuePair ? findOptionHandler(arg) : findOptionByName(arg);
                 
                 if(currentOptionHandler==null) {
                     // TODO: insert dynamic handler processing
@@ -410,7 +420,7 @@ public class CmdLineParser {
         }
 
         // make sure that all mandatory options are present
-        for (OptionHandler handler : options.values())
+        for (OptionHandler handler : options)
             if(handler.option.required() && !present.contains(handler))
                 throw new CmdLineException(Messages.REQUIRED_OPTION_MISSING.format(handler.option.toString()));
 
@@ -421,7 +431,7 @@ public class CmdLineParser {
     }
     
 	private OptionHandler findOptionHandler(String name) {
-		OptionHandler handler = options.get(name);
+		OptionHandler handler = findOptionByName(name);
 		if (handler==null) {
 			// Have not found by its name, maybe its a property?
 			// Search for parts of the name (=prefix) - most specific first 
@@ -435,11 +445,26 @@ public class CmdLineParser {
 		return handler;
 	}
 	
+	private OptionHandler findOptionByName(String name) {
+		for (OptionHandler h : options) {
+			NamedOptionDef option = (NamedOptionDef)h.option;
+			if (name.equals(option.name())) {
+				return h;
+			}
+			for (String alias : option.aliases()) {
+				if (name.equals(alias)) {
+					return h;
+				}
+			}
+		}
+		return null;
+	}
 	
-	private Map<String,OptionHandler> filter(Map<String,OptionHandler> map, String keyFilter) {
+	
+	private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
 		Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
-		for (String key : map.keySet()) {
-			if (key.startsWith(keyFilter)) rv.put(key, map.get(key));
+		for (OptionHandler h : opt) {
+			if (opt.toString().startsWith(keyFilter)) rv.put(opt.toString(), h);
 		}
 		return rv;
 	}
@@ -538,7 +563,7 @@ public class CmdLineParser {
 		for (OptionHandler h : arguments) {
 			printSingleLineOption(pw, h, rb);
 		}
-		for (OptionHandler h : options.values()) {
+		for (OptionHandler h : options) {
 			printSingleLineOption(pw, h, rb);
 		}
 		pw.flush();

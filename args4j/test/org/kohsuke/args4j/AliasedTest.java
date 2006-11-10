@@ -21,4 +21,10 @@ public class AliasedTest extends Args4JTestBase<Aliased> {
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
     }
+
+    public void testAlias() throws Exception {
+        args = new String[]{"--long-str", "something"};
+        parser.parseArgument(args);
+        assertEquals("something", testObject.str);
+    }
 }

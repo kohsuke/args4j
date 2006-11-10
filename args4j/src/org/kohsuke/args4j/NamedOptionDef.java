@@ -18,6 +18,10 @@ public final class NamedOptionDef extends OptionDef {
     	return name;
     }
     
+    public String[] aliases() {
+    	return aliases;
+    }
+    
     @Override
     public String toString() {
     	if (aliases.length > 0) {
