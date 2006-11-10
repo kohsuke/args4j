@@ -56,7 +56,7 @@ public class SetterTest extends Args4JTestBase<Setter> {
             String[] usageLines = getUsageMessage();
             String errorMessage = e.getMessage();
             assertUsageLength(1);
-            assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
+            assertTrue("Got wrong error message: " + errorMessage, errorMessage.startsWith(expectedError));
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
     }

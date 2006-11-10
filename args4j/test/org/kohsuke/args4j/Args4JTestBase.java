@@ -44,7 +44,7 @@ public abstract class Args4JTestBase<T> extends TestCase {
      * @see Args4JTestBase#getUsageMessage()
      */
     public void assertUsageLength(int expectedLength) {
-        assertEquals("Wrong amount of lines in usage message", getUsageMessage().length, expectedLength);
+        assertEquals("Wrong amount of lines in usage message", expectedLength, getUsageMessage().length);
     }
 
     /**

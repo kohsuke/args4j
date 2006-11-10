@@ -71,6 +71,11 @@ public @interface Option {
      * Name of the option, such as "-foo" or "-bar".
      */
     String name();
+    
+    /**
+     * Aliases for the options, such as "--long-option-name".
+     */
+    String[] aliases() default { };
 
     /**
      * Help string used to display the usage screen.

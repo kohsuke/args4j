@@ -2,9 +2,10 @@ package org.kohsuke.args4j.spi;
 
 import java.util.ResourceBundle;
 
+import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.NamedOptionDef;
 
 
 /**
@@ -77,5 +78,17 @@ public abstract class OptionHandler<T> {
         }
 
         return token;
+    }
+    
+    public final String getNameAndMeta(ResourceBundle rb) {
+    	String str = option.isArgument() ? "" : option.toString(); 
+    	String meta = getMetaVariable(rb);
+    	if (meta != null) {
+    		if (str.length() > 0) {
+    			str += " ";
+    		}
+    		str += meta;
+    	}
+    	return str;
     }
 }

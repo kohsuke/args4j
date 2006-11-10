@@ -56,6 +56,7 @@ public class CmdLineParser {
     private final List<OptionHandler> arguments = new ArrayList<OptionHandler>();
     
     private boolean parsingOptions = true;
+    private OptionHandler currentOptionHandler = null;
 
 	/**
 	 *  The length of a usage line. 
@@ -133,9 +134,9 @@ public class CmdLineParser {
     }
 
     private void addOption(Setter setter, Option o) {
-        OptionHandler h = createOptionHandler(new OptionDef(o,setter.isMultiValued()),setter);
-        if(options.put(h.option.name(),h)!=null) {
-            throw new IllegalAnnotationError("Option name "+h.option.name()+" is used more than once");
+        OptionHandler h = createOptionHandler(new NamedOptionDef(o,setter.isMultiValued()),setter);
+        if(options.put(o.name(),h)!=null) {
+            throw new IllegalAnnotationError("Option name "+o.name()+" is used more than once");
         }
     }
 
@@ -281,19 +282,12 @@ public class CmdLineParser {
         String usage = h.option.usage();
         if(usage.length()==0)   return;   // ignore
 
-        int headLen = h.option.name().length();
+        String nameAndMeta = h.getNameAndMeta(rb);
         w.print(' ');
-       	w.print(h.option.name());
-
-        String metaVar = h.getMetaVariable(rb);
-        if(metaVar!=null) {
-        	if (h.option.name().length() != 0)
-        		w.print(' ');
-            w.print(metaVar);
-            headLen += metaVar.length()+1;
-        }
-        for( ; headLen<len; headLen++ )
+       	w.print(nameAndMeta);
+       	for (int i = nameAndMeta.length(); i < len; ++i) {
             w.print(' ');
+       	}
         w.print(" : ");
 
         if(rb!=null)
@@ -323,15 +317,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
          
-		String name = h.option.name();
-		int curLen = 0;	
-		String metaVar = h.getMetaVariable(rb);
-		if (metaVar != null)
-			curLen += metaVar.length();
-		curLen += name.length();
-		if (metaVar != null)
-			curLen++;
-		return curLen;
+		return h.getNameAndMeta(rb).length();
 	}
 
     private void indent(PrintWriter w, int i) {
@@ -365,15 +351,15 @@ public class CmdLineParser {
             pos += n;
         }
 
-        private String getOptionName() {
-            return args[pos-1];
-        }
-
         public String getParameter(int idx) throws CmdLineException {
 			if( pos+idx>=args.length )
                 throw new CmdLineException(Messages.MISSING_OPERAND.format(getOptionName()));
             return args[pos+idx];
         }
+    }
+
+    private String getOptionName() {
+        return currentOptionHandler.option.toString();
     }
 
     /**
@@ -394,14 +380,13 @@ public class CmdLineParser {
 
         while( cmdLine.hasMore() ) {
             String arg = cmdLine.getCurrentToken();
-            OptionHandler handler = null;
             if( isOption(arg) ) {
                 // parse this as an option.
-                handler = (arg.indexOf('=')==-1) 
+                currentOptionHandler = (arg.indexOf('=')==-1) 
                                       ? options.get(arg)         // normal option
                                       : findOptionHandler(arg);  // key=value pair
                 
-                if(handler==null) {
+                if(currentOptionHandler==null) {
                     // TODO: insert dynamic handler processing
                     throw new CmdLineException(Messages.UNDEFINED_OPTION.format(arg));
                 }
@@ -415,24 +400,24 @@ public class CmdLineParser {
             	}
 
             	// known argument
-            	handler = arguments.get(argIndex); 
-            	if (!handler.option.isMultiValued())
+            	currentOptionHandler = arguments.get(argIndex); 
+            	if (!currentOptionHandler.option.isMultiValued())
             		argIndex++;
             }
-        	int diff = handler.parseArguments(cmdLine);
+        	int diff = currentOptionHandler.parseArguments(cmdLine);
         	cmdLine.proceed(diff);
-        	present.add(handler);
+        	present.add(currentOptionHandler);
         }
 
         // make sure that all mandatory options are present
         for (OptionHandler handler : options.values())
             if(handler.option.required() && !present.contains(handler))
-                throw new CmdLineException(Messages.REQUIRED_OPTION_MISSING.format(handler.option.name()));
+                throw new CmdLineException(Messages.REQUIRED_OPTION_MISSING.format(handler.option.toString()));
 
         // make sure that all mandatory arguments are present
         for (OptionHandler handler : arguments)
             if(handler.option.required() && !present.contains(handler))
-                throw new CmdLineException(Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.metaVar()));
+                throw new CmdLineException(Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
     }
     
 	private OptionHandler findOptionHandler(String name) {
@@ -489,7 +474,7 @@ public class CmdLineParser {
      *      is of this type.
      * @param handlerClass
      *      This class must have the constructor that has the same signature as
-     *      {@link OptionHandler#OptionHandler(CmdLineParser, OptionDef, Setter)}.
+     *      {@link OptionHandler#OptionHandler(CmdLineParser, NamedOptionDef, Setter)}.
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
         if(valueType==null || handlerClass==null)
@@ -560,16 +545,10 @@ public class CmdLineParser {
 	}
 
 	private void printSingleLineOption(PrintWriter pw, OptionHandler h, ResourceBundle rb) {
-		String metaVar = h.getMetaVariable(rb);
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.option.name());
-		if (metaVar != null) {
-			if (h.option.name().length() > 0)
-				pw.print(' ');
-			pw.print(metaVar);
-		}
+		pw.print(h.getNameAndMeta(rb));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}

@@ -1,8 +1,8 @@
 package org.kohsuke.args4j.spi;
 
+import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionDef;
 
 /**
  * {@link Double} {@link OptionHandler}.
@@ -22,7 +22,7 @@ public class DoubleOptionHandler extends OptionHandler<Double> {
             setter.addValue(value);
         }
         catch (NumberFormatException ex) {
-            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(option.name(),token));
+            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(option.toString(),token));
         }
         return 1;
     }

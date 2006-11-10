@@ -19,13 +19,11 @@ public class ExampleTest extends TestCase {
 
     public void test1() {
         String s = new CmdLineParser(this).printExample(ExampleMode.ALL);
-        System.out.println("["+s +"]");
         assertEquals(" -a N -b <output>",s);
     }
 
     public void test2() {
         String s = new CmdLineParser(this).printExample(ExampleMode.REQUIRED);
-        System.out.println("["+s +"]");
         assertEquals(" -a N",s);
     }
 }

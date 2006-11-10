@@ -1,8 +1,8 @@
 package org.kohsuke.args4j.spi;
 
+import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionDef;
 
 /**
  * {@link Integer} {@link OptionHandler}.
@@ -21,7 +21,7 @@ public class IntOptionHandler extends OptionHandler<Integer> {
 			int value = Integer.parseInt(token);
 			setter.addValue(value);
 		} catch (NumberFormatException e) {
-			throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(option.name(), token));
+			throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(option.toString(), token));
 		}
 		return 1;
 	}
