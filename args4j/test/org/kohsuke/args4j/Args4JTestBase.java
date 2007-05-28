@@ -46,6 +46,24 @@ public abstract class Args4JTestBase<T> extends TestCase {
     public void assertUsageLength(int expectedLength) {
         assertEquals("Wrong amount of lines in usage message", expectedLength, getUsageMessage().length);
     }
+    
+    /**
+     * Asserts that a given text is part of the usage message.
+     * @param message Error message if the text is not found.
+     * @param containingText Text to search for.
+     */
+    public void assertUsageContains(String message, String containingText) {
+    	boolean contains = false;
+    	for (String line : getUsageMessage()) {
+    		if (line.contains(containingText)) {
+    			contains = true;
+    			break;
+    		}
+    	}
+    	if (!contains) {
+    		throw new AssertionError(message);
+    	}
+    }
 
     /**
      * Extracts the usage message from the parser as String array.

@@ -1,5 +1,6 @@
 package org.kohsuke.args4j;
 
+
 public class SimpleStringTest extends Args4JTestBase<SimpleString> {
 
     @Override
@@ -59,6 +60,23 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
             assertTrue("Got wrong error message: " + errorMessage, errorMessage.startsWith(expectedError));
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
+    }
+    
+    /*
+     * Bug 5: Option without "usage" are hidden.
+     * TODO: it seems that this is intended:
+     *   http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html
+     *   An @option without "usage" should not be displayed?
+     *   If there is no usage information, the CmdLineParser.printOption()
+     *   methods do explitely nothing. 
+     */
+    public void _testUsage() {
+        args = new String[]{"-wrong"};
+        try {
+			parser.parseArgument(args);
+		} catch (CmdLineException e) {
+			assertUsageContains("Usage does not contain -nu option", "-nu");
+		}
     }
 
 }

@@ -6,7 +6,9 @@ package org.kohsuke.args4j;
  * @author Kohsuke Kawaguchi
  */
 public class CmdLineException extends Exception {
-    public CmdLineException(String message) {
+	private static final long serialVersionUID = -8574071211991372980L;
+
+	public CmdLineException(String message) {
         super(message);
     }
 

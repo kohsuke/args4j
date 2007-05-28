@@ -11,7 +11,9 @@ package org.kohsuke.args4j;
  * @author Kohsuke Kawaguchi
  */
 public class IllegalAnnotationError extends Error {
-    public IllegalAnnotationError(String message) {
+	private static final long serialVersionUID = 2397757838147693218L;
+
+	public IllegalAnnotationError(String message) {
         super(message);
     }
 
