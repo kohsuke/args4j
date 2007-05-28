@@ -5,6 +5,12 @@
     <author email="jhm@apache.org">Jan Materne</author>
   </properties>
   <body>
+  	<release version="2.0.8" date="2007-05-28" description="Bug-Fixes and Clean-up">
+  	  <!-- 
+      <action dev="jhm" type="fix" issue="5">Option without "usage" are hidden.</action>
+      -->
+      <action dev="jhm" type="fix" issue="4">Better usage output for Java5 enums.</action>
+  	</release>
     <release version="2.0.7" date="2006-08-15" description="fixed a packaging problem">
       <action dev="kohsuke" type="fix">Fixed a packaging error where APT service entry was in args4j.jar</action>
     </release>

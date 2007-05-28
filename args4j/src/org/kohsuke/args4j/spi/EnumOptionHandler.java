@@ -1,8 +1,8 @@
 package org.kohsuke.args4j.spi;
 
-import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionDef;
 
 /**
  * {@link Enum} {@link OptionHandler}.
@@ -34,11 +34,20 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
         return 1;
     }
 
+    /* 
+     * Returns all values of an enum type split by pipe.
+     * <tt>[ one | two | three]</tt>
+     * @see org.kohsuke.args4j.spi.OptionHandler#getDefaultMetaVariable()
+     */
     @Override
     public String getDefaultMetaVariable() {
-        String n = enumType.getName();
-        int idx = n.lastIndexOf('.');
-        if(idx>=0)  n = n.substring(idx+1);
-        return n.toUpperCase();
+    	StringBuffer rv = new StringBuffer();
+    	rv.append("[");
+    	for (T t : enumType.getEnumConstants()) {
+			rv.append(t).append(" | ");
+		}
+    	rv.delete(rv.length()-3, rv.length());
+    	rv.append("]");
+    	return rv.toString();
     }
 }
