@@ -57,5 +57,10 @@
       <id>jhm</id>
       <email>jhm@apache.org</email>
     </developer>
+    <developer>
+      <name>Mark Sinke</name>
+      <id>marksinke</id>
+      <email>marksinke@dev.java.net</email>
+    </developer>
   </developers>
 </project>
