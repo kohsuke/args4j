@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>args4j</groupId>
+  <artifactId>args4j-site</artifactId>
+  <name>args4j</name>
+  <version>2.0.8-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <description>args4j : Java command line arguments parser</description>
+  <url>http://args4j.dev.java.net/</url>
+  <issueManagement>
+    <url>https://args4j.dev.java.net/issues</url>
+  </issueManagement>
+  <inceptionYear>2003</inceptionYear>
+  
+  <ciManagement>
+    <notifiers>
+      <notifier>
+        <configuration>
+          <address>kk@kohsuke.org</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>  <mailingLists>
+    <mailingList>
+      <name>discussion list</name>
+      <subscribe>users-subscribe@args4j.dev.java.net</subscribe>
+      <unsubscribe>users-ubsubscribe@args4j.dev.java.net</unsubscribe>
+      <archive>https://args4j.dev.java.net/servlets/SummarizeList?listName=users</archive>
+    </mailingList>
+  </mailingLists>
+  <developers>
+    <developer>
+      <id>kohsuke</id>
+      <name>Kohsuke Kawaguchi</name>
+      <email>kk@kohsuke.org</email>
+      <organization>Sun Microsystems</organization>
+    </developer>
+    <developer>
+      <id>jhm</id>
+      <name>Jan Materne</name>
+      <email>jhm@apache.org</email>
+    </developer>
+    <developer>
+      <id>marksinke</id>
+      <name>Mark Sinke</name>
+      <email>marksinke@dev.java.net</email>
+    </developer>
+  </developers>
+  <scm>
+    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvsroot:args4j</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvsroot:args4j</developerConnection>
+    <url>https://args4j.dev.java.net/source/browse/args4j/</url>
+  </scm>
+  <organization>
+    <name>Kohsuke Kawaguchi</name>
+    <url>http://www.kohsuke.org/</url>
+  </organization>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <configuration>
+          <links>http://java.sun.com/j2se/5.0/docs/api/</links>
+          <locale>en_US</locale>
+          <show>public</show>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <artifactId>maven-changes-plugin</artifactId>
+        <configuration>
+          <issueLinkTemplate>https://args4j.dev.java.net/issues/show_bug.cgi?id=%ISSUE% </issueLinkTemplate>
+          <xmlPath>${basedir}/xdocs/changes.xml</xmlPath>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+  
+  <modules>
+    <module>args4j</module>
+    <module>args4j-tools</module>
+  </modules>
+</project>
