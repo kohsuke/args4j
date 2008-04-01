@@ -20,7 +20,8 @@
         </configuration>
       </notifier>
     </notifiers>
-  </ciManagement>  <mailingLists>
+  </ciManagement>
+  <mailingLists>
     <mailingList>
       <name>discussion list</name>
       <subscribe>users-subscribe@args4j.dev.java.net</subscribe>
@@ -47,8 +48,8 @@
     </developer>
   </developers>
   <scm>
-    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvsroot:args4j</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvsroot:args4j</developerConnection>
+    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:args4j</connection>
+    <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvs:args4j</developerConnection>
     <url>https://args4j.dev.java.net/source/browse/args4j/</url>
   </scm>
   <organization>
