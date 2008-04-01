@@ -65,14 +65,6 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-      <plugin>
-        <artifactId>maven-javadoc-plugin</artifactId>
-        <configuration>
-          <links>http://java.sun.com/j2se/5.0/docs/api/</links>
-          <locale>en_US</locale>
-          <show>public</show>
-        </configuration>
-      </plugin>
     </plugins>
     <extensions>
       <extension>
