@@ -49,7 +49,7 @@
   </developers>
   <scm>
     <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:args4j</connection>
-    <developerConnection>scm:cvs:ext:${maven.username}@cvs.dev.java.net:/cvs:args4j</developerConnection>
+    <developerConnection>scm:cvs:ext:${user.name}@cvs.dev.java.net:/cvs:args4j</developerConnection>
     <url>https://args4j.dev.java.net/source/browse/args4j/</url>
   </scm>
   <organization>
