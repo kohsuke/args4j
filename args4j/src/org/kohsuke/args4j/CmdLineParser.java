@@ -29,6 +29,7 @@ import org.kohsuke.args4j.spi.FileOptionHandler;
 import org.kohsuke.args4j.spi.FloatOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
 import org.kohsuke.args4j.spi.LongOptionHandler;
+import org.kohsuke.args4j.spi.MapOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
@@ -127,8 +128,8 @@ public class CmdLineParser {
     private Setter createFieldSetter(Field f) {
         if(List.class.isAssignableFrom(f.getType()))
             return new MultiValueFieldSetter(bean,f);
-        //else if(Map.class.isAssignableFrom(f.getType()))
-        //    return new MapFieldSetter(bean,f);
+        else if(Map.class.isAssignableFrom(f.getType()))
+            return new MapSetter(bean,f);
         else
             return new FieldSetter(bean,f);
     }
@@ -544,7 +545,7 @@ public class CmdLineParser {
         registerHandler(Short.class, ShortOptionHandler.class);
         registerHandler(short.class, ShortOptionHandler.class);
         // enum is a special case
-        //registerHandler(Map.class,MapOptionHandler.class);
+        registerHandler(Map.class,MapOptionHandler.class);
     }
 
 	public void setUsageWidth(int usageWidth) {
