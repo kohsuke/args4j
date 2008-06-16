@@ -3,8 +3,12 @@
     <title>Args4J changes</title>
     <author email="kk@kohsuke.org">Kohsuke Kawaguchi</author>
     <author email="jhm@apache.org">Jan Materne</author>
+    <author email="marksinke@dev.java.net">Mark Sinke</author>
   </properties>
   <body>
+  	<release version="2.0.9" date="2008-??-??" description="Next version after a long time">
+  	  <action dev="jhm" type="add">Support of all Java native types</action>
+  	</release>
   	<release version="2.0.8" date="2007-05-28" description="Bug-Fixes and Clean-up">
   	  <!-- 
       <action dev="jhm" type="fix" issue="5">Option without "usage" are hidden.</action>

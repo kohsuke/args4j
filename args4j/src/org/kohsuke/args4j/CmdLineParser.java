@@ -21,13 +21,18 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
+import org.kohsuke.args4j.spi.ByteOptionHandler;
+import org.kohsuke.args4j.spi.CharOptionHandler;
 import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
+import org.kohsuke.args4j.spi.FloatOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
+import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.spi.ShortOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
 
 
@@ -528,6 +533,16 @@ public class CmdLineParser {
         registerHandler(Double.class, DoubleOptionHandler.class);
         registerHandler(double.class,DoubleOptionHandler.class);
         registerHandler(String.class,StringOptionHandler.class);
+        registerHandler(Byte.class, ByteOptionHandler.class);
+        registerHandler(byte.class, ByteOptionHandler.class);
+        registerHandler(Character.class, CharOptionHandler.class);
+        registerHandler(char.class, CharOptionHandler.class);
+        registerHandler(Float.class, FloatOptionHandler.class);
+        registerHandler(float.class, FloatOptionHandler.class);
+        registerHandler(Long.class, LongOptionHandler.class);
+        registerHandler(long.class, LongOptionHandler.class);
+        registerHandler(Short.class, ShortOptionHandler.class);
+        registerHandler(short.class, ShortOptionHandler.class);
         // enum is a special case
         //registerHandler(Map.class,MapOptionHandler.class);
     }
