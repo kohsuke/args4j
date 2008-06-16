@@ -3,7 +3,7 @@
   <groupId>args4j</groupId>
   <artifactId>args4j-site</artifactId>
   <name>args4j parent</name>
-  <version>2.0.9-SNAPSHOT</version>
+  <version>2.0.9</version>
   <packaging>pom</packaging>
   <description>args4j : Java command line arguments parser</description>
   <url>http://args4j.dev.java.net/</url>
@@ -51,6 +51,7 @@
     <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:args4j</connection>
     <developerConnection>scm:cvs:pserver:kohsuke@cvs.dev.java.net:/cvs:args4j</developerConnection>
     <url>https://args4j.dev.java.net/source/browse/args4j/</url>
+    <tag>args4j-site-2_0_9</tag>
   </scm>
   <organization>
     <name>Kohsuke Kawaguchi</name>
