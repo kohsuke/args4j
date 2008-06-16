@@ -21,7 +21,11 @@ public class MapOptionHandler extends OptionHandler<Map<?,?>> {
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
 		MapSetter mapSetter = (MapSetter)setter;
-		mapSetter.addValue(params.getParameter(0));
+		try {
+			mapSetter.addValue(params.getParameter(0));
+		} catch (RuntimeException e) {
+			throw new CmdLineException(e.getMessage());
+		}
         return 1;
 	}
 

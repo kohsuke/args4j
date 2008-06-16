@@ -26,9 +26,18 @@ public class MapSetter implements Setter {
     }
 
     public void addValue(Object value) {
+    	if (String.valueOf(value).indexOf('=') == -1) {
+    		throw new RuntimeException("An argument for setting a Map must contain a '='");
+    	}
+    	
     	String[] parts = String.valueOf(value).split("=");
     	String mapKey   = parts[0];
     	String mapValue = (parts.length > 1) ? parts[1] : null;
+    	
+    	if (mapKey == null || mapKey.length()==0) {
+    		throw new RuntimeException("A key must be set.");
+    	}
+    	
         try {
             addValue(mapKey, mapValue);
         } catch (IllegalAccessException _) {

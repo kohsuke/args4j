@@ -100,8 +100,9 @@ public class PropsTest extends Args4JTestBase<Props> {
         args = new String[]{"-T", "=value"};
         try {
             parser.parseArgument(args);
+            fail("An exception should have been thrown.");
         } catch (CmdLineException e) {
-        	//TODO: test the excetpion
+        	assertEquals("Wrong error message.", "A key must be set.", e.getMessage());
         }
     }
     
@@ -109,8 +110,9 @@ public class PropsTest extends Args4JTestBase<Props> {
         args = new String[]{"-T", "keyvalue"};
         try {
             parser.parseArgument(args);
+            fail("An exception should have been thrown.");
         } catch (CmdLineException e) {
-        	//TODO: test the excetpion
+        	assertEquals("Wrong error message.", "An argument for setting a Map must contain a '='", e.getMessage());
         }
     }
     
