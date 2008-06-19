@@ -7,7 +7,7 @@ public class AliasedTest extends Args4JTestBase<Aliased> {
     }
 
     public void testMissingParameter() {
-        args = new String[]{"-str"};
+        setArgs("-str");
         try {
             parser.parseArgument(args);
             fail("Should miss one parameter.");
@@ -23,7 +23,7 @@ public class AliasedTest extends Args4JTestBase<Aliased> {
     }
 
     public void testAlias() throws Exception {
-        args = new String[]{"--long-str", "something"};
+        setArgs("--long-str", "something");
         parser.parseArgument(args);
         assertEquals("something", testObject.str);
     }

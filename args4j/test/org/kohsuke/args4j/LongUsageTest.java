@@ -9,6 +9,9 @@ public class LongUsageTest extends Args4JTestBase<LongUsage> {
     public void testUsageMessage() {
         args = new String[]{"-wrong-usage"};
         try {
+        	// set Widescreen otherwise a line wrapping must occur
+        	parser.setUsageWidth(120);
+        	// start parsing
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             String expectedLine1 = " -LongNamedStringOption USE_A_NICE_STRING : set a string";

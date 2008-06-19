@@ -8,7 +8,7 @@ import junit.framework.TestCase;
 
 /**
  * Base class for Args4J Tests.
- * It instanstiates the test object, the CmdLineParser for
+ * It instantiates the test object, the CmdLineParser for
  * that test object and provides a String array for passing
  * to the parser.
  *
@@ -25,6 +25,14 @@ public abstract class Args4JTestBase<T> extends TestCase {
      * @return the test object
      */
     public abstract T getTestObject();
+    
+    /**
+     * Setter for args in a vararg manner.
+     * @param args
+     */
+    public void setArgs(String... args) {
+    	this.args = args;
+    }
 
     /**
      * Initializes the testObject and the parser for that object.
@@ -71,14 +79,14 @@ public abstract class Args4JTestBase<T> extends TestCase {
      * @see CmdLineParser#printUsage(OutputStream)
      */
     public String[] getUsageMessage() {
-        Stream2String s2w = new Stream2String();
-        parser.printUsage(s2w);
-        return s2w.getString().split(System.getProperty("line.separator"));
+        Stream2String s2s = new Stream2String();
+        parser.printUsage(s2s);
+        return s2s.getString().split(System.getProperty("line.separator"));
     }
 
     /**
      * Utility class for capturing an OutputStream into a String.
-     * @author Jan
+     * @author Jan Materne
      */
     private class Stream2String extends OutputStream {
         private StringBuffer sb = new StringBuffer();
