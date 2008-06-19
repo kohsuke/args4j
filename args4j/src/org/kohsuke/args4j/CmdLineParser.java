@@ -262,6 +262,7 @@ public class CmdLineParser {
     public void printUsage(OutputStream out) {
         printUsage(new OutputStreamWriter(out),null);
     }
+
     /**
      * Prints the list of options and their usages to the screen.
      *
@@ -293,41 +294,54 @@ public class CmdLineParser {
         w.flush();
     }
     
-    private void printOption(PrintWriter w, OptionHandler h, int len, ResourceBundle rb) {
-        int descriptionWidth = usageWidth-len-4;    // 3 for " : " + 1 for left-most SP
+    /**
+     * Prints the usage information for a given option.
+     * @param out      Writer to write into
+     * @param handler  handler where to receive the informations
+     * @param len      Maximum length of metadata column
+     * @param rb       ResourceBundle for I18N
+     */
+    private void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb) {
+    	// Hiding options without usage information
+    	if (handler.option.usage() == null || handler.option.usage().length() == 0) {
+    		return;
+    	}
+    	
+    	// What is the width of the two data columns
+    	int widthMetadata = Math.min(len, (usageWidth - 4) / 2);
+    	int widthUsage    = usageWidth - 4 - widthMetadata;
+    	
+    	// Line wrapping
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
+    	List<String> usages        = wrapLines(handler.option.usage(), widthUsage);
+    	
+    	// Output
+    	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
+    		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
+			String usage       = (i >= usages.size())        ? "" : usages.get(i);
+			String format      = (nameAndMeta.length() > 0)  
+			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
+			                   : " %1$-" + widthMetadata + "s   %2$-1s";
+			String output = String.format(format, nameAndMeta, usage);
+			out.println(output);
+    	}
+    }
+    
 
-        String usage = h.option.usage();
-        if(usage.length()==0)   return;   // ignore
-
-        String nameAndMeta = h.getNameAndMeta(rb);
-        w.print(' ');
-       	w.print(nameAndMeta);
-       	for (int i = nameAndMeta.length(); i < len; ++i) {
-            w.print(' ');
-       	}
-        w.print(" : ");
-
-        if(rb!=null)
-            usage = rb.getString(usage);
-
-        while(usage!=null && usage.length()>0) {
-            int idx = usage.indexOf('\n');
-            if(idx>=0 && idx<=descriptionWidth) {
-                w.println(usage.substring(0,idx));
-                usage = usage.substring(idx+1);
-                if(usage.length()>0)
-                    indent(w,len+4);
-                continue;
-            }
-            if(usage.length()<=descriptionWidth) {
-                w.println(usage);
-                break;
-            }
-
-            w.println(usage.substring(0,descriptionWidth));
-            usage = usage.substring(descriptionWidth);
-            indent(w,len+4);
-        }
+	/**
+     * Wraps a line so that the resulting parts are not longer than a given maximum length.
+     * @param line       Line to wrap
+     * @param maxLength  maximum length for the resulting parts
+     * @return list of all wrapped parts
+     */
+    private List<String> wrapLines(String line, int maxLength) {
+    	List<String> rv = new ArrayList<String>();
+    	String[] hardWrapedLines = line.split("\\n");
+    	for (int i = 0; i < hardWrapedLines.length; i++) {
+        	// TODO: implement line wrapping, for the meantime: return the line unwrapped
+			rv.add(hardWrapedLines[i]);
+		}
+    	return rv;
     }
 
 	private int getPrefixLen(OptionHandler h, ResourceBundle rb) {
