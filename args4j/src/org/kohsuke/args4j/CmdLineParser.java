@@ -338,8 +338,14 @@ public class CmdLineParser {
     	List<String> rv = new ArrayList<String>();
     	String[] hardWrapedLines = line.split("\\n");
     	for (int i = 0; i < hardWrapedLines.length; i++) {
-        	// TODO: implement line wrapping, for the meantime: return the line unwrapped
-			rv.add(hardWrapedLines[i]);
+        	// TODO: implement real line wrapping.
+    		//For the meantime: wrap hard on maxLength position
+    		String restOfLine = hardWrapedLines[i];
+    		while(restOfLine.length()>maxLength) {
+    			rv.add(restOfLine.substring(0, maxLength));
+    			restOfLine = restOfLine.substring(maxLength);
+    		}
+    		rv.add(hardWrapedLines[i]);
 		}
     	return rv;
     }
