@@ -6,7 +6,7 @@ import org.kohsuke.args4j.OptionDef;
 
 /**
  * OptionHandler which handles an option with exactly one argument, like "-foo bar".
- * @author Jan Matèrne
+ * @author Jan Materne
  * @since 2.0.9
  * @param <T> Type of the Setter-class
  */
