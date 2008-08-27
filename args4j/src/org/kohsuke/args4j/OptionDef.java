@@ -1,7 +1,3 @@
-/**
- * (c) 2006 forcare BV
- * All rights reserved.
- */
 package org.kohsuke.args4j;
 
 import org.kohsuke.args4j.spi.OptionHandler;
