@@ -69,7 +69,10 @@ public class StringArrayOptionHandler extends OptionHandler<String[]> {
 			counter++;
 		}//while true
 
-		this.setter.addValue(values.toArray(new String[values.size()]));
+        // to work around a javac bug in Java1.5, we need to first assign this to
+        // the raw type.
+        Setter s = this.setter;
+        s.addValue(values.toArray(new String[values.size()]));
 		return counter;
 	}
 
