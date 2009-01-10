@@ -5,7 +5,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 
 /**
- * String {@link OptionValueHandler}.
+ * String {@link OptionHandler}.
  *
  * @author Kohsuke Kawaguchi
  */
