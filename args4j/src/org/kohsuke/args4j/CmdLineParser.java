@@ -347,7 +347,7 @@ public class CmdLineParser {
     			rv.add(restOfLine.substring(0, maxLength));
     			restOfLine = restOfLine.substring(maxLength);
     		}
-    		rv.add(hardWrapedLines[i]);
+    		rv.add(restOfLine);
 		}
     	return rv;
     }
