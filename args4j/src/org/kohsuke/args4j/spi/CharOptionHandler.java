@@ -2,6 +2,9 @@ package org.kohsuke.args4j.spi;
 
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.CmdLineException;
+
+import java.text.MessageFormat;
 
 /**
  * {@link Char}
@@ -17,7 +20,9 @@ public class CharOptionHandler extends OneArgumentOptionHandler<Character> {
 	}
 
 	@Override
-	protected Character parse(String argument) throws NumberFormatException {
-		return argument.charAt(0);
+	protected Character parse(String argument) throws NumberFormatException, CmdLineException {
+        if (argument.length() != 1)
+            throw new CmdLineException(Messages.ILLEGAL_CHAR.format(argument));
+        return argument.charAt(0);
 	}
 }

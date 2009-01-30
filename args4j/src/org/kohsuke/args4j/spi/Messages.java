@@ -8,6 +8,7 @@ import java.util.ResourceBundle;
  */
 enum Messages {
     ILLEGAL_OPERAND,
+    ILLEGAL_CHAR,
     ILLEGAL_BOOLEAN
     ;
 

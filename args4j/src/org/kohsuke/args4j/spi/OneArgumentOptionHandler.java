@@ -39,7 +39,9 @@ public abstract class OneArgumentOptionHandler<T> extends OptionHandler<T> {
 	 * @param argument String value to parse
 	 * @return the parsed value
 	 * @throws NumberFormatException if parsing is not possible
+     * @throws CmdLineException
+     *      if the parsing encounters a failure that should be reported to the user.
 	 */
-	protected abstract T parse(String argument) throws NumberFormatException;
+	protected abstract T parse(String argument) throws NumberFormatException, CmdLineException;
 
 }
