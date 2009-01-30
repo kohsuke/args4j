@@ -315,7 +315,7 @@ public class CmdLineParser {
     	
     	// Line wrapping
     	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
-    	List<String> usages        = wrapLines(handler.option.usage(), widthUsage);
+    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
     	
     	// Output
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
@@ -328,9 +328,13 @@ public class CmdLineParser {
 			out.println(output);
     	}
     }
-    
 
-	/**
+    private String localize(String s, ResourceBundle rb) {
+        if(rb!=null)    return rb.getString(s);
+        return s;
+    }
+
+    /**
      * Wraps a line so that the resulting parts are not longer than a given maximum length.
      * @param line       Line to wrap
      * @param maxLength  maximum length for the resulting parts
