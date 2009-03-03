@@ -2,6 +2,7 @@ package org.kohsuke.args4j;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Locale;
 
 import junit.framework.TestCase;
 
@@ -19,6 +20,8 @@ public abstract class Args4JTestBase<T> extends TestCase {
     CmdLineParser parser;
     String[] args;
     T testObject;
+    
+    private Locale defaultLocale;
 
     /**
      * Specifies which concrete object to return as test object.
@@ -33,6 +36,15 @@ public abstract class Args4JTestBase<T> extends TestCase {
     public void setArgs(String... args) {
     	this.args = args;
     }
+    
+    /**
+     * Returns the Locale to use for the tests.
+     * Defaults to use the US-Locale but should be overwritten by classes
+     * which tests I18N.          
+     */         
+    public Locale getLocale() {
+        return Locale.US;
+    }
 
     /**
      * Initializes the testObject and the parser for that object.
@@ -41,8 +53,18 @@ public abstract class Args4JTestBase<T> extends TestCase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
+        defaultLocale = Locale.getDefault();
+        Locale.setDefault(getLocale());
         testObject = getTestObject();
         parser = new CmdLineParser(testObject);
+    }
+    
+    /**
+     * Restores the environment, namely the default Locale.
+     */         
+    @Override
+    protected void tearDown() throws Exception {
+        Locale.setDefault(defaultLocale);
     }
 
     /**
