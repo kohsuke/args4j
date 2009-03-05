@@ -9,13 +9,14 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
     // The JavaBean part of this class as test object.
     
     // On Lists the @Option(multiValued) defaults to 'true'
-    @Option(name="list")
+    @Option(name="-list")
     List<String> list;
     
-    @Option(name="string", multiValued=true)
+    @Option(name="-string", multiValued=true)
     String string;
     
-    @Option(name="array", multiValued=true)
+    // There is no OptionHandler for Arrays 
+    //@Option(name="-array", multiValued=true)
     String[] array;
 
     // The JUnit part of this class as tester.
@@ -27,7 +28,12 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
 
     public void testOnList() throws Exception {
         // The 'command line invocation'.
-        parser.parseArgument("-list","one","two","three");
+        setArgs(
+            "-list", "one",
+            "-list", "two",
+            "-list", "three"
+        );
+        parser.parseArgument(args);
         // Check the results.
         assertEquals("Should got three values", 3, list.size());
         assertTrue(list.contains("one"));
@@ -44,14 +50,14 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
     //      But how to handle other types like int,MyClass? Concatinating is not an option here...
     public void t_estOnString() throws Exception {
         // The 'command line invocation'.
-        parser.parseArgument("-string","one","two","three");
+        parser.parseArgument("-string","one","-string","two","-string","three");
     }
 
     //TODO: How to use 'multiValued' on arrays?
     //      There should be no difference to use on lists (from the user point of view).
     public void t_estOnArray() throws Exception {
         // The 'command line invocation'.
-        parser.parseArgument("-array","one","two","three");
+        parser.parseArgument("-array","one","-array","two","-array","three");
         // Check the results.
         assertEquals("Should got three values", 3, array.length);
     }
