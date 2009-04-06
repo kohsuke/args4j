@@ -30,6 +30,6 @@ public class URLOptionHandler extends OptionHandler<URL> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "FILE";
+        return "URL";
     }
 }
