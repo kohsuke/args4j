@@ -20,6 +20,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 import java.net.URL;
+import java.net.URI;
 
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.ByteOptionHandler;
@@ -37,6 +38,7 @@ import org.kohsuke.args4j.spi.Setter;
 import org.kohsuke.args4j.spi.ShortOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
 import org.kohsuke.args4j.spi.URLOptionHandler;
+import org.kohsuke.args4j.spi.URIOptionHandler;
 
 
 /**
@@ -556,6 +558,7 @@ public class CmdLineParser {
         registerHandler(boolean.class,BooleanOptionHandler.class);
         registerHandler(File.class,FileOptionHandler.class);
         registerHandler(URL.class, URLOptionHandler.class);
+        registerHandler(URI.class, URIOptionHandler.class);
         registerHandler(Integer.class,IntOptionHandler.class);
         registerHandler(int.class,IntOptionHandler.class);
         registerHandler(Double.class, DoubleOptionHandler.class);
