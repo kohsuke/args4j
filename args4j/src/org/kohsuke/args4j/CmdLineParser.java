@@ -342,19 +342,21 @@ public class CmdLineParser {
      * @param maxLength  maximum length for the resulting parts
      * @return list of all wrapped parts
      */
-    private List<String> wrapLines(String line, int maxLength) {
+    private List<String> wrapLines(String line, final int maxLength) {
     	List<String> rv = new ArrayList<String>();
-    	String[] hardWrapedLines = line.split("\\n");
-    	for (int i = 0; i < hardWrapedLines.length; i++) {
-        	// TODO: implement real line wrapping.
-    		//For the meantime: wrap hard on maxLength position
-    		String restOfLine = hardWrapedLines[i];
-    		while(restOfLine.length()>maxLength) {
-    			rv.add(restOfLine.substring(0, maxLength));
-    			restOfLine = restOfLine.substring(maxLength).trim();
-    		}
-    		rv.add(restOfLine);
-		}
+        for (String restOfLine : line.split("\\n")) {
+            while (restOfLine.length() > maxLength) {
+                // try to wrap at space, but don't try too hard as some languages don't even have whitespaces.
+                int lineLength;
+                String candidate = restOfLine.substring(0, maxLength);
+                int sp=candidate.lastIndexOf(' ');
+                if(sp>maxLength*3/4)    lineLength=sp;
+                else                    lineLength=maxLength;
+                rv.add(restOfLine.substring(0, lineLength));
+                restOfLine = restOfLine.substring(lineLength).trim();
+            }
+            rv.add(restOfLine);
+        }
     	return rv;
     }
 
