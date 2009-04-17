@@ -351,7 +351,7 @@ public class CmdLineParser {
     		String restOfLine = hardWrapedLines[i];
     		while(restOfLine.length()>maxLength) {
     			rv.add(restOfLine.substring(0, maxLength));
-    			restOfLine = restOfLine.substring(maxLength);
+    			restOfLine = restOfLine.substring(maxLength).trim();
     		}
     		rv.add(restOfLine);
 		}
