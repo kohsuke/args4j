@@ -26,7 +26,7 @@ public class URIOptionHandler extends OptionHandler<URI> {
             setter.addValue(new URI(param));
             return 1;
         } catch (URISyntaxException e) {
-            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(param));
+            throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(param));
         }
     }
 

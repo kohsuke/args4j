@@ -24,7 +24,7 @@ public class MapOptionHandler extends OptionHandler<Map<?,?>> {
 		try {
 			mapSetter.addValue(params.getParameter(0));
 		} catch (RuntimeException e) {
-			throw new CmdLineException(e.getMessage());
+			throw new CmdLineException(owner, e.getMessage());
 		}
         return 1;
 	}

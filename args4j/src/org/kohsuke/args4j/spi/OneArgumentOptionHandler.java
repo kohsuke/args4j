@@ -29,7 +29,7 @@ public abstract class OneArgumentOptionHandler<T> extends OptionHandler<T> {
             setter.addValue(value);
         }
         catch (NumberFormatException ex) {
-            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(option.toString(),token));
+            throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(option.toString(),token));
         }
         return 1;
 	}	

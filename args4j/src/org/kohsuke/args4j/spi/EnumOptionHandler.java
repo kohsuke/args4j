@@ -29,7 +29,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
             }
 
         if(value==null)
-            throw new CmdLineException(Messages.ILLEGAL_OPERAND.format(option.toString(),s));
+            throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(option.toString(),s));
         setter.addValue(value);
         return 1;
     }

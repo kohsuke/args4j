@@ -11,10 +11,12 @@ import java.lang.reflect.Method;
  * @author Kohsuke Kawaguchi
  */
 final class MethodSetter implements Setter {
+    private final CmdLineParser parser;
     private final Object bean;
     private final Method m;
 
-    public MethodSetter(Object bean, Method m) {
+    public MethodSetter(CmdLineParser parser, Object bean, Method m) {
+        this.parser = parser;
         this.bean = bean;
         this.m = m;
         if(m.getParameterTypes().length!=1)
@@ -53,9 +55,9 @@ final class MethodSetter implements Setter {
 
             // otherwise wrap
             if(t!=null)
-                throw new CmdLineException(t);
+                throw new CmdLineException(parser, t);
             else
-                throw new CmdLineException(e);
+                throw new CmdLineException(parser, e);
         }
     }
 }

@@ -22,7 +22,7 @@ public class CharOptionHandler extends OneArgumentOptionHandler<Character> {
 	@Override
 	protected Character parse(String argument) throws NumberFormatException, CmdLineException {
         if (argument.length() != 1)
-            throw new CmdLineException(Messages.ILLEGAL_CHAR.format(argument));
+            throw new CmdLineException(owner, Messages.ILLEGAL_CHAR.format(argument));
         return argument.charAt(0);
 	}
 }

@@ -96,11 +96,11 @@ public class CmdLineParser {
             for( Method m : c.getDeclaredMethods() ) {
                 Option o = m.getAnnotation(Option.class);
                 if(o!=null) {
-                    addOption(new MethodSetter(bean,m),o);
+                    addOption(new MethodSetter(this, bean,m),o);
                 }
                 Argument a = m.getAnnotation(Argument.class);
                 if(a!=null) {
-                    addArgument(new MethodSetter(bean,m),a);
+                    addArgument(new MethodSetter(this, bean,m),a);
                 }
             }
 
@@ -170,6 +170,7 @@ public class CmdLineParser {
      * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
      * and the {@link Setter} instance.
      */
+   @SuppressWarnings("unchecked")
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
 
         Constructor<? extends OptionHandler> handlerType;
@@ -400,7 +401,7 @@ public class CmdLineParser {
 
         public String getParameter(int idx) throws CmdLineException {
 			if( pos+idx>=args.length )
-                throw new CmdLineException(Messages.MISSING_OPERAND.format(getOptionName()));
+                throw new CmdLineException(CmdLineParser.this, Messages.MISSING_OPERAND.format(getOptionName()));
             return args[pos+idx];
         }
     }
@@ -434,7 +435,7 @@ public class CmdLineParser {
                 
                 if(currentOptionHandler==null) {
                     // TODO: insert dynamic handler processing
-                    throw new CmdLineException(Messages.UNDEFINED_OPTION.format(arg));
+                    throw new CmdLineException(this, Messages.UNDEFINED_OPTION.format(arg));
                 }
 
                 // known option; skip its name
@@ -442,7 +443,7 @@ public class CmdLineParser {
             } else {
             	if (argIndex >= arguments.size()) {
             		Messages msg = arguments.size() == 0 ? Messages.NO_ARGUMENT_ALLOWED : Messages.TOO_MANY_ARGUMENTS;
-                    throw new CmdLineException(msg.format(arg));
+                    throw new CmdLineException(this, msg.format(arg));
             	}
 
             	// known argument
@@ -458,12 +459,12 @@ public class CmdLineParser {
         // make sure that all mandatory options are present
         for (OptionHandler handler : options)
             if(handler.option.required() && !present.contains(handler))
-                throw new CmdLineException(Messages.REQUIRED_OPTION_MISSING.format(handler.option.toString()));
+                throw new CmdLineException(this, Messages.REQUIRED_OPTION_MISSING.format(handler.option.toString()));
 
         // make sure that all mandatory arguments are present
         for (OptionHandler handler : arguments)
             if(handler.option.required() && !present.contains(handler))
-                throw new CmdLineException(Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
+                throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
     }
     
 	private OptionHandler findOptionHandler(String name) {
