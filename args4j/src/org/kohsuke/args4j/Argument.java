@@ -24,10 +24,28 @@ import static java.lang.annotation.ElementType.METHOD;
 @Retention(RUNTIME)
 @Target({FIELD,METHOD})
 public @interface Argument {
+    /**
+     * See {@link Option#usage()}.
+     */
     String usage() default "";
+    /**
+     * See {@link Option#metaVar()}.
+     */
     String metaVar() default "";
+    /**
+     * See {@link Option#required()}.
+     */
     boolean required() default false;
+
+    /**
+     * See {@link Option#handler()}.
+     */
     Class<? extends OptionHandler> handler() default OptionHandler.class;
+
     int index() default 0;
+
+    /**
+     * See {@link Option#multiValued()}.
+     */
     boolean multiValued() default false;
 }
