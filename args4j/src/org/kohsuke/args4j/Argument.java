@@ -39,8 +39,7 @@ public @interface Argument {
 
     /**
      * See {@link Option#handler()}.
-     */
-    Class<? extends OptionHandler> handler() default OptionHandler.class;
+     */    Class<? extends OptionHandler> handler() default OptionHandler.class;
 
     int index() default 0;
 

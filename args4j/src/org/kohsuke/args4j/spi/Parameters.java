@@ -25,5 +25,10 @@ public interface Parameters  {
      *      made to access a non-existent index, this method throws
      *      appropriate {@link org.kohsuke.args4j.CmdLineException}.
      */
-    public String getParameter(int idx) throws CmdLineException;
+    String getParameter(int idx) throws CmdLineException;
+
+    /**
+     * Number of remaining tokens.
+     */
+    int size();
 }

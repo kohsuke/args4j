@@ -404,6 +404,10 @@ public class CmdLineParser {
                 throw new CmdLineException(CmdLineParser.this, Messages.MISSING_OPERAND.format(getOptionName()));
             return args[pos+idx];
         }
+
+        public int size() {
+            return args.length-pos;
+        }
     }
 
     private String getOptionName() {
