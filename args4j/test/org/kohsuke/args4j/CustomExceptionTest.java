@@ -27,7 +27,7 @@ public class CustomExceptionTest extends Args4JTestBase<CustomExceptionTest> {
     }
     
     
-    protected void tryThis(String expected, Class expectedExceptionClass, String... parserArgs) {
+    protected void assertException(String expected, Class expectedExceptionClass, String... parserArgs) {
         String expMsg = expectedExceptionClass.getName() + ": " + expected;
         try {
             parser.parseArgument(parserArgs);
@@ -45,11 +45,11 @@ public class CustomExceptionTest extends Args4JTestBase<CustomExceptionTest> {
     }
     
     public void testRuntimeException() throws Exception {
-        tryThis(errMsgX, IllegalArgumentException.class, "-x", "value");
+        assertException(errMsgX, IllegalArgumentException.class, "-x", "value");
     }
     
     public void testCustomException() throws Exception {
-        tryThis(errMsgX, InvalidAttributeValueException.class, "-y", "value");
+        assertException(errMsgX, InvalidAttributeValueException.class, "-y", "value");
     }
 
 }
