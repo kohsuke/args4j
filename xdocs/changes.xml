@@ -6,6 +6,11 @@
     <author email="marksinke@dev.java.net">Mark Sinke</author>
   </properties>
   <body>
+    <release version="2.0.13">
+  	  <action dev="jhm" type="add">
+  	  	Make CmdLineParser.addOption / addArgument public for alternatives to parsing class files.
+  	  </action>
+    </release>
     <release version="2.0.10">
   	  <action dev="jhm" type="fix" issue="10">
   	  	Enum with many/long values result in StringIndexOutOfBoundsException CmdLineParser.printUsage / printOption

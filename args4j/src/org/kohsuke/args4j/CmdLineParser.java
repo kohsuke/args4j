@@ -138,7 +138,13 @@ public class CmdLineParser {
             return new FieldSetter(bean,f);
     }
 
-    private void addArgument(Setter setter, Argument a) {
+    /**
+     * Add the object for parsing an argument.
+     * Usually this is called while parsing the business class.
+     * @param setter the setter for the type
+     * @param a the Argument
+     */
+    public void addArgument(Setter setter, Argument a) {
         OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
     	int index = a.index();
     	// make sure the argument will fit in the list
@@ -151,7 +157,12 @@ public class CmdLineParser {
     	arguments.set(index,h);
     }
 
-    private void addOption(Setter setter, Option o) {
+    /**
+     * Add the object for parsing an option.
+     * Usually this is called while parsing the business class.
+     * @param setter the setter for the type
+     * @param o the Option
+     */    public void addOption(Setter setter, Option o) {
         OptionHandler h = createOptionHandler(new NamedOptionDef(o,setter.isMultiValued()),setter);
         checkOptionNotInMap(o.name());
         for (String alias : o.aliases()) {
