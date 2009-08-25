@@ -7,9 +7,8 @@
   </properties>
   <body>
     <release version="2.0.13">
-  	  <action dev="jhm" type="add">
-  	  	Make CmdLineParser.addOption / addArgument public for alternatives to parsing class files.
-  	  </action>
+  	  <action dev="jhm" type="add">Prepare for alternative 'markup' (instead of Annotations)</action>
+  	  <action dev="jhm" type="add">Make CmdLineParser.addOption / addArgument public for alternatives to parsing class files.</action>
     </release>
     <release version="2.0.10">
   	  <action dev="jhm" type="fix" issue="10">

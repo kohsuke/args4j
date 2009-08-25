@@ -9,6 +9,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.net.URI;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -19,12 +21,12 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
-import java.net.URL;
-import java.net.URI;
 
+import org.kohsuke.args4j.MetadataParser.Pair;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.ByteOptionHandler;
 import org.kohsuke.args4j.spi.CharOptionHandler;
+import org.kohsuke.args4j.spi.ClassParser;
 import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
@@ -37,8 +39,8 @@ import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 import org.kohsuke.args4j.spi.ShortOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
-import org.kohsuke.args4j.spi.URLOptionHandler;
 import org.kohsuke.args4j.spi.URIOptionHandler;
+import org.kohsuke.args4j.spi.URLOptionHandler;
 
 
 /**
@@ -65,12 +67,12 @@ public class CmdLineParser {
      * Discovered {@link OptionHandler}s for arguments.
      */
     private final List<OptionHandler> arguments = new ArrayList<OptionHandler>();
-    
+
     private boolean parsingOptions = true;
     private OptionHandler currentOptionHandler = null;
 
 	/**
-	 *  The length of a usage line. 
+	 *  The length of a usage line.
 	 *  If the usage message is longer than this value, the parser
 	 *  wraps the line. Defaults to 80.
 	 */
@@ -91,33 +93,26 @@ public class CmdLineParser {
     public CmdLineParser(Object bean) {
         this.bean = bean;
 
-        // recursively process all the methods/fields.
-        for( Class c=bean.getClass(); c!=null; c=c.getSuperclass()) {
-            for( Method m : c.getDeclaredMethods() ) {
-                Option o = m.getAnnotation(Option.class);
-                if(o!=null) {
-                    addOption(new MethodSetter(this, bean,m),o);
-                }
-                Argument a = m.getAnnotation(Argument.class);
-                if(a!=null) {
-                    addArgument(new MethodSetter(this, bean,m),a);
-                }
-            }
-
-            for( Field f : c.getDeclaredFields() ) {
-                Option o = f.getAnnotation(Option.class);
-                if(o!=null) {
-                    addOption(createFieldSetter(f),o);
-                }
-                Argument a = f.getAnnotation(Argument.class);
-                if(a!=null) {
-                    addArgument(createFieldSetter(f),a);
-                }
-            }
-        }
-        for (int i=0;i<arguments.size();++i) {
-        	if (arguments.get(i)==null) {
-                throw new IllegalAnnotationError("No argument annotation for index "+i);
+        MetadataParser parser = new ClassParser();
+        parser.parse(bean);
+        for(Pair pair : parser.getAnnotations()) {
+        	if (pair.getMethodOrField() instanceof Method) {
+        		Method method = (Method) pair.getMethodOrField();
+        		System.out.println("Method: " + method);
+				MethodSetter setter = new MethodSetter(this, bean, method);
+        		if (pair.getArgumentOrOption() instanceof Option) {
+        			addOption(setter, (Option) pair.getArgumentOrOption());
+        		} else {
+        			addArgument(setter, (Argument) pair.getArgumentOrOption());
+        		}
+        	} else {
+        		Field field = (Field) pair.getMethodOrField();
+        		System.out.println("Field: " + field);
+				if (pair.getArgumentOrOption() instanceof Option) {
+        			addOption(createFieldSetter(field), (Option) pair.getArgumentOrOption());
+        		} else {
+        			addArgument(createFieldSetter(field), (Argument) pair.getArgumentOrOption());
+        		}
         	}
         }
 
@@ -125,7 +120,7 @@ public class CmdLineParser {
         Collections.sort(options, new Comparator<OptionHandler>() {
 			public int compare(OptionHandler o1, OptionHandler o2) {
 				return o1.option.toString().compareTo(o2.option.toString());
-			} 
+			}
 		});
     }
 
@@ -251,7 +246,7 @@ public class CmdLineParser {
      *      string that contains a space at the beginning (but not at the end.)
      *      This allows you to do something like:
      *
-     *      <pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre> 
+     *      <pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre>
      */
     public String printExample(ExampleMode mode,ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
@@ -309,7 +304,7 @@ public class CmdLineParser {
 
         w.flush();
     }
-    
+
     /**
      * Prints the usage information for a given option.
      * @param out      Writer to write into
@@ -322,20 +317,20 @@ public class CmdLineParser {
     	if (handler.option.usage() == null || handler.option.usage().length() == 0) {
     		return;
     	}
-    	
+
     	// What is the width of the two data columns
     	int widthMetadata = Math.min(len, (usageWidth - 4) / 2);
     	int widthUsage    = usageWidth - 4 - widthMetadata;
-    	
+
     	// Line wrapping
     	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
-    	
+
     	// Output
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
     		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
 			String usage       = (i >= usages.size())        ? "" : usages.get(i);
-			String format      = (nameAndMeta.length() > 0)  
+			String format      = (nameAndMeta.length() > 0)
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
@@ -375,7 +370,7 @@ public class CmdLineParser {
 	private int getPrefixLen(OptionHandler h, ResourceBundle rb) {
 		if(h.option.usage().length()==0)
 			return 0;
-         
+
 		return h.getNameAndMeta(rb).length();
 	}
 
@@ -428,7 +423,7 @@ public class CmdLineParser {
     /**
      * Parses the command line arguments and set them to the option bean
      * given in the constructor.
-     * 
+     *
      * @param args arguments to parse
      *
      * @throws CmdLineException
@@ -444,10 +439,10 @@ public class CmdLineParser {
         while( cmdLine.hasMore() ) {
             String arg = cmdLine.getCurrentToken();
             if( isOption(arg) ) {
-            	boolean isKeyValuePair = arg.indexOf('=')!=-1; 
+            	boolean isKeyValuePair = arg.indexOf('=')!=-1;
                 // parse this as an option.
                 currentOptionHandler = isKeyValuePair ? findOptionHandler(arg) : findOptionByName(arg);
-                
+
                 if(currentOptionHandler==null) {
                     // TODO: insert dynamic handler processing
                     throw new CmdLineException(this, Messages.UNDEFINED_OPTION.format(arg));
@@ -462,7 +457,7 @@ public class CmdLineParser {
             	}
 
             	// known argument
-            	currentOptionHandler = arguments.get(argIndex); 
+            	currentOptionHandler = arguments.get(argIndex);
             	if (!currentOptionHandler.option.isMultiValued())
             		argIndex++;
             }
@@ -481,12 +476,12 @@ public class CmdLineParser {
             if(handler.option.required() && !present.contains(handler))
                 throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
     }
-    
+
 	private OptionHandler findOptionHandler(String name) {
 		OptionHandler handler = findOptionByName(name);
 		if (handler==null) {
 			// Have not found by its name, maybe its a property?
-			// Search for parts of the name (=prefix) - most specific first 
+			// Search for parts of the name (=prefix) - most specific first
 			for (int i=name.length(); i>1; i--) {
 				String prefix = name.substring(0, i);
 				Map<String,OptionHandler> possibleHandlers = filter(options, prefix);
@@ -496,7 +491,7 @@ public class CmdLineParser {
 		}
 		return handler;
 	}
-	
+
 	private OptionHandler findOptionByName(String name) {
 		for (OptionHandler h : options) {
 			NamedOptionDef option = (NamedOptionDef)h.option;
@@ -511,8 +506,8 @@ public class CmdLineParser {
 		}
 		return null;
 	}
-	
-	
+
+
 	private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
 		Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
 		for (OptionHandler h : opt) {
@@ -521,7 +516,7 @@ public class CmdLineParser {
 		return rv;
 	}
 
-	
+
     /**
      * Returns true if the given token is an option
      * (as opposed to an argument.)
@@ -599,7 +594,7 @@ public class CmdLineParser {
 	public void setUsageWidth(int usageWidth) {
 		this.usageWidth = usageWidth;
 	}
-	
+
 	public void stopOptionParsing() {
 		parsingOptions = false;
 	}
@@ -614,7 +609,7 @@ public class CmdLineParser {
 	public void printSingleLineUsage(OutputStream out) {
 		printSingleLineUsage(new OutputStreamWriter(out),null);
 	}
-	
+
     /**
      * Prints a single-line usage to the screen.
      *
@@ -643,5 +638,5 @@ public class CmdLineParser {
 		}
 		if (!h.option.required())
 			pw.print(']');
-	} 
+	}
 }

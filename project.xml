@@ -4,7 +4,7 @@
   <name>args4j</name>
   <groupId>args4j</groupId>
   <artifactId>args4j-site</artifactId>
-  <currentVersion>2.0.12</currentVersion>
+  <currentVersion>2.0.13</currentVersion>
 
   <organization>
     <name>Kohsuke Kawaguchi</name>
