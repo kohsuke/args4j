@@ -21,6 +21,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.logging.Logger;
 
 import org.kohsuke.args4j.MetadataParser.Pair;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
@@ -96,24 +97,21 @@ public class CmdLineParser {
         MetadataParser parser = new ClassParser();
         parser.parse(bean);
         for(Pair pair : parser.getAnnotations()) {
+            Setter setter;
         	if (pair.getMethodOrField() instanceof Method) {
         		Method method = (Method) pair.getMethodOrField();
-        		System.out.println("Method: " + method);
-				MethodSetter setter = new MethodSetter(this, bean, method);
-        		if (pair.getArgumentOrOption() instanceof Option) {
-        			addOption(setter, (Option) pair.getArgumentOrOption());
-        		} else {
-        			addArgument(setter, (Argument) pair.getArgumentOrOption());
-        		}
+                LOGGER.fine("Method: " + method);
+				setter = new MethodSetter(this, bean, method);
         	} else {
         		Field field = (Field) pair.getMethodOrField();
-        		System.out.println("Field: " + field);
-				if (pair.getArgumentOrOption() instanceof Option) {
-        			addOption(createFieldSetter(field), (Option) pair.getArgumentOrOption());
-        		} else {
-        			addArgument(createFieldSetter(field), (Argument) pair.getArgumentOrOption());
-        		}
+                LOGGER.fine("Field: " + field);
+                setter = createFieldSetter(field);
         	}
+            if (pair.getArgumentOrOption() instanceof Option) {
+                addOption(setter, (Option) pair.getArgumentOrOption());
+            } else {
+                addArgument(setter, (Argument) pair.getArgumentOrOption());
+            }
         }
 
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
@@ -374,12 +372,6 @@ public class CmdLineParser {
 		return h.getNameAndMeta(rb).length();
 	}
 
-    private void indent(PrintWriter w, int i) {
-        for( ; i>0; i-- )
-            w.print(' ');
-    }
-
-
     /**
      * Essentially a pointer over a {@link String} array.
      * Can move forward, can look ahead.
@@ -546,7 +538,7 @@ public class CmdLineParser {
      *      is of this type.
      * @param handlerClass
      *      This class must have the constructor that has the same signature as
-     *      {@link OptionHandler#OptionHandler(CmdLineParser, NamedOptionDef, Setter)}.
+     *      {@link OptionHandler#OptionHandler(CmdLineParser, OptionDef, Setter)}
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
         if(valueType==null || handlerClass==null)
@@ -639,4 +631,6 @@ public class CmdLineParser {
 		if (!h.option.required())
 			pw.print(']');
 	}
+
+    private static final Logger LOGGER = Logger.getLogger(CmdLineParser.class.getName());
 }
