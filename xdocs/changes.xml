@@ -6,7 +6,7 @@
     <author email="marksinke@dev.java.net">Mark Sinke</author>
   </properties>
   <body>
-    <release version="2.0.13">
+    <release version="2.0.16">
   	  <action dev="jhm" type="add">Prepare for alternative 'markup' (instead of Annotations)</action>
   	  <action dev="jhm" type="add">Make CmdLineParser.addOption / addArgument public for alternatives to parsing class files.</action>
     </release>
