@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
+import java.util.Stack;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
@@ -42,6 +43,7 @@ import org.kohsuke.args4j.spi.ShortOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
 import org.kohsuke.args4j.spi.URIOptionHandler;
 import org.kohsuke.args4j.spi.URLOptionHandler;
+import org.kohsuke.args4j.spi.XmlParser;
 
 
 /**
@@ -79,6 +81,26 @@ public class CmdLineParser {
 	 */
 	private int usageWidth = 80;
 
+	/**
+	 * Stack of registered metadata parsers.
+	 * The first parser on the stack which can work ({@link MetadataParser#canWorkFor(Object)})
+	 * gets the job.
+	 */
+	private static Stack<MetadataParser> metadataParsers = new Stack<MetadataParser>();
+
+	static {
+		registerMetadataParser(new ClassParser());
+		registerMetadataParser(new XmlParser());
+	}
+
+	/**
+	 * Registers a new metadata parser.
+	 * @param parser the new parser
+	 */
+	public static void registerMetadataParser(MetadataParser parser) {
+		metadataParsers.add(parser);
+	}
+
     /**
      * Creates a new command line owner that
      * parses arguments/options and set them into
@@ -94,24 +116,44 @@ public class CmdLineParser {
     public CmdLineParser(Object bean) {
         this.bean = bean;
 
-        MetadataParser parser = new ClassParser();
+        // Find a metadata parser which will scan the metadata.
+        MetadataParser parser = null;
+        Stack<MetadataParser> registeredParsers = (Stack<MetadataParser>) metadataParsers.clone();
+        while (!registeredParsers.isEmpty() && parser == null) {
+        	MetadataParser p = registeredParsers.pop();
+        	if (p.canWorkFor(bean)) {
+        		parser = p;
+        	}
+        }
+        LOGGER.fine("Use " + parser + " as metadata parser.");
+
+        // Parse the metadata and create the setters
         parser.parse(bean);
         for(Pair pair : parser.getAnnotations()) {
-            Setter setter;
+            Setter setter = null;
         	if (pair.getMethodOrField() instanceof Method) {
+        		// Annotation is on a method
         		Method method = (Method) pair.getMethodOrField();
-                LOGGER.fine("Method: " + method);
 				setter = new MethodSetter(this, bean, method);
+        		if (pair.getArgumentOrOption() instanceof Option) {
+					// @Option annotation
+        			addOption(setter, (Option) pair.getArgumentOrOption());
+        		} else {
+        			// @Argument annotation
+        			addArgument(setter, (Argument) pair.getArgumentOrOption());
+        		}
         	} else {
+        		// Annotation is on a field
         		Field field = (Field) pair.getMethodOrField();
-                LOGGER.fine("Field: " + field);
-                setter = createFieldSetter(field);
+				if (pair.getArgumentOrOption() instanceof Option) {
+					// @Option annotation
+					Option o = (Option) pair.getArgumentOrOption();
+        			addOption(createFieldSetter(field), (Option) pair.getArgumentOrOption());
+        		} else {
+        			// @Argument annotation
+        			addArgument(createFieldSetter(field), (Argument) pair.getArgumentOrOption());
+        		}
         	}
-            if (pair.getArgumentOrOption() instanceof Option) {
-                addOption(setter, (Option) pair.getArgumentOrOption());
-            } else {
-                addArgument(setter, (Argument) pair.getArgumentOrOption());
-            }
         }
 
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
@@ -155,13 +197,13 @@ public class CmdLineParser {
      * Usually this is called while parsing the business class.
      * @param setter the setter for the type
      * @param o the Option
-     */    public void addOption(Setter setter, Option o) {
-        OptionHandler h = createOptionHandler(new NamedOptionDef(o,setter.isMultiValued()),setter);
+     */
+    public void addOption(Setter setter, Option o) {
         checkOptionNotInMap(o.name());
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
         }
-        options.add(h);
+        options.add(createOptionHandler(new NamedOptionDef(o, setter.isMultiValued()), setter));
     }
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
@@ -179,6 +221,7 @@ public class CmdLineParser {
 
         Constructor<? extends OptionHandler> handlerType;
         Class<? extends OptionHandler> h = o.handler();
+
         if(h==OptionHandler.class) {
             // infer the type
 
@@ -484,6 +527,11 @@ public class CmdLineParser {
 		return handler;
 	}
 
+	/**
+	 * Finds a registered OptionHandler by its name or its alias.
+	 * @param name name
+	 * @return the OptionHandler or <tt>null</tt>
+	 */
 	private OptionHandler findOptionByName(String name) {
 		for (OptionHandler h : options) {
 			NamedOptionDef option = (NamedOptionDef)h.option;

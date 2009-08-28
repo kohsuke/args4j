@@ -1,0 +1,8 @@
+<!-- for example\SampleMain -->
+<args>
+  <option field="recursive" name="-r" usage="recursively run something"/>
+  <option field="out" name="-o" usage="output to this file" metavar="OUTPUT"/>
+  <option method="setStr(String)" name="-str"/> 
+  <option field="data" name="-custom" handler="org.kohsuke.args4j.spi.BooleanOptionHandler" usage="boolean value for checking the custom handler"/>
+  <argument field="arguments"/>  
+</args>

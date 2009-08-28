@@ -8,10 +8,16 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import org.kohsuke.args4j.MetadataParser;
 import org.kohsuke.args4j.Option;
 
+/**
+ * Parser for analyzing Args4J annotations in the class hierarchy.
+ * Adapted from the original Args4J-implementation.
+ *
+ * @author Jan Matèrne
+ */
 public class ClassParser extends MetadataParser {
 
 	@Override
-	public void parse(Object bean) {
+	public void parseInternal(Object bean) {
         // recursively process all the methods/fields.
         for( Class c=bean.getClass(); c!=null; c=c.getSuperclass()) {
             for( Method m : c.getDeclaredMethods() ) {
