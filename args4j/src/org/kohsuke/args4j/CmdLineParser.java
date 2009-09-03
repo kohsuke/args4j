@@ -129,6 +129,10 @@ public class CmdLineParser {
         }
         options.add(createOptionHandler(new NamedOptionDef(o, setter.isMultiValued()), setter));
     }
+    
+    public List<OptionHandler> getArguments() {
+        return arguments;
+    }
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
 		if(findOptionByName(name)!=null) {
