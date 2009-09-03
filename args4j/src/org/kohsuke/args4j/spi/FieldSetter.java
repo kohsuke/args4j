@@ -1,4 +1,4 @@
-package org.kohsuke.args4j;
+package org.kohsuke.args4j.spi;
 
 import org.kohsuke.args4j.spi.Setter;
 

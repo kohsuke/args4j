@@ -9,7 +9,9 @@ import java.util.ResourceBundle;
 enum Messages {
     ILLEGAL_OPERAND,
     ILLEGAL_CHAR,
-    ILLEGAL_BOOLEAN
+    ILLEGAL_BOOLEAN,
+    ILLEGAL_METHOD_SIGNATURE,
+    ILLEGAL_FIELD_SIGNATURE,
     ;
 
     private static ResourceBundle rb;

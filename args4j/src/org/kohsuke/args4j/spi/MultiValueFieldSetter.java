@@ -1,6 +1,7 @@
-package org.kohsuke.args4j;
+package org.kohsuke.args4j.spi;
 
 import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.*;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;

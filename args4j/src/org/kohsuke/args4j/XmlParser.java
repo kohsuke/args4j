@@ -1,14 +1,18 @@
-package org.kohsuke.args4j.spi;
+package org.kohsuke.args4j;
 
 import java.io.InputStream;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
+import java.net.URL;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Config;
-import org.kohsuke.args4j.MetadataParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.spi.Setters;
+import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.Config.ConfigElement;
+import org.xml.sax.InputSource;
 
 /**
  * Parses an XML-file specifying the 'annotations'.
@@ -33,42 +37,23 @@ import org.kohsuke.args4j.Config.ConfigElement;
  * &lt;args>
  * </pre>
  *
- * @author Jan Matèrne
+ * @author Jan Matï¿½rne
  */
-public class XmlParser extends MetadataParser {
+public class XmlParser {
+    public void parse(URL xml, CmdLineParser parser, Object bean) {
+        parse(new InputSource(xml.toExternalForm()),parser,bean);
+    }
 
-	/**
-	 * The input stream from where to read the XML.
-	 */
-	private InputStream configInputStream;
-
-	/**
-	 * Stores the input resource stream which is derived from the bean class
-	 * and returns <tt>true</tt> if the resource exists.
-	 * The resource has the same name as the class with a suffix <tt>.args</tt> and
-	 * is in the same directory as the class (with package).
-	 * @see org.kohsuke.args4j.MetadataParser#canWorkFor(java.lang.Object)
-	 */
-	@Override
-	public boolean canWorkFor(Object bean) {
-		configInputStream = bean.getClass().getResourceAsStream(bean.getClass().getSimpleName() + ".args");
-		return configInputStream != null;
-	}
-
-	@Override
-	public void parseInternal(Object bean) {
+	public void parse(InputSource xml, CmdLineParser parser, Object bean) {
 		try {
-			Config config = Config.parse(configInputStream);
-			AccessibleObject methodOrField;
+			Config config = Config.parse(xml);
 			for(Config.ConfigElement ce : config.options) {
 				Option option = new OptionImpl(ce);
-				methodOrField = findMethodOrField(bean, ce.field, ce.method);
-				addArgument(methodOrField, option);
+                parser.addOption(Setters.create(parser, findMethodOrField(bean, ce.field, ce.method),bean), option);
 			}
 			for (Config.ConfigElement ce : config.arguments) {
 				Argument argument = new ArgumentImpl(ce);
-				methodOrField = findMethodOrField(bean, ce.field, ce.method);
-				addArgument(methodOrField, argument);
+				parser.addArgument(Setters.create(parser, findMethodOrField(bean, ce.field, ce.method),bean), argument);
 			}
 		} catch (Exception e) {
 			throw new RuntimeException("Problems while reading the args-confguration.", e);
@@ -89,7 +74,7 @@ public class XmlParser extends MetadataParser {
 	 * @throws ClassNotFoundException
 	 */
 	private AccessibleObject findMethodOrField(Object bean, String field, String method) throws SecurityException, NoSuchFieldException, NoSuchMethodException, ClassNotFoundException {
-		AccessibleObject rv = null;
+		AccessibleObject rv;
 		if (field != null) {
 			rv = bean.getClass().getDeclaredField(field);
 		} else {
@@ -110,7 +95,7 @@ public class XmlParser extends MetadataParser {
 
 	/**
 	 * Implementation of @Option so we can instantiate it.
-	 * @author Jan Matèrne
+	 * @author Jan Matï¿½rne
 	 */
 	class OptionImpl extends AnnotationImpl implements Option {
 		protected OptionImpl(ConfigElement ce) throws ClassNotFoundException {
@@ -126,7 +111,7 @@ public class XmlParser extends MetadataParser {
 
 	/**
 	 * Implementation of @Argument so we can instantiate it.
-	 * @author Jan Matèrne
+	 * @author Jan Matï¿½rne
 	 */
 	class ArgumentImpl extends AnnotationImpl implements Argument {
 		protected ArgumentImpl(ConfigElement ce) throws ClassNotFoundException {
@@ -137,7 +122,7 @@ public class XmlParser extends MetadataParser {
 
 	/**
 	 * Base class for the @Option and @Argument implementation classes.
-	 * @author Jan Matèrne
+	 * @author Jan Matï¿½rne
 	 */
 	class AnnotationImpl {
 		protected AnnotationImpl(ConfigElement ce) throws ClassNotFoundException {

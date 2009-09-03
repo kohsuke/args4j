@@ -1,6 +1,7 @@
-package org.kohsuke.args4j;
+package org.kohsuke.args4j.spi;
 
 import org.kohsuke.args4j.spi.Setter;
+import org.kohsuke.args4j.*;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -10,7 +11,7 @@ import java.lang.reflect.Method;
  *
  * @author Kohsuke Kawaguchi
  */
-final class MethodSetter implements Setter {
+public final class MethodSetter implements Setter {
     private final CmdLineParser parser;
     private final Object bean;
     private final Method m;

@@ -56,9 +56,13 @@ public abstract class Args4JTestBase<T> extends TestCase {
         defaultLocale = Locale.getDefault();
         Locale.setDefault(getLocale());
         testObject = getTestObject();
-        parser = new CmdLineParser(testObject);
+        parser = createParser();
     }
-    
+
+    protected CmdLineParser createParser() {
+        return new CmdLineParser(testObject);
+    }
+
     /**
      * Restores the environment, namely the default Locale.
      */         

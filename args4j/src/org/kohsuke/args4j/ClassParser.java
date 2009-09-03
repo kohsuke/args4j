@@ -1,53 +1,43 @@
-package org.kohsuke.args4j.spi;
+package org.kohsuke.args4j;
+
+import org.kohsuke.args4j.spi.MethodSetter;
+import org.kohsuke.args4j.spi.Setters;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.IllegalAnnotationError;
-import org.kohsuke.args4j.MetadataParser;
-import org.kohsuke.args4j.Option;
-
 /**
  * Parser for analyzing Args4J annotations in the class hierarchy.
- * Adapted from the original Args4J-implementation.
  *
- * @author Jan Matèrne
+ * This can be used to feed option bindings that span across multiple instances.
+ *
+ * @author Jan Matï¿½rne
  */
-public class ClassParser extends MetadataParser {
-
-	@Override
-	public void parseInternal(Object bean) {
+public class ClassParser {
+    public void parse(Object bean, CmdLineParser parser) {
         // recursively process all the methods/fields.
         for( Class c=bean.getClass(); c!=null; c=c.getSuperclass()) {
             for( Method m : c.getDeclaredMethods() ) {
                 Option o = m.getAnnotation(Option.class);
                 if(o!=null) {
-                	addArgument(m, o);
+                	parser.addOption(new MethodSetter(parser,bean,m), o);
                 }
                 Argument a = m.getAnnotation(Argument.class);
                 if(a!=null) {
-                	addArgument(m, a);
+                    parser.addArgument(new MethodSetter(parser,bean,m), a);
                 }
             }
 
             for( Field f : c.getDeclaredFields() ) {
                 Option o = f.getAnnotation(Option.class);
                 if(o!=null) {
-                	addArgument(f, o);
+                	parser.addOption(Setters.create(f,bean),o);
                 }
                 Argument a = f.getAnnotation(Argument.class);
                 if(a!=null) {
-                	addArgument(f, a);
+                	parser.addArgument(Setters.create(f,bean), a);
                 }
             }
         }
-        /* Not sure if this can happen ... but leave it here. */
-        for (int i=0;i<getAnnotations().size();++i) {
-        	if (getAnnotations().get(i)==null) {
-                throw new IllegalAnnotationError("No argument annotation for index "+i);
-        	}
-        }
 	}
-
 }

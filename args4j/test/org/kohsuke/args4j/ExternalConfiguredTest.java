@@ -1,5 +1,8 @@
 package org.kohsuke.args4j;
 
+import org.kohsuke.args4j.XmlParser;
+import org.xml.sax.InputSource;
+
 import java.io.File;
 import java.util.List;
 
@@ -17,6 +20,13 @@ public class ExternalConfiguredTest extends Args4JTestBase<ExternalConfiguredTes
     @Override
     public ExternalConfiguredTest getTestObject() {
         return this;
+    }
+
+    @Override
+    protected CmdLineParser createParser() {
+        CmdLineParser p = new CmdLineParser(new Object());
+        new XmlParser().parse(getClass().getResource("ExternalConfiguredTest.xml"),p,this);
+        return p;
     }
 
     public void testNoArgsGiven() throws CmdLineException {

@@ -6,9 +6,7 @@ import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,15 +18,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.Stack;
 import java.util.TreeMap;
 import java.util.logging.Logger;
 
-import org.kohsuke.args4j.MetadataParser.Pair;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.ByteOptionHandler;
 import org.kohsuke.args4j.spi.CharOptionHandler;
-import org.kohsuke.args4j.spi.ClassParser;
 import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
@@ -43,7 +38,6 @@ import org.kohsuke.args4j.spi.ShortOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
 import org.kohsuke.args4j.spi.URIOptionHandler;
 import org.kohsuke.args4j.spi.URLOptionHandler;
-import org.kohsuke.args4j.spi.XmlParser;
 
 
 /**
@@ -76,26 +70,6 @@ public class CmdLineParser {
 	 */
 	private int usageWidth = 80;
 
-	/**
-	 * Stack of registered metadata parsers.
-	 * The first parser on the stack which can work ({@link MetadataParser#canWorkFor(Object)})
-	 * gets the job.
-	 */
-	private static Stack<MetadataParser> metadataParsers = new Stack<MetadataParser>();
-
-	static {
-		registerMetadataParser(new ClassParser());
-		registerMetadataParser(new XmlParser());
-	}
-
-	/**
-	 * Registers a new metadata parser.
-	 * @param parser the new parser
-	 */
-	public static void registerMetadataParser(MetadataParser parser) {
-		metadataParsers.add(parser);
-	}
-
     /**
      * Creates a new command line owner that
      * parses arguments/options and set them into
@@ -103,44 +77,17 @@ public class CmdLineParser {
      *
      * @param bean
      *      instance of a class annotated by {@link Option} and {@link Argument}.
-     *      this object will receive values.
+     *      this object will receive values. If this is null, the processing will
+     *      be skipped, which is useful if you'd like to feed metadata from other sources.
      *
      * @throws IllegalAnnotationError
      *      if the option bean class is using args4j annotations incorrectly.
      */
     public CmdLineParser(Object bean) {
-        // Find a metadata parser which will scan the metadata.
-        MetadataParser parser = null;
-        Stack<MetadataParser> registeredParsers = (Stack<MetadataParser>) metadataParsers.clone();
-        while (!registeredParsers.isEmpty() && parser == null) {
-        	MetadataParser p = registeredParsers.pop();
-        	if (p.canWorkFor(bean)) {
-        		parser = p;
-        	}
-        }
-        LOGGER.fine("Use " + parser + " as metadata parser.");
+        if (bean==null)     return;
 
         // Parse the metadata and create the setters
-        parser.parse(bean);
-        for(Pair pair : parser.getAnnotations()) {
-            Setter setter;
-        	if (pair.getMethodOrField() instanceof Method) {
-        		// Annotation is on a method
-        		Method method = (Method) pair.getMethodOrField();
-				setter = new MethodSetter(this, bean, method);
-        	} else {
-        		// Annotation is on a field
-        		Field field = (Field) pair.getMethodOrField();
-                setter = createFieldSetter(field,bean);
-        	}
-            if (pair.getArgumentOrOption() instanceof Option) {
-                // @Option annotation
-                addOption(setter, (Option) pair.getArgumentOrOption());
-            } else {
-                // @Argument annotation
-                addArgument(setter, (Argument) pair.getArgumentOrOption());
-            }
-        }
+        new ClassParser().parse(bean,this);
 
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
         Collections.sort(options, new Comparator<OptionHandler>() {
@@ -150,18 +97,9 @@ public class CmdLineParser {
 		});
     }
 
-    private Setter createFieldSetter(Field f, Object bean) {
-        if(List.class.isAssignableFrom(f.getType()))
-            return new MultiValueFieldSetter(bean,f);
-        else if(Map.class.isAssignableFrom(f.getType()))
-            return new MapSetter(bean,f);
-        else
-            return new FieldSetter(bean,f);
-    }
-
     /**
-     * Add the object for parsing an argument.
-     * Usually this is called while parsing the business class.
+     * Programmatically defines an argument (instead of reading it from annotations like you normally do.)
+     *
      * @param setter the setter for the type
      * @param a the Argument
      */
@@ -179,8 +117,8 @@ public class CmdLineParser {
     }
 
     /**
-     * Add the object for parsing an option.
-     * Usually this is called while parsing the business class.
+     * Programmatically defines an option (instead of reading it from annotations like you normally do.)
+     *
      * @param setter the setter for the type
      * @param o the Option
      */
