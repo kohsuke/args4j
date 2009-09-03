@@ -57,11 +57,6 @@ import org.kohsuke.args4j.spi.XmlParser;
  */
 public class CmdLineParser {
     /**
-     * Option bean instance.
-     */
-    private final Object bean;
-
-    /**
      * Discovered {@link OptionHandler}s for options.
      */
     private final List<OptionHandler> options = new ArrayList<OptionHandler>();
@@ -114,8 +109,6 @@ public class CmdLineParser {
      *      if the option bean class is using args4j annotations incorrectly.
      */
     public CmdLineParser(Object bean) {
-        this.bean = bean;
-
         // Find a metadata parser which will scan the metadata.
         MetadataParser parser = null;
         Stack<MetadataParser> registeredParsers = (Stack<MetadataParser>) metadataParsers.clone();
@@ -130,30 +123,23 @@ public class CmdLineParser {
         // Parse the metadata and create the setters
         parser.parse(bean);
         for(Pair pair : parser.getAnnotations()) {
-            Setter setter = null;
+            Setter setter;
         	if (pair.getMethodOrField() instanceof Method) {
         		// Annotation is on a method
         		Method method = (Method) pair.getMethodOrField();
 				setter = new MethodSetter(this, bean, method);
-        		if (pair.getArgumentOrOption() instanceof Option) {
-					// @Option annotation
-        			addOption(setter, (Option) pair.getArgumentOrOption());
-        		} else {
-        			// @Argument annotation
-        			addArgument(setter, (Argument) pair.getArgumentOrOption());
-        		}
         	} else {
         		// Annotation is on a field
         		Field field = (Field) pair.getMethodOrField();
-				if (pair.getArgumentOrOption() instanceof Option) {
-					// @Option annotation
-					Option o = (Option) pair.getArgumentOrOption();
-        			addOption(createFieldSetter(field), (Option) pair.getArgumentOrOption());
-        		} else {
-        			// @Argument annotation
-        			addArgument(createFieldSetter(field), (Argument) pair.getArgumentOrOption());
-        		}
+                setter = createFieldSetter(field,bean);
         	}
+            if (pair.getArgumentOrOption() instanceof Option) {
+                // @Option annotation
+                addOption(setter, (Option) pair.getArgumentOrOption());
+            } else {
+                // @Argument annotation
+                addArgument(setter, (Argument) pair.getArgumentOrOption());
+            }
         }
 
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
@@ -164,7 +150,7 @@ public class CmdLineParser {
 		});
     }
 
-    private Setter createFieldSetter(Field f) {
+    private Setter createFieldSetter(Field f, Object bean) {
         if(List.class.isAssignableFrom(f.getType()))
             return new MultiValueFieldSetter(bean,f);
         else if(Map.class.isAssignableFrom(f.getType()))
