@@ -19,6 +19,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
@@ -381,6 +382,13 @@ public class CmdLineParser {
 
     private String getOptionName() {
         return currentOptionHandler.option.toString();
+    }
+
+    /**
+     * Same as {@link #parseArgument(String[])} 
+     */
+    public void parseArgument(Collection<String> args) throws CmdLineException {
+        parseArgument(args.toArray(new String[args.size()]));
     }
 
     /**
