@@ -39,8 +39,19 @@ public @interface Argument {
 
     /**
      * See {@link Option#handler()}.
-     */    Class<? extends OptionHandler> handler() default OptionHandler.class;
+     */
+    Class<? extends OptionHandler> handler() default OptionHandler.class;
 
+    /**
+     * Position of the argument.
+     *
+     * <p>
+     * If you define multiple single value properties to bind to arguments,
+     * they should have index=0, index=1, index=2, ... and so on.
+     *
+     * <p>
+     * Multi value properties bound to arguments must be always the last entry.
+     */
     int index() default 0;
 
     /**
