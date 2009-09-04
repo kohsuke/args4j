@@ -114,7 +114,7 @@ public class CmdLineParser {
     		arguments.add(null);
     	}
     	if(arguments.get(index)!=null) {
-            throw new IllegalAnnotationError("Argument with index "+index+" is used more than once");
+            throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_ARGUMENT.format(index));
         }
     	arguments.set(index,h);
     }
@@ -139,7 +139,7 @@ public class CmdLineParser {
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
 		if(findOptionByName(name)!=null) {
-            throw new IllegalAnnotationError("Option name "+name+" is used more than once");
+            throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_OPTION.format(name));
         }
 	}
 
@@ -163,7 +163,7 @@ public class CmdLineParser {
 
             handlerType = handlerClasses.get(t);
             if(handlerType==null)
-                throw new IllegalAnnotationError("No OptionHandler is registered to handle "+t);
+                throw new IllegalAnnotationError(Messages.UNKNOWN_HANDLER.format(t));
         } else {
             handlerType = getConstructor(h);
         }
@@ -530,7 +530,7 @@ public class CmdLineParser {
         if(valueType==null || handlerClass==null)
             throw new IllegalArgumentException();
         if(!OptionHandler.class.isAssignableFrom(handlerClass))
-            throw new IllegalArgumentException("Not an OptionHandler class");
+            throw new IllegalArgumentException(Messages.NO_OPTIONHANDLER.format());
 
         Constructor<? extends OptionHandler> c = getConstructor(handlerClass);
         handlerClasses.put(valueType,c);
@@ -540,7 +540,7 @@ public class CmdLineParser {
         try {
             return handlerClass.getConstructor(CmdLineParser.class, OptionDef.class, Setter.class);
         } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException(handlerClass+" does not have the proper constructor");
+            throw new IllegalArgumentException(Messages.NO_CONSTRUCTOR_ON_HANDLER.format(handlerClass));
         }
     }
 

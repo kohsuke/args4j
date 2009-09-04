@@ -56,7 +56,7 @@ public class XmlParser {
 				parser.addArgument(Setters.create(parser, findMethodOrField(bean, ce.field, ce.method),bean), argument);
 			}
 		} catch (Exception e) {
-			throw new RuntimeException("Problems while reading the args-confguration.", e);
+			throw new RuntimeException(Messages.METADATA_ERROR.format(), e);
 		}
 	}
 
