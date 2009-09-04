@@ -85,7 +85,9 @@ public class CmdLineParser {
      *      if the option bean class is using args4j annotations incorrectly.
      */
     public CmdLineParser(Object bean) {
-        if (bean==null)     return;
+        // A 'return' in the constructor just skips the rest of the implementation
+        // and returns the new object directly.
+        if (bean==null) return;
 
         // Parse the metadata and create the setters
         new ClassParser().parse(bean,this);
