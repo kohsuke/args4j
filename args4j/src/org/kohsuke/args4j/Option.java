@@ -5,11 +5,13 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
 import java.lang.reflect.AccessibleObject;
 import java.util.ResourceBundle;
 
 import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
+import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 /**
@@ -65,7 +67,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * @author Kohsuke Kawaguchi
  */
 @Retention(RUNTIME)
-@Target({FIELD,METHOD})
+@Target({FIELD,METHOD,PARAMETER})
 public @interface Option {
     /**
      * Name of the option, such as "-foo" or "-bar".
