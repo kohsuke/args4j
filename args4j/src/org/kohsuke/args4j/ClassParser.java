@@ -11,7 +11,7 @@ import java.lang.reflect.Method;
  *
  * This can be used to feed option bindings that span across multiple instances.
  *
- * @author Jan Mat�rne
+ * @author Jan Materne
  */
 public class ClassParser {
     public void parse(Object bean, CmdLineParser parser) {

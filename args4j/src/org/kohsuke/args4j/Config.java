@@ -17,7 +17,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
  * Metadataconfiguration.
  * This class holds all metadata for a class, mainly a list of @Options and @Arguments.
  *
- * @author Jan Mat�rne
+ * @author Jan Materne
  */
 public class Config {
 
@@ -31,7 +31,7 @@ public class Config {
 	/**
 	 * The ConfigElement is an <tt>&lt;option></tt> or <tt>&lt;argument></tt> tag
 	 * in the xml configuration file.
-	 * @author Jan Mat�rne
+	 * @author Jan Materne
 	 */
 	public class ConfigElement {
 		public String field;
@@ -54,7 +54,7 @@ public class Config {
 
 	/**
 	 * SAX-Handler for reading the configuration file.
-	 * @author Jan Mat�rne
+	 * @author Jan Materne
 	 */
 	public class ConfigHandler extends DefaultHandler {
 		public ConfigHandler(Config config) {

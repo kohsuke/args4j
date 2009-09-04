@@ -37,7 +37,7 @@ import org.xml.sax.InputSource;
  * &lt;args>
  * </pre>
  *
- * @author Jan Mat�rne
+ * @author Jan Materne
  */
 public class XmlParser {
     public void parse(URL xml, CmdLineParser parser, Object bean) {
