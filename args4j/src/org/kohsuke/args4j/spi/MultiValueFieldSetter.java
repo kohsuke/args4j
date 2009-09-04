@@ -63,7 +63,7 @@ final class MultiValueFieldSetter  implements Setter {
             f.set(bean,o);
         }
         if(!(o instanceof List))
-            throw new IllegalAnnotationError("type of "+f+" is not a List");
+            throw new IllegalAnnotationError(Messages.ILLEGAL_LIST.format(f));
 
         ((List)o).add(value);
     }

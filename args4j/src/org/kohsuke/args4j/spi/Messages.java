@@ -12,6 +12,7 @@ enum Messages {
     ILLEGAL_BOOLEAN,
     ILLEGAL_METHOD_SIGNATURE,
     ILLEGAL_FIELD_SIGNATURE,
+    ILLEGAL_LIST
     ;
 
     private static ResourceBundle rb;
