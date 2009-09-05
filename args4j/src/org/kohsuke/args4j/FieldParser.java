@@ -6,6 +6,11 @@ import org.kohsuke.args4j.spi.ConfigElement;
 import org.kohsuke.args4j.spi.OptionImpl;
 import org.kohsuke.args4j.spi.Setters;
 
+/**
+ * This metadata parser makes all field available to the CmdLineParser.
+ * @author Jan Materne
+ *
+ */
 public class FieldParser {
 
 	public void parse(CmdLineParser parser, Object bean) throws ClassNotFoundException {

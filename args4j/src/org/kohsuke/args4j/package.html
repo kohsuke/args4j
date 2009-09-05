@@ -1,5 +1,84 @@
 <html><body>
-<p>
-Command line parser core.
+<p>Core classes of the Args4J command line parser.</p>
+
+<h1>What is Args4J</h1>
+<p>Args4J is a command line parser. As such a parser its job is to parse the String-array passed to the main() method
+and transfer the values to a java object, which includes type conversion. The entry point into this parsing is
+the CmdLineParser class with its parse() Method.</p>
+<p>Args4J must know the mapping between the flag from the command line and the target for the value.
+There are multiple ways for Args4J: <ul>
+    <li>place an @Option or @Argument annotation at a setter or on a field</li>
+    <li>provide a XML configuration file</li>
+    <li>make all fields public available</li>
+</ul> 
+depending on what you want, you have to do a configuration step before starting the parsing.</p>
+
+<h1>Examples</h1>
+
+<p><tt>java Main -text newText</tt></p>
+
+<p>The standard use case is having a bean class and providing the annotations.
+This feature is available since the first Args4J release:
+<!-- TODO: 
+Javadoc stops when reaching the at-sign. When I load the package.html directly into Firefox,
+all is fine. But when creating the javadoc it stops copying the content at that sign.
+(a) is a compromise here ...
+Does anyone know how to handle that?
+-->
+<pre>
+public class Bean {
+    (a)Option(name="-text")
+    String text;
+}
+public class Main {
+    public static void main(String[] args) throws CmdLineException {
+        Object bean = new Bean();
+        CmdLineParser parser = new CmdLineParser(bean);
+        parser.parse(args);
+    }
+}
+</pre>
+
+<p>An easy way for initializing fields and not touching the bean source code
+is using the FieldParser. The FieldParser scans all fields of the bean class
+(including inheritance) and makes them public available as options with 
+a '-' prefix in the name.
+This feature is available since Args4J release 2.0.16:
+<pre>
+public class Bean {
+    String text;
+}
+public class Main {
+    public static void main(String[] args) throws CmdLineException {
+        Object bean = new Bean();
+        CmdLineParser parser = new CmdLineParser(null);
+        new FieldParser().parse(parser, bean);
+        parser.parse(args);
+    }
+}
+</pre>
+
+<p>While the FieldParser is easier to use, the XmlParser supports more features. 
+That said it supports all features which are available via annotations: usage text, specifying handlers and more.
+You have to provide an XML InputSource or an URL to the XML file. 
+This feature is available since Args4J release 2.0.16:
+<pre>
+public class Bean {
+    String text;
+}
+public class Main {
+    public static void main(String[] args) throws CmdLineException {
+        Object bean = new Bean();
+        CmdLineParser parser = new CmdLineParser(null);
+        new XmlParser().parse(getClass().getResource(bean.getClass().getName() + ".xml"), parser, bean);
+        parser.parse(args);
+    }
+}
+&lt;args>
+  &lt;option field="text" name="-text" usage="Output text"/>
+&lt;/args>
+</pre>
 </p>
+
+
 </body></html>
