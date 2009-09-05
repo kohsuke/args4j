@@ -7,9 +7,17 @@ import java.lang.annotation.Annotation;
  * Base class for the @Option and @Argument implementation classes.
  * @author Jan Materne
  */
-public abstract class AnnotationImpl {
-	protected AnnotationImpl(ConfigElement ce) throws ClassNotFoundException {
-		aliases = ce.aliases != null ? ce.aliases : new String[]{};
+public abstract class AnnotationImpl implements Annotation {
+    private final Class<? extends Annotation> annotationType;
+
+    protected AnnotationImpl(Class<? extends Annotation> annotationType) {
+        this.annotationType = annotationType;
+    }
+
+    protected AnnotationImpl(Class<? extends Annotation> annotationType, ConfigElement ce) throws ClassNotFoundException {
+        this(annotationType);
+
+		aliases = ce.aliases != null ? ce.aliases : new String[0];
 		if (ce.handler != null) {
 			handler = (Class<? extends OptionHandler>) Class.forName(ce.handler);
 		} else {
@@ -20,6 +28,7 @@ public abstract class AnnotationImpl {
 		required = ce.required;
 		usage = ce.usage != null ? ce.usage : "";
 	}
+
 	public String[] aliases;
 	public String[] aliases() {
 		return aliases;
@@ -44,7 +53,6 @@ public abstract class AnnotationImpl {
 	public String usage() {
 		return usage;
 	}
-	public Class<? extends Annotation> annotationType;
 	public Class<? extends Annotation> annotationType() {
 		return annotationType;
 	}

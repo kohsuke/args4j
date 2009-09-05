@@ -8,9 +8,8 @@ import org.kohsuke.args4j.Option;
  */
 public class OptionImpl extends AnnotationImpl implements Option {
 	public OptionImpl(ConfigElement ce) throws ClassNotFoundException {
-		super(ce);
+		super(Option.class,ce);
 		name = ce.name;
-		annotationType = Option.class;
 	}
 	public String name;
 	public String name() {

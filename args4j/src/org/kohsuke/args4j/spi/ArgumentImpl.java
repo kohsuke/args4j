@@ -8,7 +8,6 @@ import org.kohsuke.args4j.Argument;
  */
 public class ArgumentImpl extends AnnotationImpl implements Argument {
 	public ArgumentImpl(ConfigElement ce) throws ClassNotFoundException {
-		super(ce);
-		annotationType = Argument.class;
+		super(Argument.class,ce);
 	}
 }
