@@ -1,6 +1,6 @@
 package org.kohsuke.args4j;
 
-import java.util.Map; 
+import java.util.Map;
 
 public class PropsTest extends Args4JTestBase<Props> {
 
@@ -8,7 +8,7 @@ public class PropsTest extends Args4JTestBase<Props> {
     public Props getTestObject() {
         return new Props();
     }
-    
+
     public void testDoNothing() {
         // ignore, that the other test cases are commented out
         // JUnit doesnt like TestCases without a test-method.
@@ -28,7 +28,7 @@ public class PropsTest extends Args4JTestBase<Props> {
             fail("Call without parameters is valid! " + e.getMessage());
         }
     }
-    
+
     public void testSinglePair() {
         args = new String[]{"-T", "key1=value1"};
         try {
@@ -41,7 +41,7 @@ public class PropsTest extends Args4JTestBase<Props> {
             fail("Cought an invalid exception: " + e.getMessage());
         }
     }
-    
+
     public void testMultiplePairs() {
         args = new String[]{"-T", "key1=value1", "-T", "key2=value2", "-T", "key3=value3"};
         try {
@@ -66,12 +66,12 @@ public class PropsTest extends Args4JTestBase<Props> {
             Map<String,String> map = testObject.props;
             assertTrue("A key was not set.", map.containsKey("key1"));
             assertEquals("Wrong number of keys.", map.size(), 1);
-            assertEquals("As Map.put() defines: last put wins.", map.get("key1"), "two"); 
+            assertEquals("As Map.put() defines: last put wins.", map.get("key1"), "two");
         } catch (CmdLineException e) {
             fail("Cought an invalid exception: " + e.getMessage());
         }
     }
-    
+
     public void testInitialisation() {
         args = new String[]{"-T", "key1=value1"};
         try {
@@ -84,7 +84,7 @@ public class PropsTest extends Args4JTestBase<Props> {
             fail("Cought an invalid exception: " + e.getMessage());
         }
     }
-    
+
     public void testNoValue() {
         args = new String[]{"-T", "key="};
         try {
@@ -95,7 +95,7 @@ public class PropsTest extends Args4JTestBase<Props> {
             fail("Cought an invalid exception: " + e.getMessage());
         }
     }
-    
+
     public void testNoKey() {
         args = new String[]{"-T", "=value"};
         try {
@@ -105,15 +105,15 @@ public class PropsTest extends Args4JTestBase<Props> {
         	assertEquals("Wrong error message.", "A key must be set.", e.getMessage());
         }
     }
-    
+
     public void testNoSplitCharacter() {
         args = new String[]{"-T", "keyvalue"};
         try {
             parser.parseArgument(args);
             fail("An exception should have been thrown.");
         } catch (CmdLineException e) {
-        	assertEquals("Wrong error message.", "An argument for setting a Map must contain a '='", e.getMessage());
+        	assertEquals("Wrong error message.", "An argument for setting a Map must contain a \"=\"", e.getMessage());
         }
     }
-    
+
 }
