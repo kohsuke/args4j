@@ -7,6 +7,7 @@
   </properties>
   <body>
     <release version="2.0.16">
+  	  <action dev="jhm" type="add">New MetadataParser (FieldParser) which makes all fields available by their name</action>
   	  <action dev="jhm" type="add">'annotate' a class via XML instead of Java5</action>
   	  <action dev="jhm" type="add">Prepare for alternative 'markup' (instead of Annotations)</action>
   	  <action dev="jhm" type="add">Make CmdLineParser.addOption / addArgument public for alternatives to parsing class files.</action>

@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.kohsuke.args4j.spi.ConfigElement;
 import org.xml.sax.Attributes;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -29,30 +30,6 @@ public class Config {
 
 
 	/**
-	 * The ConfigElement is an <tt>&lt;option></tt> or <tt>&lt;argument></tt> tag
-	 * in the xml configuration file.
-	 * @author Jan Materne
-	 */
-	public class ConfigElement {
-		public String field;
-		public String method;
-		public String name;
-		public String usage = "";
-		public String handler;
-		public String metavar = "";
-		public String[] aliases = {};
-		public boolean multiValued = false;
-		public boolean required = false;
-		/**
-		 * Ensures that only a field XOR a method is set.
-		 * @return
-		 */
-		public boolean isInvalid() {
-			return field == null && method == null || field != null && method != null;
-		}
-	}
-
-	/**
 	 * SAX-Handler for reading the configuration file.
 	 * @author Jan Materne
 	 */
@@ -63,7 +40,7 @@ public class Config {
 		}
 
 		Config config;
-		Config.ConfigElement currentCE;
+		ConfigElement currentCE;
 
 		@Override
 		public void startElement(String uri, String localName, String qName,

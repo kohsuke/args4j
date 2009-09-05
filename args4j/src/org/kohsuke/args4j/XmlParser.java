@@ -1,17 +1,12 @@
 package org.kohsuke.args4j;
 
-import java.io.InputStream;
-import java.lang.annotation.Annotation;
 import java.lang.reflect.AccessibleObject;
 import java.net.URL;
 
-import org.kohsuke.args4j.Argument;
-import org.kohsuke.args4j.Config;
-import org.kohsuke.args4j.Option;
-import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.spi.ArgumentImpl;
+import org.kohsuke.args4j.spi.ConfigElement;
+import org.kohsuke.args4j.spi.OptionImpl;
 import org.kohsuke.args4j.spi.Setters;
-import org.kohsuke.args4j.spi.OptionHandler;
-import org.kohsuke.args4j.Config.ConfigElement;
 import org.xml.sax.InputSource;
 
 /**
@@ -47,11 +42,11 @@ public class XmlParser {
 	public void parse(InputSource xml, CmdLineParser parser, Object bean) {
 		try {
 			Config config = Config.parse(xml);
-			for(Config.ConfigElement ce : config.options) {
+			for(ConfigElement ce : config.options) {
 				Option option = new OptionImpl(ce);
                 parser.addOption(Setters.create(parser, findMethodOrField(bean, ce.field, ce.method),bean), option);
 			}
-			for (Config.ConfigElement ce : config.arguments) {
+			for (ConfigElement ce : config.arguments) {
 				Argument argument = new ArgumentImpl(ce);
 				parser.addArgument(Setters.create(parser, findMethodOrField(bean, ce.field, ce.method),bean), argument);
 			}
@@ -91,84 +86,6 @@ public class XmlParser {
 			rv = bean.getClass().getMethod(methodName, paramTypes);
 		}
 		return rv;
-	}
-
-	/**
-	 * Implementation of @Option so we can instantiate it.
-	 * @author Jan Mat�rne
-	 */
-	class OptionImpl extends AnnotationImpl implements Option {
-		protected OptionImpl(ConfigElement ce) throws ClassNotFoundException {
-			super(ce);
-			name = ce.name;
-			annotationType = Option.class;
-		}
-		public String name;
-		public String name() {
-			return name;
-		}
-	}
-
-	/**
-	 * Implementation of @Argument so we can instantiate it.
-	 * @author Jan Mat�rne
-	 */
-	class ArgumentImpl extends AnnotationImpl implements Argument {
-		protected ArgumentImpl(ConfigElement ce) throws ClassNotFoundException {
-			super(ce);
-			annotationType = Argument.class;
-		}
-	}
-
-	/**
-	 * Base class for the @Option and @Argument implementation classes.
-	 * @author Jan Mat�rne
-	 */
-	class AnnotationImpl {
-		protected AnnotationImpl(ConfigElement ce) throws ClassNotFoundException {
-			aliases = ce.aliases != null ? ce.aliases : new String[]{};
-			if (ce.handler != null) {
-				handler = (Class<? extends OptionHandler>) Class.forName(ce.handler);
-			} else {
-				handler = OptionHandler.class;
-			}
-			metaVar = ce.metavar != null ? ce.metavar : "";
-			multiValued = ce.multiValued;
-			required = ce.required;
-			usage = ce.usage != null ? ce.usage : "";
-		}
-		public String[] aliases;
-		public String[] aliases() {
-			return aliases;
-		}
-		public Class<? extends OptionHandler> handler;
-		public Class<? extends OptionHandler> handler() {
-			return handler;
-		}
-		public String metaVar;
-		public String metaVar() {
-			return metaVar;
-		}
-		public boolean multiValued;
-		public boolean multiValued() {
-			return multiValued;
-		}
-		public boolean required;
-		public boolean required() {
-			return required;
-		}
-		public String usage;
-		public String usage() {
-			return usage;
-		}
-		public Class<? extends Annotation> annotationType;
-		public Class<? extends Annotation> annotationType() {
-			return annotationType;
-		}
-		public int index;
-		public int index() {
-			return index;
-		}
 	}
 
 }
