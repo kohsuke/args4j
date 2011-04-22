@@ -47,11 +47,12 @@
       <email>marksinke@dev.java.net</email>
     </developer>
   </developers>
+
   <scm>
-    <connection>scm:cvs:pserver:guest@cvs.dev.java.net:/cvs:args4j</connection>
-    <developerConnection>scm:cvs:pserver:kohsuke@cvs.dev.java.net:/cvs:args4j</developerConnection>
-    <url>https://args4j.dev.java.net/source/browse/args4j/</url>
+    <connection>scm:svn:https://svn.java.net/svn/argsj4~svn/trunk/args4j</connection>
+    <developerConnection>scm:svn:https://svn.java.net/svn/args4j~svn/trunk/args4j</developerConnection>
   </scm>
+
   <organization>
     <name>Kohsuke Kawaguchi</name>
     <url>http://www.kohsuke.org/</url>
@@ -65,41 +66,61 @@
           <target>1.5</target>
         </configuration>
       </plugin>
+           <plugin>
+                     <groupId>org.apache.maven.plugins</groupId>
+                     <artifactId>maven-site-plugin</artifactId>
+                     <version>3.0-beta-3</version>
+                </plugin>
+    
     </plugins>
     <extensions>
       <extension>
-        <groupId>org.jvnet.wagon-svn</groupId>
-        <artifactId>wagon-svn</artifactId>
-        <version>1.8</version>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-webdav</artifactId>
+        <version>1.0-beta-2</version>
       </extension>
     </extensions>
   </build>
   <reporting>
     <plugins>
       <plugin>
-        <artifactId>maven-changes-plugin</artifactId>
-        <configuration>
-          <issueLinkTemplate>https://args4j.dev.java.net/issues/show_bug.cgi?id=%ISSUE% </issueLinkTemplate>
-          <xmlPath>${basedir}/xdocs/changes.xml</xmlPath>
-        </configuration>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
       </plugin>
     </plugins>
   </reporting>
+
+  <pluginRepositories>
+    <pluginRepository>
+      <id>m.g.o-public</id>
+      <url>http://maven.glassfish.org/content/groups/public/</url>
+    </pluginRepository>
+  </pluginRepositories>
+
   <repositories>
     <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net Repository for Maven</name>
-      <url>http://download.java.net/maven/2/</url>
+      <id>m.g.o-public</id>
+      <url>http://maven.glassfish.org/content/groups/public/</url>
     </repository>
   </repositories>
   
   <distributionManagement>
     <repository>
-      <uniqueVersion>false</uniqueVersion>
-      <id>java.net-maven2-repository</id>
-      <url>java-net:/maven2-repository/trunk/repository/</url>
+      <id>java.net-m2-repository</id>
+      <url>java-net:/maven2-repository~svn/trunk/repository/</url>
     </repository>
-  </distributionManagement>  
+    <site>
+      <id>java.net</id>
+      <url>dav:https://java.net/website/args4j/</url>
+    </site>
+  </distributionManagement>
+
+  <licenses>
+    <license>
+      <name>MIT License</name>
+      <url>http://www.opensource.org/licenses/mit-license.php</url>
+    </license>
+  </licenses>
   
   <modules>
     <module>args4j</module>
