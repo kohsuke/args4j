@@ -14,6 +14,13 @@ import java.util.List;
 public class Args4jMojo extends AbstractMojo {
 
     /**
+     * Mode. 'TXT' 'XML' or 'HTML'
+     * @parameter expression="TXT"
+     * @required
+     */
+    private String mode;
+
+    /**
      * Location of the source files.
      * @parameter expression="${basedir}/src/main/java"
      * @required
@@ -72,7 +79,7 @@ public class Args4jMojo extends AbstractMojo {
     private void generateUsage(String sourceFile, File args4jBuildDir) throws InterruptedException, IOException {
         String outputDir = args4jBuildDir.getAbsolutePath();
         ProcessBuilder pb = new ProcessBuilder();
-        pb.command("java","-jar", jar.getAbsolutePath(), "-o", outputDir, sourceFile);
+        pb.command("java","-jar", jar.getAbsolutePath(), "-o", outputDir, "-mode", mode, sourceFile);
 
         printCommand(pb);
         Process process = pb.start();

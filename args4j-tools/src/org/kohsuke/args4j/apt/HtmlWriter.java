@@ -1,5 +1,7 @@
 package org.kohsuke.args4j.apt;
 
+import org.kohsuke.args4j.Option;
+
 import java.io.PrintWriter;
 import java.io.Writer;
 
@@ -16,9 +18,16 @@ class HtmlWriter implements AnnotationVisitor {
         this.out.println("<table class='args4j-usage'>");
     }
 
-    public void onOption( String name, String usage ) {
+    public void onOption(String name, String usage) {
         out.println("  <tr>");
         writeTag("td","args4j-option",name);
+        writeTag("td","args4j-usage",usage);
+        out.println("  </tr>");
+    }
+
+    public void onOption( Option option, String usage ) {
+        out.println("  <tr>");
+        writeTag("td","args4j-option",option.name());
         writeTag("td","args4j-usage",usage);
         out.println("  </tr>");
     }

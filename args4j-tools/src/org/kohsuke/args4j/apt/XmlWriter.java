@@ -1,6 +1,7 @@
 package org.kohsuke.args4j.apt;
 
 import com.sun.mirror.declaration.ClassDeclaration;
+import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -21,6 +22,13 @@ class XmlWriter implements AnnotationVisitor {
     public void onOption( String name, String usage ) {
         out.println("  <option>");
         writeTag("name",name);
+        writeTag("usage",usage);
+        out.println("  </option>");
+    }
+
+    public void onOption( Option option, String usage ) {
+        out.println("  <option>");
+        writeTag("name",option.name());
         writeTag("usage",usage);
         out.println("  </option>");
     }

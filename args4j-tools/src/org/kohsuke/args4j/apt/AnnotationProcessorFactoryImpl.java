@@ -90,6 +90,8 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
                             AnnotationVisitor writer;
                             if(format.equals("XML"))
                                 writer = new XmlWriter(out,cd);
+                            else if (format.equals("TXT"))
+                                writer = new TxtWriter(out, cd);
                             else
                                 writer = new HtmlWriter(out);
                             env.getMessager().printNotice("Processing "+cd.getQualifiedName());
@@ -129,7 +131,7 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
 
         String usage = getUsage(o);
         if(usage==null || usage.length()==0)    return;   // hidden
-        visitor.onOption(o.name(),usage);
+        visitor.onOption(o,usage);
     }
 
     private String getUsage(Option o) {
