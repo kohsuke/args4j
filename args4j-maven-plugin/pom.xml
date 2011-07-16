@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>args4j</groupId>
+    <artifactId>args4j-site</artifactId>
+    <version>2.0.17-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <groupId>org.kohsuke.args4j</groupId>
+  <artifactId>args4j-maven-plugin</artifactId>
+  <packaging>maven-plugin</packaging>
+  <name>Args4j Maven Plugin</name>
+  <description>Automate the generation of </description>
+
+  <prerequisites>
+    <maven>2.0</maven>
+  </prerequisites>
+  <inceptionYear>2011</inceptionYear>
+  <dependencies>
+    <dependency>
+      <groupId>args4j</groupId>
+      <artifactId>args4j-tools</artifactId>
+      <version>${project.version}</version>
+      <classifier>all</classifier>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-project</artifactId>
+      <version>2.0.4</version> 
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-plugin-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+  </dependencies>
+</project>
