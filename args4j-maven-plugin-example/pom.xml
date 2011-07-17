@@ -30,7 +30,7 @@
             <execution>
               <phase>package</phase>
               <goals>
-                <goal>doc</goal>
+                <goal>usage</goal>
               </goals>
               <configuration>
                 <sourceFiles>

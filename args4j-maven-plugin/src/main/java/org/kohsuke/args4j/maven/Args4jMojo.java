@@ -8,8 +8,7 @@ import org.kohsuke.args4j.apt.Main;
 import java.io.*;
 import java.util.List;
 /**
- * @goal doc
- * @requiresDependencyResolution compile
+ * @goal usage
  */
 public class Args4jMojo extends AbstractMojo {
 
