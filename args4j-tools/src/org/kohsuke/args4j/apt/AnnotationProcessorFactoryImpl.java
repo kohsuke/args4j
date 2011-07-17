@@ -137,7 +137,7 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
         String usage = getUsage(o);
         if(isOptionHidden(usage))    return;
 
-        visitor.onOption(o,usage);
+        visitor.onOption(new OptionWithUsage(o, usage));
     }
 
     private boolean isOptionHidden(String usage) {

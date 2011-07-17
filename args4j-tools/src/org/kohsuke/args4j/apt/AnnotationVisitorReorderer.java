@@ -1,7 +1,5 @@
 package org.kohsuke.args4j.apt;
 
-import org.kohsuke.args4j.Option;
-
 import java.util.*;
 
 /**
@@ -20,14 +18,14 @@ public class AnnotationVisitorReorderer implements AnnotationVisitor {
         throw new UnsupportedOperationException("method not used");
     }
 
-    public void onOption(Option option, String usage) {
-        arguments.add(new OptionWithUsage(option, usage));
+    public void onOption(OptionWithUsage optionWithUsage) {
+        arguments.add(optionWithUsage);
     }
 
     public void done() {
         reorderArguments();
         for (OptionWithUsage argument : arguments) {
-            target.onOption(argument.option, argument.usage);
+            target.onOption(argument);
         }
         target.done();
     }

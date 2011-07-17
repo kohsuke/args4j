@@ -8,10 +8,10 @@ import org.kohsuke.args4j.Option;
  */
 interface AnnotationVisitor {
     /**
-     * @deprecated as of 2.0.17 use {@link #onOption(org.kohsuke.args4j.Option, String)}
+     * @deprecated as of 2.0.17 use {@link #onOption(OptionWithUsage)}
      */
     @Deprecated
     void onOption( String name, String usage );
-    void onOption( Option option, String usage );
+    void onOption( OptionWithUsage optionWithUsage );
     void done();
 }

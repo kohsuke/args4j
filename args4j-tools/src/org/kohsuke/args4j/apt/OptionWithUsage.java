@@ -5,7 +5,7 @@ import org.kohsuke.args4j.Option;
 /**
  * @author Jerome Lacoste
 */
-class OptionWithUsage {
+public class OptionWithUsage {
     final Option option;
     final String usage;
 

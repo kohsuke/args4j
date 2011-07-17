@@ -33,14 +33,14 @@ public class AnnotationVisitorReordererTest extends TestCase {
 
     private void simulateOnOptionsThenDone(OptionWithUsage... options) {
         for (OptionWithUsage option : options) {
-            reorderer.onOption(option.option, option.usage);
+            reorderer.onOption(option);
         }
         reorderer.done();
     }
 
     private void verifyOptionsThenDone(OptionWithUsage... options) {
         for (OptionWithUsage option : options) {
-            verify(target).onOption(option.option, option.usage);
+            verify(target).onOption(option);
         }
         verify(target).done();
     }

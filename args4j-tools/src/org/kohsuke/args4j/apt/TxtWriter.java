@@ -23,8 +23,8 @@ class TxtWriter implements AnnotationVisitor {
         throw new UnsupportedOperationException("never used");
     }
 
-    public void onOption( Option option, String usage ) {
-        out.println("\t" + option.name() + ": " + required(option)  + usage);
+    public void onOption( OptionWithUsage optionWithUsage) {
+        out.println("\t" + optionWithUsage.option.name() + ": " + required(optionWithUsage.option)  + optionWithUsage.usage);
     }
 
     private String required(Option option) {
