@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * @goal usage
  */
-public class Args4jMojo extends AbstractMojo {
+public class Args4jUsageMojo extends AbstractMojo {
 
     /**
      * Mode. 'TXT' 'XML' or 'HTML'
