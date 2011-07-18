@@ -7,6 +7,7 @@ import org.kohsuke.args4j.apt.Main;
 
 import java.io.*;
 import java.util.List;
+
 /**
  * @goal usage
  */
@@ -92,12 +93,13 @@ public class Args4jMojo extends AbstractMojo {
     }
 
     private void printCommand(ProcessBuilder pb) {
-        System.out.print("Running: ");
+        StringBuilder sb = new StringBuilder();
+        sb.append("Running: ");
         for (String s : pb.command()) {
-            System.out.print(s + " ");
+            sb.append(s).append(" ");
         }
-        System.out.print("from " + dir(pb).getAbsolutePath());
-        System.out.println();
+        sb.append("from ").append(dir(pb).getAbsolutePath());
+        getLog().debug(sb.toString());
     }
 
     private File dir(ProcessBuilder pb) {
