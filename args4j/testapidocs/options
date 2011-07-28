@@ -1,26 +1,26 @@
 -classpath
-'/home/kohsuke/ws/args4j/args4j/target/classes:/home/kohsuke/ws/args4j/args4j/target/test-classes:/home/kohsuke/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j/target/test-classes:/home/kohsuke/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar'
 -encoding
 'UTF-8'
 -protected
 -sourcepath
-'/home/kohsuke/ws/args4j/args4j/test'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/test'
 -author
 -bottom
 'Copyright &#169; 2003-2011 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'/home/kohsuke/ws/args4j/args4j/target/site/testapidocs'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/target/site/testapidocs'
 -docencoding
 'UTF-8'
 -doctitle
-'args4j 2.0.17-SNAPSHOT Test API'
+'args4j 2.0.17 Test API'
 -link
 '../apidocs'
 -linkoffline
-'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/args4j/target/javadoc-bundle-options'
+'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/target/checkout/args4j/target/javadoc-bundle-options'
 -use
 -version
 -windowtitle
-'args4j 2.0.17-SNAPSHOT Test API'
+'args4j 2.0.17 Test API'
