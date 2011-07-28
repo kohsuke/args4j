@@ -1,0 +1,202 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+<html>
+  <head>
+    <title>args4j parent - 
+    Args4J changes</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/1024px.css");
+      @import url("./css/site.css");
+    </style>
+          <meta name="author" content="Kohsuke Kawaguchi" />
+          <meta name="author" content="Jan Materne" />
+          <meta name="author" content="Mark Sinke" />
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
+  <body>
+    <div id="wrap2"><div id="wrap">
+    <div id="header">
+      <p id="toplinks">Skip to: <a href="#content">Content</a> | <a href="#sidebar">Navigation</a> | <a href="#footer">Footer</a></p>
+		
+            <h1 id="bannerLeft">
+    
+            args4j parent
+    
+        </h1>
+                
+      <p id="slogan">args4j : Java command line arguments parser</p>
+    </div>
+    <div id="breadcrumbs">
+      <div class="xright">  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+
+    <div id="sidebar">
+      <div id="navcolumn">
+              <h2>
+          Overview
+        </h2><ul>
+              
+    <li class="none">
+              <a href="index.html">Home</a>
+        </li>
+              
+    <li class="none">
+              <a href="http://maven.glassfish.org/content/groups/public/args4j/">Download</a>
+        </li>
+              
+    <li class="none">
+              <a href="https://github.com/kohsuke/args4j">Source code</a>
+        </li>
+              
+    <li class="none">
+              <a href="http://java.net/jira/browse/ARGS4J">Issues</a>
+        </li>
+          </ul>
+      <h2>
+          Project Documentation
+        </h2><ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+              <a href="project-info.html">Project Information</a>
+              </li>
+          </ul>
+        </div>
+    </div>
+    <div id="content">
+      <div id="contentBox">
+        
+  
+    
+  	  New MetadataParser (FieldParser) which makes all fields available by their name
+  	  'annotate' a class via XML instead of Java5
+  	  Prepare for alternative 'markup' (instead of Annotations)
+  	  Make CmdLineParser.addOption / addArgument public for alternatives to parsing class files.
+    
+    
+  	  
+  	  	Enum with many/long values result in StringIndexOutOfBoundsException CmdLineParser.printUsage / printOption
+  	  
+  	  Rewrite the printOptions with a hook for line wrapping on word borders
+    
+  	
+  	  Support of all Java native types
+  	  Support of java.util.Map
+  	
+  	
+  	  <!-- <action dev="jhm" type="fix" issue="5">Option without "usage" are hidden.</action> -->
+      Better usage output for Java5 enums.
+  	
+    
+      Fixed a packaging error where APT service entry was in args4j.jar
+    
+    
+      add a changes document (this)
+      add a starter class
+      a short manual
+      args4j is running on Gump
+      allow to specify the console width for wrapping the usage message
+    
+    
+      implemented the stop option <tt>--</tt> 
+      modified test cases to use generics to avoid casting
+      check the usage messages in the test cases
+      test the inheritance of annotations
+
+      usage info for the -custom option and use of that data inside the SampleMain
+    
+    
+      more test cases
+      tried to rebuild the Apache Ant command line interface in SampleAnt
+      expanded @Option to allow a Handler to be explicitly specified
+    
+
+    
+      add DoubleOptionHandler
+      a few test cases
+      printExample provides the ability to generate list of available parameters with usage samples
+      handle mandatory options
+      fully supports localization
+
+    
+    
+      implemented metavariable support
+      split out args4j-tools
+      implemented a case-insensitive search
+    
+    
+
+      moving the repository from SourceForge <tt>http://sourceforge.net/projects/args4j</tt> 
+      implemented args4j 2.0
+    
+    
+      initial release
+    
+
+  
+
+      </div>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2003-2011
+    
+          Kohsuke Kawaguchi
+          
+  
+
+  
+  
+  &nbsp;| Last Published: 07/27/2011
+  &nbsp;| Version: 2.0.17-SNAPSHOT
+</div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    </div></div>
+  </body>
+</html>
