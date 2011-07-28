@@ -38,7 +38,7 @@ More Resource
 
  [[1]] {{{./sample.html}A small tutorial}} for the use of the Starter and Args4J
 
- [[1]] {{{./apidocs/}javadoc}}
+ [[1]] {{{./args4j/apidocs/}javadoc}}
 
  [[1]] {{{./apt.html}How to generate a documentation for your CLI}}
 
