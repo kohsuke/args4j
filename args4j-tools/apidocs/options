@@ -1,26 +1,26 @@
 -classpath
-'/home/kohsuke/ws/args4j/args4j-tools/target/classes:/home/kohsuke/.m2/repository/ant/ant/1.5/ant-1.5.jar:/usr/local/jdk1.6.0_20/jre/../lib/tools.jar:/home/kohsuke/ws/args4j/args4j/target/args4j-2.0.17-SNAPSHOT.jar'
+'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/classes:/home/kohsuke/.m2/repository/ant/ant/1.5/ant-1.5.jar:/usr/local/jdk1.6.0_20/jre/../lib/tools.jar:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.0.17.jar'
 -encoding
 'UTF-8'
 -protected
 -sourcepath
-'/home/kohsuke/ws/args4j/args4j-tools/src'
+'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/src'
 -author
 -bottom
 'Copyright &#169; 2003-2011 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'/home/kohsuke/ws/args4j/args4j-tools/target/site/apidocs'
+'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/site/apidocs'
 -docencoding
 'UTF-8'
 -doctitle
-'args4j-tools 2.0.17-SNAPSHOT API'
+'args4j-tools 2.0.17 API'
 -linkoffline
-'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/args4j-tools/target/javadoc-bundle-options'
+'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/javadoc-bundle-options'
 -linkoffline
-'http://args4j.dev.java.net/args4j/apidocs' '/home/kohsuke/ws/args4j/args4j/target/site/apidocs'
+'http://args4j.dev.java.net/args4j/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j/target/site/apidocs'
 -use
 -version
 -windowtitle
-'args4j-tools 2.0.17-SNAPSHOT API'
+'args4j-tools 2.0.17 API'
