@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="${project.name}">
+  <skin>
+    <groupId>org.kohsuke</groupId>
+    <artifactId>maven-skin</artifactId>
+    <version>1.2</version>
+  </skin>
+
+  <body>
+   <menu name="Overview">
+      <item name="Home"                   href="/index.html"/>
+      <item name="Download"               href="http://maven.jenkins-ci.org/content/repositories/releases/args4j/"/>
+      <item name="Javadoc"                   href="/apidocs/"/>
+      <item name="Source code" href="https://github.com/kohsuke/args4j"/>
+      <item name="Issues" href="http://java.net/jira/browse/ARGS4J"/>
+    </menu>
+    ${reports}
+  </body>
+</project>
+

@@ -1,0 +1,185 @@
+  -----
+  How to use Args4J
+  -----
+  
+Prepare your environment
+
+  Because we only want to have a very small example, we use only one single directory containing all the stuff - sources, class files and the args4j jarfile. You need a JDK 1.5 or higher.
+
+ [[1]] Create a directory args4j-sample this will be our project directory.
+
+ [[1]] Download the latest args4j version from the download page
+
+ [[1]] Extract the args4j-{version}.jar from the archive into the project directory
+ 
+ []
+
+Implementing pure business logic
+
+  Create the business bean Business.java. At this step it contains only the business logic. To run this logic, we want to have a run() method.
+
+------------------------------
+import java.io.File;
+
+public class Business {
+
+    public String name;
+    public File file;
+
+    public void setFile(File f) { 
+        if (f.exists()) file = f; 
+    }
+
+    public void run() {
+        System.out.println("Business-Logic");
+        System.out.println("- name: " + name);
+        System.out.println("- file: " + ((file!=null) 
+                                      ? file.getAbsolutePath() 
+                                      : "null"));
+    }
+
+}
+------------------------------
+
+ Compile the sources
+
+------------------------------
+javac -classpath .;args4j-2.0.5.jar Business.java
+------------------------------
+
+Start the class
+
+ Now we have three options for setting the field from the command line:
+
+ [[1]] implement a main-method and the command line parsing for our own
+
+ [[1]] implement a main-method and use args4j for parsing
+
+ [[1]] use the starter class
+
+ []
+
+  Ok, because this is a args4j sample, the first method is not the right solution here ;-) In the first step we just use the Starter.
+
+  Start the class
+
+------------------------------
+java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter
+------------------------------
+
+ and we will get
+
+------------------------------
+Business-Logic
+- name: null
+- file: null
+------------------------------
+
+ What happened? The starter class had a look into the java system property <<<mainclass>>> loads that class, instantiates it and executes their run() method. We provide the classpath so the Java VM could find the starter class and our business class.
+
+ Next we try to start the class with arguments:
+
+------------------------------
+java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter -name "Hrld" -file args4j-2.0.5.jar
+------------------------------
+
+ which results in
+
+------------------------------
+"-name" is not a valid option
+Business
+------------------------------
+
+Adding Args4J Annotations
+
+ Ok, we don't have any annotations for handling the command line parameters yet. So we modify to the source:
+
+------------------------------
+    ...
+    import org.kohsuke.args4j.Option;
+    ...
+    @Option(name="-name",usage="Sets a name")
+    public String name;
+    ...
+    @Option(name="-file",usage="Sets a file if that is present")
+    public void setFile(File f) { 
+    ...
+------------------------------
+
+ recompile it and try the start again
+
+------------------------------
+Business-Logic
+- name: Hello World
+- file: C:\temp\args4j-sample\args4j-2.0.5.jar
+------------------------------
+
+ Ok, so far so good. What is with wrong parameters? We will type a
+
+------------------------------
+java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter -wrong
+------------------------------
+
+ and the output is
+
+------------------------------
+"-wrong" is not a valid option
+Business [options]
+ -file FILE : Sets a file if that is present
+ -name VAL  : Sets a name
+------------------------------
+
+ Again - what happened? args4j throws a CmdLineException when we type an incorrect parameter (<<<-wrong>>>). The starter class catches this and prints out a help message: the classname and an <<<[Option]>>> because we have some @Option's in the code. (We dont have an @Argument so that line is not <<<Business [options] arguments>>>). After that it shows the possible options, as given by the parsers printUsage() method. 
+
+ As you can see we added an @Option to an attribute and to a setter method. Adding to an attribute is the simplest thing. If we want to do some checks (like our file existance check) you could add the annotation to a setter.
+
+Enhancing the parsing
+
+ If you want to have more control about the parsing and error handling - dont use the starter. Use the CmdLineParser directly. Base steps are shown below:
+
+------------------------------
+    import org.kohsuke.args4j.CmdLineParser;
+    import org.kohsuke.args4j.CmdLineException;
+    ...
+    public static void main(String[] args) {
+    	Business bean = new Business();
+    	CmdLineParser parser = new CmdLineParser(bean);
+    	try {
+    		parser.parseArgument(args);
+    		bean.run();
+        } catch (CmdLineException e) {
+            // handling of wrong arguments
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
+        }
+    }
+------------------------------
+
+ Because we dont use the Starter we also have to supply the main method and start this. So after compiling we could start that with
+
+------------------------------
+java -classpath .;args4j-2.0.5.jar Business -name "Hello World" -file args4j-2.0.5.jar
+------------------------------
+
+ and we will get
+
+------------------------------
+Business-Logic
+- name: Hello World
+- file: C:\temp\args4j-sample\args4j-2.0.5.jar
+------------------------------
+
+ The error case from above
+
+------------------------------
+java -classpath .;args4j-2.0.5.jar Business -wrong
+------------------------------
+
+will result in
+
+------------------------------
+"-wrong" is not a valid option
+ -file FILE : Sets a file if that is present
+ -name VAL  : Sets a name
+------------------------------
+
