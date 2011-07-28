@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>org.kohsuke</groupId>
+    <artifactId>pom</artifactId>
+    <version>1</version>
+  </parent>
+
   <groupId>args4j</groupId>
   <artifactId>args4j-site</artifactId>
   <name>args4j parent</name>
@@ -49,9 +55,21 @@
   </developers>
 
   <scm>
-    <connection>scm:svn:https://svn.java.net/svn/argsj4~svn/trunk/args4j</connection>
-    <developerConnection>scm:svn:https://svn.java.net/svn/args4j~svn/trunk/args4j</developerConnection>
+    <connection>scm:git:git@github.com/kohsuke/args4j.git</connection>
+    <developerConnection>scm:git:ssh://git@github.com/kohsuke/args4j.git</developerConnection>
+    <url>http://args4j.kohsuke.org/</url>
   </scm>
+
+  <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
+    </repository>
+    <site>
+      <id>github-pages</id>
+      <url>gitsite:git@github.com/kohsuke/args4j.git</url>
+    </site>
+  </distributionManagement>
 
   <organization>
     <name>Kohsuke Kawaguchi</name>
@@ -66,12 +84,11 @@
           <target>1.5</target>
         </configuration>
       </plugin>
-           <plugin>
-                     <groupId>org.apache.maven.plugins</groupId>
-                     <artifactId>maven-site-plugin</artifactId>
-                     <version>3.0-beta-3</version>
-                </plugin>
-    
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <version>3.0-beta-3</version>
+      </plugin>
     </plugins>
     <extensions>
       <extension>
@@ -104,17 +121,6 @@
     </repository>
   </repositories>
   
-  <distributionManagement>
-    <repository>
-      <id>java.net-m2-repository</id>
-      <url>java-net:/maven2-repository~svn/trunk/repository/</url>
-    </repository>
-    <site>
-      <id>java.net</id>
-      <url>dav:https://java.net/website/args4j/</url>
-    </site>
-  </distributionManagement>
-
   <licenses>
     <license>
       <name>MIT License</name>
