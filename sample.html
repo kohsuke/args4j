@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+
+
+
+
+
+
+
+
+<html>
+  <head>
+    <title>args4j parent - How to use Args4J</title>
+    <style type="text/css" media="all">
+      @import url("./css/maven-base.css");
+      @import url("./css/maven-theme.css");
+      @import url("./css/1024px.css");
+      @import url("./css/site.css");
+    </style>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      </head>
+  <body>
+    <div id="wrap2"><div id="wrap">
+    <div id="header">
+      <p id="toplinks">Skip to: <a href="#content">Content</a> | <a href="#sidebar">Navigation</a> | <a href="#footer">Footer</a></p>
+		
+            <h1 id="bannerLeft">
+    
+            args4j parent
+    
+        </h1>
+                
+      <p id="slogan">args4j : Java command line arguments parser</p>
+    </div>
+    <div id="breadcrumbs">
+      <div class="xright">  </div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+
+    <div id="sidebar">
+      <div id="navcolumn">
+              <h2>
+          Overview
+        </h2><ul>
+              
+    <li class="none">
+              <a href="index.html">Home</a>
+        </li>
+              
+    <li class="none">
+              <a href="http://maven.jenkins-ci.org/content/repositories/releases/args4j/">Download</a>
+        </li>
+              
+    <li class="none">
+              <a href="apidocs/">Javadoc</a>
+        </li>
+              
+    <li class="none">
+              <a href="https://github.com/kohsuke/args4j">Source code</a>
+        </li>
+              
+    <li class="none">
+              <a href="http://java.net/jira/browse/ARGS4J">Issues</a>
+        </li>
+          </ul>
+      <h2>
+          Project Documentation
+        </h2><ul>
+              
+                
+              
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+            
+      
+              
+        <li class="collapsed">
+              <a href="project-info.html">Project Information</a>
+              </li>
+          </ul>
+        </div>
+    </div>
+    <div id="content">
+      <div id="contentBox">
+        <div class="section"><h2>Prepare your environment<a name="Prepare_your_environment"></a></h2><p>Because we only want to have a very small example, we use only one single directory containing all the stuff - sources, class files and the args4j jarfile. You need a JDK 1.5 or higher.</p><ol style="list-style-type: decimal"><li>Create a directory args4j-sample this will be our project directory.</li><li>Download the latest args4j version from the download page</li><li>Extract the args4j-<a name="version">version</a>.jar from the archive into the project directory</li></ol></div><div class="section"><h2>Implementing pure business logic<a name="Implementing_pure_business_logic"></a></h2><p>Create the business bean Business.java. At this step it contains only the business logic. To run this logic, we want to have a run() method.</p><div><pre>import java.io.File;
+
+public class Business {
+
+    public String name;
+    public File file;
+
+    public void setFile(File f) { 
+        if (f.exists()) file = f; 
+    }
+
+    public void run() {
+        System.out.println(&quot;Business-Logic&quot;);
+        System.out.println(&quot;- name: &quot; + name);
+        System.out.println(&quot;- file: &quot; + ((file!=null) 
+                                      ? file.getAbsolutePath() 
+                                      : &quot;null&quot;));
+    }
+
+}</pre></div><p>Compile the sources</p><div><pre>javac -classpath .;args4j-2.0.5.jar Business.java</pre></div></div><div class="section"><h2>Start the class<a name="Start_the_class"></a></h2><p>Now we have three options for setting the field from the command line:</p><ol style="list-style-type: decimal"><li>implement a main-method and the command line parsing for our own</li><li>implement a main-method and use args4j for parsing</li><li>use the starter class</li></ol><p>Ok, because this is a args4j sample, the first method is not the right solution here ;-) In the first step we just use the Starter.</p><p>Start the class</p><div><pre>java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter</pre></div><p>and we will get</p><div><pre>Business-Logic
+- name: null
+- file: null</pre></div><p>What happened? The starter class had a look into the java system property <tt>mainclass</tt> loads that class, instantiates it and executes their run() method. We provide the classpath so the Java VM could find the starter class and our business class.</p><p>Next we try to start the class with arguments:</p><div><pre>java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter -name &quot;Hrld&quot; -file args4j-2.0.5.jar</pre></div><p>which results in</p><div><pre>&quot;-name&quot; is not a valid option
+Business</pre></div></div><div class="section"><h2>Adding Args4J Annotations<a name="Adding_Args4J_Annotations"></a></h2><p>Ok, we don't have any annotations for handling the command line parameters yet. So we modify to the source:</p><div><pre>    ...
+    import org.kohsuke.args4j.Option;
+    ...
+    @Option(name=&quot;-name&quot;,usage=&quot;Sets a name&quot;)
+    public String name;
+    ...
+    @Option(name=&quot;-file&quot;,usage=&quot;Sets a file if that is present&quot;)
+    public void setFile(File f) { 
+    ...</pre></div><p>recompile it and try the start again</p><div><pre>Business-Logic
+- name: Hello World
+- file: C:\temp\args4j-sample\args4j-2.0.5.jar</pre></div><p>Ok, so far so good. What is with wrong parameters? We will type a</p><div><pre>java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter -wrong</pre></div><p>and the output is</p><div><pre>&quot;-wrong&quot; is not a valid option
+Business [options]
+ -file FILE : Sets a file if that is present
+ -name VAL  : Sets a name</pre></div><p>Again - what happened? args4j throws a CmdLineException when we type an incorrect parameter (<tt>-wrong</tt>). The starter class catches this and prints out a help message: the classname and an <tt>[Option]</tt> because we have some @Option's in the code. (We dont have an @Argument so that line is not <tt>Business [options] arguments</tt>). After that it shows the possible options, as given by the parsers printUsage() method. </p><p>As you can see we added an @Option to an attribute and to a setter method. Adding to an attribute is the simplest thing. If we want to do some checks (like our file existance check) you could add the annotation to a setter.</p></div><div class="section"><h2>Enhancing the parsing<a name="Enhancing_the_parsing"></a></h2><p>If you want to have more control about the parsing and error handling - dont use the starter. Use the CmdLineParser directly. Base steps are shown below:</p><div><pre>    import org.kohsuke.args4j.CmdLineParser;
+    import org.kohsuke.args4j.CmdLineException;
+    ...
+    public static void main(String[] args) {
+        Business bean = new Business();
+        CmdLineParser parser = new CmdLineParser(bean);
+        try {
+                parser.parseArgument(args);
+                bean.run();
+        } catch (CmdLineException e) {
+            // handling of wrong arguments
+            System.err.println(e.getMessage());
+            parser.printUsage(System.err);
+        }
+    }</pre></div><p>Because we dont use the Starter we also have to supply the main method and start this. So after compiling we could start that with</p><div><pre>java -classpath .;args4j-2.0.5.jar Business -name &quot;Hello World&quot; -file args4j-2.0.5.jar</pre></div><p>and we will get</p><div><pre>Business-Logic
+- name: Hello World
+- file: C:\temp\args4j-sample\args4j-2.0.5.jar</pre></div><p>The error case from above</p><div><pre>java -classpath .;args4j-2.0.5.jar Business -wrong</pre></div></div><div class="section"><h2>will result in<a name="will_result_in"></a></h2><div><pre>&quot;-wrong&quot; is not a valid option
+ -file FILE : Sets a file if that is present
+ -name VAL  : Sets a name</pre></div></div>
+      </div>
+    </div>
+    <div id="footer">
+      <div class="xright">&#169;  
+          2003-2011
+    
+          Kohsuke Kawaguchi
+          
+  
+
+  
+  
+  &nbsp;| Last Published: 07/27/2011
+  &nbsp;| Version: 2.0.17-SNAPSHOT
+</div>
+      <div class="clear">
+        <hr/>
+      </div>
+    </div>
+    </div></div>
+  </body>
+</html>
