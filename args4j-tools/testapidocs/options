@@ -1,0 +1,28 @@
+-classpath
+'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/test-classes:/files/kohsuke/.m2/repository/ant/ant/1.5/ant-1.5.jar:/files/kohsuke/.m2/repository/org/mockito/mockito-all/1.8.5/mockito-all-1.8.5.jar:/usr/lib/jvm/java-6-sun-1.6.0.24/jre/../lib/tools.jar:/files/kohsuke/.m2/repository/junit/junit/3.8.2/junit-3.8.2.jar:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.0.18.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/test'
+-author
+-bottom
+'Copyright &#169; 2003-2011 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/site/testapidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'args4j-tools 2.0.18 Test API'
+-link
+'../apidocs'
+-linkoffline
+'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/javadoc-bundle-options'
+-linkoffline
+'http://args4j.dev.java.net/args4j/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j/target/site/testapidocs'
+-use
+-version
+-windowtitle
+'args4j-tools 2.0.18 Test API'

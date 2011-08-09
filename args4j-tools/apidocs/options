@@ -1,5 +1,5 @@
 -classpath
-'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/classes:/home/kohsuke/.m2/repository/ant/ant/1.5/ant-1.5.jar:/usr/local/jdk1.6.0_20/jre/../lib/tools.jar:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.0.17.jar'
+'/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/classes:/files/kohsuke/.m2/repository/ant/ant/1.5/ant-1.5.jar:/usr/lib/jvm/java-6-sun-1.6.0.24/jre/../lib/tools.jar:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.0.18.jar'
 -encoding
 'UTF-8'
 -protected
@@ -15,7 +15,7 @@
 -docencoding
 'UTF-8'
 -doctitle
-'args4j-tools 2.0.17 API'
+'args4j-tools 2.0.18 API'
 -linkoffline
 'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/javadoc-bundle-options'
 -linkoffline
@@ -23,4 +23,4 @@
 -use
 -version
 -windowtitle
-'args4j-tools 2.0.17 API'
+'args4j-tools 2.0.18 API'
