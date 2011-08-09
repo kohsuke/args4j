@@ -1,0 +1,26 @@
+-classpath
+'/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.0.18.jar'
+-encoding
+'UTF-8'
+-protected
+-sourcepath
+'/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/src/main/java'
+-author
+-bottom
+'Copyright &#169; 2011 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
+-charset
+'UTF-8'
+-d
+'/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/site/apidocs'
+-docencoding
+'UTF-8'
+-doctitle
+'Args4j Maven Plugin Example 2.0.18 API'
+-linkoffline
+'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/javadoc-bundle-options'
+-linkoffline
+'http://args4j.dev.java.net/args4j/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j/target/site/apidocs'
+-use
+-version
+-windowtitle
+'Args4j Maven Plugin Example 2.0.18 API'
