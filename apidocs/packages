@@ -1,3 +1,4 @@
 org.kohsuke.args4j
 org.kohsuke.args4j.spi
 org.kohsuke.args4j.apt
+org.kohsuke.args4j.maven
