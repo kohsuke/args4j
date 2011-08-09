@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>args4j</groupId>
+    <artifactId>args4j-site</artifactId>
+    <version>2.0.17-SNAPSHOT</version>
+    <relativePath>../pom.xml</relativePath>
+  </parent>
+  <artifactId>args4j-maven-plugin-example</artifactId>
+  <packaging>jar</packaging>
+  <name>Args4j Maven Plugin Example</name>
+
+  <description>Example of running the maven plugin</description>
+
+  <prerequisites>
+    <maven>2.0</maven>
+  </prerequisites>
+  <inceptionYear>2011</inceptionYear>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.kohsuke.args4j</groupId>
+        <artifactId>args4j-maven-plugin</artifactId>
+        <version>${project.version}</version>
+          <executions>
+            <execution>
+              <phase>package</phase>
+              <goals>
+                <goal>usage</goal>
+              </goals>
+              <configuration>
+                <sourceFiles>
+                  <sourceFile>org/kohsuke/args4j/maven/Example.java</sourceFile>
+                  <sourceFile>../../../../args4j-tools/src/org/kohsuke/args4j/apt/Main.java</sourceFile>
+                  <sourceFile>../../../../args4j/examples/SampleAnt.java</sourceFile>
+                  <sourceFile>../../../../args4j/examples/SampleMain.java</sourceFile>
+                  <sourceFile>../../../../args4j/examples/SampleStarter.java</sourceFile>
+                </sourceFiles>
+              </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
+  <dependencies>
+    <dependency>
+      <groupId>args4j</groupId>
+      <artifactId>args4j</artifactId>
+      <version>${project.version}</version>
+    </dependency>
+  </dependencies>
+</project>

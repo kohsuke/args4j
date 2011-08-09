@@ -25,6 +25,13 @@ class XmlWriter implements AnnotationVisitor {
         out.println("  </option>");
     }
 
+    public void onOption( OptionWithUsage optionWithUsage ) {
+        out.println("  <option>");
+        writeTag("name",optionWithUsage.option.name());
+        writeTag("usage",optionWithUsage.usage);
+        out.println("  </option>");
+    }
+
     private void writeTag(String tag, String value) {
         out.println("    <"+tag+"><![CDATA["+value+"]]></"+tag+">");
     }

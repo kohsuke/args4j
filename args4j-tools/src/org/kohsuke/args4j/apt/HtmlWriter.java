@@ -16,10 +16,17 @@ class HtmlWriter implements AnnotationVisitor {
         this.out.println("<table class='args4j-usage'>");
     }
 
-    public void onOption( String name, String usage ) {
+    public void onOption(String name, String usage) {
         out.println("  <tr>");
         writeTag("td","args4j-option",name);
         writeTag("td","args4j-usage",usage);
+        out.println("  </tr>");
+    }
+
+    public void onOption( OptionWithUsage optionWithUsage ) {
+        out.println("  <tr>");
+        writeTag("td","args4j-option",optionWithUsage.option.name());
+        writeTag("td","args4j-usage",optionWithUsage.usage);
         out.println("  </tr>");
     }
 

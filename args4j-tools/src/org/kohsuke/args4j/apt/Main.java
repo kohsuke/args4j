@@ -22,7 +22,7 @@ public class Main {
     @Option(name="-o",usage="output directory to place generated HTML/XML")
     private File outDir = new File(".");
 
-    @Option(name="-mode",usage="output format. 'XML' or 'HTML'")
+    @Option(name="-mode",usage="output format. 'XML' 'TXT' or 'HTML'")
     private Mode mode = Mode.HTML;
     
     @Option(name="-res",usage="resource file name to obtain usage strings from.\n"+

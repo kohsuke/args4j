@@ -81,17 +81,12 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
                     });
                 }
 
-                // make sure that they are on classes
                 for (TypeDeclaration t : optionBeans) {
+                    // make sure that they are on classes
                     if(t instanceof ClassDeclaration) {
                         ClassDeclaration cd = (ClassDeclaration)t;
                         try {
-                            FileWriter out = new FileWriter(new File(outDir,cd.getQualifiedName()+"."+format.toLowerCase()));
-                            AnnotationVisitor writer;
-                            if(format.equals("XML"))
-                                writer = new XmlWriter(out,cd);
-                            else
-                                writer = new HtmlWriter(out);
+                            AnnotationVisitor writer = createAnnotationVisitor(cd);
                             env.getMessager().printNotice("Processing "+cd.getQualifiedName());
                             scan(cd, writer);
                         } catch (IOException e) {
@@ -104,6 +99,18 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
                 }
             }
         };
+    }
+
+    private AnnotationVisitor createAnnotationVisitor(ClassDeclaration cd) throws IOException {
+        FileWriter out = new FileWriter(new File(outDir,cd.getQualifiedName()+"."+format.toLowerCase()));
+        AnnotationVisitor writer;
+        if(format.equals("XML"))
+            writer = new XmlWriter(out,cd);
+        else if (format.equals("TXT"))
+            writer = new TxtWriter(out, cd);
+        else
+            writer = new HtmlWriter(out);
+        return new AnnotationVisitorReorderer(writer);
     }
 
     private void scan(ClassDeclaration decl, AnnotationVisitor visitor) {
@@ -128,8 +135,13 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
         if(o==null) return;
 
         String usage = getUsage(o);
-        if(usage==null || usage.length()==0)    return;   // hidden
-        visitor.onOption(o.name(),usage);
+        if(isOptionHidden(usage))    return;
+
+        visitor.onOption(new OptionWithUsage(o, usage));
+    }
+
+    private boolean isOptionHidden(String usage) {
+        return usage==null || usage.length()==0;
     }
 
     private String getUsage(Option o) {
