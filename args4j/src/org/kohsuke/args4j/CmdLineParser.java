@@ -54,15 +54,15 @@ public class CmdLineParser {
     /**
      * Discovered {@link OptionHandler}s for options.
      */
-    private final List<OptionHandler> options = new ArrayList<OptionHandler>();
+    protected final List<OptionHandler> options = new ArrayList<OptionHandler>();
 
     /**
      * Discovered {@link OptionHandler}s for arguments.
      */
-    private final List<OptionHandler> arguments = new ArrayList<OptionHandler>();
+    protected final List<OptionHandler> arguments = new ArrayList<OptionHandler>();
 
     private boolean parsingOptions = true;
-    private OptionHandler currentOptionHandler = null;
+    protected OptionHandler currentOptionHandler = null;
 
 	/**
 	 *  The length of a usage line.
@@ -350,24 +350,32 @@ public class CmdLineParser {
      * Essentially a pointer over a {@link String} array.
      * Can move forward, can look ahead.
      */
-    private class CmdLineImpl implements Parameters {
+    protected class CmdLineImpl implements Parameters {
         private final String[] args;
         private int pos;
 
-        CmdLineImpl( String[] args ) {
+        protected CmdLineImpl( String[] args ) {
             this.args = args;
             pos = 0;
         }
 
-        protected boolean hasMore() {
+        public boolean hasMore() {
             return pos<args.length;
         }
 
-        protected String getCurrentToken() {
+        public String getCurrentToken() {
             return args[pos];
         }
 
-        private void proceed( int n ) {
+        protected String getArg(int inx) {
+            return args[inx];
+        }
+        
+        protected int getCurrentPos() {
+            return pos;
+        }
+        
+        protected void proceed( int n ) {
             pos += n;
         }
 
@@ -450,7 +458,7 @@ public class CmdLineParser {
                 throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
     }
 
-	private OptionHandler findOptionHandler(String name) {
+	protected OptionHandler findOptionHandler(String name) {
 		OptionHandler handler = findOptionByName(name);
 		if (handler==null) {
 			// Have not found by its name, maybe its a property?
@@ -470,7 +478,7 @@ public class CmdLineParser {
 	 * @param name name
 	 * @return the OptionHandler or <tt>null</tt>
 	 */
-	private OptionHandler findOptionByName(String name) {
+	protected OptionHandler findOptionByName(String name) {
 		for (OptionHandler h : options) {
 			NamedOptionDef option = (NamedOptionDef)h.option;
 			if (name.equals(option.name())) {
