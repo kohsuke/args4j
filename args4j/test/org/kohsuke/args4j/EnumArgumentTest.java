@@ -27,28 +27,16 @@ public class EnumArgumentTest extends Args4JTestBase<EnumArgument> {
 	}
 
 	public void testIllegalArgumentOption() {
-		String[] args = new String[] { "ILLEGAL_ANIMAL" };
-		parseParameter(args, new EnumArgument());
-	}
-
-	private void parseParameter(String[] args, Object bean) {
-		CmdLineParser parser = new CmdLineParser(bean);
+		args = new String[] { "ILLEGAL_ANIMAL" };
 		try {
 			parser.parseArgument(args);
 			Assert.fail();
 		} catch (CmdLineException e) {
-			if (args.length > 0) {
-				Assert.assertTrue(
-						"Illegal exception message: " + e.getMessage(),
-						e.getMessage().startsWith(
-								String.format("\"%s\" is not a valid value for \"", args[args.length - 1])
-						));
-			} else {
-				Assert.assertEquals(
-						"Illegal exception message: " + e.getMessage(),
-						"Argument \"ANIMAL\" is required",
-						e.getMessage());
-			}
+			Assert.assertTrue(
+					"Illegal exception message: " + e.getMessage(),
+					e.getMessage().startsWith(
+							String.format("\"%s\" is not a valid value for \"", args[args.length - 1])
+					));
 		}
 	}
 
