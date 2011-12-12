@@ -1,5 +1,5 @@
 -classpath
-'/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.0.18.jar'
+'/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.0.19.jar'
 -encoding
 'UTF-8'
 -protected
@@ -15,7 +15,7 @@
 -docencoding
 'UTF-8'
 -doctitle
-'Args4j Maven Plugin Example 2.0.18 API'
+'Args4j Maven Plugin Example 2.0.19 API'
 -linkoffline
 'http://download.oracle.com/javase/1.5.0/docs/api' '/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/javadoc-bundle-options'
 -linkoffline
@@ -23,4 +23,4 @@
 -use
 -version
 -windowtitle
-'Args4j Maven Plugin Example 2.0.18 API'
+'Args4j Maven Plugin Example 2.0.19 API'
