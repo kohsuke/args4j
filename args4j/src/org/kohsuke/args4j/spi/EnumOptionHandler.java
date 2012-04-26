@@ -20,7 +20,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
 
     @Override
     public int parseArguments(Parameters params) throws CmdLineException {
-        String s = params.getParameter(0);
+        String s = params.getParameter(0).replaceAll("-", "_");
         T value = null;
         for( T o : enumType.getEnumConstants() )
             if(o.name().equalsIgnoreCase(s)) {
