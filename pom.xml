@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kohsuke</groupId>
     <artifactId>pom</artifactId>
-    <version>1</version>
+    <version>3</version>
   </parent>
 
   <groupId>args4j</groupId>
@@ -67,10 +67,6 @@
   </scm>
 
   <distributionManagement>
-    <repository>
-      <id>maven.jenkins-ci.org</id>
-      <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
-    </repository>
     <site>
       <id>github-pages</id>
       <url>gitsite:git@github.com/kohsuke/args4j.git</url>
@@ -112,13 +108,6 @@
         <version>3.0-beta-3</version>
       </plugin>
     </plugins>
-    <extensions>
-      <extension>
-        <groupId>org.apache.maven.wagon</groupId>
-        <artifactId>wagon-webdav</artifactId>
-        <version>1.0-beta-2</version>
-      </extension>
-    </extensions>
   </build>
 
   <reporting>
@@ -134,20 +123,6 @@
     </plugins>
   </reporting>
 
-  <pluginRepositories>
-    <pluginRepository>
-      <id>m.g.o-public</id>
-      <url>http://maven.glassfish.org/content/groups/public/</url>
-    </pluginRepository>
-  </pluginRepositories>
-
-  <repositories>
-    <repository>
-      <id>m.g.o-public</id>
-      <url>http://maven.glassfish.org/content/groups/public/</url>
-    </repository>
-  </repositories>
-  
   <licenses>
     <license>
       <name>MIT License</name>
