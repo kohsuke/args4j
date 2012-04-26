@@ -62,7 +62,7 @@ public class SampleMain {
             // after parsing arguments, you should check
             // if enough arguments are given.
             if( arguments.isEmpty() )
-                throw new CmdLineException("No argument is given");
+                throw new CmdLineException(parser,"No argument is given");
 
         } catch( CmdLineException e ) {
             // if there's a problem in the command line,
