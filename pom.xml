@@ -67,6 +67,10 @@
   </scm>
 
   <distributionManagement>
+    <repository>
+      <id>maven.jenkins-ci.org</id>
+      <url>http://maven.jenkins-ci.org:8081/content/repositories/releases/</url>
+    </repository>
     <site>
       <id>github-pages</id>
       <url>gitsite:git@github.com/kohsuke/args4j.git</url>
