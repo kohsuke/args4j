@@ -6,12 +6,14 @@ package org.kohsuke.args4j;
 public final class NamedOptionDef extends OptionDef {
     private final String name;
 	private final String[] aliases;
+    private final String[] requires;
     
     public NamedOptionDef(Option o, boolean forceMultiValued) {
     	super(o.usage(),o.metaVar(),o.required(),o.handler(),o.multiValued() || forceMultiValued);
     	
     	this.name = o.name();
     	this.aliases = o.aliases();
+        this.requires = o.requires();
     }
     
     public String name() {
@@ -20,6 +22,10 @@ public final class NamedOptionDef extends OptionDef {
     
     public String[] aliases() {
     	return aliases;
+    }
+
+    public String[] requires() {
+        return requires;
     }
     
     @Override

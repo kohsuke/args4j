@@ -15,4 +15,9 @@ public class OptionImpl extends AnnotationImpl implements Option {
 	public String name() {
 		return name;
 	}
+
+    public String[] requires;
+    public String[] requires() {
+        return requires;
+    }
 }
