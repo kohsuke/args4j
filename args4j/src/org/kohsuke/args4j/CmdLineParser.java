@@ -10,6 +10,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -448,6 +449,25 @@ public class CmdLineParser {
         for (OptionHandler handler : arguments)
             if(handler.option.required() && !present.contains(handler))
                 throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
+
+        //make sure that all requires arguments are present
+        for(OptionHandler handler : present) {
+            if(handler.option != null && handler.option instanceof NamedOptionDef
+                    && ((NamedOptionDef)handler.option).requires() != null
+                    && !isHandlerHasHisOptions((NamedOptionDef)handler.option, present)) {
+                throw new CmdLineException(this, Messages.REQUIRES_OPTION_MISSING
+                        .format(handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).requires())));
+            }
+        }
+    }
+
+    private boolean isHandlerHasHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
+        boolean found = true;
+        for(int i =0; i < option.requires().length && found; i++) {
+            String require = option.requires()[i];
+            found = present.contains(findOptionHandler(require));
+        }
+        return found;
     }
 
 	private OptionHandler findOptionHandler(String name) {
