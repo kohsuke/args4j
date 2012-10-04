@@ -20,7 +20,8 @@ enum Messages {
     NO_OPTIONHANDLER,
     NO_CONSTRUCTOR_ON_HANDLER,
     FORMAT_ERROR_FOR_MAP,
-    MAP_HAS_NO_KEY
+    MAP_HAS_NO_KEY,
+    REQUIRES_OPTION_MISSING
     ;
 
     private static ResourceBundle rb;

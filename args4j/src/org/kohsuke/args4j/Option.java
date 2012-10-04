@@ -166,4 +166,23 @@ public @interface Option {
      * For mappings to List<...>, this defaults to true, otherwise false 
      */
     boolean multiValued() default false;
+
+    /**
+     * List of required options if this is provided..
+     *
+     * <h3>Example</h3>
+     * <pre>
+     *  &#64;Option(name="-a")
+     *  int a;
+     *  //-b is not required but if it's provided, then a becomes required
+     *  &#64;Option(name="-b", requires={"-a"}
+     *  int b;
+     * </pre>
+     * <p>
+     * At the end of {@link CmdLineParser#parseArgument(String...)},
+     * a {@link CmdLineException} will be thrown if options required by another one
+     * are not present.
+     * </p>
+     */
+    String[] requires() default { };
 }
