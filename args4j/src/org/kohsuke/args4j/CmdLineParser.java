@@ -452,22 +452,26 @@ public class CmdLineParser {
 
         //make sure that all requires arguments are present
         for(OptionHandler handler : present) {
-            if(handler.option != null && handler.option instanceof NamedOptionDef
-                    && ((NamedOptionDef)handler.option).requires() != null
-                    && !isHandlerHasHisOptions((NamedOptionDef)handler.option, present)) {
+            if(handler.option instanceof NamedOptionDef && !isHandlerHasHisOptions((NamedOptionDef)handler.option, present)) {
                 throw new CmdLineException(this, Messages.REQUIRES_OPTION_MISSING
                         .format(handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).requires())));
             }
         }
     }
 
+    /**
+     * @param option
+     * @param present
+     * @return true if all options required by <code>option</code> are present, false otherwise
+     */
     private boolean isHandlerHasHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
-        boolean found = true;
-        for(int i =0; i < option.requires().length && found; i++) {
-            String require = option.requires()[i];
-            found = present.contains(findOptionHandler(require));
-        }
-        return found;
+    	if(option.requires() != null) {
+    		for(String require : option.requires()) {
+    			if(!present.contains(findOptionHandler(require)))
+    				return false;
+    		}
+    	}
+        return true;
     }
 
 	private OptionHandler findOptionHandler(String name) {
