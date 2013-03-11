@@ -8,6 +8,8 @@
   </parent>
   <artifactId>args4j</artifactId>
   <name>args4j</name>
+
+  <packaging>bundle</packaging>
   
   <build>
     <sourceDirectory>src</sourceDirectory>

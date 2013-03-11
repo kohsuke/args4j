@@ -11,6 +11,8 @@
   <name>args4j-tools</name>
   <description>development-time tool for generating additional artifacits</description>
 
+  <packaging>bundle</packaging>
+
   <properties>
     <mainClass>org.kohsuke.args4j.apt.Main</mainClass>
   </properties>
@@ -34,7 +36,7 @@
           <archive>
             <manifest>
               <addClasspath>true</addClasspath>
-              <mainClass>${mainClass}}</mainClass>
+              <mainClass>${mainClass}</mainClass>
             </manifest>
           </archive>
         </configuration>
