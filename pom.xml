@@ -107,6 +107,16 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>3.0-beta-3</version>
       </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-SymbolicName>org.kohsuke.${pom.artifactId}</Bundle-SymbolicName>
+          </instructions>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
 
