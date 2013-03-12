@@ -12,8 +12,7 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
     @Option(name="-string")
     String string;
     
-    // There is no OptionHandler for Arrays 
-    //@Option(name="-array", multiValued=true)
+    @Option(name="-array")
     String[] array;
 
     // The JUnit part of this class as tester.
@@ -47,12 +46,13 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
         assertEquals("three",string);
     }
 
-    //TODO: How to use 'multiValued' on arrays?
-    //      There should be no difference to use on lists (from the user point of view).
-    public void t_estOnArray() throws Exception {
+    public void testOnArray() throws Exception {
         // The 'command line invocation'.
         parser.parseArgument("-array","one","-array","two","-array","three");
         // Check the results.
         assertEquals("Should got three values", 3, array.length);
+        assertEquals("one",array[0]);
+        assertEquals("two",array[1]);
+        assertEquals("three",array[2]);
     }
 }

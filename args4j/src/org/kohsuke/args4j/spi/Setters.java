@@ -24,6 +24,8 @@ public class Setters {
     }
 
     public static Setter create(Field f, Object bean) {
+        if(f.getType().isArray())
+            return new ArrayFieldSetter(bean,f);
         if(List.class.isAssignableFrom(f.getType()))
             return new MultiValueFieldSetter(bean,f);
         else if(Map.class.isAssignableFrom(f.getType()))
