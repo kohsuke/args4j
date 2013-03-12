@@ -31,6 +31,9 @@ import java.util.AbstractList;
  *      })
  *      Command cmd;
  *
+ *      &#64;Option(name="-r")
+ *      boolean recursive;
+ *
  *      public static void main(String[] args) {
  *          Git git = new Git();
  *          new CmdLineParser(git).parseArgument(args);
@@ -46,12 +49,19 @@ import java.util.AbstractList;
  * }
  * </pre>
  *
+ * <p>
+ * An example of legal command line option for this is "-r checkout -a".
+ *
  * <ul>
  * <li>
  * {@link SubCommand} only works with {@link Argument} and not with {@link Option}.
  *
  * <li>
  * The same field/setter must be also annotated with {@link SubCommands} that specify possible sub-commands.
+ *
+ * <li>
+ * Any {@link Option}s that you define in the <tt>Git</tt> class above can parse options that appear
+ * prior to the sub-command name. This is useful for defining global options that work across sub-commands.
  *
  * <li>
  * The matching sub-command implementation gets instantiated with the default constructor,
