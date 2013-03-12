@@ -12,7 +12,9 @@ enum Messages {
     ILLEGAL_BOOLEAN,
     ILLEGAL_METHOD_SIGNATURE,
     ILLEGAL_FIELD_SIGNATURE,
-    ILLEGAL_LIST
+    ILLEGAL_LIST,
+    FORMAT_ERROR_FOR_MAP,
+    MAP_HAS_NO_KEY
     ;
 
     private static ResourceBundle rb;

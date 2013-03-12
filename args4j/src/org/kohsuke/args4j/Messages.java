@@ -19,8 +19,6 @@ enum Messages {
     UNKNOWN_HANDLER,
     NO_OPTIONHANDLER,
     NO_CONSTRUCTOR_ON_HANDLER,
-    FORMAT_ERROR_FOR_MAP,
-    MAP_HAS_NO_KEY
     ;
 
     private static ResourceBundle rb;

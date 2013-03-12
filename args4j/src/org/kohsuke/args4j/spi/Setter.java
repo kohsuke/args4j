@@ -5,6 +5,10 @@ import org.kohsuke.args4j.CmdLineException;
 /**
  * Abstraction of the value setter.
  *
+ * <p>
+ * This abstracts away the difference between a field and a setter method, which object we are setting the value to,
+ * and/or how we handle collection fields differently.
+ *
  * @author Kohsuke Kawaguchi
  */
 public interface Setter<T> {
