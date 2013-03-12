@@ -1,19 +1,27 @@
 package org.kohsuke.args4j;
 
 /**
- * Run-time copy of the Option or Argument annotation.
+ * Run-time copy of {@link Option} annotation.
  */
 public final class NamedOptionDef extends OptionDef {
     private final String name;
 	private final String[] aliases;
     
+    /**
+     * @deprecated
+     *      multi-valuedness as option definition does not make sense. It's driven by the setter.
+     */
     public NamedOptionDef(Option o, boolean forceMultiValued) {
-    	super(o.usage(),o.metaVar(),o.required(),o.handler(),o.multiValued() || forceMultiValued);
-    	
+    	this(o);
+    }
+
+    public NamedOptionDef(Option o) {
+    	super(o.usage(),o.metaVar(),o.required(),o.handler(),false);
+
     	this.name = o.name();
     	this.aliases = o.aliases();
     }
-    
+
     public String name() {
     	return name;
     }

@@ -109,7 +109,7 @@ public @interface Option {
      * You can replace the 'FOO' token by using this parameter.
      *
      * <p>
-     * If left unspecifiied, this value is infered from the type of the option.
+     * If left unspecified, this value is infered from the type of the option.
      *
      * <p>
      * Just like {@link #usage()}, normally, this value is printed as is.
@@ -160,10 +160,4 @@ public @interface Option {
      * </pre>
      */
     Class<? extends OptionHandler> handler() default OptionHandler.class;
-    
-    /**
-     * Whether the option is multi-valued.
-     * For mappings to List<...>, this defaults to true, otherwise false 
-     */
-    boolean multiValued() default false;
 }

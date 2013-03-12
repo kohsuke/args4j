@@ -51,7 +51,8 @@ public class MapSetter implements Setter {
     }
 
     public boolean isMultiValued() {
-    	return false;
+        // map can hold multiple values all right
+    	return true;
     }
 
     public void addValue(Object value) {
@@ -68,6 +69,9 @@ public class MapSetter implements Setter {
         if (idx>=0) {
             mapKey = s.substring(0,idx);
             mapValue = s.substring(idx+1);
+            if (mapValue.length()==0)
+                // Kohsuke: I think this is a bad choice, but this is needed to remain backward compatible
+                mapValue = null;
         } else {
             mapKey = s;
             mapValue = null;

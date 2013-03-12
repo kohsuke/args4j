@@ -1,7 +1,5 @@
 package org.kohsuke.args4j.spi;
 
-import org.kohsuke.args4j.spi.Setter;
-
 import java.lang.reflect.Field;
 
 /**
@@ -23,6 +21,7 @@ final class FieldSetter implements Setter {
     }
     
     public boolean isMultiValued() {
+        // a field can only store one value. a collection field is handled via MultiValueFieldSetter
     	return false;
     }
 

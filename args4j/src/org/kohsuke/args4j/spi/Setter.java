@@ -23,7 +23,16 @@ public interface Setter<T> {
     Class<T> getType();
     
     /**
-     * Whether this setter is instrinsically multi-valued.
+     * Whether this setter is intrinsically multi-valued.
+     *
+     * When used for parsing arguments (and not options), intrinsically multi-valued setters consume
+     * all the remaining arguments. So if the setter can store multiple values, this method should return true.
+     *
+     * <p>
+     * This characteristics of a setter does not affect option parsing at all, as any options can be
+     * specified multiple times (which in many cases are no-op, but when your shell script expands
+     * multiple environment variables that each can contain options, tolerating such redundant options
+     * are often useful.)
      */
     boolean isMultiValued();
 }

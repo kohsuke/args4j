@@ -1,18 +1,15 @@
 package org.kohsuke.args4j;
 
-import org.kohsuke.args4j.spi.StopOptionHandler;
-
 import java.util.List;
 
 public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
 
     // The JavaBean part of this class as test object.
     
-    // On Lists the @Option(multiValued) defaults to 'true'
     @Option(name="-list")
     List<String> list;
     
-    @Option(name="-string", multiValued=true)
+    @Option(name="-string")
     String string;
     
     // There is no OptionHandler for Arrays 
@@ -40,17 +37,14 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
         assertTrue(list.contains("two"));
         assertTrue(list.contains("three"));
     }
-    
-    //TODO: How to use 'multiValued' on plain fields?
-    //      We have to option for Strings or CharacterSequence's to specify a separator
-    //      and concating all values.
-    //        @Option(... multiValued=true, seperator=",") String s; --> "one,two,three"
-    //      As the use of 'separator' (new!) implies multiValued this would be more user friendly:
-    //        @Option(... seperator=",") String s; --> "one,two,three"
-    //      But how to handle other types like int,MyClass? Concatinating is not an option here...
-    public void t_estOnString() throws Exception {
+
+    /**
+     * Specifying an option multiple times can get no-op, such as in the case when the field can only retain one value.
+     */
+    public void testOnString() throws Exception {
         // The 'command line invocation'.
         parser.parseArgument("-string","one","-string","two","-string","three");
+        assertEquals("three",string);
     }
 
     //TODO: How to use 'multiValued' on arrays?

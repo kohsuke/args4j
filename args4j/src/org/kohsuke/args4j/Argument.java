@@ -56,7 +56,7 @@ public @interface Argument {
     int index() default 0;
 
     /**
-     * See {@link Option#multiValued()}.
+     *
      */
     boolean multiValued() default false;
 }

@@ -29,7 +29,8 @@ public final class MethodSetter implements Setter {
     }
 
     public boolean isMultiValued() {
-    	return false;
+        // multiple values can be handled by calling methods repeatedly
+    	return true;
     }
 
     public void addValue(Object value) throws CmdLineException {

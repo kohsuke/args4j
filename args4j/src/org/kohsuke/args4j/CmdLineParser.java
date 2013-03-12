@@ -130,7 +130,7 @@ public class CmdLineParser {
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
         }
-        options.add(createOptionHandler(new NamedOptionDef(o, setter.isMultiValued()), setter));
+        options.add(createOptionHandler(new NamedOptionDef(o), setter));
     }
     
     public List<OptionHandler> getArguments() {

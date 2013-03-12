@@ -47,7 +47,7 @@ public class OptionDef {
 	public boolean isMultiValued() {
 		return multiValued;
 	}
-	
+
 	public boolean isArgument() {
 		return true;
 	}
