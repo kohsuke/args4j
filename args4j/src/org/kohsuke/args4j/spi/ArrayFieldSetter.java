@@ -29,6 +29,10 @@ final class ArrayFieldSetter implements Setter {
             throw new IllegalAnnotationError(Messages.ILLEGAL_FIELD_SIGNATURE.format(f.getType()));
     }
 
+    public FieldSetter asFieldSetter() {
+        return new FieldSetter(bean,f);
+    }
+
     public boolean isMultiValued() {
     	return true;
     }

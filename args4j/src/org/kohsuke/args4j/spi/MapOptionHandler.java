@@ -5,11 +5,26 @@ import java.util.Map;
 
 import org.kohsuke.args4j.*;
 
+/**
+ * Parses options into a {@link Map}.
+ *
+ * <pre>
+ * class Foo {
+ *   &#64;Option(name="-P",handler={@link MapOptionHandler}.class)
+ *   Map&lt;String,String> args;
+ * }
+ * </pre>
+ *
+ * <p>
+ * With this, <tt>-P x=1 -P y=2</tt> parses to map of size 2.
+ * This option handler can be subtyped if you want to convert values to different types
+ * or to handle key=value in other formats, like "key:=value".
+ * */
 public class MapOptionHandler extends OptionHandler<Map<?,?>> {
 
 	public MapOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super Map<?,?>> setter) {
 		super(parser, option, setter);
-        if (!(setter instanceof FieldSetter))
+        if (setter.asFieldSetter()==null)
             throw new IllegalArgumentException("MapOptionHandler can only work with fields");
     }
 
@@ -20,8 +35,8 @@ public class MapOptionHandler extends OptionHandler<Map<?,?>> {
 
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
-        FieldSetter fs = (FieldSetter)setter;
-        Map v = (Map)fs.get();
+        FieldSetter fs = setter.asFieldSetter();
+        Map v = (Map)fs.getValue();
         if (v==null) {
             v = createNewCollection(fs.getType());
             fs.addValue(v);

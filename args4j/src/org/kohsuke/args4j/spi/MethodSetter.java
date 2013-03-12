@@ -33,6 +33,10 @@ public final class MethodSetter implements Setter {
     	return true;
     }
 
+    public FieldSetter asFieldSetter() {
+        return null;
+    }
+
     public void addValue(Object value) throws CmdLineException {
         try {
             try {

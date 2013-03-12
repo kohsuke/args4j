@@ -39,4 +39,21 @@ public interface Setter<T> {
      * are often useful.)
      */
     boolean isMultiValued();
+
+    /**
+     * If this setter encapsulates a field, return the direct access to that field as
+     * {@link FieldSetter}. This method serves two purposes.
+     *
+     * <p>
+     * One is that this lets {@link OptionHandler}s to bypass the collection/array handling of fields.
+     * This is useful if you are defining an option handler that produces array or collection
+     * from a single argument.
+     *
+     * <p>
+     * The other is to retrieve the current value of the field, via {@link FieldSetter#getValue()}.
+     *
+     * @return
+     *      null if this setter wraps a method.
+     */
+    FieldSetter asFieldSetter();
 }

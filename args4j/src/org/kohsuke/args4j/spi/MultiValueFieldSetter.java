@@ -13,7 +13,7 @@ import java.util.List;
  *
  * @author Kohsuke Kawaguchi
  */
-final class MultiValueFieldSetter  implements Setter {
+final class MultiValueFieldSetter implements Setter {
     private final Object bean;
     private final Field f;
 
@@ -27,6 +27,10 @@ final class MultiValueFieldSetter  implements Setter {
 
     public boolean isMultiValued() {
     	return true;
+    }
+
+    public FieldSetter asFieldSetter() {
+        return new FieldSetter(bean,f);
     }
 
     public Class getType() {

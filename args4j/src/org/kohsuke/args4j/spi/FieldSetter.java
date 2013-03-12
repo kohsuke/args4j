@@ -25,6 +25,10 @@ public final class FieldSetter implements Setter {
     	return false;
     }
 
+    public FieldSetter asFieldSetter() {
+        return new FieldSetter(bean,f);
+    }
+
     public void addValue(Object value) {
         try {
             f.set(bean,value);
@@ -39,7 +43,7 @@ public final class FieldSetter implements Setter {
         }
     }
 
-    public Object get() {
+    public Object getValue() {
         try {
             return f.get(bean);
         } catch (IllegalAccessException _) {
