@@ -3,6 +3,7 @@ package org.kohsuke.args4j.spi;
 import org.kohsuke.args4j.spi.Setter;
 import org.kohsuke.args4j.*;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
@@ -35,6 +36,10 @@ public final class MethodSetter implements Setter {
 
     public FieldSetter asFieldSetter() {
         return null;
+    }
+
+    public AnnotatedElement asAnnotatedElement() {
+        return m;
     }
 
     public void addValue(Object value) throws CmdLineException {

@@ -1,6 +1,10 @@
 package org.kohsuke.args4j.spi;
 
+import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
+import org.kohsuke.args4j.Option;
+
+import java.lang.reflect.AnnotatedElement;
 
 /**
  * Abstraction of the value setter.
@@ -56,4 +60,14 @@ public interface Setter<T> {
      *      null if this setter wraps a method.
      */
     FieldSetter asFieldSetter();
+
+    /**
+     * Returns the {@link AnnotatedElement} by which you can access annotations written on this setter.
+     *
+     * This is the same {@link AnnotatedElement} that had {@link Option}/{@link Argument}.
+     *
+     * <p>
+     * This enables {@link OptionHandler} to further tweak its behavior based on additional annotations.
+     */
+    AnnotatedElement asAnnotatedElement();
 }

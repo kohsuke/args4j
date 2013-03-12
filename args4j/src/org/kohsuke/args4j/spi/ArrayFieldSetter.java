@@ -3,6 +3,7 @@ package org.kohsuke.args4j.spi;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.IllegalAnnotationError;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 
@@ -31,6 +32,10 @@ final class ArrayFieldSetter implements Setter {
 
     public FieldSetter asFieldSetter() {
         return new FieldSetter(bean,f);
+    }
+
+    public AnnotatedElement asAnnotatedElement() {
+        return f;
     }
 
     public boolean isMultiValued() {

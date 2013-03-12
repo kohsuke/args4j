@@ -1,5 +1,6 @@
 package org.kohsuke.args4j.spi;
 
+import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
 
 /**
@@ -27,6 +28,10 @@ public final class FieldSetter implements Setter {
 
     public FieldSetter asFieldSetter() {
         return new FieldSetter(bean,f);
+    }
+
+    public AnnotatedElement asAnnotatedElement() {
+        return f;
     }
 
     public void addValue(Object value) {
