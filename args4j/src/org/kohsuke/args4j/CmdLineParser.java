@@ -431,6 +431,9 @@ public class CmdLineParser {
 
             	// known argument
             	currentOptionHandler = arguments.get(argIndex);
+                if (currentOptionHandler==null) // this is a programmer error. arg index should be continuous
+                    throw new IllegalStateException("@Argument with index="+argIndex+" is undefined");
+
             	if (!currentOptionHandler.option.isMultiValued())
             		argIndex++;
             }
