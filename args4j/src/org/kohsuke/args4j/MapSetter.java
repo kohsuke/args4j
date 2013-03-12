@@ -1,3 +1,27 @@
+/**
+ * Copyright (c) 2008-2009, jhm
+ * Copyright (c) 2012, Martin Schroeder, Intel Mobile Communications GmbH
+ * 
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to
+ * deal in the Software without restriction, including without limitation the
+ * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or
+ * sell copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ * 
+ * The above copyright notice and this permission notice shall be included in
+ * all copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+ * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
+ * IN THE SOFTWARE.
+ */
+
+
 package org.kohsuke.args4j;
 
 import java.lang.reflect.Field;
@@ -15,7 +39,6 @@ import org.kohsuke.args4j.spi.Setter;
 public class MapSetter implements Setter {
     private final Field f;
     private final Object bean;
-
 
     public MapSetter(Object bean, Field f) {
 		super();
@@ -36,11 +59,21 @@ public class MapSetter implements Setter {
     		throw new RuntimeException(Messages.FORMAT_ERROR_FOR_MAP.format());
     	}
 
-    	String[] parts = String.valueOf(value).split("=");
-    	String mapKey   = parts[0];
-    	String mapValue = (parts.length > 1) ? parts[1] : null;
+		String mapKey;
+		String mapValue;
+		
+		//Splitting off the key from the value
+        String s = String.valueOf(value);
+        int idx = s.indexOf('=');
+        if (idx>=0) {
+            mapKey = s.substring(0,idx);
+            mapValue = s.substring(idx+1);
+        } else {
+            mapKey = s;
+            mapValue = null;
+        }
 
-    	if (mapKey == null || mapKey.length()==0) {
+    	if (mapKey.length()==0) {
     		throw new RuntimeException(Messages.MAP_HAS_NO_KEY.format());
     	}
 
@@ -57,7 +90,7 @@ public class MapSetter implements Setter {
         }
     }
 
-    private void addValue(Object key, Object value) throws IllegalArgumentException, IllegalAccessException {
+    protected void addValue(String key, String value) throws IllegalArgumentException, IllegalAccessException {
     	Map map = (Map) f.get(bean);
     	if (map == null) {
     		// Field is null so set it to an empty Map
