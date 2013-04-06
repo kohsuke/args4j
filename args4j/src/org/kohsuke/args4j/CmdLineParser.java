@@ -7,6 +7,7 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
@@ -29,6 +30,7 @@ import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
 import org.kohsuke.args4j.spi.FloatOptionHandler;
+import org.kohsuke.args4j.spi.InetAddressOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
 import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.kohsuke.args4j.spi.MapOptionHandler;
@@ -568,6 +570,7 @@ public class CmdLineParser {
         registerHandler(long.class, LongOptionHandler.class);
         registerHandler(Short.class, ShortOptionHandler.class);
         registerHandler(short.class, ShortOptionHandler.class);
+        registerHandler(InetAddress.class, InetAddressOptionHandler.class);
         // enum is a special case
         registerHandler(Map.class,MapOptionHandler.class);
     }
