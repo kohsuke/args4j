@@ -72,13 +72,11 @@ public class MultiPathOptionHandlerTest extends TestCase {
     }
     private static Parameters makeSingleParam(final String path) {
         return new Parameters() {
-                    @Override
                     public String getParameter(int idx) throws CmdLineException {
                         if (idx == 0) return path;
                         throw new ArrayIndexOutOfBoundsException(idx);
                     }
 
-                    @Override
                     public int size() {
                         return 1;
                     }
@@ -87,29 +85,24 @@ public class MultiPathOptionHandlerTest extends TestCase {
 
     static class CollectorSetter implements Setter<Path> {
 
-        private List<Path> collector = new LinkedList<>();
+        private List<Path> collector = new LinkedList<Path>();
 
-        @Override
         public void addValue(Path value) throws CmdLineException {
             collector.add(value);
         }
 
-        @Override
         public Class<Path> getType() {
             return Path.class;
         }
 
-        @Override
         public boolean isMultiValued() {
             return true;
         }
 
-        @Override
         public FieldSetter asFieldSetter() {
             throw new NotImplementedException();
         }
 
-        @Override
         public AnnotatedElement asAnnotatedElement() {
             throw new NotImplementedException();
         }
