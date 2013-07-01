@@ -6,7 +6,7 @@ import java.util.ResourceBundle;
 /**
  * @author Kohsuke Kawaguchi
  */
-enum Messages {
+public enum Messages {
     ILLEGAL_OPERAND,
     ILLEGAL_CHAR,
     ILLEGAL_BOOLEAN,
