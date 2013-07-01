@@ -1,5 +1,7 @@
 package org.kohsuke.args4j;
 
+import org.kohsuke.args4j.spi.StringArrayOptionHandler;
+
 import java.util.List;
 
 public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
@@ -11,9 +13,12 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
     
     @Option(name="-string")
     String string;
-    
+
     @Option(name="-array")
     String[] array;
+
+    @Option(name="-multivalued-array", handler = StringArrayOptionHandler.class)
+    String[] multiValuedArray;
 
     // The JUnit part of this class as tester.
 
@@ -54,5 +59,15 @@ public class MultivaluedTest extends Args4JTestBase<MultivaluedTest> {
         assertEquals("one",array[0]);
         assertEquals("two",array[1]);
         assertEquals("three",array[2]);
+    }
+
+    public void testOnMultiValuedArray() throws Exception {
+        // The 'command line invocation'.
+        parser.parseArgument("-multivalued-array","one", "two","-multivalued-array","three");
+        // Check the results.
+        assertEquals("Should got three values", 3, multiValuedArray.length);
+        assertEquals("one",multiValuedArray[0]);
+        assertEquals("two",multiValuedArray[1]);
+        assertEquals("three",multiValuedArray[2]);
     }
 }
