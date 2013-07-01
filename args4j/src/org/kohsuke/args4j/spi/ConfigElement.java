@@ -15,6 +15,7 @@ public class ConfigElement {
 	public String[] aliases = {};
 	public boolean multiValued = false;
 	public boolean required = false;
+	public boolean hidden = false;
 	/**
 	 * Ensures that only a field XOR a method is set.
 	 * @return

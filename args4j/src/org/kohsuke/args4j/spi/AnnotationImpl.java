@@ -26,6 +26,7 @@ public abstract class AnnotationImpl implements Annotation {
 		metaVar = ce.metavar != null ? ce.metavar : "";
 		multiValued = ce.multiValued;
 		required = ce.required;
+		hidden = ce.hidden;
 		usage = ce.usage != null ? ce.usage : "";
 	}
 
@@ -48,6 +49,10 @@ public abstract class AnnotationImpl implements Annotation {
 	public boolean required;
 	public boolean required() {
 		return required;
+	}
+	public boolean hidden;
+	public boolean hidden() {
+		return hidden;
 	}
 	public String usage;
 	public String usage() {

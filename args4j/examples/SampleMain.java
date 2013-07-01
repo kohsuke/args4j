@@ -28,6 +28,9 @@ public class SampleMain {
     @Option(name="-str")        // no usage
     private String str = "(default value)";
 
+    @Option(name="-hidden-str2",hidden=true,usage="hidden option")
+    private String hiddenStr2 = "(default value)";
+
     @Option(name="-n",usage="repeat <n> times\nusage can have new lines in it and also it can be verrrrrrrrrrrrrrrrrry long")
     private int num = -1;
 
