@@ -9,7 +9,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
 import java.net.URL;
-import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -553,7 +552,6 @@ public class CmdLineParser {
         registerHandler(Boolean.class,BooleanOptionHandler.class);
         registerHandler(boolean.class,BooleanOptionHandler.class);
         registerHandler(File.class,FileOptionHandler.class);
-        registerHandler(Path.class, PathOptionHandler.class);
         registerHandler(URL.class, URLOptionHandler.class);
         registerHandler(URI.class, URIOptionHandler.class);
         registerHandler(Integer.class,IntOptionHandler.class);
@@ -573,6 +571,13 @@ public class CmdLineParser {
         registerHandler(short.class, ShortOptionHandler.class);
         // enum is a special case
         registerHandler(Map.class,MapOptionHandler.class);
+
+        try {
+            Class p = Class.forName("java.nio.file.Path");
+            registerHandler(p, PathOptionHandler.class);
+        } catch (ClassNotFoundException e) {
+            // running in Java6 or earlier
+        }
     }
 
 	public void setUsageWidth(int usageWidth) {
