@@ -12,7 +12,7 @@
   <version>2.0.24-SNAPSHOT</version>
   <packaging>pom</packaging>
   <description>args4j : Java command line arguments parser</description>
-  <url>http://args4j.dev.java.net/</url>
+  <url>http://args4j.kohsuke.org/</url>
   <issueManagement>
     <url>https://args4j.dev.java.net/issues</url>
   </issueManagement>
