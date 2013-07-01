@@ -8,22 +8,25 @@ import java.util.ArrayList;
 
 /**
  * <p>
- * An {@link OptionHandler} for handling {@link String[]} types. Can handle arrays of strings.
+ * An {@link OptionHandler} for greedily mapping a list of tokens into a {@code String[]}.
  * </p>
- * <p>
+ *
  * <h1>How it works:</h1>
- * Example for parameter -s, which is String[] type:<br>
- * java -jar aaa.jar -s banan hruska jablko<br>
- * java -jar aaa.jar -s banan "hruska jablko"<br>
- * java -jar aaa.jar -s "banan hruska jablko"<br>
- * java -jar aaa.jar -s banan hruska jablko -l 4 -r<br>
- * java -jar aaa.jar -t 222 -s banan hruska jablko -r<br><br>
- * It will handle all of these posibilites. This OptionHandler scans for parameter which begins
- * with "-". If it found it, it will stop.
+ * <p>
+ * Example for parameter -s, which is String[] type:
+ * <pre>
+ * java -jar aaa.jar -s banan hruska jablko
+ * java -jar aaa.jar -s banan "hruska jablko"
+ * java -jar aaa.jar -s "banan hruska jablko"
+ * java -jar aaa.jar -s banan hruska jablko -l 4 -r
+ * java -jar aaa.jar -t 222 -s banan hruska jablko -r
+ * </pre>
+ * <p>
+ * All of them result in a single string array that contains three tokens "banan", "hruska", and "jablko".
+ * This OptionHandler scans for parameter which begins with "-". If it found it, it will stop.
  * </p>
  *
  * @author PlainText,LuVar
- *
  */
 public class StringArrayOptionHandler extends OptionHandler<String[]> {
 
