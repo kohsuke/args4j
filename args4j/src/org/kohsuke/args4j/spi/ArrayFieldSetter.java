@@ -62,14 +62,26 @@ final class ArrayFieldSetter implements Setter {
 
     private void doAddValue(Object bean, Object value) throws IllegalAccessException {
         Object ary = f.get(bean);
-        if(ary==null) {
-            ary = Array.newInstance(getType(),1);
-            Array.set(ary,0,value);
+        if (ary == null) {
+            if (value.getClass().isArray()) {
+                ary = Array.newInstance(getType(), Array.getLength(value));
+                System.arraycopy(value, 0, ary, 0, Array.getLength(value));
+            } else {
+                ary = Array.newInstance(getType(), 1);
+                Array.set(ary, 0, value);
+            }
         } else {
             int len = Array.getLength(ary);
-            Object newAry = Array.newInstance(ary.getClass().getComponentType(), len +1);
-            System.arraycopy(ary,0,newAry,0,len);
-            Array.set(newAry,len,value);
+            Object newAry;
+            if(value.getClass().isArray()) {
+                newAry = Array.newInstance(ary.getClass().getComponentType(), len + Array.getLength(value));
+                System.arraycopy(ary, 0, newAry, 0, len);
+                System.arraycopy(value, 0, newAry, len, Array.getLength(value));
+            } else {
+                newAry = Array.newInstance(ary.getClass().getComponentType(), len + 1);
+                System.arraycopy(ary, 0, newAry, 0, len);
+                Array.set(newAry, len, value);
+            }
             ary = newAry;
         }
 
