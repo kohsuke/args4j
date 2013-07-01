@@ -1,6 +1,7 @@
 package org.kohsuke.args4j;
 
 import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Setter;
 
 import java.io.File;
 import java.lang.annotation.Retention;
@@ -134,10 +135,18 @@ public @interface Option {
     boolean required() default false;
 
     /**
-     * Specify that the option is hidden.
+     * Specify that the option is hidden from the usage, by default.
      *
      * <p>
-     * Hidden options do not show up in usage.
+     * You can still have {@link CmdLineParser} show hidden options
+     * by using {@link OptionHandlerFilter#ALL}, which allows you to
+     * create an option that shows hidden options.
+     *
+     * <p>
+     * If you need more complicated filtering logic, define your own
+     * annotations and check them in {@link Setter#asAnnotatedElement()}.
+     *
+     * @see OptionHandlerFilter#PUBLIC
      */
     boolean hidden() default false;
 

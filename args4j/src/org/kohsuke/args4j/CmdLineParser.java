@@ -132,9 +132,19 @@ public class CmdLineParser {
         }
         options.add(createOptionHandler(new NamedOptionDef(o), setter));
     }
-    
+
+    /**
+     * Lists up all the defined arguments in the order.
+     */
     public List<OptionHandler> getArguments() {
         return arguments;
+    }
+
+    /**
+     * Lists up all the defined options.
+     */
+    public List<OptionHandler> getOptions() {
+        return options;
     }
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
@@ -182,12 +192,20 @@ public class CmdLineParser {
     /**
      * Formats a command line example into a string.
      *
-     * See {@link #printExample(ExampleMode, ResourceBundle)} for more details.
+     * See {@link #printExample(OptionHandlerFilter, ResourceBundle)} for more details.
      *
-     * @param mode
+     * @param filter
      *      must not be null.
      * @return
      *      always non-null.
+     */
+    public String printExample(OptionHandlerFilter filter) {
+        return printExample(filter,null);
+    }
+
+    /**
+     * @deprecated
+     *      Use {@link #printExample(OptionHandlerFilter)}
      */
     public String printExample(ExampleMode mode) {
         return printExample(mode,null);
@@ -203,8 +221,8 @@ public class CmdLineParser {
      *
      *
      * @param mode
-     *      One of the {@link ExampleMode} constants. Must not be null.
-     *      This determines what option should be a part of the returned string.
+     *      Determines which options will be a part of the returned string.
+     *      Must not be null.
      * @param rb
      *      If non-null, meta variables (&lt;dir> in the above example)
      *      is treated as a key to this resource bundle, and the associated
@@ -220,20 +238,27 @@ public class CmdLineParser {
      *
      *      <pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre>
      */
-    public String printExample(ExampleMode mode,ResourceBundle rb) {
+    public String printExample(OptionHandlerFilter mode,ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
 
         for (OptionHandler h : options) {
             OptionDef option = h.option;
             if(option.usage().length()==0)  continue;   // ignore
-            if(option.hidden())             continue;
-            if(!mode.print(option))         continue;
+            if(!mode.select(h))             continue;
 
             buf.append(' ');
             buf.append(h.getNameAndMeta(rb));
         }
 
         return buf.toString();
+    }
+
+    /**
+     * @deprecated
+     *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
+     */
+    public String printExample(ExampleMode mode,ResourceBundle rb) {
+        return printExample((OptionHandlerFilter)mode,rb);
     }
 
     /**
@@ -248,13 +273,25 @@ public class CmdLineParser {
     }
 
     /**
-     * Prints the list of options and their usages to the screen.
+     * Prints the list of all the non-hidden options and their usages to the screen.
+     *
+     * <p>
+     * Short for {@code printUsage(out,rb,OptionHandlerFilter.PUBLIC)}
+     */
+    public void printUsage(Writer out, ResourceBundle rb) {
+        printUsage(out,rb,OptionHandlerFilter.PUBLIC);
+    }
+
+    /**
+     * Prints the list of all the non-hidden options and their usages to the screen.
      *
      * @param rb
      *      if this is non-null, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
+     * @param filter
+     *      Controls which options to be printed.
      */
-    public void printUsage(Writer out, ResourceBundle rb) {
+    public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
         PrintWriter w = new PrintWriter(out);
         // determine the length of the option + metavar first
         int len = 0;
@@ -269,10 +306,10 @@ public class CmdLineParser {
 
         // then print
         for (OptionHandler h : arguments) {
-        	printOption(w, h, len, rb);
+        	printOption(w, h, len, rb, filter);
         }
         for (OptionHandler h : options) {
-        	printOption(w, h, len, rb);
+        	printOption(w, h, len, rb, filter);
         }
 
         w.flush();
@@ -281,15 +318,15 @@ public class CmdLineParser {
     /**
      * Prints the usage information for a given option.
      * @param out      Writer to write into
-     * @param handler  handler where to receive the informations
+     * @param handler  handler where to receive the information
      * @param len      Maximum length of metadata column
      * @param rb       ResourceBundle for I18N
      */
-    private void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb) {
+    private void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
     	// Hiding options without usage information
     	if (handler.option.usage() == null ||
             handler.option.usage().length() == 0 ||
-            handler.option.hidden()) {
+            !filter.select(handler)) {
     		return;
     	}
 

@@ -43,6 +43,9 @@ public class OptionDef {
 		return required;
 	}
 
+    /**
+     * Value from {@link Option#hidden()} or {@link Argument#hidden()}
+     */
 	public boolean hidden() {
 		return hidden;
 	}
