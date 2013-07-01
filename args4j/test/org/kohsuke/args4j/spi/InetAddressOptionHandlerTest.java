@@ -25,9 +25,9 @@ public class InetAddressOptionHandlerTest extends TestCase {
 
 	public void testParseFailure() throws Exception {
 		try {
-		handler.parse("a.b.c.d");
+		handler.parse("bogus.ip.address.nosuch.");
 		} catch (CmdLineException e) {
-			assertEquals("\"a.b.c.d\" must be an IP address", e.getMessage());
+			assertEquals("\"bogus.ip.address.nosuch.\" must be an IP address", e.getMessage());
 			return;
 		}
 		fail("We should not reach here");
