@@ -14,7 +14,8 @@ enum Messages {
     ILLEGAL_FIELD_SIGNATURE,
     ILLEGAL_LIST,
     FORMAT_ERROR_FOR_MAP,
-    MAP_HAS_NO_KEY
+    MAP_HAS_NO_KEY,
+    ILLEGAL_IP_ADDRESS
     ;
 
     private static ResourceBundle rb;
