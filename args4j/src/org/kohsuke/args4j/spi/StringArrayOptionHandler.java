@@ -4,11 +4,6 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static java.util.Collections.addAll;
-
 /**
  * <p>
  * An {@link OptionHandler} for greedily mapping a list of tokens into a {@code String[]}.
@@ -31,9 +26,9 @@ import static java.util.Collections.addAll;
  *
  * @author PlainText,LuVar
  */
-public class StringArrayOptionHandler extends OptionHandler<String[]> {
+public class StringArrayOptionHandler extends OptionHandler<String> {
 
-	public StringArrayOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super String[]> setter) {
+	public StringArrayOptionHandler(CmdLineParser parser, OptionDef option, Setter<String> setter) {
 		super(parser, option, setter);
 	}
 
@@ -48,27 +43,24 @@ public class StringArrayOptionHandler extends OptionHandler<String[]> {
 	}
 
 	/**
-	 * Tryies to parse String[] argument from {@link Parameters}.
+	 * Tries to parse String[] argument from {@link Parameters}.
 	 */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
         int counter=0;
-		ArrayList<String> values = new ArrayList<String>();
-		for ( ; counter<params.size(); counter++) {
+		for (; counter<params.size(); counter++) {
 			String param = params.getParameter(counter);
 
             if(param.startsWith("-")) {
 				break;
 			}
 
-            addAll(values, param.split(" "));
+            for (String p : param.split(" ")) {
+                setter.addValue(p);
+            }
 		}
 
-        // to work around a javac bug in Java1.5, we need to first assign this to
-        // the raw type.
-        Setter s = this.setter;
-        s.addValue(values.toArray(new String[values.size()]));
-		return counter;
+        return counter;
 	}
 
 }

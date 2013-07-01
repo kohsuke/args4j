@@ -5,7 +5,6 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import java.io.File;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
-import java.lang.annotation.ElementType;
 import java.lang.reflect.AccessibleObject;
 import java.util.ResourceBundle;
 
