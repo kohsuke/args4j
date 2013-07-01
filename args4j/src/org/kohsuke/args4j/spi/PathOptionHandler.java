@@ -8,11 +8,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
- * Created with IntelliJ IDEA.
- * User: kmahoney
- * Date: 6/6/13
- * Time: 8:17 AM
+ * Takes a single argument to the option and maps that to {@link Path}.
+ *
+ * @author kmahoney
  */
+@SuppressWarnings("Since15")
 public class PathOptionHandler extends OneArgumentOptionHandler<Path> {
     public PathOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super Path> setter) {
         super(parser, option, setter);

@@ -2,18 +2,25 @@ package org.kohsuke.args4j.spi;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 
 /**
- * Created with IntelliJ IDEA.
- * User: kmahoney
- * Date: 6/19/13
- * Time: 6:17 AM
+ * Partial {@link OptionHandler} implementation that takes a single value to the option,
+ * which is then gets split into individual tokens by looking at a fixed delimiter.
+ *
+ * <p>
+ * This class is marked as abstract even though it has no abstract method,
+ * to signify the fact that the class by itself cannot be used in {@link Option#handler()}
+ * due to the extra argument that it takes.
+ *
+ * @author kmahoney
  */
-public class DelimitedOptionHandler<T> extends OptionHandler<T> {
+public abstract class DelimitedOptionHandler<T> extends OptionHandler<T> {
 
     protected final String delimiter;
     protected final OneArgumentOptionHandler<? extends T> individualOptionHandler;
+
     public DelimitedOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super T> setter, String delimiter, OneArgumentOptionHandler<? extends T> individualOptionHandler) {
         super(parser, option, setter);
         this.delimiter = delimiter;
