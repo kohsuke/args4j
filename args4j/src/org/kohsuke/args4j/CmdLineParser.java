@@ -282,12 +282,18 @@ public class CmdLineParser {
 
     /**
      * Prints the usage information for a given option.
+     *
+     * <p>
+     * Subtypes can override this method and determine which options get printed and what not,
+     * based on {@link OptionHandler}, perhaps by using {@code handler.setter.asAnnotatedElement()}
+     *
      * @param out      Writer to write into
-     * @param handler  handler where to receive the informations
+     * @param handler  handler where to receive the information
      * @param len      Maximum length of metadata column
      * @param rb       ResourceBundle for I18N
+     * @see Setter#asAnnotatedElement()
      */
-    private void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb) {
+    protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb) {
     	// Hiding options without usage information
     	if (handler.option.usage() == null || handler.option.usage().length() == 0) {
     		return;
