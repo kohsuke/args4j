@@ -229,6 +229,7 @@ public class CmdLineParser {
         for (OptionHandler h : options) {
             OptionDef option = h.option;
             if(option.usage().length()==0)  continue;   // ignore
+            if(option.hidden())             continue;
             if(!mode.print(option))         continue;
 
             buf.append(' ');
@@ -289,7 +290,9 @@ public class CmdLineParser {
      */
     private void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb) {
     	// Hiding options without usage information
-    	if (handler.option.usage() == null || handler.option.usage().length() == 0) {
+    	if (handler.option.usage() == null ||
+            handler.option.usage().length() == 0 ||
+            handler.option.hidden()) {
     		return;
     	}
 

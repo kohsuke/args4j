@@ -39,6 +39,11 @@ public @interface Argument {
     boolean required() default false;
 
     /**
+     * See {@link Option#hidden()}.
+     */
+    boolean hidden() default false;
+
+    /**
      * See {@link Option#handler()}.
      */
     Class<? extends OptionHandler> handler() default OptionHandler.class;

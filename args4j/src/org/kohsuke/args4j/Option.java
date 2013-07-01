@@ -133,6 +133,14 @@ public @interface Option {
     boolean required() default false;
 
     /**
+     * Specify that the option is hidden.
+     *
+     * <p>
+     * Hidden options do not show up in usage.
+     */
+    boolean hidden() default false;
+
+    /**
      * Specify the {@link OptionHandler} that processes the command line arguments.
      *
      * <p>
