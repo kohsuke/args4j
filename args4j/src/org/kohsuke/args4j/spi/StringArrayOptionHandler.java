@@ -6,7 +6,8 @@ import org.kohsuke.args4j.OptionDef;
 
 /**
  * <p>
- * An {@link OptionHandler} for greedily mapping a list of tokens into a {@code String[]}.
+ * An {@link OptionHandler} for greedily mapping a list of tokens into a collection of {@link String}s,
+ * such as {@code String[]}, {@code List<String>}, etc.
  * </p>
  *
  * <h1>How it works:</h1>

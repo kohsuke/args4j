@@ -1,11 +1,11 @@
 package org.kohsuke.args4j.spi;
 
+import java.util.Collection;
 import java.util.ResourceBundle;
 
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.NamedOptionDef;
 
 
 /**
@@ -19,7 +19,11 @@ import org.kohsuke.args4j.NamedOptionDef;
  * {@link CmdLineParser#registerHandler(Class,Class)} 
  *
  * @param <T>
- *      The type of the field that this {@link OptionHandler} works with.
+ *      The "component" type of the field that this {@link OptionHandler} works with.
+ *      When I say "component", what I mean is that for a field that can hold multiple values
+ *      (such as {@link Collection} or array), this should refer to its component time.
+ *      {@link Setter} implementations abstract away multi-value-ness by allowing {@link OptionHandler}
+ *      to invoke its {@link Setter#addValue(Object)} multiple times.
  *
  * @author Kohsuke Kawaguchi
  */
