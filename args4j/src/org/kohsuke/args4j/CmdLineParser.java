@@ -29,6 +29,7 @@ import org.kohsuke.args4j.spi.CharOptionHandler;
 import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
+import org.kohsuke.args4j.spi.PathOptionHandler;
 import org.kohsuke.args4j.spi.FloatOptionHandler;
 import org.kohsuke.args4j.spi.InetAddressOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
@@ -573,6 +574,13 @@ public class CmdLineParser {
         registerHandler(InetAddress.class, InetAddressOptionHandler.class);
         // enum is a special case
         registerHandler(Map.class,MapOptionHandler.class);
+
+        try {
+            Class p = Class.forName("java.nio.file.Path");
+            registerHandler(p, PathOptionHandler.class);
+        } catch (ClassNotFoundException e) {
+            // running in Java6 or earlier
+        }
     }
 
 	public void setUsageWidth(int usageWidth) {
