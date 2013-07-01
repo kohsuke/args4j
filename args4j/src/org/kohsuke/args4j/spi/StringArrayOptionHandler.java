@@ -5,6 +5,9 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 
 import java.util.ArrayList;
+import java.util.Collections;
+
+import static java.util.Collections.addAll;
 
 /**
  * <p>
@@ -35,9 +38,7 @@ public class StringArrayOptionHandler extends OptionHandler<String[]> {
 	}
 
 	/**
-	 * <p>
 	 * Returns "STRING[]".
-	 * </p>
 	 *
 	 * @return	return "STRING[]";
 	 */
@@ -47,30 +48,21 @@ public class StringArrayOptionHandler extends OptionHandler<String[]> {
 	}
 
 	/**
-	 * <p>
 	 * Tryies to parse String[] argument from {@link Parameters}.
-	 * </p>
 	 */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {
-		int counter = 0;
+        int counter=0;
 		ArrayList<String> values = new ArrayList<String>();
-		while(true) {
-			String param;
-			try {
-				param = params.getParameter(counter);
-			} catch (CmdLineException ex) {
-				break;
-			}
-			if(param.startsWith("-")) {
+		for ( ; counter<params.size(); counter++) {
+			String param = params.getParameter(counter);
+
+            if(param.startsWith("-")) {
 				break;
 			}
 
-			for (String str : param.split(" ")) {
-				values.add(str);
-			}
-			counter++;
-		}//while true
+            addAll(values, param.split(" "));
+		}
 
         // to work around a javac bug in Java1.5, we need to first assign this to
         // the raw type.
