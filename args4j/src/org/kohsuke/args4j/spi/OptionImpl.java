@@ -17,7 +17,7 @@ public class OptionImpl extends AnnotationImpl implements Option {
 	}
 
     public String[] requires;
-    public String[] requires() {
+    public String[] depends() {
         return requires;
     }
 }

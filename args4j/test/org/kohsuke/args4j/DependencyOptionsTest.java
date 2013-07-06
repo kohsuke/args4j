@@ -3,7 +3,7 @@ package org.kohsuke.args4j;
 /**
  * @author Nicolas Geraud
  */
-public class RequiresOptionTest extends Args4JTestBase<RequiresOption> {
+public class DependencyOptionsTest extends Args4JTestBase<DependencyOptions> {
 
     public void testEverybodyIsHere() throws Exception {
         args= new String[]{"-a","4" , "-b","3" , "-c","2" , "-d","1"};
@@ -87,7 +87,7 @@ public class RequiresOptionTest extends Args4JTestBase<RequiresOption> {
     }
 
     @Override
-    public RequiresOption getTestObject() {
-        return new RequiresOption();
+    public DependencyOptions getTestObject() {
+        return new DependencyOptions();
     }
 }

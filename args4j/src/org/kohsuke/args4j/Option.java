@@ -168,14 +168,14 @@ public @interface Option {
     boolean multiValued() default false;
 
     /**
-     * List of required options if this is provided..
+     * List of other options that this option depends on.
      *
      * <h3>Example</h3>
      * <pre>
      *  &#64;Option(name="-a")
      *  int a;
      *  //-b is not required but if it's provided, then a becomes required
-     *  &#64;Option(name="-b", requires={"-a"}
+     *  &#64;Option(name="-b", depends={"-a"}
      *  int b;
      * </pre>
      * <p>
@@ -184,5 +184,5 @@ public @interface Option {
      * are not present.
      * </p>
      */
-    String[] requires() default { };
+    String[] depends() default { };
 }
