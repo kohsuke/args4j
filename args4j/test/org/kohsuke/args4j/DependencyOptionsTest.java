@@ -51,17 +51,17 @@ public class DependencyOptionsTest extends Args4JTestBase<DependencyOptions> {
             fail();
         } catch (CmdLineException e) {
             System.out.println(e.getMessage());
-            assertTrue(e.getMessage().contains("requires the option(s) [-a]"));
+            assertTrue(e.getMessage().contains("requires the option(s) [--alpha]"));
         }
     }
     public void testMultipleRequiresFail1() throws Exception {
-        args= new String[]{"-b","3" , "-d","1"};
+        args= new String[]{"--bravo","3" , "-d","1"};
         try {
             parser.parseArgument(args);
             fail();
         } catch (CmdLineException e) {
             System.out.println(e.getMessage());
-            assertTrue(e.getMessage().contains("requires the option(s) [-b, -c]"));
+            assertTrue(e.getMessage(), e.getMessage().contains("requires the option(s) [-b, -c]"));
         }
     }
     public void testMultipleRequiresFail2() throws Exception {
