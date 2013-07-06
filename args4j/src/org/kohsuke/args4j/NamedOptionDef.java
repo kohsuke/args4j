@@ -6,6 +6,7 @@ package org.kohsuke.args4j;
 public final class NamedOptionDef extends OptionDef {
     private final String name;
 	private final String[] aliases;
+    private final String[] depends;
     
     /**
      * @deprecated
@@ -20,6 +21,7 @@ public final class NamedOptionDef extends OptionDef {
 
     	this.name = o.name();
     	this.aliases = o.aliases();
+        this.depends = o.depends();
     }
 
     public String name() {
@@ -28,6 +30,10 @@ public final class NamedOptionDef extends OptionDef {
     
     public String[] aliases() {
     	return aliases;
+    }
+
+    public String[] depends() {
+        return depends;
     }
     
     @Override

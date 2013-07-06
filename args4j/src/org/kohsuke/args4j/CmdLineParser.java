@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -500,6 +501,29 @@ public class CmdLineParser {
         for (OptionHandler handler : arguments)
             if(handler.option.required() && !present.contains(handler))
                 throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
+
+        //make sure that all requires arguments are present
+        for(OptionHandler handler : present) {
+            if(handler.option instanceof NamedOptionDef && !isHandlerHasHisOptions((NamedOptionDef)handler.option, present)) {
+                throw new CmdLineException(this, Messages.REQUIRES_OPTION_MISSING
+                        .format(handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).depends())));
+            }
+        }
+    }
+
+    /**
+     * @param option
+     * @param present
+     * @return true if all options required by <code>option</code> are present, false otherwise
+     */
+    private boolean isHandlerHasHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
+    	if(option.depends() != null) {
+    		for(String depend : option.depends()) {
+    			if(!present.contains(findOptionHandler(depend)))
+    				return false;
+    		}
+    	}
+        return true;
     }
 
 	private OptionHandler findOptionHandler(String name) {

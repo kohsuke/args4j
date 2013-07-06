@@ -176,4 +176,23 @@ public @interface Option {
      * </pre>
      */
     Class<? extends OptionHandler> handler() default OptionHandler.class;
+
+    /**
+     * List of other options that this option depends on.
+     *
+     * <h3>Example</h3>
+     * <pre>
+     *  &#64;Option(name="-a")
+     *  int a;
+     *  //-b is not required but if it's provided, then a becomes required
+     *  &#64;Option(name="-b", depends={"-a"}
+     *  int b;
+     * </pre>
+     * <p>
+     * At the end of {@link CmdLineParser#parseArgument(String...)},
+     * a {@link CmdLineException} will be thrown if options required by another one
+     * are not present.
+     * </p>
+     */
+    String[] depends() default { };
 }
