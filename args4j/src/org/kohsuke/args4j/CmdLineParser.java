@@ -517,16 +517,16 @@ public class CmdLineParser {
      * @return true if all options required by <code>option</code> are present, false otherwise
      */
     private boolean isHandlerHasHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
-    	if(option.depends() != null) {
-    		for(String depend : option.depends()) {
-    			if(!present.contains(findOptionHandler(depend)))
-    				return false;
-    		}
-    	}
+        if (option.depends() != null) {
+            for (String depend : option.depends()) {
+                if (!present.contains(findOptionHandler(depend)))
+                    return false;
+            }
+        }
         return true;
     }
 
-	private OptionHandler findOptionHandler(String name) {
+    private OptionHandler findOptionHandler(String name) {
 		OptionHandler handler = findOptionByName(name);
 		if (handler==null) {
 			// Have not found by its name, maybe its a property?
