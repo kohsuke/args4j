@@ -10,17 +10,17 @@ Why should I use it?
 
   See {{{http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html}my quick intro}}.
 
- * It makes the command line parsing very easy by using annotations.
+ * It makes command line parsing very easy by using annotations
 
- * You can generate the usage screen very easily.
+ * Generate usage text very easily
 
- * You can generate HTML/XML that lists all options for your documentation.
+ * Generate HTML/XML documentation listing all options
 
- * Fully supports localization.
+ * Full localization support
 
- * It is designed to parse <<<javac>>> like options (as opposed to GNU-style where ls <<<-lR>>> is considered to have two options <<<l>>> and <<<R>>>.)
+ * Designed to parse <<<javac>>> like options, as opposed to GNU-style (where <<<ls -lR>>> is considered to have two options <<<l>>> and <<<R>>>).
 
- * It is licensed under {{{http://www.opensource.org/licenses/mit-license.php}the MIT license}}.
+ * Licensed under {{{http://www.opensource.org/licenses/mit-license.php}the MIT license}}.
 
  []
  
@@ -34,7 +34,7 @@ How can I use it?
 
  []
 
-More Resource
+More Resources
 
  [[1]] {{{./sample.html}A small tutorial}} for the use of the Starter and Args4J
 

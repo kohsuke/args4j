@@ -1,4 +1,4 @@
-  args4j can examine your annotated source code and generate HTML table or XML for the list of command line options. You can use this in the build process to generate your documentation, so that it will be always in sync with your code.
+  args4j can examine your annotated source code and generate HTML table or XML for the list of command line options. You can use this in your build process to generate your documentation, so it's always in sync with your code.
 
   To do so, download {{{http://maven.jenkins-ci.org/content/repositories/releases/args4j/args4j-tools/}args4j-tools}} and run it as follows:
 
@@ -6,4 +6,4 @@
 $ java -jar args4j-tools.jar path/to/my/OptionBean.java
 ----------------------------------------
 
-  To see all the options, run it withouy any parameter.
+  To see all the options, run it without any parameters.
