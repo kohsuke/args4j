@@ -56,7 +56,7 @@ public class CmdLineException extends Exception {
      *
      * <p>
      * Unless you have legacy {@link OptionHandler} that doesn't pass in this information
-     * when it throws an exception, this method should always return a non-null value. a
+     * when it throws an exception, this method should always return a non-null value.
      */
     public CmdLineParser getParser() {
         return parser;

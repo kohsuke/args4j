@@ -19,9 +19,10 @@ import org.kohsuke.args4j.CmdLineParser;
  * {@link CmdLineParser#registerHandler(Class,Class)} 
  *
  * @param <T>
- *      The "component" type of the field that this {@link OptionHandler} works with.
- *      When I say "component", what I mean is that for a field that can hold multiple values
- *      (such as {@link Collection} or array), this should refer to its component time.
+ *      The {@code component} type of the field that this {@link OptionHandler} works with.
+ *      When I say "component", I mean a field that can hold multiple values
+ *      (such as {@link Collection} or array). This should refer to its component time.
+ *      
  *      {@link Setter} implementations abstract away multi-value-ness by allowing {@link OptionHandler}
  *      to invoke its {@link Setter#addValue(Object)} multiple times.
  *
@@ -57,15 +58,15 @@ public abstract class OptionHandler<T> {
      *      The object is valid only during the method call.
      *
      * @return
-     *      The number of arguments consumed. For example, return 0
-     *      if this option doesn't take any parameter.
+     *      The number of arguments consumed. (For example, returns {@code 0}
+     *      if this option doesn't take any parameters.)
      */
     public abstract int parseArguments( Parameters params ) throws CmdLineException;
 
     /**
      * Gets the default meta variable name used to print the usage screen.
      *
-     * @return null to hide a meta variable.
+     * @return {@code null} to hide a meta variable.
      */
     public abstract String getDefaultMetaVariable();
 

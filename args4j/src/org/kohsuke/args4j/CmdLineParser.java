@@ -49,7 +49,7 @@ import org.kohsuke.args4j.spi.URLOptionHandler;
  * Command line argument owner.
  *
  * <p>
- * For a typical usage, see <a href="https://args4j.dev.java.net/source/browse/args4j/args4j/examples/SampleMain.java?view=markup">this example</a>.
+ * For typical usage, see <a href="https://args4j.dev.java.net/source/browse/args4j/args4j/examples/SampleMain.java?view=markup">this example</a>.
  *
  * @author
  *     Kohsuke Kawaguchi (kk@kohsuke.org)
@@ -70,8 +70,9 @@ public class CmdLineParser {
 
 	/**
 	 *  The length of a usage line.
-	 *  If the usage message is longer than this value, the parser
-	 *  wraps the line. Defaults to 80.
+	 *  If the usage message is longer than this value, the parser wraps the line.
+     *  
+     *  Defaults to {@code 80}.
 	 */
 	private int usageWidth = 80;
 
@@ -82,7 +83,7 @@ public class CmdLineParser {
      *
      * @param bean
      *      instance of a class annotated by {@link Option} and {@link Argument}.
-     *      this object will receive values. If this is null, the processing will
+     *      this object will receive values. If this is {@code null}, the processing will
      *      be skipped, which is useful if you'd like to feed metadata from other sources.
      *
      * @throws IllegalAnnotationError
@@ -105,7 +106,7 @@ public class CmdLineParser {
     }
 
     /**
-     * Programmatically defines an argument (instead of reading it from annotations like you normally do.)
+     * Programmatically defines an argument (instead of reading it from annotations as normal).
      *
      * @param setter the setter for the type
      * @param a the Argument
@@ -124,10 +125,10 @@ public class CmdLineParser {
     }
 
     /**
-     * Programmatically defines an option (instead of reading it from annotations like you normally do.)
+     * Programmatically defines an option (instead of reading it from annotations as normal).
      *
      * @param setter the setter for the type
-     * @param o the Option
+     * @param o the {@code Option}
      */
     public void addOption(Setter setter, Option o) {
         checkOptionNotInMap(o.name());
@@ -199,9 +200,9 @@ public class CmdLineParser {
      * See {@link #printExample(OptionHandlerFilter, ResourceBundle)} for more details.
      *
      * @param filter
-     *      must not be null.
+     *      must not be {@code null}.
      * @return
-     *      always non-null.
+     *      always non-{@code null}.
      */
     public String printExample(OptionHandlerFilter filter) {
         return printExample(filter,null);
@@ -219,28 +220,27 @@ public class CmdLineParser {
      * Formats a command line example into a string.
      *
      * <p>
-     * This method produces a string like " -d &lt;dir> -v -b",
-     * which is useful for printing a command line example, perhaps
-     * as a part of the usage screen.
+     * This method produces a string like <samp> -d &lt;dir> -v -b</samp>.
+     * This is useful for printing a command line example (perhaps
+     * as a part of the usage screen).
      *
      *
      * @param mode
      *      Determines which options will be a part of the returned string.
-     *      Must not be null.
+     *      Must not be {@code null}.
      * @param rb
-     *      If non-null, meta variables (&lt;dir> in the above example)
+     *      If non-{@code null}, meta variables (<samp>&lt;dir></samp> in the above example)
      *      is treated as a key to this resource bundle, and the associated
      *      value is printed. See {@link Option#metaVar()}. This is to support
      *      localization.
      *
-     *      Passing <tt>null</tt> would print {@link Option#metaVar()} directly.
+     *      Passing {@code null} would print {@link Option#metaVar()} directly.
      * @return
-     *      always non-null. If there's no option, this method returns
-     *      just the empty string "". Otherwise, this method returns a
-     *      string that contains a space at the beginning (but not at the end.)
+     *      always non-{@code null}. If there's no option, this method returns
+     *      just the empty string {@code ""}. Otherwise, this method returns a
+     *      string that contains a space at the beginning (but not at the end).
      *      This allows you to do something like:
-     *
-     *      <pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre>
+     *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
      */
     public String printExample(OptionHandlerFilter mode,ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
@@ -290,7 +290,7 @@ public class CmdLineParser {
      * Prints the list of all the non-hidden options and their usages to the screen.
      *
      * @param rb
-     *      if this is non-null, {@link Option#usage()} is treated
+     *      If non-{@code null}, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
      * @param filter
      *      Controls which options to be printed.
@@ -320,16 +320,16 @@ public class CmdLineParser {
     }
 
     /**
-     * Prints the usage information for a given option.
+     * Prints usage information for a given option.
      *
      * <p>
-     * Subtypes can override this method and determine which options get printed and what not,
-     * based on {@link OptionHandler}, perhaps by using {@code handler.setter.asAnnotatedElement()}
+     * Subtypes may override this method and determine which options get printed (or other things),
+     * based on {@link OptionHandler} (perhaps by using {@code handler.setter.asAnnotatedElement()}).
      *
      * @param out      Writer to write into
      * @param handler  handler where to receive the information
      * @param len      Maximum length of metadata column
-     * @param rb       ResourceBundle for I18N
+     * @param rb       {@code ResourceBundle} for I18N
      * @see Setter#asAnnotatedElement()
      */
     protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
@@ -367,6 +367,7 @@ public class CmdLineParser {
 
     /**
      * Wraps a line so that the resulting parts are not longer than a given maximum length.
+     *
      * @param line       Line to wrap
      * @param maxLength  maximum length for the resulting parts
      * @return list of all wrapped parts
@@ -398,7 +399,7 @@ public class CmdLineParser {
 
     /**
      * Essentially a pointer over a {@link String} array.
-     * Can move forward, can look ahead.
+     * Can move forward; can look ahead.
      */
     private class CmdLineImpl implements Parameters {
         private final String[] args;
@@ -514,7 +515,7 @@ public class CmdLineParser {
     /**
      * @param option
      * @param present
-     * @return true if all options required by <code>option</code> are present, false otherwise
+     * @return {@code true} if all options required by {@code option} are present, {@code false} otherwise
      */
     private boolean isHandlerHasHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
         if (option.depends() != null) {
@@ -542,9 +543,9 @@ public class CmdLineParser {
 	}
 
 	/**
-	 * Finds a registered OptionHandler by its name or its alias.
+	 * Finds a registered {@code OptionHandler} by its name or its alias.
 	 * @param name name
-	 * @return the OptionHandler or <tt>null</tt>
+	 * @return the {@code OptionHandler} or {@code null}
 	 */
 	private OptionHandler findOptionByName(String name) {
 		for (OptionHandler h : options) {
@@ -572,8 +573,8 @@ public class CmdLineParser {
 
 
     /**
-     * Returns true if the given token is an option
-     * (as opposed to an argument.)
+     * Returns {@code true} if the given token is an option
+     * (as opposed to an argument).
      */
     protected boolean isOption(String arg) {
         return parsingOptions && arg.startsWith("-");
@@ -676,7 +677,7 @@ public class CmdLineParser {
      * Prints a single-line usage to the screen.
      *
      * @param rb
-     *      if this is non-null, {@link Option#usage()} is treated
+     *      if this is non-{@code null}, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
      */
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {

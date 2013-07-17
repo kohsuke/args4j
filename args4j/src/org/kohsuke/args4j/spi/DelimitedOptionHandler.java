@@ -7,11 +7,11 @@ import org.kohsuke.args4j.OptionDef;
 
 /**
  * Partial {@link OptionHandler} implementation that takes a single value to the option,
- * which is then gets split into individual tokens by looking at a fixed delimiter.
+ * which is then gets split into individual tokens using fixed delimiter.
  *
  * <p>
- * This class is marked as abstract even though it has no abstract method,
- * to signify the fact that the class by itself cannot be used in {@link Option#handler()}
+ * This class is marked as {@code abstract} even though it has no abstract methods
+ * to indicate that the class cannot be used by itself in {@link Option#handler()},
  * due to the extra argument that it takes.
  *
  * @author kmahoney

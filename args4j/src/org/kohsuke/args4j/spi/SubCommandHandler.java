@@ -12,16 +12,16 @@ import java.util.AbstractList;
  * {@link OptionHandler} used with {@link Argument} for parsing typical "sub-command" pattern.
  *
  * <p>
- * The "sub-command" pattern refers to the design of the command line like git and svn, where
- * the first argument to the command designates a sub-command (say "git checkout"), then everything
- * that follows afterward are parsed by this sub-command (and are usually different depending on
+ * The "sub-command" pattern refers to the design of the command line like <tt>git</tt> and <tt>svn</tt>, where
+ * the first argument to the command designates a sub-command (say <samp>git checkout</samp>), then everything
+ * that follows afterward are parsed by this sub-command (which is usually different depending on
  * which sub-command was selected.)
  *
  * <p>
  * This {@link OptionHandler} models this design pattern with the {@link SubCommands} annotation.
  * See the following example:
  *
- * <pre>
+ * <code><pre>
  * class Git {
  *      &#64;Argument(handler={@link SubCommandHandler}.class)
  *      &#64;SubCommands({
@@ -47,10 +47,10 @@ import java.util.AbstractList;
  *
  *     ...
  * }
- * </pre>
+ * </pre></code>
  *
  * <p>
- * An example of legal command line option for this is "-r checkout -a".
+ * An example of legal command line option for this is <samp>-r checkout -a</samp>.
  *
  * <ul>
  * <li>

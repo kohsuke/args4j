@@ -10,7 +10,8 @@ import java.lang.reflect.AnnotatedElement;
  * Abstraction of the value setter.
  *
  * <p>
- * This abstracts away the difference between a field and a setter method, which object we are setting the value to,
+ * This abstracts away the difference between a field and a setter method, 
+ * which object we are setting the value to,
  * and/or how we handle collection fields differently.
  *
  * @author Kohsuke Kawaguchi
@@ -33,31 +34,32 @@ public interface Setter<T> {
     /**
      * Whether this setter is intrinsically multi-valued.
      *
-     * When used for parsing arguments (and not options), intrinsically multi-valued setters consume
-     * all the remaining arguments. So if the setter can store multiple values, this method should return true.
+     * <p>
+     * When parsing arguments (instead of options), intrinsically multi-valued setters consume
+     * all the remaining arguments. So, if the setter can store multiple values, 
+     * this method should return {@code true}.
      *
      * <p>
-     * This characteristics of a setter does not affect option parsing at all, as any options can be
-     * specified multiple times (which in many cases are no-op, but when your shell script expands
-     * multiple environment variables that each can contain options, tolerating such redundant options
-     * are often useful.)
+     * This characteristics of a setter doesn't affect option parsing at all; any options can be
+     * specified multiple times.  In many cases, this is a no-op--but when your shell script expands
+     * multiple environment variables (each of which may contain options), tolerating such 
+     * redundant options can be useful.
      */
     boolean isMultiValued();
 
     /**
      * If this setter encapsulates a field, return the direct access to that field as
-     * {@link FieldSetter}. This method serves two purposes.
+     * {@link FieldSetter}. This method serves two purposes:
      *
-     * <p>
-     * One is that this lets {@link OptionHandler}s to bypass the collection/array handling of fields.
-     * This is useful if you are defining an option handler that produces array or collection
-     * from a single argument.
-     *
-     * <p>
-     * The other is to retrieve the current value of the field, via {@link FieldSetter#getValue()}.
+     * <ol>
+     *   <li>This lets {@link OptionHandler}s bypass the collection/array handling of fields.
+     *       This is useful if you're defining an option handler that produces array or collection
+     *       from a single argument.</li>
+     *   <li>The other is to retrieve the current value of the field (via {@link FieldSetter#getValue()}).</li>
+     * </ol>
      *
      * @return
-     *      null if this setter wraps a method.
+     *      {@code null} if this setter wraps a method.
      */
     FieldSetter asFieldSetter();
 

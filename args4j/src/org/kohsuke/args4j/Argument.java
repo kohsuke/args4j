@@ -53,7 +53,7 @@ public @interface Argument {
      *
      * <p>
      * If you define multiple single value properties to bind to arguments,
-     * they should have index=0, index=1, index=2, ... and so on.
+     * they should have {@code index=0, index=1, index=2}, ... and so on.
      *
      * <p>
      * Multi value properties bound to arguments must be always the last entry.

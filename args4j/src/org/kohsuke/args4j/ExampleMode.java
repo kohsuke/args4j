@@ -14,7 +14,7 @@ public enum ExampleMode implements OptionHandlerFilter {
      * Print all defined options in the example.
      *
      * <p>
-     * This would be useful only when you have small number of options.
+     * This would only be useful with small numbers of options.
      */
     ALL() {
         public boolean select(OptionHandler o) {
