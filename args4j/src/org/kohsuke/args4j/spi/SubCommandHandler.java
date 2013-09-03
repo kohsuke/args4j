@@ -25,8 +25,8 @@ import java.util.AbstractList;
  * class Git {
  *      &#64;Argument(handler={@link SubCommandHandler}.class)
  *      &#64;SubCommands({
- *          &#64;SubCommand(name="checkout",CheckoutCommand.class),
- *          &#64;SubCommand(name="commit",CommitCommand.class),
+ *          &#64;SubCommand(name="checkout",impl=CheckoutCommand.class),
+ *          &#64;SubCommand(name="commit",impl=CommitCommand.class),
  *          ...
  *      })
  *      Command cmd;
