@@ -422,7 +422,7 @@ public class CmdLineParser {
         }
 
         public String getParameter(int idx) throws CmdLineException {
-			if( pos+idx>=args.length )
+			if( pos+idx>=args.length || pos+idx<0 )
                 throw new CmdLineException(CmdLineParser.this, Messages.MISSING_OPERAND.format(getOptionName()));
             return args[pos+idx];
         }
