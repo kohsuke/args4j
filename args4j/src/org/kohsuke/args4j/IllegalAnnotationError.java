@@ -5,8 +5,8 @@ package org.kohsuke.args4j;
  *
  * <p>
  * This only happens when there's something wrong with the way you use
- * args4j in your code, not when the arguments supplied by the user is
- * wrong. Hence this class is an {@link Error}.
+ * args4j in your code--<em>not</em> when the user's arguments are wrong. 
+ * Therefore, this class is an {@link Error}.
  *
  * @author Kohsuke Kawaguchi
  */

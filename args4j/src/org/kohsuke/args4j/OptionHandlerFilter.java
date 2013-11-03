@@ -9,8 +9,8 @@ import java.util.ResourceBundle;
  * Selects {@link OptionHandler}.
  *
  * <p>
- * For example, we use this to let the caller specify which options get printed
- * and which ones don't.
+ * For example, we use this to let the caller specify which 
+ * options are printed, and which ones aren't.
  *
  * @author Kohsuke Kawaguchi
  * @see CmdLineParser#printExample(OptionHandlerFilter)
@@ -20,9 +20,9 @@ public interface OptionHandlerFilter {
     /**
      *
      * @param o
-     *      Never null. Internally options (like "-r") and arguments (others)
-     *      are treated uniformly as {@link OptionHandler}. See
-     *      {@link OptionDef#isArgument()} to distinguish them.
+     *      Never {@code null}. Internally options (like <samp>-r</samp>) and arguments (others)
+     *      are treated uniformly as {@link OptionHandler}. 
+     *      See {@link OptionDef#isArgument()} to distinguish them.
      * @return
      *      true to choose this option, false to ignore/discard/disregard it.
      */
@@ -41,7 +41,7 @@ public interface OptionHandlerFilter {
      * Print all {@linkplain Option#hidden() non-hidden} options.
      *
      * <p>
-     * This would be useful only when you have small number of options.
+     * This would only be useful with a small number of options.
      */
     OptionHandlerFilter PUBLIC = new OptionHandlerFilter() {
         public boolean select(OptionHandler o) {
@@ -50,7 +50,7 @@ public interface OptionHandlerFilter {
     };
 
     /**
-     * Print all {@linkplain Option#required() required} option.
+     * Print all {@linkplain Option#required() required} options.
      */
     OptionHandlerFilter REQUIRED = new OptionHandlerFilter() {
         public boolean select(OptionHandler o) {

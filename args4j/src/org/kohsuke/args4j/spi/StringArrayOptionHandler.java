@@ -6,24 +6,29 @@ import org.kohsuke.args4j.OptionDef;
 
 /**
  * <p>
- * An {@link OptionHandler} for greedily mapping a list of tokens into a collection of {@link String}s,
- * such as {@code String[]}, {@code List<String>}, etc.
+ * An {@link OptionHandler} for greedily mapping a list of tokens into a collection of {@link String}s
+ * (such as {@code String[]}, {@code List<String>}, etc.).
  * </p>
  *
  * <h1>How it works:</h1>
+ *
  * <p>
- * Example for parameter -s, which is String[] type:
- * <pre>
+ * Example for parameter {@code -s}, which is type {@code String[]}:</p>
+ *
+ * <code><pre>
  * java -jar aaa.jar -s banan hruska jablko
  * java -jar aaa.jar -s banan "hruska jablko"
  * java -jar aaa.jar -s "banan hruska jablko"
  * java -jar aaa.jar -s banan hruska jablko -l 4 -r
  * java -jar aaa.jar -t 222 -s banan hruska jablko -r
- * </pre>
+ * </pre></code>
+ *
  * <p>
- * All of them result in a single string array that contains three tokens "banan", "hruska", and "jablko".
- * This OptionHandler scans for parameter which begins with "-". If it found it, it will stop.
- * </p>
+ * All of them result in a single string array that contains three tokens: 
+ * <samp>banan</samp>, <samp>hruska</samp>, and <samp>jablko</samp>.</p>
+ *
+ * <p>
+ * This {@code OptionHandler} scans for parameter which begins with <tt>-</tt>. If found, it will stop.</p>
  *
  * @author PlainText,LuVar
  */
@@ -34,7 +39,7 @@ public class StringArrayOptionHandler extends OptionHandler<String> {
 	}
 
 	/**
-	 * Returns "STRING[]".
+	 * Returns {@code "STRING[]"}.
 	 *
 	 * @return	return "STRING[]";
 	 */
@@ -44,7 +49,7 @@ public class StringArrayOptionHandler extends OptionHandler<String> {
 	}
 
 	/**
-	 * Tries to parse String[] argument from {@link Parameters}.
+	 * Tries to parse {@code String[]} argument from {@link Parameters}.
 	 */
 	@Override
 	public int parseArguments(Parameters params) throws CmdLineException {

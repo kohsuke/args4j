@@ -16,12 +16,12 @@ public interface Parameters  {
      *
      * @param idx
      *      specifying 0 will retrieve the token next to the option.
-     *      For example, if the command line looks like "-o abc -d x",
-     *      then <code>getParameter(0)</code> for "-o" returns "abc"
-     *      and <code>getParameter(1)</code> will return "-d".
+     *      For example, if the command line looks like <samp>-o abc -d x</samp>,
+     *      then {@code getParameter(0)} for <samp>-o</samp> returns {@code abc}
+     *      and {@code getParameter(1)} will return <samp>-d</samp>.
      *
      * @return
-     *      Always return non-null valid String. If an attempt is
+     *      Always return non-{@code null} valid {@code String}. If an attempt is
      *      made to access a non-existent index, this method throws
      *      appropriate {@link org.kohsuke.args4j.CmdLineException}.
      */

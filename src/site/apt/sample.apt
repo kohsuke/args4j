@@ -4,7 +4,7 @@
   
 Prepare your environment
 
-  Because we only want to have a very small example, we use only one single directory containing all the stuff - sources, class files and the args4j jarfile. You need a JDK 1.5 or higher.
+  Because we only want to have a very small example, we use only one single directory containing all the stuff— sources, class files and the args4j jarfile. You need a JDK 1.5 or higher.
 
  [[1]] Create a directory args4j-sample this will be our project directory.
 
@@ -16,7 +16,7 @@ Prepare your environment
 
 Implementing pure business logic
 
-  Create the business bean Business.java. At this step it contains only the business logic. To run this logic, we want to have a run() method.
+  Create the business bean <<<Business.java>>>. At this point, it only contains the business logic. To run this logic, we want a <<<run()>>> method.
 
 ------------------------------
 import java.io.File;
@@ -59,7 +59,7 @@ Start the class
 
  []
 
-  Ok, because this is a args4j sample, the first method is not the right solution here ;-) In the first step we just use the Starter.
+  Okay...because this is a sample, the first method isn't the right solution here ;-) In the first step we just use the <<<Starter>>>.
 
   Start the class
 
@@ -67,7 +67,7 @@ Start the class
 java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter
 ------------------------------
 
- and we will get
+ and we get
 
 ------------------------------
 Business-Logic
@@ -75,9 +75,9 @@ Business-Logic
 - file: null
 ------------------------------
 
- What happened? The starter class had a look into the java system property <<<mainclass>>> loads that class, instantiates it and executes their run() method. We provide the classpath so the Java VM could find the starter class and our business class.
+ What happened? The starter class had a look into the Java system property <<<mainclass>>> loads that class, instantiates it, and executes their <<<run()>>> method. We provide the <<<classpath>>> so the Java VM could find the starter class and our business class.
 
- Next we try to start the class with arguments:
+ Next, let's try to start the class with arguments:
 
 ------------------------------
 java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter -name "Hrld" -file args4j-2.0.5.jar
@@ -92,7 +92,7 @@ Business
 
 Adding Args4J Annotations
 
- Ok, we don't have any annotations for handling the command line parameters yet. So we modify to the source:
+ Well, we don't have any annotations to handle the command line parameters yet. Let's fix that:
 
 ------------------------------
     ...
@@ -106,7 +106,7 @@ Adding Args4J Annotations
     ...
 ------------------------------
 
- recompile it and try the start again
+ Recompile and try the start again
 
 ------------------------------
 Business-Logic
@@ -114,13 +114,15 @@ Business-Logic
 - file: C:\temp\args4j-sample\args4j-2.0.5.jar
 ------------------------------
 
- Ok, so far so good. What is with wrong parameters? We will type a
+ So far so good. 
+ 
+ What is with wrong parameters?
 
 ------------------------------
 java -classpath .;args4j-2.0.5.jar -Dmainclass=Business org.kohsuke.args4j.Starter -wrong
 ------------------------------
 
- and the output is
+ which outputs
 
 ------------------------------
 "-wrong" is not a valid option
@@ -129,13 +131,19 @@ Business [options]
  -name VAL  : Sets a name
 ------------------------------
 
- Again - what happened? args4j throws a CmdLineException when we type an incorrect parameter (<<<-wrong>>>). The starter class catches this and prints out a help message: the classname and an <<<[Option]>>> because we have some @Option's in the code. (We dont have an @Argument so that line is not <<<Business [options] arguments>>>). After that it shows the possible options, as given by the parsers printUsage() method. 
+ Again—what happened? 
+ 
+ args4j throws a <<<CmdLineException>>> when we wrote an incorrect parameter (<<<-wrong>>>). The starter class catches this and prints a help message: the classname and an <<<[Option]>>> (since we have some <<<@Option>>>s in the code). (Since we don't have an <<<@Argument>>>, that line is not <<<Business [options] arguments>>>.) 
+ 
+ Then it shows the possible options, as given by the parser's <<<printUsage()>>> method. 
 
- As you can see we added an @Option to an attribute and to a setter method. Adding to an attribute is the simplest thing. If we want to do some checks (like our file existance check) you could add the annotation to a setter.
+ As you can see, we added an <<<@Option>>> to an attribute and to a setter method. Using this with attributes is the simplest way to use args4j. But if you wanted to do some checks (e.g. our file existence check), you could add the annotation to a setter.
 
 Enhancing the parsing
 
- If you want to have more control about the parsing and error handling - dont use the starter. Use the CmdLineParser directly. Base steps are shown below:
+ If you want to have more control over parsing and error handling, don't use the starter. Use <<<CmdLineParser>>> directly. 
+ 
+ Here are the main steps:
 
 ------------------------------
     import org.kohsuke.args4j.CmdLineParser;
@@ -155,13 +163,13 @@ Enhancing the parsing
     }
 ------------------------------
 
- Because we dont use the Starter we also have to supply the main method and start this. So after compiling we could start that with
+ Since we're not using the <<<Starter>>>, we also have to supply the main method and start it. So, after compiling, we could start that with:
 
 ------------------------------
 java -classpath .;args4j-2.0.5.jar Business -name "Hello World" -file args4j-2.0.5.jar
 ------------------------------
 
- and we will get
+ and we get
 
 ------------------------------
 Business-Logic
@@ -175,7 +183,7 @@ Business-Logic
 java -classpath .;args4j-2.0.5.jar Business -wrong
 ------------------------------
 
-will result in
+results in
 
 ------------------------------
 "-wrong" is not a valid option

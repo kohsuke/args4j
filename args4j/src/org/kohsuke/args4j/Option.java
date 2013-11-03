@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>
  * This annotation can be placed on a field of type T or the method
- * of the form <tt>void <i>methodName</i>(T value)</tt>. Its access
+ * of the form <code>void <i><samp>methodName</samp></i>(T value)</code>. Its access
  * modified can be anything, but if it's not public, your application
  * needs to run in a security context that allows args4j to access
  * the field/method (see {@link AccessibleObject#setAccessible(boolean)}.
@@ -30,38 +30,38 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <h2>Boolean Switch</h2>
  * <p>
- * When T is boolean , it represents
- * a boolean option that takes the form of "-OPT". When this option is set,
- * the property will be set to true.
+ * When <var>T</var> is {@code boolean} , it represents
+ * a {@code boolean} option that takes the form of <samp>-OPT</samp>. When this option is set,
+ * the property will be set to {@code true}.
  *
  * <h2>String Switch</h2>
  * <p>
- * When T is {@link String}, it represents
+ * When <var>T</var> is {@link String}, it represents
  * an option that takes one operand. The value of the operand is set
  * to the property.
  *
  * <h2>Enum Switch</h2>
  * <p>
- * When T is derived from {@link Enum}, it represents an option that takes
+ * When <var>T</var> is derived from {@link Enum}, it represents an option that takes
  * an operand, which must be one of the enum constant. The comparion between
  * the operand and the enum constant name is done in a case insensitive fashion.
  * <p>
  * For example, the following definition will represent command line options
- * like "-coin penny" or "-coin DIME" but things like "-coin" or "-coin abc" are
- * errors.
+ * like <samp>-coin penny</samp> or <samp>-coin DIME</samp>,
+ * but things like <samp>-coin</samp> or <samp>-coin abc</samp> are errors.
  *
- * <pre>
+ * <code><pre>
  * enum Coin { PENNY,NICKEL,DIME,QUARTER }
  *
  * class Option {
  *   &#64;Option(name="-coin")
  *   public Coin coin;
  * }
- * </pre>
+ * </pre></code>
  *
  * <h2>File Switch</h2>
  * <p>
- * When T is a {@link File}, it represents an option that takes a file/directory
+ * When <var>T</var> is a {@link File}, it represents an option that takes a file/directory
  * name as an operand.
  *
  * @author Kohsuke Kawaguchi
@@ -70,12 +70,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD,METHOD,PARAMETER})
 public @interface Option {
     /**
-     * Name of the option, such as "-foo" or "-bar".
+     * Name of the option, such as <samp>-foo</samp> or <samp>-bar</samp>.
      */
     String name();
     
     /**
-     * Aliases for the options, such as "--long-option-name".
+     * Aliases for the options, such as <samp>--long-option-name</samp>.
      */
     String[] aliases() default { };
 
@@ -102,11 +102,13 @@ public @interface Option {
     String usage() default "";
 
     /**
-     * When the option takes an operand, the usage screen will show something like this:
-     * <pre>
+     * When the option takes an operand, the usage screen will show something like this
+     *
+     * <code><pre>
      * -x FOO  : blah blah blah
-     * </pre>
-     * You can replace the 'FOO' token by using this parameter.
+     * </pre></code>
+     *
+     * You can replace the <samp>FOO</samp> token by using this parameter.
      *
      * <p>
      * If left unspecified, this value is infered from the type of the option.
@@ -164,7 +166,8 @@ public @interface Option {
      * defining a non-standard option parsing semantics.
      *
      * <h3>Example</h3>
-     * <pre>
+     *
+     * <code><pre>
      * // this is a normal "-r" option
      * &#64;Option(name="-r")
      * boolean value;
@@ -173,7 +176,7 @@ public @interface Option {
      * // handler provided for boolean
      * &#64;Option(name="-b",handler=MyHandler.class)
      * boolean value;
-     * </pre>
+     * </pre></code>
      */
     Class<? extends OptionHandler> handler() default OptionHandler.class;
 
@@ -181,13 +184,15 @@ public @interface Option {
      * List of other options that this option depends on.
      *
      * <h3>Example</h3>
-     * <pre>
+     *
+     * <code><pre>
      *  &#64;Option(name="-a")
      *  int a;
      *  //-b is not required but if it's provided, then a becomes required
      *  &#64;Option(name="-b", depends={"-a"}
      *  int b;
-     * </pre>
+     * </pre></code>
+     *
      * <p>
      * At the end of {@link CmdLineParser#parseArgument(String...)},
      * a {@link CmdLineException} will be thrown if options required by another one

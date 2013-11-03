@@ -1,3 +1,3 @@
-  args4j comes with a built-in support for parsing options into several Java datatypes, such as <<<int>>>, <<<String>>>, and <<<Enum>>>. This support can be extended by writing {{{apidocs/org/kohsuke/args4j/spi/OptionHandler.html}OptionHandler}} implementation in an application and registering it to the <<<CmdLineParser>>> class.
+  args4j comes with a built-in support for parsing options into several Java datatypes (such as <<<int>>>, <<<String>>>, and <<<Enum>>>). You can extend this further by writing your own {{{apidocs/org/kohsuke/args4j/spi/OptionHandler.html}OptionHandler}} implementation, then registering it to the <<<CmdLineParser>>> class.
 
-  In fact most of the built-in suppor is implemented as using this mechanism. See the source code for some of the OptionHandler class for details of how to do this.
+  In fact, most of the built-in support is implemented using this mechanism. The <<<OptionHandler>>> class's source code details how to do this.

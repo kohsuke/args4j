@@ -15,6 +15,7 @@ import java.util.List;
 
 /**
  * Entry point that invokes APT.
+ *
  * @author Kohsuke Kawaguchi
  */
 public class Main {
