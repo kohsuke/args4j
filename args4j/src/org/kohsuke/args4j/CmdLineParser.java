@@ -431,6 +431,15 @@ public class CmdLineParser {
         public int size() {
             return args.length-pos;
         }
+
+        public void splitToken(){
+            if(pos < args.length && pos >= 0){
+                int idx = args[pos].indexOf("=");
+                if(idx > 0){
+                    args[pos] = args[pos].substring(idx + 1);
+                }
+            }
+        }
     }
 
     private String getOptionName() {
@@ -473,7 +482,11 @@ public class CmdLineParser {
                 }
 
                 // known option; skip its name
-                cmdLine.proceed(1);
+                if (isKeyValuePair) {
+                    cmdLine.splitToken();
+                } else {
+                    cmdLine.proceed(1);
+                }
             } else {
             	if (argIndex >= arguments.size()) {
             		Messages msg = arguments.size() == 0 ? Messages.NO_ARGUMENT_ALLOWED : Messages.TOO_MANY_ARGUMENTS;
@@ -566,7 +579,7 @@ public class CmdLineParser {
 	private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
 		Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
 		for (OptionHandler h : opt) {
-			if (opt.toString().startsWith(keyFilter)) rv.put(opt.toString(), h);
+			if (h.option.toString().startsWith(keyFilter)) rv.put(h.option.toString(), h);
 		}
 		return rv;
 	}
