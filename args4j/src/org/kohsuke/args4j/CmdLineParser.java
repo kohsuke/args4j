@@ -431,10 +431,14 @@ public class CmdLineParser {
             return args.length-pos;
         }
 
-        public void splitToken(){
-            if(pos < args.length && pos >= 0){
+        /**
+         * Used when the current token is of the form "-option=value",
+         * to replace the current token by "value", as if this was given as two tokens "-option value"
+         */
+        void splitToken() {
+            if (pos < args.length && pos >= 0) {
                 int idx = args[pos].indexOf("=");
-                if(idx > 0){
+                if (idx > 0) {
                     args[pos] = args[pos].substring(idx + 1);
                 }
             }
