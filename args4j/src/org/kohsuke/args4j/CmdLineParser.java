@@ -580,13 +580,24 @@ public class CmdLineParser {
 	}
 
 
-	private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
-		Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
-		for (OptionHandler h : opt) {
-			if (h.option.toString().startsWith(keyFilter)) rv.put(h.option.toString(), h);
-		}
-		return rv;
-	}
+  private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
+    Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
+    for (OptionHandler h : opt) {
+      NamedOptionDef option = (NamedOptionDef)h.option;
+      String prefix = "";
+      for (String alias : option.aliases()) {
+        if (keyFilter.startsWith(alias)) {
+          prefix = keyFilter;
+          break;
+        }
+      }
+      if (option.name().startsWith(keyFilter)){
+        prefix = keyFilter;
+      }
+      rv.put(prefix, h);
+    }
+    return rv;
+  }
 
 
     /**
