@@ -15,7 +15,8 @@ public enum Messages {
     ILLEGAL_LIST,
     FORMAT_ERROR_FOR_MAP,
     MAP_HAS_NO_KEY,
-    ILLEGAL_IP_ADDRESS
+    ILLEGAL_IP_ADDRESS,
+    ILLEGAL_MAC_ADDRESS
     ;
 
     private static ResourceBundle rb;
