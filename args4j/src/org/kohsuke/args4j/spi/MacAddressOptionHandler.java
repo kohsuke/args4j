@@ -26,14 +26,15 @@ public class MacAddressOptionHandler extends OneArgumentOptionHandler<Byte[]> {
 	     * split after each two characters.
 	     */
 	    macString = argument.split("(?<=\\G.{2})");
-	else if (argument.matches("([0-9a-fA-F]{1,2}(-|:)){5}[0-9a-fA-F]{1,2}"))
+	else if (argument.matches("([0-9a-fA-F]{1,2}[^0-9a-fA-F]+){5}[0-9a-fA-F]{1,2}"))
 	    /*
 	     * When entering this clause our MAC address is a in the form
-	     * x#x#x#x#x#x where x is a hexadecimal string with one or two
-	     * digits and # is a dash (-) or a colon (:) symbolizing our
-	     * delimiter. Therefore we split by our delimiter.
+	     * XX#XX#XX#XX#XX#XX where XX is a hexadecimal string with one or two
+	     * digits and # is a delimiter which contains no hexadecimal digit.
+	     * In most cases # is a dash (-), a colon (:) or a space ( ).
+	     * We just need to split by our delimiter.
 	     */
-	    macString = argument.split("-|:");
+	    macString = argument.split("[^0-9a-fA-F]+");
 	else
 	    throw new CmdLineException(owner,
 		    Messages.ILLEGAL_MAC_ADDRESS.format(argument));
