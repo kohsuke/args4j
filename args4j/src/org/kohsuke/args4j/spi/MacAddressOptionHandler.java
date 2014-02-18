@@ -9,9 +9,9 @@ import org.kohsuke.args4j.OptionDef;
  * 
  * @author Tobias Stolzmann
  */
-public class MacAddressOptionHandler extends OptionHandler<Byte[]> {
+public class MacAddressOptionHandler extends OptionHandler<byte[]> {
     public MacAddressOptionHandler(CmdLineParser parser, OptionDef option,
-	    Setter<? super Byte[]> setter) {
+	    Setter<? super byte[]> setter) {
 	super(parser, option, setter);
     }
 
@@ -40,7 +40,7 @@ public class MacAddressOptionHandler extends OptionHandler<Byte[]> {
 		    throw new CmdLineException(owner,
 			    Messages.ILLEGAL_MAC_ADDRESS.format(macString));
 
-		Byte[] mac = new Byte[6];
+		byte[] mac = new byte[6];
 		for (int i = 0; i < 6; i++)
 		    /*
 		     * Yes, we really need to parse a short here... ;-)
