@@ -5,8 +5,18 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 
 /**
- * {@link Byte} {@link OptionHandler}.
- * 
+ * {@link OptionHandler} that parses MAC address to byte[] of length 6.
+ *
+ * <p>
+ * The string representation of a MAC address can be of different forms, e.g.
+ *
+ * <pre>
+ * XXXXXXXXXXXX
+ * XX XX XX XX XX XX
+ * XX-XX-XX-XX-XX-XX
+ * XX:XX:XX:XX:XX:XX
+ * </pre>
+ *
  * @author Tobias Stolzmann
  */
 public class MacAddressOptionHandler extends OptionHandler<byte[]> {
