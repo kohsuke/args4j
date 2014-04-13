@@ -1,7 +1,7 @@
 args4j
 ======
-**args4j is a small Java class library that makes it easy to parse command line options/arguments in your CUI
-application.**
+args4j is a small Java class library that makes it easy to parse command line options/arguments in your CUI
+application. See more info at [http://args4j.kohsuke.org/]
 
 Why should I use it?
 --------------------
