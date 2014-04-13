@@ -25,17 +25,16 @@ public class PathOptionHandlerTest extends TestCase {
     }
 
     public void testParseSuccess() throws Exception {
-        Path expectedIp = Paths.get(TEST_1);
-        Path ip = handler.parse(TEST_1);
+        Path expectedPath = Paths.get(TEST_1);
+        Path path = handler.parse(TEST_1);
 
-        assertEquals(expectedIp, ip);
+        assertEquals(expectedPath, path);
     }
 
     public void testParseFailure() throws Exception {
         try {
             handler.parse(TEST_2);
         } catch (CmdLineException e) {
-            //assertEquals("\"a.b.c.d\" must be an IP address", e.getMessage());
             return;
         }
         fail("Invalid Path Should Have Thrown Exception");
@@ -45,7 +44,6 @@ public class PathOptionHandlerTest extends TestCase {
         try {
             handler.parse(null);
         } catch (CmdLineException e) {
-            //assertEquals("\"a.b.c.d\" must be an IP address", e.getMessage());
             return;
         }
         fail("Null Path Should Have Thrown Exception");
