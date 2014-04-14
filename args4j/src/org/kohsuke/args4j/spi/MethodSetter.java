@@ -46,7 +46,7 @@ public final class MethodSetter implements Setter {
         try {
             try {
                 m.invoke(bean,value);
-            } catch (IllegalAccessException _) {
+            } catch (IllegalAccessException ex) {
                 // try again
                 m.setAccessible(true);
                 try {

@@ -53,7 +53,7 @@ final class MultiValueFieldSetter implements Setter {
     public void addValue(Object value) {
         try {
             doAddValue(bean, value);
-        } catch (IllegalAccessException _) {
+        } catch (IllegalAccessException ex) {
             // try again
             f.setAccessible(true);
             try {

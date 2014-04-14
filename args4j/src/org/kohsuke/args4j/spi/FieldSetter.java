@@ -37,7 +37,7 @@ public final class FieldSetter implements Setter {
     public void addValue(Object value) {
         try {
             f.set(bean,value);
-        } catch (IllegalAccessException _) {
+        } catch (IllegalAccessException ex) {
             // try again
             f.setAccessible(true);
             try {
@@ -51,7 +51,7 @@ public final class FieldSetter implements Setter {
     public Object getValue() {
         try {
             return f.get(bean);
-        } catch (IllegalAccessException _) {
+        } catch (IllegalAccessException ex) {
             // try again
             f.setAccessible(true);
             try {
