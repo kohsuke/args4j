@@ -200,11 +200,24 @@ public @interface Option {
      * </p>
      */
     String[] depends() default { };
-
+    
     /**
-     * Specify that the option is a property, meaning an equals sign should be used to separate the key and the value.
+     * List of other options that this option forbids.
+     *
+     * <h3>Example</h3>
+     *
+     * <code><pre>
+     *  &#64;Option(name="-a")
+     *  int a;
+     *  //-h will forbid a if presented
+     *  &#64;Option(name="-h", forbids={"-a"}
+     *  boolean h;
+     * </pre></code>
+     *
+     * <p>
+     * At the end of {@link CmdLineParser#parseArgument(String...)},
+     * a {@link CmdLineException} will be thrown if options forbid other options
+     * </p>
      */
-    boolean property() default false;
-
-
+    String[] forbids() default { };    
 }

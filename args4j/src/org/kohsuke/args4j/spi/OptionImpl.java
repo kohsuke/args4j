@@ -10,7 +10,6 @@ public class OptionImpl extends AnnotationImpl implements Option {
     public OptionImpl(ConfigElement ce) throws ClassNotFoundException {
         super(Option.class, ce);
         name = ce.name;
-        property = ce.property;
     }
 
     public String name;
@@ -22,9 +21,9 @@ public class OptionImpl extends AnnotationImpl implements Option {
     public String[] depends() {
         return depends;
     }
-
-    public boolean property;
-    public boolean property() {
-        return property;
+    
+    public String[] forbids;
+    public String[] forbids() {
+        return forbids;
     }
 }

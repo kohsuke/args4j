@@ -5,8 +5,8 @@
 	<classpathentry kind="src" output="args4j/target/classes" path="args4j/src"/>
 	<classpathentry kind="src" output="args4j/target/test-classes" path="args4j/test"/>
 	<classpathentry kind="lib" path="args4j/lib/ant.jar"/>
-	<classpathentry kind="lib" path="C:/jdk/150_14/lib/tools.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/150_14"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 7 [1.7.0_51]"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="/Users/mingtaozhang/oracle/apache-tomcat-7.0.47/lib/tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

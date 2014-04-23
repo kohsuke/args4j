@@ -4,3 +4,5 @@
 target
 .idea
 
+
+bin/org/kohsuke/args4j/apt/AnnotationProcessorFactoryImpl$1$1.class
