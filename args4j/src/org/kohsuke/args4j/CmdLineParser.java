@@ -664,6 +664,11 @@ public class CmdLineParser {
 		this.usageWidth = usageWidth;
 	}
 
+    /**
+     * If set to true, usage for options should show equals sign between name and meta, rather than space,
+     * e.g. "--name=value".
+     * Default is false, e.g. "--name value".
+     */
     public void setUseEqualsForOptions(boolean useEqualsForOptions) {
         this.useEqualsForOptions = useEqualsForOptions;
     }

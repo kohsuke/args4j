@@ -85,10 +85,21 @@ public abstract class OptionHandler<T> {
         return token;
     }
 
+    /**
+     * Get string representing usage for this option, of the form "name metaval",
+     * e.g. "-foo VALUE" or "--foo VALUE"
+     * @param rb ResourceBundle to get localized version of meta string
+     */
     public final String getNameAndMeta(ResourceBundle rb) {
         return getNameAndMeta(rb, false);
     }
 
+    /**
+     * Get string representing usage for this option, of the form "name metaval" or "name=metaval,
+     * e.g. "--foo VALUE" or "--foo=VALUE"
+     * @param rb ResourceBundle to get localized version of meta string
+     * @param useEqualsForOptions if true, separator is '=' rather than ' '
+     */
     public final String getNameAndMeta(ResourceBundle rb, boolean useEqualsForOptions) {
     	String str = option.isArgument() ? "" : option.toString();
     	String meta = getMetaVariable(rb);
