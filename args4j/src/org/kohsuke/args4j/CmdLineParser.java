@@ -78,6 +78,11 @@ public class CmdLineParser {
 	private int usageWidth = 80;
 
     /**
+     * Whether usage for options should show space or equals sign between name and meta.
+     */
+    private boolean useEqualsForOptions = false;
+
+    /**
      * Creates a new command line owner that
      * parses arguments/options and set them into
      * the given object.
@@ -282,7 +287,7 @@ public class CmdLineParser {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb));
+            buf.append(h.getNameAndMeta(rb, useEqualsForOptions));
         }
 
         return buf.toString();
@@ -376,7 +381,7 @@ public class CmdLineParser {
     	int widthUsage    = usageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptions), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -425,7 +430,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
 
-		return h.getNameAndMeta(rb).length();
+		return h.getNameAndMeta(rb, useEqualsForOptions).length();
 	}
 
     /**
@@ -738,6 +743,10 @@ public class CmdLineParser {
 		this.usageWidth = usageWidth;
 	}
 
+    public void setUseEqualsForOptions(boolean useEqualsForOptions) {
+        this.useEqualsForOptions = useEqualsForOptions;
+    }
+
     /** Signals the parser that parsing the options has finished.
      * 
      * <p>
@@ -787,7 +796,7 @@ public class CmdLineParser {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb));
+		pw.print(h.getNameAndMeta(rb, useEqualsForOptions));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}
