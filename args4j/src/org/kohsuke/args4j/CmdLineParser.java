@@ -71,10 +71,15 @@ public class CmdLineParser {
 	/**
 	 *  The length of a usage line.
 	 *  If the usage message is longer than this value, the parser wraps the line.
-     *  
+     *
      *  Defaults to {@code 80}.
 	 */
 	private int usageWidth = 80;
+
+    /**
+     * Whether usage for options should show space or equals sign between name and meta.
+     */
+    private boolean useEqualsForOptions = false;
 
     /**
      * Creates a new command line owner that
@@ -251,7 +256,7 @@ public class CmdLineParser {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb));
+            buf.append(h.getNameAndMeta(rb, useEqualsForOptions));
         }
 
         return buf.toString();
@@ -345,7 +350,7 @@ public class CmdLineParser {
     	int widthUsage    = usageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptions), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -394,7 +399,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
 
-		return h.getNameAndMeta(rb).length();
+		return h.getNameAndMeta(rb, useEqualsForOptions).length();
 	}
 
     /**
@@ -451,7 +456,7 @@ public class CmdLineParser {
     }
 
     /**
-     * Same as {@link #parseArgument(String[])} 
+     * Same as {@link #parseArgument(String[])}
      */
     public void parseArgument(Collection<String> args) throws CmdLineException {
         parseArgument(args.toArray(new String[args.size()]));
@@ -545,18 +550,12 @@ public class CmdLineParser {
     }
 
     private OptionHandler findOptionHandler(String name) {
-		OptionHandler handler = findOptionByName(name);
-		if (handler==null) {
-			// Have not found by its name, maybe its a property?
-			// Search for parts of the name (=prefix) - most specific first
-			for (int i=name.length(); i>1; i--) {
-				String prefix = name.substring(0, i);
-				Map<String,OptionHandler> possibleHandlers = filter(options, prefix);
-				handler = possibleHandlers.get(prefix);
-				if (handler!=null) return handler;
-			}
-		}
-		return handler;
+        // Look for key/value pair first.
+        int pos = name.indexOf('=');
+        if (pos > 0) {
+            name = name.substring(0, pos);
+        }
+		return findOptionByName(name);
 	}
 
 	/**
@@ -578,27 +577,6 @@ public class CmdLineParser {
 		}
 		return null;
 	}
-
-
-  private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
-    Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
-    for (OptionHandler h : opt) {
-      NamedOptionDef option = (NamedOptionDef)h.option;
-      String prefix = "";
-      for (String alias : option.aliases()) {
-        if (keyFilter.startsWith(alias)) {
-          prefix = keyFilter;
-          break;
-        }
-      }
-      if (option.name().startsWith(keyFilter)){
-        prefix = keyFilter;
-      }
-      rv.put(prefix, h);
-    }
-    return rv;
-  }
-
 
     /**
      * Returns {@code true} if the given token is an option
@@ -686,7 +664,11 @@ public class CmdLineParser {
 		this.usageWidth = usageWidth;
 	}
 
-	public void stopOptionParsing() {
+    public void setUseEqualsForOptions(boolean useEqualsForOptions) {
+        this.useEqualsForOptions = useEqualsForOptions;
+    }
+
+    public void stopOptionParsing() {
 		parsingOptions = false;
 	}
 
@@ -723,7 +705,7 @@ public class CmdLineParser {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb));
+		pw.print(h.getNameAndMeta(rb, useEqualsForOptions));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}

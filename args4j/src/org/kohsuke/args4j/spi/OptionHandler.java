@@ -16,13 +16,13 @@ import org.kohsuke.args4j.CmdLineParser;
  *
  * <p>
  * Implementation of this class needs to be registered to args4j by using
- * {@link CmdLineParser#registerHandler(Class,Class)} 
+ * {@link CmdLineParser#registerHandler(Class,Class)}
  *
  * @param <T>
  *      The {@code component} type of the field that this {@link OptionHandler} works with.
  *      When I say "component", I mean a field that can hold multiple values
  *      (such as {@link Collection} or array). This should refer to its component time.
- *      
+ *
  *      {@link Setter} implementations abstract away multi-value-ness by allowing {@link OptionHandler}
  *      to invoke its {@link Setter#addValue(Object)} multiple times.
  *
@@ -84,13 +84,17 @@ public abstract class OptionHandler<T> {
 
         return token;
     }
-    
+
     public final String getNameAndMeta(ResourceBundle rb) {
-    	String str = option.isArgument() ? "" : option.toString(); 
+        return getNameAndMeta(rb, false);
+    }
+
+    public final String getNameAndMeta(ResourceBundle rb, boolean useEqualsForOptions) {
+    	String str = option.isArgument() ? "" : option.toString();
     	String meta = getMetaVariable(rb);
     	if (meta != null) {
     		if (str.length() > 0) {
-    			str += " ";
+    			str += (useEqualsForOptions ? "=" : " ");
     		}
     		str += meta;
     	}
