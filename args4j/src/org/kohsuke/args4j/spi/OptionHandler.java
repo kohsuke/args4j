@@ -89,7 +89,6 @@ public abstract class OptionHandler<T> {
         return token;
     }
 
-
     /**
      * Get string representing usage for this option, of the form "name metaval" or "name=metaval,
      * e.g. "-foo VALUE" or "--foo=VALUE"

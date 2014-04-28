@@ -18,7 +18,6 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
             String expectedUsage   = " -str METAVAR : set a string";
             String expectedSingleLineUsage   = " [-str METAVAR]";
             String[] usageLines = getUsageMessage();
-            String errorMessage = e.getMessage();
             String singleLineUsage = getSingleLineUsage();
             assertUsageLength(1);
             assertErrorMessagePrefix(expectedError, e);
