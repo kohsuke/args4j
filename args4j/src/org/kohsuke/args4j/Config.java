@@ -53,14 +53,15 @@ public class Config {
 				currentCE.method = attributes.getValue("method");
 				currentCE.name = attributes.getValue("name");
 				currentCE.usage = attributes.getValue("usage");
-				currentCE.multiValued = Boolean.getBoolean(attributes.getValue("multiValued"));
-				currentCE.required = Boolean.getBoolean(attributes.getValue("required"));
-				if (attributes.getValue("aliases") != null) {
-					currentCE.aliases = attributes.getValue("aliases").split(",");
-				} else {
-					currentCE.aliases = new String[]{};
-				}
-				(qName.equals("option") ? config.options : config.arguments).add(currentCE);
+                currentCE.multiValued = Boolean.getBoolean(attributes.getValue("multiValued"));
+                currentCE.required = Boolean.getBoolean(attributes.getValue("required"));
+                if (attributes.getValue("aliases") != null) {
+                    currentCE.aliases = attributes.getValue("aliases").split(",");
+                } else {
+                    currentCE.aliases = new String[]{};
+                }
+                currentCE.property = Boolean.getBoolean(attributes.getValue("property"));
+                (qName.equals("option") ? config.options : config.arguments).add(currentCE);
 			}
 		}
 	}

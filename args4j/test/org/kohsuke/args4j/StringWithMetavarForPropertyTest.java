@@ -2,10 +2,10 @@ package org.kohsuke.args4j;
 
 import java.io.StringWriter;
 
-public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
+public class StringWithMetavarForPropertyTest extends Args4JTestBase<StringWithMetavarForProperty> {
     @Override
-    public StringWithMetavar getTestObject() {
-        return new StringWithMetavar();
+    public StringWithMetavarForProperty getTestObject() {
+        return new StringWithMetavarForProperty();
     }
 
     public void testSettingUsage() {
@@ -15,8 +15,8 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
             fail("Doesn't detect wrong parameters.");
         } catch (CmdLineException e) {
             String expectedError = "\"-wrong-usage\" is not a valid option";
-            String expectedUsage   = " -str METAVAR : set a string";
-            String expectedSingleLineUsage   = " [-str METAVAR]";
+            String expectedUsage   = " -str=METAVAR : set a string";
+            String expectedSingleLineUsage   = " [-str=METAVAR]";
             String[] usageLines = getUsageMessage();
             String errorMessage = e.getMessage();
             String singleLineUsage = getSingleLineUsage();
@@ -34,7 +34,7 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
             fail("Should miss one parameter.");
         } catch (CmdLineException e) {
             String expectedError = "Option \"-str\" takes an operand";
-            String expectedUsage   = " -str METAVAR : set a string";
+            String expectedUsage   = " -str=METAVAR : set a string";
             String errorMessage = e.getMessage();
             String[] usageLines = getUsageMessage();
             assertUsageLength(1);

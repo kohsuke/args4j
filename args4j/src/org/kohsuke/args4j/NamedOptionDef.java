@@ -7,6 +7,7 @@ public final class NamedOptionDef extends OptionDef {
     private final String name;
 	private final String[] aliases;
     private final String[] depends;
+    private final boolean property;
     
     /**
      * @deprecated
@@ -22,6 +23,7 @@ public final class NamedOptionDef extends OptionDef {
     	this.name = o.name();
     	this.aliases = o.aliases();
         this.depends = o.depends();
+        this.property = o.property();
     }
 
     public String name() {
@@ -35,7 +37,11 @@ public final class NamedOptionDef extends OptionDef {
     public String[] depends() {
         return depends;
     }
-    
+
+    public boolean property() {
+        return property;
+    }
+
     @Override
     public String toString() {
     	if (aliases.length > 0) {

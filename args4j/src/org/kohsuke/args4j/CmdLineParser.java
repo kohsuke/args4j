@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -71,7 +70,7 @@ public class CmdLineParser {
 	/**
 	 *  The length of a usage line.
 	 *  If the usage message is longer than this value, the parser wraps the line.
-     *  
+     *
      *  Defaults to {@code 80}.
 	 */
 	private int usageWidth = 80;
@@ -451,7 +450,7 @@ public class CmdLineParser {
     }
 
     /**
-     * Same as {@link #parseArgument(String[])} 
+     * Same as {@link #parseArgument(String[])}
      */
     public void parseArgument(Collection<String> args) throws CmdLineException {
         parseArgument(args.toArray(new String[args.size()]));
@@ -545,18 +544,12 @@ public class CmdLineParser {
     }
 
     private OptionHandler findOptionHandler(String name) {
-		OptionHandler handler = findOptionByName(name);
-		if (handler==null) {
-			// Have not found by its name, maybe its a property?
-			// Search for parts of the name (=prefix) - most specific first
-			for (int i=name.length(); i>1; i--) {
-				String prefix = name.substring(0, i);
-				Map<String,OptionHandler> possibleHandlers = filter(options, prefix);
-				handler = possibleHandlers.get(prefix);
-				if (handler!=null) return handler;
-			}
-		}
-		return handler;
+        // Look for key/value pair first.
+        int pos = name.indexOf('=');
+        if (pos > 0) {
+            name = name.substring(0, pos);
+        }
+		return findOptionByName(name);
 	}
 
 	/**
@@ -578,27 +571,6 @@ public class CmdLineParser {
 		}
 		return null;
 	}
-
-
-  private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
-    Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
-    for (OptionHandler h : opt) {
-      NamedOptionDef option = (NamedOptionDef)h.option;
-      String prefix = "";
-      for (String alias : option.aliases()) {
-        if (keyFilter.startsWith(alias)) {
-          prefix = keyFilter;
-          break;
-        }
-      }
-      if (option.name().startsWith(keyFilter)){
-        prefix = keyFilter;
-      }
-      rv.put(prefix, h);
-    }
-    return rv;
-  }
-
 
     /**
      * Returns {@code true} if the given token is an option
@@ -686,7 +658,7 @@ public class CmdLineParser {
 		this.usageWidth = usageWidth;
 	}
 
-	public void stopOptionParsing() {
+    public void stopOptionParsing() {
 		parsingOptions = false;
 	}
 

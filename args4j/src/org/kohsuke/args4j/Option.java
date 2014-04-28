@@ -200,4 +200,11 @@ public @interface Option {
      * </p>
      */
     String[] depends() default { };
+
+    /**
+     * Specify that the option is a property, meaning an equals sign should be used to separate the key and the value.
+     */
+    boolean property() default false;
+
+
 }
