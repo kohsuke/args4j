@@ -3,6 +3,7 @@ package org.kohsuke.args4j.spi;
 import java.util.Collection;
 import java.util.ResourceBundle;
 
+import org.kohsuke.args4j.NamedOptionDef;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
@@ -86,28 +87,19 @@ public abstract class OptionHandler<T> {
     }
 
     /**
-     * Get string representing usage for this option, of the form "name metaval",
-     * e.g. "-foo VALUE" or "--foo VALUE"
+     * Get string representing usage for this option, of the form "name metaval" or "name=metaval,
+     * e.g. "-foo VALUE" or "--foo=VALUE"
      * @param rb ResourceBundle to get localized version of meta string
      */
     public final String getNameAndMeta(ResourceBundle rb) {
-        return getNameAndMeta(rb, false);
-    }
-
-    /**
-     * Get string representing usage for this option, of the form "name metaval" or "name=metaval,
-     * e.g. "--foo VALUE" or "--foo=VALUE"
-     * @param rb ResourceBundle to get localized version of meta string
-     * @param useEqualsForOptions if true, separator is '=' rather than ' '
-     */
-    public final String getNameAndMeta(ResourceBundle rb, boolean useEqualsForOptions) {
-    	String str = option.isArgument() ? "" : option.toString();
-    	String meta = getMetaVariable(rb);
+        String meta = getMetaVariable(rb);
+        if (option.isArgument()) {
+            return (meta != null ? meta : "");
+        }
+        NamedOptionDef namedOption = (NamedOptionDef) option;
+        String str = namedOption.toString();
     	if (meta != null) {
-    		if (str.length() > 0) {
-    			str += (useEqualsForOptions ? "=" : " ");
-    		}
-    		str += meta;
+            str += (namedOption.property() ? "=" : " ") + meta;
     	}
     	return str;
     }

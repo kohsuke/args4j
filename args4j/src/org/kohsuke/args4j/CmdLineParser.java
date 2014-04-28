@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.Collection;
 import java.util.logging.Logger;
 
@@ -75,11 +74,6 @@ public class CmdLineParser {
      *  Defaults to {@code 80}.
 	 */
 	private int usageWidth = 80;
-
-    /**
-     * Whether usage for options should show space or equals sign between name and meta.
-     */
-    private boolean useEqualsForOptions = false;
 
     /**
      * Creates a new command line owner that
@@ -256,7 +250,7 @@ public class CmdLineParser {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb, useEqualsForOptions));
+            buf.append(h.getNameAndMeta(rb));
         }
 
         return buf.toString();
@@ -350,7 +344,7 @@ public class CmdLineParser {
     	int widthUsage    = usageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptions), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -399,7 +393,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
 
-		return h.getNameAndMeta(rb, useEqualsForOptions).length();
+		return h.getNameAndMeta(rb).length();
 	}
 
     /**
@@ -664,15 +658,6 @@ public class CmdLineParser {
 		this.usageWidth = usageWidth;
 	}
 
-    /**
-     * If set to true, usage for options should show equals sign between name and meta, rather than space,
-     * e.g. "--name=value".
-     * Default is false, e.g. "--name value".
-     */
-    public void setUseEqualsForOptions(boolean useEqualsForOptions) {
-        this.useEqualsForOptions = useEqualsForOptions;
-    }
-
     public void stopOptionParsing() {
 		parsingOptions = false;
 	}
@@ -710,7 +695,7 @@ public class CmdLineParser {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb, useEqualsForOptions));
+		pw.print(h.getNameAndMeta(rb));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}
