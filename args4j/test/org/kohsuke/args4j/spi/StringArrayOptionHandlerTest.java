@@ -11,11 +11,9 @@ import org.kohsuke.args4j.Option;
 /**
  * Test for {@link StringArrayOptionHandler}.
  * 
- * The failure of the tests with defaults are IMHO a design problem
- * in {@link ArrayFieldSetter}. My expectation is that the default
- * values get overwritten as soon as one command line option is given.
- * But the command line options are always added to the list of defaults which
- * is a little bit confusing.
+ * This test is for a possible design problem in the old version of {@link ArrayFieldSetter}
+ * that I discovered today. The fix could break existing code, I think it will need
+ * some discussion.
  * 
  * @author Stephan Fuhrmann
  */
