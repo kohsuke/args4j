@@ -6,6 +6,8 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * {@link Setter} that allows multiple values to be stored into one array field.
@@ -21,6 +23,8 @@ import java.lang.reflect.Field;
 final class ArrayFieldSetter implements Setter {
     private final Object bean;
     private final Field f;
+    
+    private Object defaultArray;
 
     public ArrayFieldSetter(Object bean, Field f) {
         this.bean = bean;
@@ -28,6 +32,28 @@ final class ArrayFieldSetter implements Setter {
 
         if(!f.getType().isArray())
             throw new IllegalAnnotationError(Messages.ILLEGAL_FIELD_SIGNATURE.format(f.getType()));
+        
+        trySetDefault(bean);
+    }
+
+    /** Remember default so we throw away the default when adding user values.
+     */
+    private void trySetDefault(Object bean1) throws IllegalAccessError {
+        try {
+            doSetDefault(bean1);
+        } catch (IllegalAccessException ex) {
+            try {
+                // try again
+                f.setAccessible(true);
+                doSetDefault(bean1);
+            }catch (IllegalAccessException ex1) {
+                throw new IllegalAccessError(ex1.getMessage());
+            }
+        }
+    }
+    
+    private void doSetDefault(Object bean) throws IllegalAccessException {
+        this.defaultArray = f.get(bean);        
     }
 
     public FieldSetter asFieldSetter() {
@@ -62,7 +88,7 @@ final class ArrayFieldSetter implements Setter {
 
     private void doAddValue(Object bean, Object value) throws IllegalAccessException {
         Object ary = f.get(bean);
-        if (ary == null) {
+        if (ary == null || ary == defaultArray) {
                 ary = Array.newInstance(getType(), 1);
                 Array.set(ary, 0, value);
         } else {
