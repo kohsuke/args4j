@@ -30,9 +30,9 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
 
         if(value==null) {
             if (option.isArgument()) {
-                throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(option.toString(),s));
+                throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND, option.toString(), s);
             } else {
-                throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(params.getParameter(-1),s));
+                throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND, params.getParameter(-1),s);
             }
         }
         setter.addValue(value);

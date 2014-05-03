@@ -1,12 +1,13 @@
 package org.kohsuke.args4j;
 
 import java.text.MessageFormat;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
  * @author Kohsuke Kawaguchi
  */
-enum Messages {
+enum Messages implements MessageFormatter {
     MISSING_OPERAND,
     UNDEFINED_OPTION,
     NO_ARGUMENT_ALLOWED,
@@ -24,7 +25,12 @@ enum Messages {
     ;
 
     private static ResourceBundle rb;
-
+    
+    public String formatWithLocale( Locale locale, Object... args ) {
+        ResourceBundle localized = ResourceBundle.getBundle(Messages.class.getName(), locale);
+        return MessageFormat.format(localized.getString(name()),args);
+    }
+    
     public String format( Object... args ) {
         synchronized(Messages.class) {
             if(rb==null)

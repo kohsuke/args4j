@@ -34,7 +34,7 @@ public class ExampleTest extends TestCase {
     protected void setUp() throws Exception {
         super.setUp();
         defaultLocale = Locale.getDefault();
-        Locale.setDefault(Locale.ENGLISH);
+    //    Locale.setDefault(Locale.ENGLISH);
     }
 
     /**

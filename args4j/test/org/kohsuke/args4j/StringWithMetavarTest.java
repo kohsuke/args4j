@@ -21,7 +21,7 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
             String errorMessage = e.getMessage();
             String singleLineUsage = getSingleLineUsage();
             assertUsageLength(1);
-            assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
+            assertErrorMessagePrefix(expectedError, e);
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
             assertEquals("Got wrong usage summary", expectedSingleLineUsage, singleLineUsage);
         }
@@ -35,10 +35,9 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
         } catch (CmdLineException e) {
             String expectedError = "Option \"-str\" takes an operand";
             String expectedUsage   = " -str METAVAR : set a string";
-            String errorMessage = e.getMessage();
             String[] usageLines = getUsageMessage();
             assertUsageLength(1);
-            assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
+            assertErrorMessagePrefix(expectedError, e);
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
     }

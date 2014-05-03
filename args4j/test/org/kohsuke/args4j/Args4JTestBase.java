@@ -109,6 +109,11 @@ public abstract class Args4JTestBase<T> extends TestCase {
         parser.printUsage(s2s);
         return s2s.getString().split(System.getProperty("line.separator"));
     }
+    
+    protected void assertErrorMessagePrefix(String exectedPrefix, CmdLineException e) {
+        String errorMessage = e.getMessage();
+        assertTrue("Got wrong error message. Expected prefix: \""+exectedPrefix+"\", actual: \""+errorMessage+"\"", errorMessage.startsWith(exectedPrefix));
+    }
 
     /**
      * Utility class for capturing an OutputStream into a String.
