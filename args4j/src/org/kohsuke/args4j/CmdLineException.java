@@ -49,6 +49,10 @@ public class CmdLineException extends Exception {
         this.parser = parser;
     }
     
+    /**
+     * @deprecated
+     *      Use {@link #CmdLineException(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.MessageFormatter, java.lang.String...) }
+     */
     public CmdLineException(CmdLineParser parser, String message) {
         super(message);
         this.parser = parser;

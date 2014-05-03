@@ -19,7 +19,8 @@ public enum Messages implements MessageFormatter {
     MAP_HAS_NO_KEY,
     ILLEGAL_IP_ADDRESS,
     ILLEGAL_MAC_ADDRESS,
-    ILLEGAL_UUID
+    ILLEGAL_UUID,
+    ILLEGAL_PATH
     ;
 
     private static ResourceBundle rb;
