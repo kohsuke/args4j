@@ -24,8 +24,8 @@ public class URLOptionHandler extends OptionHandler<URL> {
             setter.addValue(new URL(param));
             return 1;
         } catch (MalformedURLException e) {
-            throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(
-                    params.getParameter(-1),param));
+            throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND,
+                    params.getParameter(-1), param);
         }
     }
 

@@ -27,7 +27,7 @@ public class UuidOptionHandler extends
 			return UUID.fromString(argument);
 		} catch (IllegalArgumentException e) {
 			throw new CmdLineException(owner,
-					Messages.ILLEGAL_UUID.format(argument));
+					Messages.ILLEGAL_UUID, argument);
 		}
 	}
 

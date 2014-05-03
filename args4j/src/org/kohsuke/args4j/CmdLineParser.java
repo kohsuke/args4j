@@ -424,7 +424,7 @@ public class CmdLineParser {
 
         public String getParameter(int idx) throws CmdLineException {
 			if( pos+idx>=args.length || pos+idx<0 )
-                throw new CmdLineException(CmdLineParser.this, Messages.MISSING_OPERAND.format(getOptionName()));
+                throw new CmdLineException(CmdLineParser.this, Messages.MISSING_OPERAND, getOptionName());
             return args[pos+idx];
         }
 
@@ -482,7 +482,7 @@ public class CmdLineParser {
 
                 if(currentOptionHandler==null) {
                     // TODO: insert dynamic handler processing
-                    throw new CmdLineException(this, Messages.UNDEFINED_OPTION.format(arg));
+                    throw new CmdLineException(this, Messages.UNDEFINED_OPTION, arg);
                 }
 
                 // known option; skip its name
@@ -494,7 +494,7 @@ public class CmdLineParser {
             } else {
             	if (argIndex >= arguments.size()) {
             		Messages msg = arguments.size() == 0 ? Messages.NO_ARGUMENT_ALLOWED : Messages.TOO_MANY_ARGUMENTS;
-                    throw new CmdLineException(this, msg.format(arg));
+                    throw new CmdLineException(this, msg, arg);
             	}
 
             	// known argument
@@ -513,18 +513,18 @@ public class CmdLineParser {
         // make sure that all mandatory options are present
         for (OptionHandler handler : options)
             if(handler.option.required() && !present.contains(handler))
-                throw new CmdLineException(this, Messages.REQUIRED_OPTION_MISSING.format(handler.option.toString()));
+                throw new CmdLineException(this, Messages.REQUIRED_OPTION_MISSING, handler.option.toString());
 
         // make sure that all mandatory arguments are present
         for (OptionHandler handler : arguments)
             if(handler.option.required() && !present.contains(handler))
-                throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
+                throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING, handler.option.toString());
 
         //make sure that all requires arguments are present
         for(OptionHandler handler : present) {
             if(handler.option instanceof NamedOptionDef && !isHandlerHasHisOptions((NamedOptionDef)handler.option, present)) {
-                throw new CmdLineException(this, Messages.REQUIRES_OPTION_MISSING
-                        .format(handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).depends())));
+                throw new CmdLineException(this, Messages.REQUIRES_OPTION_MISSING,
+                        handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).depends()));
             }
         }
     }

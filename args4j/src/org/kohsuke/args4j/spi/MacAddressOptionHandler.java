@@ -48,7 +48,7 @@ public class MacAddressOptionHandler extends OptionHandler<byte[]> {
 		    macStringArray = macString.split("[^0-9a-fA-F]+");
 		else
 		    throw new CmdLineException(owner,
-			    Messages.ILLEGAL_MAC_ADDRESS.format(macString));
+			    Messages.ILLEGAL_MAC_ADDRESS, macString);
 
 		byte[] mac = new byte[6];
 		for (int i = 0; i < 6; i++)

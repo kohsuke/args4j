@@ -107,7 +107,7 @@ public class SubCommandHandler extends OptionHandler<Object> {
     }
 
     protected int fallback(String subCmd) throws CmdLineException {
-        throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND.format(option.toString(),subCmd));
+        throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND, option.toString(), subCmd);
     }
 
     protected Object subCommand(SubCommand c, final Parameters params) throws CmdLineException {
