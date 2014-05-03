@@ -19,7 +19,8 @@ enum Messages {
     UNKNOWN_HANDLER,
     NO_OPTIONHANDLER,
     NO_CONSTRUCTOR_ON_HANDLER,
-    REQUIRES_OPTION_MISSING
+    REQUIRES_OPTION_MISSING,
+    FORBID_OPTION_SHOWING
     ;
 
     private static ResourceBundle rb;
