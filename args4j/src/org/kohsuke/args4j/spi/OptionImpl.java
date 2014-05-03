@@ -21,9 +21,4 @@ public class OptionImpl extends AnnotationImpl implements Option {
     public String[] depends() {
         return depends;
     }
-    
-    public String[] forbids;
-    public String[] forbids() {
-        return depends;
-    }
 }
