@@ -12,6 +12,11 @@ public class CmdLineException extends Exception {
 	private static final long serialVersionUID = -8574071211991372980L;
 
     private CmdLineParser parser = null;
+    
+    /** 
+     * The optional localized message.
+     * @see Throwable#getLocalizedMessage() 
+     */
     private String localizedMessage = null;
     
     /**
