@@ -48,6 +48,9 @@ public class ExampleTest extends TestCase {
     @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
     boolean h;
     
+    @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
+    boolean h;
+    
     public void testPrintExampleModeAll() {
         String s = new CmdLineParser(this).printExample(ExampleMode.ALL);
         assertEquals(" -a N -b <output> -c <ip address> -h", s);
