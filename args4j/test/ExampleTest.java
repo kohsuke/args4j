@@ -84,4 +84,15 @@ public class ExampleTest extends TestCase {
             assertEquals("Option \"-a\" is required", e.getMessage());
         }
     }
+    
+    public void testForbidArgs() throws Exception {
+        CmdLineParser parser = new CmdLineParser(this);
+        try {
+        	parser.parseArgument("-h", "-a", "2", "-b", "1");
+        	fail("Should have thrown an exception because"
+                    + " arg 'h' forbids 'b'");
+        } catch (CmdLineException e) {
+            assertEquals("option \"-h\" cannot be used with the option(s) [-b, -c]", e.getMessage());
+        }
+    }
 }

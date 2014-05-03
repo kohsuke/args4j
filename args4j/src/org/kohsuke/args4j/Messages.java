@@ -20,8 +20,7 @@ enum Messages implements MessageFormatter {
     UNKNOWN_HANDLER,
     NO_OPTIONHANDLER,
     NO_CONSTRUCTOR_ON_HANDLER,
-    REQUIRES_OPTION_MISSING,
-    FORBID_OPTION_SHOWING
+    REQUIRES_OPTION_MISSING
     ;
 
     private static ResourceBundle rb;
