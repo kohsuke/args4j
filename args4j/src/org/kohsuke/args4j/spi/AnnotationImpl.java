@@ -50,6 +50,10 @@ public abstract class AnnotationImpl implements Annotation {
 	public boolean required() {
 		return required;
 	}
+	public boolean help;
+	public boolean help() {
+		return help;
+	}    
 	public boolean hidden;
 	public boolean hidden() {
 		return hidden;

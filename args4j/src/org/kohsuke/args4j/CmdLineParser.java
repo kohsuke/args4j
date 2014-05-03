@@ -511,15 +511,33 @@ public class CmdLineParser {
         	present.add(currentOptionHandler);
         }
 
+        // check whether a help option is set
+        boolean helpSet = false;
+        for (OptionHandler handler : options) {
+            if(handler.option.help() && present.contains(handler)) {
+                helpSet = true;
+            }
+        }
+
+        if (! helpSet) {
+            checkRequiredOptionsAndArguments(present);
+        }
+    }
+
+    private void checkRequiredOptionsAndArguments(Set<OptionHandler> present) throws CmdLineException {
         // make sure that all mandatory options are present
-        for (OptionHandler handler : options)
-            if(handler.option.required() && !present.contains(handler))
+        for (OptionHandler handler : options) {
+            if(handler.option.required() && !present.contains(handler)) {
                 throw new CmdLineException(this, Messages.REQUIRED_OPTION_MISSING.format(handler.option.toString()));
+            }
+        }
 
         // make sure that all mandatory arguments are present
-        for (OptionHandler handler : arguments)
-            if(handler.option.required() && !present.contains(handler))
+        for (OptionHandler handler : arguments) {
+            if(handler.option.required() && !present.contains(handler)) {
                 throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
+            }
+        }
 
         //make sure that all requires arguments are present
         for(OptionHandler handler : present) {
