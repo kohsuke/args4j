@@ -25,11 +25,8 @@ public enum Messages implements MessageFormatter {
     private static ResourceBundle rb;
     
     public String formatWithLocale( Locale locale, Object... args ) {
-        synchronized(Messages.class) {
-            if(rb==null)
-                rb = ResourceBundle.getBundle(Messages.class.getName(), locale);
-            return MessageFormat.format(rb.getString(name()),args);
-        }
+        ResourceBundle localized = ResourceBundle.getBundle(Messages.class.getName(), locale);
+        return MessageFormat.format(localized.getString(name()),args);
     }
     
     public String format( Object... args ) {
