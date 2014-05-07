@@ -33,13 +33,13 @@ import org.kohsuke.args4j.Option;
  * @author Kohsuke Kawaguchi
  */
 
-public class AnnotationProcessorFactoryImpl extends AbstractProcessor {
+public class AnnotationProcessorImpl extends AbstractProcessor {
 
     private File outDir;
     private String format;
     private Properties resource = null;
 
-    public AnnotationProcessorFactoryImpl() {
+    public AnnotationProcessorImpl() {
         outDir = new File(System.getProperty("args4j.outdir"));
         format = System.getProperty("args4j.format");
 

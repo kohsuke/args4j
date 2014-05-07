@@ -67,7 +67,7 @@ public class Main {
 
         aptArgs.add(0, "-proc:only");
         aptArgs.add(1, "-processor");
-        aptArgs.add(2, AnnotationProcessorFactoryImpl.class.getName());
+        aptArgs.add(2, AnnotationProcessorImpl.class.getName());
 
         JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
 
