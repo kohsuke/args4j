@@ -1,39 +1,39 @@
 package org.kohsuke.args4j.apt;
 
-import com.sun.mirror.apt.AnnotationProcessor;
-import com.sun.mirror.apt.AnnotationProcessorEnvironment;
-import com.sun.mirror.apt.AnnotationProcessorFactory;
-import com.sun.mirror.declaration.AnnotationTypeDeclaration;
-import com.sun.mirror.declaration.ClassDeclaration;
-import com.sun.mirror.declaration.Declaration;
-import com.sun.mirror.declaration.FieldDeclaration;
-import com.sun.mirror.declaration.MethodDeclaration;
-import com.sun.mirror.declaration.TypeDeclaration;
-import com.sun.mirror.declaration.MemberDeclaration;
-import com.sun.mirror.type.ClassType;
-import com.sun.mirror.util.SimpleDeclarationVisitor;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Properties;
+import java.util.Set;
+
+import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Processor;
+import javax.annotation.processing.RoundEnvironment;
+import javax.lang.model.SourceVersion;
+import javax.lang.model.element.Element;
+import javax.lang.model.element.ExecutableElement;
+import javax.lang.model.element.TypeElement;
+import javax.lang.model.element.VariableElement;
+import javax.lang.model.util.SimpleElementVisitor6;
+import javax.lang.model.util.Types;
+import javax.tools.Diagnostic.Kind;
+
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.FileInputStream;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Properties;
-
 /**
- * {@link AnnotationProcessorFactory} to be invoked by APT.
- *
- * This class receives options from the Main method through system properties (ouch!).
- *
+ * Annotation {@link Processor} to be invoked by javac.
+ * 
+ * This class receives options from the Main method through system properties
+ * (ouch!).
+ * 
  * @author Kohsuke Kawaguchi
  */
-public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactory {
+
+public class AnnotationProcessorFactoryImpl extends AbstractProcessor {
 
     private File outDir;
     private String format;
@@ -54,83 +54,55 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
         }
     }
 
-    public Collection<String> supportedOptions() {
-        return Collections.emptyList();
+    @Override
+    public Set<String> getSupportedAnnotationTypes() {
+        return new HashSet<String>(Arrays.asList(Option.class.getName(),
+                Argument.class.getName()));
     }
 
-    public Collection<String> supportedAnnotationTypes() {
-        return Arrays.asList(Option.class.getName(),Argument.class.getName());
+    @Override
+    public SourceVersion getSupportedSourceVersion() {
+
+        // taken from metainf-services project
+        try {
+            return SourceVersion.valueOf("RELEASE_8");
+        } catch (IllegalArgumentException x) {}
+        try {
+            return SourceVersion.valueOf("RELEASE_7");
+        } catch (IllegalArgumentException x) {}
+
+        return SourceVersion.RELEASE_6;
     }
 
-    public AnnotationProcessor getProcessorFor(final Set<AnnotationTypeDeclaration> annotationTypeDeclarations, final AnnotationProcessorEnvironment env) {
-        return new AnnotationProcessor() {
-            public void process() {
-                Collection<Declaration> params = env.getDeclarationsAnnotatedWith((AnnotationTypeDeclaration)env.getTypeDeclaration(Option.class.getName()));
-
-                final Set<TypeDeclaration> optionBeans = new HashSet<TypeDeclaration>();
-                for (Declaration d : params) {
-                    d.accept(new SimpleDeclarationVisitor() {
-                        public void visitFieldDeclaration(FieldDeclaration f) {
-                            TypeDeclaration dt = f.getDeclaringType();
-                            optionBeans.add(dt);
-                        }
-
-                        public void visitMethodDeclaration(MethodDeclaration m) {
-                            optionBeans.add(m.getDeclaringType());
-                        }
-                    });
-                }
-
-                for (TypeDeclaration t : optionBeans) {
-                    // make sure that they are on classes
-                    if(t instanceof ClassDeclaration) {
-                        ClassDeclaration cd = (ClassDeclaration)t;
-                        try {
-                            AnnotationVisitor writer = createAnnotationVisitor(cd);
-                            env.getMessager().printNotice("Processing "+cd.getQualifiedName());
-                            scan(cd, writer);
-                        } catch (IOException e) {
-                            env.getMessager().printError(e.getMessage());
-                        }
-                    } else {
-                        env.getMessager().printError(t.getPosition(),
-                            "args4j annotations need to be placed on a class");
-                    }
-                }
-            }
-        };
-    }
-
-    private AnnotationVisitor createAnnotationVisitor(ClassDeclaration cd) throws IOException {
-        FileWriter out = new FileWriter(new File(outDir,cd.getQualifiedName()+"."+format.toLowerCase()));
+    private AnnotationVisitor createAnnotationVisitor(TypeElement te)
+            throws IOException {
+        FileWriter out = new FileWriter(new File(outDir, te.getQualifiedName()
+                + "." + format.toLowerCase()));
         AnnotationVisitor writer;
         if(format.equals("XML"))
-            writer = new XmlWriter(out,cd);
+            writer = new XmlWriter(out, te);
         else if (format.equals("TXT"))
-            writer = new TxtWriter(out, cd);
+            writer = new TxtWriter(out, te);
         else
             writer = new HtmlWriter(out);
         return new AnnotationVisitorReorderer(writer);
     }
 
-    private void scan(ClassDeclaration decl, AnnotationVisitor visitor) {
-        while(decl!=null) {
-            for( FieldDeclaration f : decl.getFields() )
+    private void scan(TypeElement decl, AnnotationVisitor visitor) {
+
+        Types typeUtils = processingEnv.getTypeUtils();
+
+        while (decl != null) {
+            for (Element f : decl.getEnclosedElements()) {
                 scan(f, visitor);
-
-            for (MethodDeclaration m : decl.getMethods())
-                scan(m, visitor);
-
-            ClassType sc = decl.getSuperclass();
-            if(sc==null)    break;
-
-            decl = sc.getDeclaration();
+            }
+            decl = (TypeElement) typeUtils.asElement(decl.getSuperclass());
         }
 
         visitor.done();
     }
 
-    private void scan(MemberDeclaration f, AnnotationVisitor visitor) {
+    private void scan(Element f, AnnotationVisitor visitor) {
         Option o = f.getAnnotation(Option.class);
         if(o==null) return;
 
@@ -151,4 +123,49 @@ public class AnnotationProcessorFactoryImpl implements AnnotationProcessorFactor
             return resource.getProperty(o.usage());
     }
 
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations,
+            RoundEnvironment roundEnv) {
+
+        Set<? extends Element> params = roundEnv.getElementsAnnotatedWith(Option.class);
+
+        final Set<TypeElement> optionBeans = new HashSet<TypeElement>();
+
+        for (Element d : params) {
+
+            d.accept(new SimpleElementVisitor6<Void, Void>() {
+                @Override
+                public Void visitVariable(VariableElement e, Void p) {
+                    TypeElement dt = (TypeElement) e.getEnclosingElement();
+                    optionBeans.add(dt);
+                    return null;
+                }
+
+                public Void visitExecutable(ExecutableElement m, Void p) {
+                    optionBeans.add((TypeElement) m.getEnclosingElement());
+                    return null;
+                }
+            }, null);
+        }
+
+        for (TypeElement t : optionBeans) {
+            // make sure that they are on classes
+            if (t.getKind().isClass()) {
+                try {
+                    AnnotationVisitor writer = createAnnotationVisitor(t);
+                    processingEnv.getMessager().printMessage(Kind.NOTE,
+                            "Processing " + t.getQualifiedName());
+                    scan(t, writer);
+                } catch (IOException e) {
+                    processingEnv.getMessager().printMessage(Kind.ERROR,
+                            e.getMessage());
+                }
+            } else {
+                processingEnv.getMessager().printMessage(Kind.ERROR,
+                        "args4j annotations need to be placed on a class", t);
+            }
+        }
+
+        return true;
+    }
 }
