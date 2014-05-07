@@ -1,6 +1,6 @@
 package org.kohsuke.args4j.apt;
 
-import com.sun.mirror.declaration.ClassDeclaration;
+import javax.lang.model.element.TypeElement;
 
 import java.io.PrintWriter;
 import java.io.Writer;
@@ -13,7 +13,7 @@ import java.io.Writer;
 class XmlWriter implements AnnotationVisitor {
     private final PrintWriter out;
 
-    public XmlWriter(Writer out, ClassDeclaration d) {
+    public XmlWriter(Writer out, TypeElement d) {
         this.out = new PrintWriter(out);
         this.out.println("<usage class=\'"+d.getQualifiedName()+"\'>");
     }
