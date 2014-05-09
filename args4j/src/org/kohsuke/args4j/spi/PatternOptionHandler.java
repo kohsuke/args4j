@@ -38,7 +38,7 @@ public class PatternOptionHandler extends OptionHandler<Pattern> {
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "regex";
+		return "REGEX";
 	}
 	
 }
