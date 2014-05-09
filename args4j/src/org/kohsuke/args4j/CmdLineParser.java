@@ -23,7 +23,6 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
-
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.ByteOptionHandler;
 import org.kohsuke.args4j.spi.CharOptionHandler;
@@ -380,7 +379,7 @@ public class CmdLineParser {
                 int lineLength;
                 String candidate = restOfLine.substring(0, maxLength);
                 int sp=candidate.lastIndexOf(' ');
-                if(sp>maxLength*3/4)    lineLength=sp;
+                if(sp>maxLength*3/5)    lineLength=sp;
                 else                    lineLength=maxLength;
                 rv.add(restOfLine.substring(0, lineLength));
                 restOfLine = restOfLine.substring(lineLength).trim();
