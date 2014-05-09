@@ -136,7 +136,7 @@ public @interface Option {
     boolean required() default false;
     
     /**
-     * Specify that the option is the help option.
+     * Specify that the option is a help option.
      *
      * <p>
      * When flagging an option being the help option, required
