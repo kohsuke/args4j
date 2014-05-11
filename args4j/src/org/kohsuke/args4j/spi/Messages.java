@@ -3,12 +3,13 @@ package org.kohsuke.args4j.spi;
 import java.text.MessageFormat;
 import java.util.Locale;
 import java.util.ResourceBundle;
-import org.kohsuke.args4j.MessageFormatter;
+
+import org.kohsuke.args4j.Localizable;
 
 /**
  * @author Kohsuke Kawaguchi
  */
-public enum Messages implements MessageFormatter {
+public enum Messages implements Localizable {
     ILLEGAL_OPERAND,
     ILLEGAL_CHAR,
     ILLEGAL_BOOLEAN,

@@ -43,7 +43,7 @@ public class CmdLineException extends Exception {
         super(cause);
     }
     
-    public CmdLineException(CmdLineParser parser, MessageFormatter message, String... args) {
+    public CmdLineException(CmdLineParser parser, Localizable message, String... args) {
         super(message.formatWithLocale(Locale.ENGLISH, (Object[])args));
         this.localizedMessage = message.format((Object[])args);
         this.parser = parser;
@@ -51,7 +51,7 @@ public class CmdLineException extends Exception {
     
     /**
      * @deprecated
-     *      Use {@link #CmdLineException(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.MessageFormatter, java.lang.String...) }
+     *      Use {@link #CmdLineException(org.kohsuke.args4j.CmdLineParser, Localizable, java.lang.String...) }
      */
     public CmdLineException(CmdLineParser parser, String message) {
         super(message);

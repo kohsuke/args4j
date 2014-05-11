@@ -7,7 +7,7 @@ import java.util.ResourceBundle;
 /**
  * @author Kohsuke Kawaguchi
  */
-enum Messages implements MessageFormatter {
+enum Messages implements Localizable {
     MISSING_OPERAND,
     UNDEFINED_OPTION,
     NO_ARGUMENT_ALLOWED,
