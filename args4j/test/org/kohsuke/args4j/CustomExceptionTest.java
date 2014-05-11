@@ -6,8 +6,8 @@ import javax.management.InvalidAttributeValueException;
 
 public class CustomExceptionTest extends Args4JTestBase<CustomExceptionTest> {
 
-    private String errMsgX = "this is a usual CLI exception";
-    private String errMsgY = "this is a 'custom' exception";
+    private final String errMsgX = "this is a usual CLI exception";
+    private final String errMsgY = "this is a 'custom' exception";
 
 
     @Option(name="-x")
