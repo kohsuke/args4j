@@ -44,13 +44,18 @@ public class CmdLineExceptionTest extends TestCase {
      */
     public void testGetLocalizedMessage() {
         TestBean testBean = new TestBean();
-        
+
+        Locale cur = Locale.getDefault();
         Locale.setDefault(Locale.GERMANY);
-        CmdLineParser parser = new CmdLineParser(testBean);
-        CmdLineException e = new CmdLineException(parser, Messages.NO_ARGUMENT_ALLOWED, "foofoo");
-        
-        assertEquals("No argument is allowed: foofoo", e.getMessage());
-        assertEquals("Kein Argument erlaubt: foofoo", e.getLocalizedMessage());
-        assertSame(parser, e.getParser());
+        try {
+            CmdLineParser parser = new CmdLineParser(testBean);
+            CmdLineException e = new CmdLineException(parser, Messages.NO_ARGUMENT_ALLOWED, "foofoo");
+
+            assertEquals("No argument is allowed: foofoo", e.getMessage());
+            assertEquals("Kein Argument erlaubt: foofoo", e.getLocalizedMessage());
+            assertSame(parser, e.getParser());
+        } catch (Exception e1) {
+            Locale.setDefault(cur);
+        }
     }
 }
