@@ -39,8 +39,7 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
             String expectedError = "\"-wrong-usage\" is not a valid option";
             String expectedUsage   = " -str VAL : set a string";
             String[] usageLines = getUsageMessage();
-            String errorMessage = e.getMessage();
-            assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
+            assertErrorMessagePrefix(expectedError, e);
             assertUsageLength(1);
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }

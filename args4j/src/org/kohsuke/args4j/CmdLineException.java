@@ -1,5 +1,6 @@
 package org.kohsuke.args4j;
 
+import java.util.Locale;
 import org.kohsuke.args4j.spi.OptionHandler;
 
 /**
@@ -10,8 +11,14 @@ import org.kohsuke.args4j.spi.OptionHandler;
 public class CmdLineException extends Exception {
 	private static final long serialVersionUID = -8574071211991372980L;
 
-    private CmdLineParser parser;
-
+    private CmdLineParser parser = null;
+    
+    /** 
+     * The optional localized message.
+     * @see Throwable#getLocalizedMessage() 
+     */
+    private String localizedMessage = null;
+    
     /**
      * @deprecated
      *      Use {@link #CmdLineException(CmdLineParser, String)}
@@ -35,7 +42,17 @@ public class CmdLineException extends Exception {
     public CmdLineException(Throwable cause) {
         super(cause);
     }
-
+    
+    public CmdLineException(CmdLineParser parser, MessageFormatter message, String... args) {
+        super(message.formatWithLocale(Locale.ENGLISH, (Object[])args));
+        this.localizedMessage = message.format((Object[])args);
+        this.parser = parser;
+    }
+    
+    /**
+     * @deprecated
+     *      Use {@link #CmdLineException(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.MessageFormatter, java.lang.String...) }
+     */
     public CmdLineException(CmdLineParser parser, String message) {
         super(message);
         this.parser = parser;
@@ -51,6 +68,15 @@ public class CmdLineException extends Exception {
         this.parser = parser;
     }
 
+    @Override
+    public String getLocalizedMessage() {
+        if (localizedMessage != null) {
+            return localizedMessage;
+        } else {
+            return getMessage();
+        }
+    }
+    
     /**
      * Obtains the {@link CmdLineParser} that triggered an exception.
      *

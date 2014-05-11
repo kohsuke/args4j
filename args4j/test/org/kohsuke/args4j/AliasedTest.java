@@ -14,10 +14,9 @@ public class AliasedTest extends Args4JTestBase<Aliased> {
         } catch (CmdLineException e) {
             String expectedError = "Option \"-str (--long-str)\" takes an operand";
             String expectedUsage   = " -str (--long-str) METAVAR : set a string";
-            String errorMessage = e.getMessage();
             String[] usageLines = getUsageMessage();
             assertUsageLength(1);
-            assertTrue("Got wrong error message: " + errorMessage, errorMessage.startsWith(expectedError));
+            assertErrorMessagePrefix(expectedError, e);
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
     }
