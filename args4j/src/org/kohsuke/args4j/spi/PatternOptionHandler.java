@@ -38,7 +38,7 @@ public class PatternOptionHandler extends OptionHandler<Pattern> {
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "REGEX";
+            return Messages.DEFAULT_META_PATTERN_OPTION_HANDLER.format();
 	}
 	
 }

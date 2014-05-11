@@ -31,6 +31,6 @@ public class InetAddressOptionHandler extends
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "<ip address>";
+        return Messages.DEFAULT_META_INET_ADDRESS_OPTION_HANDLER.format();
 	}
 }

@@ -59,6 +59,6 @@ public class ExplicitBooleanOptionHandler extends OptionHandler<Boolean> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "[VAL]";
+        return Messages.DEFAULT_META_EXPLICIT_BOOLEAN_OPTION_HANDLER.format();
     }
 }
