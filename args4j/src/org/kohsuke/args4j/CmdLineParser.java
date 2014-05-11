@@ -111,8 +111,15 @@ public class CmdLineParser {
      *
      * @param setter the setter for the type
      * @param a the Argument
+     * @throws NullPointerException if {@code setter} or {@code a} is {@code null}.
      */
     public void addArgument(Setter setter, Argument a) {
+        if (setter == null)
+            throw new NullPointerException("Setter is null");
+        if (a == null)
+            throw new NullPointerException("Argument is null");
+
+        
         OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
     	int index = a.index();
     	// make sure the argument will fit in the list
@@ -130,8 +137,15 @@ public class CmdLineParser {
      *
      * @param setter the setter for the type
      * @param o the {@code Option}
+     * @throws NullPointerException if {@code setter} or {@code o} is {@code null}.
+     * @throws IllegalAnnotationError if the option name or one of the aliases is already taken.
      */
     public void addOption(Setter setter, Option o) {
+        if (setter == null)
+            throw new NullPointerException("Setter is null");
+        if (o == null)
+            throw new NullPointerException("OptionDef is null");
+    
         checkOptionNotInMap(o.name());
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
@@ -154,6 +168,9 @@ public class CmdLineParser {
     }
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
+        if (name == null)
+            throw new NullPointerException("name is null");
+        
 		if(findOptionByName(name)!=null) {
             throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_OPTION.format(name));
         }
@@ -165,6 +182,10 @@ public class CmdLineParser {
      */
    @SuppressWarnings("unchecked")
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
+        if (o == null)
+            throw new NullPointerException("OptionDef is null");
+        if (setter == null)
+            throw new NullPointerException("Setter is null");
 
         Constructor<? extends OptionHandler> handlerType;
         Class<? extends OptionHandler> h = o.handler();
@@ -242,10 +263,15 @@ public class CmdLineParser {
      *      string that contains a space at the beginning (but not at the end).
      *      This allows you to do something like:
      *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
+     * @throws NullPointerException if {@code mode} is {@code null}.
      */
-    public String printExample(OptionHandlerFilter mode,ResourceBundle rb) {
+    public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
 
+        if (mode == null)
+            throw new NullPointerException("mode is null");
+
+        
         for (OptionHandler h : options) {
             OptionDef option = h.option;
             if(option.usage().length()==0)  continue;   // ignore
@@ -262,7 +288,7 @@ public class CmdLineParser {
      * @deprecated
      *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
      */
-    public String printExample(ExampleMode mode,ResourceBundle rb) {
+    public String printExample(ExampleMode mode, ResourceBundle rb) {
         return printExample((OptionHandlerFilter)mode,rb);
     }
 
@@ -467,8 +493,13 @@ public class CmdLineParser {
      * @throws CmdLineException
      *      if there's any error parsing arguments, or if
      *      {@link Option#required() required} option was not given.
+     * @throws NullPointerException if {@code args} is {@code null}.
      */
     public void parseArgument(final String... args) throws CmdLineException {
+        
+        if (args == null)
+            throw new NullPointerException("args is null");
+        
         CmdLineImpl cmdLine = new CmdLineImpl(args);
 
         Set<OptionHandler> present = new HashSet<OptionHandler>();
@@ -612,8 +643,12 @@ public class CmdLineParser {
     /**
      * Returns {@code true} if the given token is an option
      * (as opposed to an argument).
+     * @throws NullPointerException if {@code arg} is {@code null}.
      */
     protected boolean isOption(String arg) {
+        if (arg == null)
+            throw new NullPointerException("arg is null");
+        
         return parsingOptions && arg.startsWith("-");
     }
 
@@ -639,10 +674,14 @@ public class CmdLineParser {
      * @param handlerClass
      *      This class must have the constructor that has the same signature as
      *      {@link OptionHandler#OptionHandler(CmdLineParser, OptionDef, Setter)}
+     * @throws NullPointerException if {@code valueType} or {@code handlerClass} is {@code null}.
+     * @throws IllegalArgumentException if {@code handlerClass} is not a subtype of {@code OptionHandler}.
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
-        if(valueType==null || handlerClass==null)
-            throw new IllegalArgumentException();
+        if(valueType==null)
+            throw new NullPointerException("valueType is null");
+        if(handlerClass==null)
+            throw new NullPointerException("handlerClass is null");
         if(!OptionHandler.class.isAssignableFrom(handlerClass))
             throw new IllegalArgumentException(Messages.NO_OPTIONHANDLER.format());
 
@@ -692,11 +731,23 @@ public class CmdLineParser {
         }
     }
 
+    /** Sets the width of the usage output.
+     * @param usageWidth the width of the usage output in columns.
+     * @throws IllegalArgumentException if {@code usageWidth} is negative
+     */
 	public void setUsageWidth(int usageWidth) {
+        if (usageWidth < 0)
+            throw new IllegalArgumentException("Usage width is negative");
 		this.usageWidth = usageWidth;
 	}
 
-    public void stopOptionParsing() {
+    /** Signals the parser that parsing the options has finished.
+     * 
+     * <p>
+     * Everything seen after this call is treaded as an argument
+     * as opposed to an option.
+     */
+	public void stopOptionParsing() {
 		parsingOptions = false;
 	}
 
@@ -706,8 +757,12 @@ public class CmdLineParser {
      * <p>
      * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
      * so that you can do {@code printUsage(System.err)}.
+     * @throws NullPointerException if {@code out} is {@code null}.
      */
 	public void printSingleLineUsage(OutputStream out) {
+        if (out == null)
+            throw new NullPointerException("OutputStream is null");
+        
 		printSingleLineUsage(new OutputStreamWriter(out),null);
 	}
 
@@ -717,8 +772,12 @@ public class CmdLineParser {
      * @param rb
      *      if this is non-{@code null}, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
+     * @throws NullPointerException if {@code w} is {@code null}.
      */
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
+        if (w == null)
+            throw new NullPointerException("Writer is null");
+        
 		PrintWriter pw = new PrintWriter(w);
 		for (OptionHandler h : arguments) {
 			printSingleLineOption(pw, h, rb);
