@@ -24,18 +24,13 @@ public enum Messages implements Localizable {
     ILLEGAL_PATH
     ;
 
-    private static ResourceBundle rb;
-    
     public String formatWithLocale( Locale locale, Object... args ) {
         ResourceBundle localized = ResourceBundle.getBundle(Messages.class.getName(), locale);
         return MessageFormat.format(localized.getString(name()),args);
     }
     
+
     public String format( Object... args ) {
-        synchronized(Messages.class) {
-            if(rb==null)
-                rb = ResourceBundle.getBundle(Messages.class.getName());
-            return MessageFormat.format(rb.getString(name()),args);
-        }
+        return formatWithLocale(Locale.getDefault(),args);
     }
 }
