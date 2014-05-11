@@ -1,6 +1,7 @@
 package org.kohsuke.args4j.spi;
 
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
 
 
 /**
@@ -32,7 +33,7 @@ public abstract class AnnotationImpl implements Annotation {
 
 	public String[] aliases;
 	public String[] aliases() {
-		return aliases;
+		return Arrays.copyOf(aliases, aliases.length);
 	}
 	public Class<? extends OptionHandler> handler;
 	public Class<? extends OptionHandler> handler() {
