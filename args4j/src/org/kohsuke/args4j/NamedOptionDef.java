@@ -33,14 +33,20 @@ public final class NamedOptionDef extends OptionDef {
     }
     
     public String[] aliases() {
+        if (aliases == null)
+            return null;
     	return Arrays.copyOf(aliases, aliases.length);
     }
 
     public String[] depends() {
+        if (depends == null)
+            return null;
         return Arrays.copyOf(depends, depends.length);
     }
 
     public String[] forbids() {
+        if (forbids == null)
+            return null;
         return Arrays.copyOf(forbids, forbids.length);
     }
     
