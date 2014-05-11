@@ -21,7 +21,7 @@ enum Messages implements MessageFormatter {
     NO_OPTIONHANDLER,
     NO_CONSTRUCTOR_ON_HANDLER,
     REQUIRES_OPTION_MISSING,
-    FORBID_OPTION_SHOWING
+    FORBIDDEN_OPTION_PRESENT
     ;
 
     private static ResourceBundle rb;
