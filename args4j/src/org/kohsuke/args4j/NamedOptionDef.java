@@ -17,7 +17,7 @@ public final class NamedOptionDef extends OptionDef {
     }
 
     public NamedOptionDef(Option o) {
-    	super(o.usage(),o.metaVar(),o.required(),o.hidden(),o.handler(),false);
+    	super(o.usage(),o.metaVar(),o.required(),o.help(),o.hidden(),o.handler(),false);
 
     	this.name = o.name();
     	this.aliases = o.aliases();

@@ -134,6 +134,17 @@ public @interface Option {
      * flag.
      */
     boolean required() default false;
+    
+    /**
+     * Specify that the option is a help option.
+     *
+     * <p>
+     * When flagging an option being the help option, required
+     * arguments or options that are missing in an actual command
+     * line don't cause an exception to be thrown.
+     * @see #required() 
+     */
+    boolean help() default false;
 
     /**
      * Specify that the option is hidden from the usage, by default.
