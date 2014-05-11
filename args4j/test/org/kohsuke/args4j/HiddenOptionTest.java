@@ -15,9 +15,8 @@ public class HiddenOptionTest extends Args4JTestBase<HiddenOption> {
             String expectedError = "\"-wrong-usage\" is not a valid option";
             String expectedUsage = "";
             String[] usageLines = getUsageMessage();
-            String errorMessage = e.getMessage();
             assertUsageLength(1);
-            assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
+            assertErrorMessagePrefix(expectedError, e);
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
     }

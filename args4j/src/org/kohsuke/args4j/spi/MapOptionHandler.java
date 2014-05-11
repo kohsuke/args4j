@@ -59,7 +59,7 @@ public class MapOptionHandler extends OptionHandler<Map<?,?>> {
      */
     protected void addToMap(String argument, Map m) throws CmdLineException {
     	if (String.valueOf(argument).indexOf('=') == -1) {
-    		throw new CmdLineException(owner,Messages.FORMAT_ERROR_FOR_MAP.format());
+    		throw new CmdLineException(owner,Messages.FORMAT_ERROR_FOR_MAP);
     	}
 
 		String mapKey;
@@ -79,7 +79,7 @@ public class MapOptionHandler extends OptionHandler<Map<?,?>> {
         }
 
     	if (mapKey.length()==0) {
-    		throw new CmdLineException(owner,Messages.MAP_HAS_NO_KEY.format());
+    		throw new CmdLineException(owner,Messages.MAP_HAS_NO_KEY);
     	}
 
         addToMap(m, mapKey, mapValue);

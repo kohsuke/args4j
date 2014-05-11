@@ -26,7 +26,7 @@ public class BooleanOptionHandler extends OptionHandler<Boolean> {
     		String valueStr = params.getParameter(0).toLowerCase();
     		int index = ACCEPTABLE_VALUES.indexOf(valueStr);
     		if (index == -1) {
-    			throw new CmdLineException(owner, Messages.ILLEGAL_BOOLEAN.format(valueStr));
+    			throw new CmdLineException(owner, Messages.ILLEGAL_BOOLEAN, valueStr);
     		}
     		setter.addValue(index < ACCEPTABLE_VALUES.size() / 2);
     		return 1;

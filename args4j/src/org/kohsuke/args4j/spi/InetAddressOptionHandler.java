@@ -25,7 +25,7 @@ public class InetAddressOptionHandler extends
 			return InetAddress.getByName(argument);
 		} catch (UnknownHostException e) {
 			throw new CmdLineException(owner,
-					Messages.ILLEGAL_IP_ADDRESS.format(argument));
+					Messages.ILLEGAL_IP_ADDRESS, argument);
 		}
 	}
 

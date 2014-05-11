@@ -1,5 +1,6 @@
 import java.io.File;
 import java.net.InetAddress;
+import java.util.Locale;
 
 import junit.framework.TestCase;
 
@@ -22,6 +23,27 @@ public class ExampleTest extends TestCase {
 
     @Option(name = "-c", usage = "this is Z")
     InetAddress z;
+
+    private Locale defaultLocale;
+    
+    /**
+     * Initializes the locale to english to fix error string comparing problems.
+     * @see junit.framework.TestCase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        defaultLocale = Locale.getDefault();
+    //    Locale.setDefault(Locale.ENGLISH);
+    }
+
+    /**
+     * Restores the default Locale.
+     */         
+    @Override
+    protected void tearDown() throws Exception {
+        Locale.setDefault(defaultLocale);
+    }
 
     public void testPrintExampleModeAll() {
         String s = new CmdLineParser(this).printExample(ExampleMode.ALL);
