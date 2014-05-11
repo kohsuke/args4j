@@ -3,8 +3,7 @@ package org.kohsuke.args4j;
 import java.util.Arrays;
 
 /**
- * Run-time copy of {@link Option} annotation.
- * This object is immutable.
+ * Immutable run-time copy of {@link Option} annotation.
  */
 public final class NamedOptionDef extends OptionDef {
     private final String name;
