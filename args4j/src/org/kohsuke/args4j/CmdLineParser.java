@@ -12,6 +12,7 @@ import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -21,16 +22,13 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.Collection;
 import java.util.logging.Logger;
-
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.ByteOptionHandler;
 import org.kohsuke.args4j.spi.CharOptionHandler;
 import org.kohsuke.args4j.spi.DoubleOptionHandler;
 import org.kohsuke.args4j.spi.EnumOptionHandler;
 import org.kohsuke.args4j.spi.FileOptionHandler;
-import org.kohsuke.args4j.spi.PathOptionHandler;
 import org.kohsuke.args4j.spi.FloatOptionHandler;
 import org.kohsuke.args4j.spi.InetAddressOptionHandler;
 import org.kohsuke.args4j.spi.IntOptionHandler;
@@ -38,6 +36,7 @@ import org.kohsuke.args4j.spi.LongOptionHandler;
 import org.kohsuke.args4j.spi.MapOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.PathOptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 import org.kohsuke.args4j.spi.ShortOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
@@ -71,7 +70,7 @@ public class CmdLineParser {
 	/**
 	 *  The length of a usage line.
 	 *  If the usage message is longer than this value, the parser wraps the line.
-     *  
+     *
      *  Defaults to {@code 80}.
 	 */
 	private int usageWidth = 80;
@@ -352,7 +351,7 @@ public class CmdLineParser {
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
     		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
 			String usage       = (i >= usages.size())        ? "" : usages.get(i);
-			String format      = (nameAndMeta.length() > 0)
+			String format      = ((nameAndMeta.length() > 0) && (i == 0))
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
@@ -380,7 +379,7 @@ public class CmdLineParser {
                 int lineLength;
                 String candidate = restOfLine.substring(0, maxLength);
                 int sp=candidate.lastIndexOf(' ');
-                if(sp>maxLength*3/4)    lineLength=sp;
+                if(sp>maxLength*3/5)    lineLength=sp;
                 else                    lineLength=maxLength;
                 rv.add(restOfLine.substring(0, lineLength));
                 restOfLine = restOfLine.substring(lineLength).trim();
@@ -451,7 +450,7 @@ public class CmdLineParser {
     }
 
     /**
-     * Same as {@link #parseArgument(String[])} 
+     * Same as {@link #parseArgument(String[])}
      */
     public void parseArgument(Collection<String> args) throws CmdLineException {
         parseArgument(args.toArray(new String[args.size()]));
