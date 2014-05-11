@@ -13,6 +13,9 @@ import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.tools.JavaCompiler;
+import javax.tools.ToolProvider;
+
 /**
  * Entry point that invokes APT.
  *
@@ -62,15 +65,13 @@ public class Main {
         if(resourceName==null)  resourceName = "";  // can't have null in properties
         System.setProperty("args4j.resource",resourceName);
 
-        aptArgs.add(0,"-nocompile");
+        aptArgs.add(0, "-proc:only");
+        aptArgs.add(1, "-processor");
+        aptArgs.add(2, AnnotationProcessorImpl.class.getName());
 
-        // locate tools.jar
-        ClassLoader cl = loadToolsJar();
-        Class<?> apt = cl.loadClass("com.sun.tools.apt.Main");
-        Method main = getProcessMethod(apt);
-        return (Integer)main.invoke(null,new Object[]{
-            cl.loadClass("org.kohsuke.args4j.apt.AnnotationProcessorFactoryImpl").newInstance(),
-            aptArgs.toArray(new String[0])});
+        JavaCompiler javac = ToolProvider.getSystemJavaCompiler();
+
+        return javac.run(System.in, System.out, System.err, aptArgs.toArray(new String[0]));
     }
 
     private void printUsage(CmdLineParser parser) {
