@@ -29,6 +29,6 @@ public class RestOfArgumentsHandler extends OptionHandler<String> {
     }
 
     public String getDefaultMetaVariable() {
-        return "ARGS";
+        return Messages.DEFAULT_META_REST_OF_ARGUMENTS_HANDLER.format();
     }
 }

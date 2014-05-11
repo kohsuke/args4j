@@ -45,7 +45,7 @@ public class StringArrayOptionHandler extends OptionHandler<String> {
 	 */
 	@Override
 	public String getDefaultMetaVariable() {
-		return "STRING[]";
+            return Messages.DEFAULT_META_STRING_ARRAY_OPTION_HANDLER.format();            
 	}
 
 	/**

@@ -31,6 +31,6 @@ public class URLOptionHandler extends OptionHandler<URL> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "URL";
+        return Messages.DEFAULT_META_URL_OPTION_HANDLER.format();            
     }
 }

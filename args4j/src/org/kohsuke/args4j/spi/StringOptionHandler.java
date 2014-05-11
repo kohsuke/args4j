@@ -22,6 +22,6 @@ public class StringOptionHandler extends OptionHandler<String> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "VAL";
+        return Messages.DEFAULT_META_STRING_OPTION_HANDLER.format();            
     }
 }

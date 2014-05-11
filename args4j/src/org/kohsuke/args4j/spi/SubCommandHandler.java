@@ -148,6 +148,6 @@ public class SubCommandHandler extends OptionHandler<Object> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "CMD ARGS...";
+        return Messages.DEFAULT_META_SUB_COMMAND_HANDLER.format();            
     }
 }

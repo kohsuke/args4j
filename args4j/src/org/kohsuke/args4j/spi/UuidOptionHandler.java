@@ -33,6 +33,6 @@ public class UuidOptionHandler extends
 
 	@Override
 	public String getDefaultMetaVariable() {
-		return "<uuid>";
+            return Messages.DEFAULT_META_UUID_OPTION_HANDLER.format();            
 	}
 }

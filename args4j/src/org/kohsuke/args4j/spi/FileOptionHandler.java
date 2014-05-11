@@ -23,6 +23,6 @@ public class FileOptionHandler extends OneArgumentOptionHandler<File> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "FILE";
+        return Messages.DEFAULT_META_FILE_OPTION_HANDLER.format();
     }
 }

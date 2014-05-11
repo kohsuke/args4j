@@ -30,6 +30,6 @@ public class PathOptionHandler extends OneArgumentOptionHandler<Path> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "PATH";
+        return Messages.DEFAULT_META_PATH_OPTION_HANDLER.format();
     }
 }
