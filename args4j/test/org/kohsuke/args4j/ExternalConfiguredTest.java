@@ -1,7 +1,5 @@
 package org.kohsuke.args4j;
 
-import org.kohsuke.args4j.XmlParser;
-import org.xml.sax.InputSource;
 
 import java.io.File;
 import java.util.List;
