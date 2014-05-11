@@ -2,6 +2,7 @@ package org.kohsuke.args4j;
 
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Locale;
 
 import junit.framework.TestCase;
 
@@ -83,8 +84,11 @@ public abstract class Args4JTestBase<T> extends TestCase {
      * @see CmdLineParser#printUsage(OutputStream)
      */
     public String[] getUsageMessage() {
+        Locale oldDefault = Locale.getDefault();
+        Locale.setDefault(Locale.ENGLISH);
         Stream2String s2s = new Stream2String();
         parser.printUsage(s2s);
+        Locale.setDefault(oldDefault);
         return s2s.getString().split(System.getProperty("line.separator"));
     }
     

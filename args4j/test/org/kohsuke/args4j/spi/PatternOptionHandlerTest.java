@@ -30,16 +30,21 @@ public class PatternOptionHandlerTest extends TestCase {
     
     
 	public void testParseFail() throws Exception {
-        
-        TestBean bean = new TestBean();
-        CmdLineParser parser = new CmdLineParser(bean);
-        try {
-            parser.parseArgument("-pattern", "*");
-            fail("Expecting exception");
-        }
-        catch (CmdLineException e) {
-            assertEquals("\"-pattern\" must be a regular expression", e.getMessage());
-        }
+
+            Locale old = Locale.getDefault();
+            Locale.setDefault(Locale.ENGLISH);
+            TestBean bean = new TestBean();
+            CmdLineParser parser = new CmdLineParser(bean);
+            try {
+                parser.parseArgument("-pattern", "*");
+                fail("Expecting exception");
+            }
+            catch (CmdLineException e) {
+                assertEquals("\"-pattern\" must be a regular expression", e.getMessage());
+            }
+            finally {
+                Locale.setDefault(old);
+            }
 	}
 
 }
