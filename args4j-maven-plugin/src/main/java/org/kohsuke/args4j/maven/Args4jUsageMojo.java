@@ -15,8 +15,7 @@ public class Args4jUsageMojo extends AbstractMojo {
 
     /**
      * Mode. 'TXT' 'XML' or 'HTML'
-     * @parameter expression="TXT"
-     * @required
+     * @parameter default-value="TXT"
      */
     private String mode;
 
