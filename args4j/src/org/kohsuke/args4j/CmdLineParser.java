@@ -589,11 +589,9 @@ public class CmdLineParser {
      * @return {@code true} if all options required by {@code option} are present, {@code false} otherwise
      */
     private boolean isHandlerHasHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
-        if (option.depends() != null) {
-            for (String depend : option.depends()) {
-                if (!present.contains(findOptionHandler(depend)))
-                    return false;
-            }
+        for (String depend : option.depends()) {
+            if (!present.contains(findOptionHandler(depend)))
+                return false;
         }
         return true;
     }
@@ -602,11 +600,9 @@ public class CmdLineParser {
      * @return {@code true} if all options forbid by {@code option} are not present, {@code false} otherwise
      */
     private boolean isHandlerAllowOtherOptions(NamedOptionDef option, Set<OptionHandler> present) {
-        if (option.forbids() != null) {
-            for (String forbid : option.forbids()) {
-                if (present.contains(findOptionHandler(forbid)))
-                    return false;
-            }
+        for (String forbid : option.forbids()) {
+            if (present.contains(findOptionHandler(forbid)))
+                return false;
         }
         return true;
     }
