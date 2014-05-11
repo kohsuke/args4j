@@ -1,7 +1,10 @@
 package org.kohsuke.args4j;
 
+import java.util.Arrays;
+
 /**
  * Run-time copy of {@link Option} annotation.
+ * This object is immutable.
  */
 public final class NamedOptionDef extends OptionDef {
     private final String name;
@@ -31,15 +34,15 @@ public final class NamedOptionDef extends OptionDef {
     }
     
     public String[] aliases() {
-    	return aliases;
+    	return Arrays.copyOf(aliases, aliases.length);
     }
 
     public String[] depends() {
-        return depends;
+        return Arrays.copyOf(depends, depends.length);
     }
 
     public String[] forbids() {
-        return forbids;
+        return Arrays.copyOf(forbids, forbids.length);
     }
     
     @Override
