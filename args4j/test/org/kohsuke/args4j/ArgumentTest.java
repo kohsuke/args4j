@@ -1,26 +1,11 @@
 package org.kohsuke.args4j;
 
-import java.util.List;
-import java.util.Locale;
-
 import junit.framework.TestCase;
 
+import java.util.List;
+
 public class ArgumentTest extends TestCase {
-  private Locale defaultLocale;
-  @Override
-  protected void setUp() throws Exception {
-      super.setUp();
-      defaultLocale = Locale.getDefault();
-      Locale.setDefault(Locale.US);
-  }
-  @Override
-  protected void tearDown() throws Exception {
-      Locale.setDefault(defaultLocale);
-  }
-
-
-
-	protected static class MultiValueHolder {
+    protected static class MultiValueHolder {
 		@Argument
 		public List<String> things;
 	}

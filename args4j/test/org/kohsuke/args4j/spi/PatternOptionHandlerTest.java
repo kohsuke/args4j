@@ -32,8 +32,6 @@ public class PatternOptionHandlerTest extends TestCase {
 	public void testParseFail() throws Exception {
         
         TestBean bean = new TestBean();
-        // enforce english for string comparision below
-        Locale.setDefault(Locale.ENGLISH);
         CmdLineParser parser = new CmdLineParser(bean);
         try {
             parser.parseArgument("-pattern", "*");

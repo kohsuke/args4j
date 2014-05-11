@@ -1,13 +1,11 @@
-import java.io.File;
-import java.net.InetAddress;
-import java.util.Locale;
-
 import junit.framework.TestCase;
-
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.ExampleMode;
 import org.kohsuke.args4j.Option;
+
+import java.io.File;
+import java.net.InetAddress;
 
 /**
  * Tests {@link CmdLineParser#printExample(ExampleMode)}
@@ -45,9 +43,6 @@ public class ExampleTest extends TestCase {
         Locale.setDefault(defaultLocale);
     }
 
-    @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
-    boolean h;
-    
     @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
     boolean h;
     
