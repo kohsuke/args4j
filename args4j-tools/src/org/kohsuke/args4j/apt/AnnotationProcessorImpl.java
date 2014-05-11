@@ -10,6 +10,8 @@ import java.util.Properties;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.Messager;
+import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.Processor;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.SourceVersion;
@@ -23,6 +25,8 @@ import javax.tools.Diagnostic.Kind;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
+
+import static javax.tools.Diagnostic.Kind.*;
 
 /**
  * Annotation {@link Processor} to be invoked by javac.
@@ -38,6 +42,8 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
     private File outDir;
     private String format;
     private Properties resource = null;
+    private Types typeUtils;
+    private Messager messenger;
 
     public AnnotationProcessorImpl() {
         outDir = new File(System.getProperty("args4j.outdir"));
@@ -55,8 +61,16 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
     }
 
     @Override
+    public synchronized void init(ProcessingEnvironment processingEnv) {
+        super.init(processingEnv);
+        typeUtils = processingEnv.getTypeUtils();
+        messenger = processingEnv.getMessager();
+    }
+
+    @Override
     public Set<String> getSupportedAnnotationTypes() {
-        return new HashSet<String>(Arrays.asList(Option.class.getName(),
+        return new HashSet<String>(Arrays.asList(
+                Option.class.getName(),
                 Argument.class.getName()));
     }
 
@@ -80,9 +94,6 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
     }
 
     private void scan(TypeElement decl, AnnotationVisitor visitor) {
-
-        Types typeUtils = processingEnv.getTypeUtils();
-
         while (decl != null) {
             for (Element f : decl.getEnclosedElements()) {
                 scan(f, visitor);
@@ -115,8 +126,7 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
     }
 
     @Override
-    public boolean process(Set<? extends TypeElement> annotations,
-            RoundEnvironment roundEnv) {
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 
         Set<? extends Element> params = roundEnv.getElementsAnnotatedWith(Option.class);
 
@@ -144,16 +154,13 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
             if (t.getKind().isClass()) {
                 try {
                     AnnotationVisitor writer = createAnnotationVisitor(t);
-                    processingEnv.getMessager().printMessage(Kind.NOTE,
-                            "Processing " + t.getQualifiedName());
+                    messenger.printMessage(NOTE, "Processing " + t.getQualifiedName());
                     scan(t, writer);
                 } catch (IOException e) {
-                    processingEnv.getMessager().printMessage(Kind.ERROR,
-                            e.getMessage());
+                    messenger.printMessage(ERROR, e.getMessage());
                 }
             } else {
-                processingEnv.getMessager().printMessage(Kind.ERROR,
-                        "args4j annotations need to be placed on a class", t);
+                messenger.printMessage(ERROR, "args4j annotations need to be placed on a class", t);
             }
         }
 
