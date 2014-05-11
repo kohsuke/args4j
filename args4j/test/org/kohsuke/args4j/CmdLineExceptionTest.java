@@ -39,7 +39,7 @@ public class CmdLineExceptionTest extends TestCase {
     }
     
     /***
-     * Test for {@link CmdLineException#CmdLineException(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.MessageFormatter, java.lang.String...) }
+     * Test for {@link CmdLineException#CmdLineException(org.kohsuke.args4j.CmdLineParser, Localizable, java.lang.String...) }
      * and {@link CmdLineException#getLocalizedMessage() }.
      */
     public void testGetLocalizedMessage() {
