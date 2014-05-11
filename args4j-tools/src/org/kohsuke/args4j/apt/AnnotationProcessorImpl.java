@@ -32,7 +32,7 @@ import org.kohsuke.args4j.Option;
  * 
  * @author Kohsuke Kawaguchi
  */
-
+@SuppressWarnings("Since15")
 public class AnnotationProcessorImpl extends AbstractProcessor {
 
     private File outDir;
@@ -62,16 +62,7 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
 
     @Override
     public SourceVersion getSupportedSourceVersion() {
-
-        // taken from metainf-services project
-        try {
-            return SourceVersion.valueOf("RELEASE_8");
-        } catch (IllegalArgumentException x) {}
-        try {
-            return SourceVersion.valueOf("RELEASE_7");
-        } catch (IllegalArgumentException x) {}
-
-        return SourceVersion.RELEASE_6;
+        return SourceVersion.latest();
     }
 
     private AnnotationVisitor createAnnotationVisitor(TypeElement te)
