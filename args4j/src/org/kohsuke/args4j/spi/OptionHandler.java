@@ -66,6 +66,10 @@ public abstract class OptionHandler<T> {
 
     /**
      * Gets the default meta variable name used to print the usage screen.
+     * 
+     * The value returned by this method can be a reference in the
+     * {@code ResourceBundle}, if one was passed to
+     * {@link CmdLineParser}.
      *
      * @return {@code null} to hide a meta variable.
      */
