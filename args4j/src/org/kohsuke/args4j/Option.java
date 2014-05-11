@@ -213,21 +213,22 @@ public @interface Option {
     String[] depends() default { };
     
     /**
-     * List of other options that this option forbids.
+     * List of other options that this option is incompatible with..
      *
      * <h3>Example</h3>
      *
      * <pre>
      *  &#64;Option(name="-a")
      *  int a;
-     *  //-h will forbid a if presented
+     *  // -h and -a cannot be specified together
      *  &#64;Option(name="-h", forbids={"-a"}
      *  boolean h;
      * </pre>
      *
      * <p>
      * At the end of {@link CmdLineParser#parseArgument(String...)},
-     * a {@link CmdLineException} will be thrown if options forbid other options
+     * a {@link CmdLineException} will be thrown if forbidden option
+     * combinations are present.
      * </p>
      */
     String[] forbids() default { };    
