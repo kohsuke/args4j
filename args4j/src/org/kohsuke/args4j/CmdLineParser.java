@@ -521,16 +521,16 @@ public class CmdLineParser {
                 throw new CmdLineException(this, Messages.REQUIRED_ARGUMENT_MISSING.format(handler.option.toString()));
 
         //make sure that all requires arguments are present
-        for(OptionHandler handler : present) {
-            if(handler.option instanceof NamedOptionDef && !isHandlerHasHisOptions((NamedOptionDef)handler.option, present)) {
+        for (OptionHandler handler : present) {
+            if (handler.option instanceof NamedOptionDef && !isHandlerHasHisOptions((NamedOptionDef)handler.option, present)) {
                 throw new CmdLineException(this, Messages.REQUIRES_OPTION_MISSING
                         .format(handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).depends())));
             }
         }
         
         //make sure that all forbids arguments are not present
-        for(OptionHandler handler : present) {
-            if(handler.option instanceof NamedOptionDef && !isHandlerForbidHisOptions((NamedOptionDef)handler.option, present)) {
+        for (OptionHandler handler : present) {
+            if (handler.option instanceof NamedOptionDef && !isHandlerAllowOtherOptions((NamedOptionDef) handler.option, present)) {
                 throw new CmdLineException(this, Messages.FORBID_OPTION_SHOWING
                         .format(handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).forbids())));
             }
@@ -538,8 +538,6 @@ public class CmdLineParser {
     }
 
     /**
-     * @param option
-     * @param present
      * @return {@code true} if all options required by {@code option} are present, {@code false} otherwise
      */
     private boolean isHandlerHasHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
@@ -553,11 +551,9 @@ public class CmdLineParser {
     }
 
     /**
-     * @param option
-     * @param present
      * @return {@code true} if all options forbid by {@code option} are not present, {@code false} otherwise
      */
-    private boolean isHandlerForbidHisOptions(NamedOptionDef option, Set<OptionHandler> present) {
+    private boolean isHandlerAllowOtherOptions(NamedOptionDef option, Set<OptionHandler> present) {
         if (option.forbids() != null) {
             for (String forbid : option.forbids()) {
                 if (present.contains(findOptionHandler(forbid)))
