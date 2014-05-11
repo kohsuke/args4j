@@ -75,6 +75,17 @@ public class DependencyOptionsTest extends Args4JTestBase<DependencyOptions> {
         }
     }
 
+    public void testForbidFail() throws Exception {
+        args= new String[]{"-a", "5", "-b", "1", "-h", "5"};
+        try {
+            parser.parseArgument(args);
+            fail();
+        } catch (CmdLineException e) {
+            System.out.println(e.getMessage());
+            assertTrue(e.getMessage().contains("cannot be used with the option(s) [-a, -b]"));
+        }
+    }
+    
     public void testRecursive() throws Exception {
         args= new String[]{"-z","4" , "-y","3"};
         try {

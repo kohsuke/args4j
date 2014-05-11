@@ -23,9 +23,12 @@ public class ExampleTest extends TestCase {
     @Option(name = "-c", usage = "this is Z")
     InetAddress z;
 
+    @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
+    boolean h;
+    
     public void testPrintExampleModeAll() {
         String s = new CmdLineParser(this).printExample(ExampleMode.ALL);
-        assertEquals(" -a N -b <output> -c <ip address>", s);
+        assertEquals(" -a N -b <output> -c <ip address> -h", s);
     }
 
     public void testPrintExampleModeRequired() {
@@ -57,6 +60,17 @@ public class ExampleTest extends TestCase {
                     + " required arg 'a' is missing");
         } catch (CmdLineException e) {
             assertEquals("Option \"-a\" is required", e.getMessage());
+        }
+    }
+    
+    public void testForbidArgs() throws Exception {
+        CmdLineParser parser = new CmdLineParser(this);
+        try {
+        	parser.parseArgument("-h", "-a", "2", "-b", "1");
+        	fail("Should have thrown an exception because"
+                    + " arg 'h' forbids 'b'");
+        } catch (CmdLineException e) {
+            assertEquals("option \"-h\" cannot be used with the option(s) [-b, -c]", e.getMessage());
         }
     }
 }

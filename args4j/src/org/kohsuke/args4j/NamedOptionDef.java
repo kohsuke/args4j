@@ -7,6 +7,7 @@ public final class NamedOptionDef extends OptionDef {
     private final String name;
 	private final String[] aliases;
     private final String[] depends;
+    private final String[] forbids;
     
     /**
      * @deprecated
@@ -22,6 +23,7 @@ public final class NamedOptionDef extends OptionDef {
     	this.name = o.name();
     	this.aliases = o.aliases();
         this.depends = o.depends();
+        this.forbids = o.forbids();
     }
 
     public String name() {
@@ -34,6 +36,10 @@ public final class NamedOptionDef extends OptionDef {
 
     public String[] depends() {
         return depends;
+    }
+
+    public String[] forbids() {
+        return forbids;
     }
     
     @Override

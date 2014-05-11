@@ -50,14 +50,14 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * like <samp>-coin penny</samp> or <samp>-coin DIME</samp>,
  * but things like <samp>-coin</samp> or <samp>-coin abc</samp> are errors.
  *
- * <code><pre>
+ * <pre>
  * enum Coin { PENNY,NICKEL,DIME,QUARTER }
  *
  * class Option {
  *   &#64;Option(name="-coin")
  *   public Coin coin;
  * }
- * </pre></code>
+ * </pre>
  *
  * <h2>File Switch</h2>
  * <p>
@@ -104,9 +104,9 @@ public @interface Option {
     /**
      * When the option takes an operand, the usage screen will show something like this
      *
-     * <code><pre>
+     * <pre>
      * -x FOO  : blah blah blah
-     * </pre></code>
+     * </pre>
      *
      * You can replace the <samp>FOO</samp> token by using this parameter.
      *
@@ -178,7 +178,7 @@ public @interface Option {
      *
      * <h3>Example</h3>
      *
-     * <code><pre>
+     * <pre>
      * // this is a normal "-r" option
      * &#64;Option(name="-r")
      * boolean value;
@@ -187,7 +187,7 @@ public @interface Option {
      * // handler provided for boolean
      * &#64;Option(name="-b",handler=MyHandler.class)
      * boolean value;
-     * </pre></code>
+     * </pre>
      */
     Class<? extends OptionHandler> handler() default OptionHandler.class;
 
@@ -196,13 +196,13 @@ public @interface Option {
      *
      * <h3>Example</h3>
      *
-     * <code><pre>
+     * <pre>
      *  &#64;Option(name="-a")
      *  int a;
      *  //-b is not required but if it's provided, then a becomes required
      *  &#64;Option(name="-b", depends={"-a"}
      *  int b;
-     * </pre></code>
+     * </pre>
      *
      * <p>
      * At the end of {@link CmdLineParser#parseArgument(String...)},
@@ -211,4 +211,25 @@ public @interface Option {
      * </p>
      */
     String[] depends() default { };
+    
+    /**
+     * List of other options that this option is incompatible with..
+     *
+     * <h3>Example</h3>
+     *
+     * <pre>
+     *  &#64;Option(name="-a")
+     *  int a;
+     *  // -h and -a cannot be specified together
+     *  &#64;Option(name="-h", forbids={"-a"}
+     *  boolean h;
+     * </pre>
+     *
+     * <p>
+     * At the end of {@link CmdLineParser#parseArgument(String...)},
+     * a {@link CmdLineException} will be thrown if forbidden option
+     * combinations are present.
+     * </p>
+     */
+    String[] forbids() default { };    
 }

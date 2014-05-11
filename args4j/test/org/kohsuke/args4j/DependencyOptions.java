@@ -21,4 +21,7 @@ public class DependencyOptions {
 
     @Option(name = "-d", depends ={"-b", "-c"})
     int z;
+    
+    @Option(name = "-h", forbids ={"-a", "-b"})
+    int o;
 }
