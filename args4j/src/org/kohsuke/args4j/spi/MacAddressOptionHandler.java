@@ -22,7 +22,7 @@ import org.kohsuke.args4j.OptionDef;
 public class MacAddressOptionHandler extends OptionHandler<byte[]> {
     public MacAddressOptionHandler(CmdLineParser parser, OptionDef option,
 	    Setter<? super byte[]> setter) {
-	super(parser, option, setter);
+		super(parser, option, setter);
     }
 
 	@Override
