@@ -23,6 +23,8 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 import org.kohsuke.args4j.spi.ByteOptionHandler;
 import org.kohsuke.args4j.spi.CharOptionHandler;
@@ -37,6 +39,7 @@ import org.kohsuke.args4j.spi.MapOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.PathOptionHandler;
+import org.kohsuke.args4j.spi.PatternOptionHandler;
 import org.kohsuke.args4j.spi.Setter;
 import org.kohsuke.args4j.spi.ShortOptionHandler;
 import org.kohsuke.args4j.spi.StringOptionHandler;
@@ -688,6 +691,7 @@ public class CmdLineParser {
         registerHandler(Short.class, ShortOptionHandler.class);
         registerHandler(short.class, ShortOptionHandler.class);
         registerHandler(InetAddress.class, InetAddressOptionHandler.class);
+        registerHandler(Pattern.class, PatternOptionHandler.class);
         // enum is a special case
         registerHandler(Map.class,MapOptionHandler.class);
 
