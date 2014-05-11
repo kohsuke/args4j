@@ -4,7 +4,6 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 
-import java.text.MessageFormat;
 
 /**
  * {@link Char}
