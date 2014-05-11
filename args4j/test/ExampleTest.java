@@ -6,6 +6,7 @@ import org.kohsuke.args4j.Option;
 
 import java.io.File;
 import java.net.InetAddress;
+import java.util.Locale;
 
 /**
  * Tests {@link CmdLineParser#printExample(ExampleMode)}
@@ -46,9 +47,22 @@ public class ExampleTest extends TestCase {
     @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
     boolean h;
     
+    private Locale oldDefault;
+    
+    @Override
+    public void setUp() {
+        oldDefault = Locale.getDefault();
+        Locale.setDefault(Locale.ENGLISH);
+    }
+
+    @Override
+    protected void tearDown() throws Exception {
+        Locale.setDefault(oldDefault);
+    }    
+    
     public void testPrintExampleModeAll() {
         String s = new CmdLineParser(this).printExample(ExampleMode.ALL);
-        assertEquals(" -a N -b <output> -c <ip address> -h", s);
+        assertEquals(" -a N -b <output> -c IP ADDRESS -h", s);
     }
 
     public void testPrintExampleModeRequired() {

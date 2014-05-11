@@ -103,7 +103,7 @@ public class ExplicitBooleanOptionTest extends Args4JTestBase<BooleanOptionHolde
         try {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
-            assertUsageContains("Usage message should contain '[VAL]'", "[VAL]");
+            assertUsageContains("Usage message should contain 'VAL'", "VAL");
         }
     }
 
