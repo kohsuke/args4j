@@ -1,6 +1,6 @@
 package org.kohsuke.args4j.apt;
 
-import com.sun.mirror.declaration.ClassDeclaration;
+import javax.lang.model.element.TypeElement;
 import org.kohsuke.args4j.Option;
 
 import java.io.PrintWriter;
@@ -14,7 +14,7 @@ import java.io.Writer;
 class TxtWriter implements AnnotationVisitor {
     private final PrintWriter out;
 
-    public TxtWriter(Writer out, ClassDeclaration d) {
+    public TxtWriter(Writer out, TypeElement d) {
         this.out = new PrintWriter(out);
         this.out.println("Usage: " + d.getQualifiedName());
     }
