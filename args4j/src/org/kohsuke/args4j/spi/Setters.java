@@ -13,6 +13,11 @@ import java.util.List;
  * @author Kohsuke Kawaguchi
  */
 public class Setters {
+    
+    private Setters() {
+        // no instance allowed
+    }
+    
     public static Setter create(CmdLineParser parser, AccessibleObject fieldOrMethod, Object bean) {
         if (fieldOrMethod instanceof Method) {
             return new MethodSetter(parser,bean,(Method) fieldOrMethod);
