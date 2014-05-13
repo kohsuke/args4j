@@ -12,7 +12,6 @@ import java.nio.file.Paths;
  *
  * @author kmahoney
  */
-@SuppressWarnings("Since15")
 public class PathOptionHandler extends OneArgumentOptionHandler<Path> {
     public PathOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super Path> setter) {
         super(parser, option, setter);
