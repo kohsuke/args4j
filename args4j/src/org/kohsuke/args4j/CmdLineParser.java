@@ -111,10 +111,13 @@ public class CmdLineParser {
      * But this one is available for JDK 1.6 which is the
      * current target of args4j.
      * I didn't want to break compatibility with JDK 1.6.
+     * @param obj the object to check for {@code null} value.
+     * @param name the object name. If {@code obj} is {@code null}, then
+     * an exception is constructed from this name.
      */
-    private static void checkNull(Object obj, String message) {
+    private static void checkNonNull(Object obj, String name) {
         if (obj == null) {
-            throw new NullPointerException(message);
+            throw new NullPointerException(name+" is null");
         }
     }
 
@@ -126,8 +129,8 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code setter} or {@code a} is {@code null}.
      */
     public void addArgument(Setter setter, Argument a) {
-        checkNull(setter, "Setter is null");
-        checkNull(a, "Argument is null");
+        checkNonNull(setter, "Setter");
+        checkNonNull(a, "Argument");
         
         OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
     	int index = a.index();
@@ -150,8 +153,8 @@ public class CmdLineParser {
      * @throws IllegalAnnotationError if the option name or one of the aliases is already taken.
      */
     public void addOption(Setter setter, Option o) {
-        checkNull(setter, "Setter is null");
-        checkNull(o, "OptionDef is null");
+        checkNonNull(setter, "Setter");
+        checkNonNull(o, "Option");
     
         checkOptionNotInMap(o.name());
         for (String alias : o.aliases()) {
@@ -175,7 +178,7 @@ public class CmdLineParser {
     }
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
-        checkNull(name, "name is null");
+        checkNonNull(name, "name");
         
 		if(findOptionByName(name)!=null) {
             throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_OPTION.format(name));
@@ -188,8 +191,8 @@ public class CmdLineParser {
      */
    @SuppressWarnings("unchecked")
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
-        checkNull(o, "OptionDef is null");
-        checkNull(setter, "Setter is null");
+        checkNonNull(o, "OptionDef is null");
+        checkNonNull(setter, "Setter is null");
 
         Constructor<? extends OptionHandler> handlerType;
         Class<? extends OptionHandler> h = o.handler();
@@ -272,7 +275,7 @@ public class CmdLineParser {
     public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
 
-        checkNull(mode, "mode is null");
+        checkNonNull(mode, "mode");
         
         for (OptionHandler h : options) {
             OptionDef option = h.option;
@@ -499,7 +502,7 @@ public class CmdLineParser {
      */
     public void parseArgument(final String... args) throws CmdLineException {
         
-        checkNull(args, "args is null");
+        checkNonNull(args, "args");
         
         CmdLineImpl cmdLine = new CmdLineImpl(args);
 
@@ -672,7 +675,7 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code arg} is {@code null}.
      */
     protected boolean isOption(String arg) {
-        checkNull(arg, "arg is null");
+        checkNonNull(arg, "arg");
         
         return parsingOptions && arg.startsWith("-");
     }
@@ -703,8 +706,8 @@ public class CmdLineParser {
      * @throws IllegalArgumentException if {@code handlerClass} is not a subtype of {@code OptionHandler}.
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
-        checkNull(valueType, "valueType is null");
-        checkNull(handlerClass, "handlerClass is null");
+        checkNonNull(valueType, "valueType");
+        checkNonNull(handlerClass, "handlerClass");
 
         if(!OptionHandler.class.isAssignableFrom(handlerClass))
             throw new IllegalArgumentException(Messages.NO_OPTIONHANDLER.format());
@@ -784,7 +787,7 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code out} is {@code null}.
      */
 	public void printSingleLineUsage(OutputStream out) {
-        checkNull(out, "OutputStream is null");
+        checkNonNull(out, "OutputStream");
         
 		printSingleLineUsage(new OutputStreamWriter(out),null);
 	}
@@ -798,7 +801,7 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code w} is {@code null}.
      */
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
-        checkNull(w, "Writer is null");
+        checkNonNull(w, "Writer");
         
 		PrintWriter pw = new PrintWriter(w);
 		for (OptionHandler h : arguments) {
