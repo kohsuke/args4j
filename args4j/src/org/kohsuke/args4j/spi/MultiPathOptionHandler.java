@@ -10,7 +10,6 @@ import java.nio.file.Path;
  *
  * @author kmahoney
  */
-@SuppressWarnings("Since15")
 public class MultiPathOptionHandler extends DelimitedOptionHandler<Path> {
     protected static String sysPathSeperator = System.getProperty("path.separator");
     public MultiPathOptionHandler(CmdLineParser parser, OptionDef option, Setter<? super Path> setter) {
