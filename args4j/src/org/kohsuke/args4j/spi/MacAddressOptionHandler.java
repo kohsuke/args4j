@@ -71,7 +71,7 @@ public class MacAddressOptionHandler extends OptionHandler<byte[]> {
 
     @Override
     public String getDefaultMetaVariable() {
-	return "<mac address>";
+        return Messages.DEFAULT_META_MAC_ADDRESS_OPTION_HANDLER.format();
     }
     
 }

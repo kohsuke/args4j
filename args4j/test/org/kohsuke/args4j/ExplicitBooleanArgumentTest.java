@@ -94,7 +94,7 @@ public class ExplicitBooleanArgumentTest extends Args4JTestBase<BooleanArgumentH
         try {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
-            assertUsageContains("Usage message should contain '[VAL]'", "[VAL]");
+            assertUsageContains("Usage message should contain 'VAL'", "VAL");
         }
     }
 

@@ -30,6 +30,6 @@ public class URIOptionHandler extends OptionHandler<URI> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "URI";
+        return Messages.DEFAULT_META_URI_OPTION_HANDLER.format();            
     }
 }

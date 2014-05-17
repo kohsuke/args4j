@@ -44,6 +44,6 @@ public class StopOptionHandler extends OptionHandler<String> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return "ARGUMENTS";
+        return Messages.DEFAULT_META_REST_OF_ARGUMENTS_HANDLER.format();
     }
 }
