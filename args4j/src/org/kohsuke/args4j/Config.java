@@ -22,7 +22,7 @@ import org.xml.sax.helpers.XMLReaderFactory;
 public class Config {
 
 	/** All @Options. */
-	public List<ConfigElement> options = new ArrayList<ConfigElement>();;
+	public List<ConfigElement> options = new ArrayList<ConfigElement>();
 
 	/** All @Arguments. */
 	public List<ConfigElement> arguments = new ArrayList<ConfigElement>();
@@ -59,7 +59,6 @@ public class Config {
                 } else {
                     currentCE.aliases = new String[]{};
                 }
-                currentCE.property = Boolean.getBoolean(attributes.getValue("property"));
                 (qName.equals("option") ? config.options : config.arguments).add(currentCE);
 			}
 		}
@@ -68,7 +67,6 @@ public class Config {
 	/**
 	 * Parses a XML file and returns a Config object holding the information.
 	 * @param xml source of the xml data
-	 * @return
 	 * @throws IOException
 	 * @throws SAXException
 	 */

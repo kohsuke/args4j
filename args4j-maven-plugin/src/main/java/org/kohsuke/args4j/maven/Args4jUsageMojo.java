@@ -55,7 +55,6 @@ public class Args4jUsageMojo extends AbstractMojo {
         try {
             String path = Main.class.getProtectionDomain().getCodeSource().getLocation().getPath();
             String enc = System.getProperty("file.encoding");
-            System.out.println(enc);
             path = URLDecoder.decode(path, enc);
             jar = new File(path);
         } catch (Exception e) {

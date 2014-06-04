@@ -16,7 +16,6 @@ public class ConfigElement {
 	public boolean multiValued = false;
 	public boolean required = false;
 	public boolean hidden = false;
-	public boolean property = false;
 	/**
 	 * Ensures that only a field XOR a method is set.
 	 * @return

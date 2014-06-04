@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
@@ -79,7 +78,7 @@ public class CmdLineParser {
     /**
      * Whether usage for options should show space or equals sign between name and meta.
      */
-    private boolean useEqualsForOptions = false;
+    private boolean useEqualsForOptionsUsage = false;
 
     /**
      * Creates a new command line owner that
@@ -286,7 +285,7 @@ public class CmdLineParser {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb));
+            buf.append(h.getNameAndMeta(rb, useEqualsForOptionsUsage));
         }
 
         return buf.toString();
@@ -380,7 +379,7 @@ public class CmdLineParser {
     	int widthUsage    = usageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptionsUsage), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -429,7 +428,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
 
-		return h.getNameAndMeta(rb).length();
+		return h.getNameAndMeta(rb, useEqualsForOptionsUsage).length();
 	}
 
     /**
@@ -747,8 +746,8 @@ public class CmdLineParser {
      * e.g. "--name=value".
      * Default is false, e.g. "--name value".
      */
-    public void setUseEqualsForOptions(boolean useEqualsForOptions) {
-        this.useEqualsForOptions = useEqualsForOptions;
+    public void setUseEqualsForOptionsUsage(boolean useEqualsForOptionsUsage) {
+        this.useEqualsForOptionsUsage = useEqualsForOptionsUsage;
     }
 
     /** Signals the parser that parsing the options has finished.
@@ -800,13 +799,11 @@ public class CmdLineParser {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb));
+		pw.print(h.getNameAndMeta(rb, useEqualsForOptionsUsage));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}
 		if (!h.option.required())
 			pw.print(']');
 	}
-
-    private static final Logger LOGGER = Logger.getLogger(CmdLineParser.class.getName());
 }

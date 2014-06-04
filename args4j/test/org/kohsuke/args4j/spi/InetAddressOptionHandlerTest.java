@@ -23,8 +23,7 @@ public class InetAddressOptionHandlerTest extends TestCase {
 		assertEquals(expectedIp, ip);
 	}
 
-    // OpenDNS mucks this up
-	public void ignoreTestParseFailure() throws Exception {
+	public void testParseFailure() throws Exception {
 		try {
 		handler.parse("bogus.ip.address.nosuch.");
 		} catch (CmdLineException e) {
