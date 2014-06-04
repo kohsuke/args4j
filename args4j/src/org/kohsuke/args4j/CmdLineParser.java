@@ -92,6 +92,29 @@ public class CmdLineParser {
      *      if the option bean class is using args4j annotations incorrectly.
      */
     public CmdLineParser(Object bean) {
+        // for display purposes, we like the arguments in argument order, but the options in alphabetical order
+        this(bean, true);
+    }
+
+    /**
+     * Creates a new command line owner that
+     * parses arguments/options and set them into
+     * the given object.
+     *
+     * @param bean
+     *      instance of a class annotated by {@link Option} and {@link Argument}.
+     *      this object will receive values. If this is {@code null}, the processing will
+     *      be skipped, which is useful if you'd like to feed metadata from other sources.
+     *
+     * @param sortOptions
+     *      If true, options are sorted in alphabetical order for usage output,
+     *      while arguments are in specified order. If false, options are also shown
+     *      in specified order.
+     *
+     * @throws IllegalAnnotationError
+     *      if the option bean class is using args4j annotations incorrectly.
+     */
+    public CmdLineParser(Object bean, boolean sortOptions) {
         // A 'return' in the constructor just skips the rest of the implementation
         // and returns the new object directly.
         if (bean==null) return;
@@ -99,14 +122,16 @@ public class CmdLineParser {
         // Parse the metadata and create the setters
         new ClassParser().parse(bean,this);
 
-        // for display purposes, we like the arguments in argument order, but the options in alphabetical order
-        Collections.sort(options, new Comparator<OptionHandler>() {
-			public int compare(OptionHandler o1, OptionHandler o2) {
-				return o1.option.toString().compareTo(o2.option.toString());
-			}
-		});
+        if (sortOptions) {
+            // for display purposes, keep the arguments in argument order, but sort the options in alphabetical order
+            Collections.sort(options, new Comparator<OptionHandler>() {
+                public int compare(OptionHandler o1, OptionHandler o2) {
+                    return o1.option.toString().compareTo(o2.option.toString());
+                }
+            });
+        }
     }
-    
+
     /** This method is similar to {@code Objects.requireNonNull()}.
      * But this one is available for JDK 1.6 which is the
      * current target of args4j.
@@ -294,7 +319,7 @@ public class CmdLineParser {
      *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
      */
     public String printExample(ExampleMode mode, ResourceBundle rb) {
-        return printExample((OptionHandlerFilter)mode,rb);
+        return printExample((OptionHandlerFilter) mode, rb);
     }
 
     /**
