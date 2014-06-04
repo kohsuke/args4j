@@ -21,8 +21,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.TreeMap;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
@@ -77,6 +75,11 @@ public class CmdLineParser {
      *  Defaults to {@code 80}.
 	 */
 	private int usageWidth = 80;
+
+    /**
+     * Whether usage for options should show space or equals sign between name and meta.
+     */
+    private boolean useEqualsForOptionsUsage = false;
 
     /**
      * Creates a new command line owner that
@@ -283,7 +286,7 @@ public class CmdLineParser {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb));
+            buf.append(h.getNameAndMeta(rb, useEqualsForOptionsUsage));
         }
 
         return buf.toString();
@@ -377,14 +380,14 @@ public class CmdLineParser {
     	int widthUsage    = usageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptionsUsage), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
     		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
 			String usage       = (i >= usages.size())        ? "" : usages.get(i);
-			String format      = ((nameAndMeta.length() > 0) && (i == 0))
+			String format      = (nameAndMeta.length() > 0)
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
@@ -412,7 +415,7 @@ public class CmdLineParser {
                 int lineLength;
                 String candidate = restOfLine.substring(0, maxLength);
                 int sp=candidate.lastIndexOf(' ');
-                if(sp>maxLength*3/5)    lineLength=sp;
+                if(sp>maxLength*3/4)    lineLength=sp;
                 else                    lineLength=maxLength;
                 rv.add(restOfLine.substring(0, lineLength));
                 restOfLine = restOfLine.substring(lineLength).trim();
@@ -426,7 +429,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
 
-		return h.getNameAndMeta(rb).length();
+		return h.getNameAndMeta(rb, useEqualsForOptionsUsage).length();
 	}
 
     /**
@@ -614,19 +617,13 @@ public class CmdLineParser {
     }
     
     private OptionHandler findOptionHandler(String name) {
-		OptionHandler handler = findOptionByName(name);
-		if (handler==null) {
-			// Have not found by its name, maybe its a property?
-			// Search for parts of the name (=prefix) - most specific first
-			for (int i=name.length(); i>1; i--) {
-				String prefix = name.substring(0, i);
-				Map<String,OptionHandler> possibleHandlers = filter(options, prefix);
-				handler = possibleHandlers.get(prefix);
-				if (handler!=null) return handler;
+        // Look for key/value pair first.
+        int pos = name.indexOf('=');
+        if (pos > 0) {
+            name = name.substring(0, pos);
 			}
+		return findOptionByName(name);
 		}
-		return handler;
-	}
 
 	/**
 	 * Finds a registered {@code OptionHandler} by its name or its alias.
@@ -647,27 +644,6 @@ public class CmdLineParser {
 		}
 		return null;
 	}
-
-
-  private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
-    Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
-    for (OptionHandler h : opt) {
-      NamedOptionDef option = (NamedOptionDef)h.option;
-      String prefix = "";
-      for (String alias : option.aliases()) {
-        if (keyFilter.startsWith(alias)) {
-          prefix = keyFilter;
-          break;
-        }
-      }
-      if (option.name().startsWith(keyFilter)){
-        prefix = keyFilter;
-      }
-      rv.put(prefix, h);
-    }
-    return rv;
-  }
-
 
     /**
      * Returns {@code true} if the given token is an option
@@ -758,6 +734,10 @@ public class CmdLineParser {
         }
     }
 
+    public void setUseEqualsForOptionsUsage(boolean useEqualsForOptionsUsage) {
+        this.useEqualsForOptionsUsage = useEqualsForOptionsUsage;
+    }
+
     /** Sets the width of the usage output.
      * @param usageWidth the width of the usage output in columns.
      * @throws IllegalArgumentException if {@code usageWidth} is negative
@@ -817,13 +797,11 @@ public class CmdLineParser {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb));
+		pw.print(h.getNameAndMeta(rb, useEqualsForOptionsUsage));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}
 		if (!h.option.required())
 			pw.print(']');
 	}
-
-    private static final Logger LOGGER = Logger.getLogger(CmdLineParser.class.getName());
 }
