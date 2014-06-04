@@ -734,6 +734,10 @@ public class CmdLineParser {
         }
     }
 
+    /**
+     * Set whether usage for options should show space or equals sign between name and meta.
+     * Default is false (space delimiter).
+     */
     public void setUseEqualsForOptionsUsage(boolean useEqualsForOptionsUsage) {
         this.useEqualsForOptionsUsage = useEqualsForOptionsUsage;
     }
