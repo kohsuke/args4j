@@ -387,7 +387,7 @@ public class CmdLineParser {
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
     		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
 			String usage       = (i >= usages.size())        ? "" : usages.get(i);
-			String format      = (nameAndMeta.length() > 0)
+			String format      = ((nameAndMeta.length() > 0) && (i == 0))
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
@@ -415,7 +415,7 @@ public class CmdLineParser {
                 int lineLength;
                 String candidate = restOfLine.substring(0, maxLength);
                 int sp=candidate.lastIndexOf(' ');
-                if(sp>maxLength*3/4)    lineLength=sp;
+                if(sp>maxLength*3/5)    lineLength=sp;
                 else                    lineLength=maxLength;
                 rv.add(restOfLine.substring(0, lineLength));
                 restOfLine = restOfLine.substring(lineLength).trim();
