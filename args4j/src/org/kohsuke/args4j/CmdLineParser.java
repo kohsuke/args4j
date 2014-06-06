@@ -93,7 +93,7 @@ public class CmdLineParser {
      */
     public CmdLineParser(Object bean) {
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
-        this(bean, true);
+        this(bean, ParserProperties.defaults());
     }
 
     /**
@@ -106,15 +106,12 @@ public class CmdLineParser {
      *      this object will receive values. If this is {@code null}, the processing will
      *      be skipped, which is useful if you'd like to feed metadata from other sources.
      *
-     * @param sortOptions
-     *      If true, options are sorted in alphabetical order for usage output,
-     *      while arguments are in specified order. If false, options are also shown
-     *      in specified order.
+     * @param parserProperties various settings for this class
      *
      * @throws IllegalAnnotationError
      *      if the option bean class is using args4j annotations incorrectly.
      */
-    public CmdLineParser(Object bean, boolean sortOptions) {
+    public CmdLineParser(Object bean, ParserProperties parserProperties) {
         // A 'return' in the constructor just skips the rest of the implementation
         // and returns the new object directly.
         if (bean==null) return;
@@ -122,7 +119,7 @@ public class CmdLineParser {
         // Parse the metadata and create the setters
         new ClassParser().parse(bean,this);
 
-        if (sortOptions) {
+        if (parserProperties.shouldSortOptions()) {
             // for display purposes, keep the arguments in argument order, but sort the options in alphabetical order
             Collections.sort(options, new Comparator<OptionHandler>() {
                 public int compare(OptionHandler o1, OptionHandler o2) {
@@ -130,6 +127,7 @@ public class CmdLineParser {
                 }
             });
         }
+        setUsageWidth(parserProperties.getUsageWidth());
     }
 
     /** This method is similar to {@code Objects.requireNonNull()}.
