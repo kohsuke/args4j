@@ -79,7 +79,7 @@ public class CmdLineParser {
     /**
      * Whether usage for options should show space or equals sign between name and meta.
      */
-    private boolean useEqualsForOptionsUsage = false;
+    private boolean useEqualsForOptionsDisplay = false;
 
     /**
      * Creates a new command line owner that
@@ -104,10 +104,10 @@ public class CmdLineParser {
 
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
         Collections.sort(options, new Comparator<OptionHandler>() {
-			public int compare(OptionHandler o1, OptionHandler o2) {
-				return o1.option.toString().compareTo(o2.option.toString());
-			}
-		});
+            public int compare(OptionHandler o1, OptionHandler o2) {
+                return o1.option.toString().compareTo(o2.option.toString());
+            }
+        });
     }
     
     /** This method is similar to {@code Objects.requireNonNull()}.
@@ -286,7 +286,7 @@ public class CmdLineParser {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb, useEqualsForOptionsUsage));
+            buf.append(h.getNameAndMeta(rb, useEqualsForOptionsDisplay));
         }
 
         return buf.toString();
@@ -380,7 +380,7 @@ public class CmdLineParser {
     	int widthUsage    = usageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptionsUsage), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptionsDisplay), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -429,7 +429,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
 
-		return h.getNameAndMeta(rb, useEqualsForOptionsUsage).length();
+		return h.getNameAndMeta(rb, useEqualsForOptionsDisplay).length();
 	}
 
     /**
@@ -738,8 +738,8 @@ public class CmdLineParser {
      * Set whether usage for options should show space or equals sign between name and meta.
      * Default is false (space delimiter).
      */
-    public void setUseEqualsForOptionsUsage(boolean useEqualsForOptionsUsage) {
-        this.useEqualsForOptionsUsage = useEqualsForOptionsUsage;
+    public void setUseEqualsForOptionsDisplay(boolean useEqualsForOptionsDisplay) {
+        this.useEqualsForOptionsDisplay = useEqualsForOptionsDisplay;
     }
 
     /** Sets the width of the usage output.
@@ -801,7 +801,7 @@ public class CmdLineParser {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb, useEqualsForOptionsUsage));
+		pw.print(h.getNameAndMeta(rb, useEqualsForOptionsDisplay));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}
