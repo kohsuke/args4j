@@ -2,6 +2,8 @@ package org.kohsuke.args4j;
 
 /**
  *This class provides a new way to set various options for CmdLineParser, passing them in to the constructor.
+ * Would have named it ParserOptions, but the term Option could be confusing in this context.
+ * Property is only a bit less confusing.
  */
 public class ParserProperties {
 

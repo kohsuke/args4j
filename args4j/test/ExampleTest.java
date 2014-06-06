@@ -1,8 +1,5 @@
 import junit.framework.TestCase;
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.ExampleMode;
-import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.*;
 
 import java.io.File;
 import java.net.InetAddress;
@@ -14,6 +11,11 @@ import java.util.Locale;
  * @author Kohsuke Kawaguchi
  */
 public class ExampleTest extends TestCase {
+    // DOr sort test, start with these not in alphabetical order
+
+    @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
+    boolean h;
+
     @Option(required = true, name = "-a", usage = "this is X")
     int x;
 
@@ -23,9 +25,6 @@ public class ExampleTest extends TestCase {
     @Option(name = "-c", usage = "this is Z")
     InetAddress z;
 
-    @Option(name = "-h", usage = "this is H", forbids={"-b", "-c"})
-    boolean h;
-    
     private Locale oldDefault;
     
     @Override
@@ -85,5 +84,11 @@ public class ExampleTest extends TestCase {
         } catch (CmdLineException e) {
             assertEquals("option \"-h\" cannot be used with the option(s) [-b, -c]", e.getMessage());
         }
+    }
+
+    public void testNoOptionsSort() {
+        ParserProperties properties = ParserProperties.defaults().shouldSortOptions(false);
+        String s = new CmdLineParser(this, properties).printExample(ExampleMode.ALL);
+        assertEquals(" -h -a N -b <output> -c IP ADDRESS", s);
     }
 }
