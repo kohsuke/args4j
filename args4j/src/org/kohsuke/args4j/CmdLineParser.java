@@ -73,10 +73,8 @@ public class CmdLineParser {
 	/**
 	 *  The length of a usage line.
 	 *  If the usage message is longer than this value, the parser wraps the line.
-     *
-     *  Defaults to {@code 80}.
 	 */
-	private int usageWidth = 80;
+	private int usageWidth;
 
     /**
      * Creates a new command line owner that
