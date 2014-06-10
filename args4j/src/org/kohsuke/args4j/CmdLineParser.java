@@ -1,6 +1,9 @@
 package org.kohsuke.args4j;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
@@ -504,7 +507,8 @@ public class CmdLineParser {
         
         checkNonNull(args, "args");
         
-        CmdLineImpl cmdLine = new CmdLineImpl(args);
+        String expandedArgs[] = expandAtFiles(args);
+        CmdLineImpl cmdLine = new CmdLineImpl(expandedArgs);
 
         Set<OptionHandler> present = new HashSet<OptionHandler>();
         int argIndex = 0;
@@ -557,6 +561,54 @@ public class CmdLineParser {
         if (! helpSet) {
             checkRequiredOptionsAndArguments(present);
         }
+    }
+    
+    /**
+     * Expands every entry prefixed with the AT sign by
+     * reading the file. The AT sign is used to reference
+     * another file that contains command line options separated
+     * by line breaks. 
+     * @param args the command line arguments to be preprocessed.
+     * @return args with the @ sequences replaced by the text files referenced
+     * by the @ sequences, split around the line breaks.
+     * @throws CmdLineException 
+     */
+    private String[] expandAtFiles(String args[]) throws CmdLineException {
+        List<String> result = new ArrayList<String>();
+        for (String arg : args) {
+            if (arg.startsWith("@")) {
+                String fileS = arg.substring(1);
+                File file = new File(fileS);
+                List<String> lines;
+                try {
+                    lines = readAllLines(file);
+                } catch (IOException ex) {
+                    throw new CmdLineException(this, ex);
+                }
+                result.addAll(lines);
+            } else {
+                result.add(arg);
+            }
+        }
+        return result.toArray(new String[result.size()]);
+    }
+    
+    /** Reads all lines of a file with the platform encoding. */
+    private static List<String> readAllLines(File f) throws IOException {
+        FileReader fileReader = new FileReader(f);
+        BufferedReader bufferedReader = new BufferedReader(fileReader);
+        String line;
+
+        List<String> result = new ArrayList<String>();
+        try {
+            while ((line = bufferedReader.readLine()) != null) {
+                result.add(line);
+            }
+        } 
+        finally {
+            bufferedReader.close();
+        }
+        return result;
     }
 
     private void checkRequiredOptionsAndArguments(Set<OptionHandler> present) throws CmdLineException {
