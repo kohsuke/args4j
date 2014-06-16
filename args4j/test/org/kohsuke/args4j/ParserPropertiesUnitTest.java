@@ -6,25 +6,25 @@ public class ParserPropertiesUnitTest extends TestCase {
     public void testDefaults() {
         ParserProperties props = ParserProperties.defaults();
         assertEquals(80, props.getUsageWidth());
-        assertEquals(true, props.shouldSortOptions());
+        assertEquals(true, props.willSortOptions());
     }
 
     public void testSetToSame() {
-        ParserProperties props = ParserProperties.defaults().withUsageWidth(80).shouldSortOptions(true);
+        ParserProperties props = ParserProperties.defaults().withUsageWidth(80).doSortOptions(true);
         assertEquals(80, props.getUsageWidth());
-        assertEquals(true, props.shouldSortOptions());
+        assertEquals(true, props.willSortOptions());
     }
 
     public void testSetToDifferent() {
-        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).shouldSortOptions(false);
+        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).doSortOptions(false);
         assertEquals(90, props.getUsageWidth());
-        assertEquals(false, props.shouldSortOptions());
+        assertEquals(false, props.willSortOptions());
     }
 
     public void testSetOnlyOne() {
-        ParserProperties props = ParserProperties.defaults().shouldSortOptions(false);
+        ParserProperties props = ParserProperties.defaults().doSortOptions(false);
         assertEquals(80, props.getUsageWidth());
-        assertEquals(false, props.shouldSortOptions());
+        assertEquals(false, props.willSortOptions());
     }
 
     public void testFailOnNegativeWidth() {
@@ -46,8 +46,8 @@ public class ParserPropertiesUnitTest extends TestCase {
 
     public void testEachIsImmutable() {
         ParserProperties firstProps = ParserProperties.defaults();
-        ParserProperties secondProps = firstProps.shouldSortOptions(false);
-        assertEquals("changing property mutated original", true, firstProps.shouldSortOptions());
-        assertEquals(false, secondProps.shouldSortOptions());
+        ParserProperties secondProps = firstProps.doSortOptions(false);
+        assertEquals("changing property mutated original", true, firstProps.willSortOptions());
+        assertEquals(false, secondProps.willSortOptions());
     }
 }

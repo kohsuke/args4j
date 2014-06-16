@@ -22,7 +22,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.logging.Logger;
 import java.util.regex.Pattern;
 
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
@@ -71,10 +70,9 @@ public class CmdLineParser {
     private OptionHandler currentOptionHandler = null;
 
 	/**
-	 *  The length of a usage line.
-	 *  If the usage message is longer than this value, the parser wraps the line.
+     * settings for the parser
 	 */
-	private int usageWidth;
+	private ParserProperties parserProperties;
 
     /**
      * Creates a new command line owner that
@@ -117,7 +115,7 @@ public class CmdLineParser {
         // Parse the metadata and create the setters
         new ClassParser().parse(bean,this);
 
-        if (parserProperties.shouldSortOptions()) {
+        if (parserProperties.willSortOptions()) {
             // for display purposes, keep the arguments in argument order, but sort the options in alphabetical order
             Collections.sort(options, new Comparator<OptionHandler>() {
                 public int compare(OptionHandler o1, OptionHandler o2) {
@@ -394,8 +392,9 @@ public class CmdLineParser {
     	}
 
     	// What is the width of the two data columns
-    	int widthMetadata = Math.min(len, (usageWidth - 4) / 2);
-    	int widthUsage    = usageWidth - 4 - widthMetadata;
+        int totalUsageWidth = parserProperties.getUsageWidth();
+    	int widthMetadata = Math.min(len, (totalUsageWidth - 4) / 2);
+    	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
 
     	// Line wrapping
     	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
@@ -784,9 +783,7 @@ public class CmdLineParser {
      * @throws IllegalArgumentException if {@code usageWidth} is negative
      */
 	public void setUsageWidth(int usageWidth) {
-        if (usageWidth < 0)
-            throw new IllegalArgumentException("Usage width is negative");
-		this.usageWidth = usageWidth;
+        parserProperties = parserProperties.withUsageWidth(usageWidth);
 	}
 
     /** Signals the parser that parsing the options has finished.
@@ -821,6 +818,7 @@ public class CmdLineParser {
      *      as a key to obtain the actual message from this resource bundle.
      * @throws NullPointerException if {@code w} is {@code null}.
      */
+    // TODO test this!
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
         checkNonNull(w, "Writer");
         
@@ -845,6 +843,4 @@ public class CmdLineParser {
 		if (!h.option.required())
 			pw.print(']');
 	}
-
-    private static final Logger LOGGER = Logger.getLogger(CmdLineParser.class.getName());
 }

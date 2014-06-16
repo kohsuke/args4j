@@ -11,11 +11,11 @@ public class ParserProperties {
     private static final boolean DEFAULT_SHOULD_SORT_OPTIONS = true;
 
     private final int usageWidth;
-    private final boolean shouldSortOptions;
+    private final boolean doSortOptions;
 
     private ParserProperties(int usageWidth, boolean sortOptions) {
         this.usageWidth = usageWidth;
-        this.shouldSortOptions = sortOptions;
+        this.doSortOptions = sortOptions;
     }
 
     public static ParserProperties defaults() {
@@ -36,7 +36,7 @@ public class ParserProperties {
             throw new IllegalArgumentException("Usage width is negative");
         if (this.usageWidth == usageWidth)
             return this;
-        return new ParserProperties(usageWidth, this.shouldSortOptions);
+        return new ParserProperties(usageWidth, this.doSortOptions);
     }
 
     /**
@@ -47,15 +47,15 @@ public class ParserProperties {
     }
 
     /**
-     * @param shouldSortOptions
+     * @param doSortOptions
      *      If true, options are sorted in alphabetical order for display purposes,
      *      while arguments are in defined order. If false, options are also shown
      *      in defined order.
      */
-    public ParserProperties shouldSortOptions(boolean shouldSortOptions) {
-        if (this.shouldSortOptions == shouldSortOptions)
+    public ParserProperties doSortOptions(boolean doSortOptions) {
+        if (this.doSortOptions == doSortOptions)
             return this;
-        return new ParserProperties(this.usageWidth, shouldSortOptions);
+        return new ParserProperties(this.usageWidth, doSortOptions);
     }
 
     /**
@@ -64,7 +64,7 @@ public class ParserProperties {
      *      while arguments are in defined order; false means options are also shown
      *      in defined order.
      */
-    public boolean shouldSortOptions() {
-        return shouldSortOptions;
+    public boolean willSortOptions() {
+        return doSortOptions;
     }
 }
