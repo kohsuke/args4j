@@ -108,6 +108,7 @@ public class CmdLineParser {
      *      if the option bean class is using args4j annotations incorrectly.
      */
     public CmdLineParser(Object bean, ParserProperties parserProperties) {
+        this.parserProperties = parserProperties;
         // A 'return' in the constructor just skips the rest of the implementation
         // and returns the new object directly.
         if (bean==null) return;
@@ -123,7 +124,6 @@ public class CmdLineParser {
                 }
             });
         }
-        setUsageWidth(parserProperties.getUsageWidth());
     }
 
     /** This method is similar to {@code Objects.requireNonNull()}.
