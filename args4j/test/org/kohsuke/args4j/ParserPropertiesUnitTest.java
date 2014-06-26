@@ -6,25 +6,25 @@ public class ParserPropertiesUnitTest extends TestCase {
     public void testDefaults() {
         ParserProperties props = ParserProperties.defaults();
         assertEquals(80, props.getUsageWidth());
-        assertEquals(true, props.willSortOptions());
+        assertEquals(true, props.shouldSortOptions());
     }
 
     public void testSetToSame() {
-        ParserProperties props = ParserProperties.defaults().withUsageWidth(80).doSortOptions(true);
+        ParserProperties props = ParserProperties.defaults().withUsageWidth(80).shouldSortOptions(true);
         assertEquals(80, props.getUsageWidth());
-        assertEquals(true, props.willSortOptions());
+        assertEquals(true, props.shouldSortOptions());
     }
 
     public void testSetToDifferent() {
-        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).doSortOptions(false);
+        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).shouldSortOptions(false);
         assertEquals(90, props.getUsageWidth());
-        assertEquals(false, props.willSortOptions());
+        assertEquals(false, props.shouldSortOptions());
     }
 
     public void testSetOnlyOne() {
-        ParserProperties props = ParserProperties.defaults().doSortOptions(false);
+        ParserProperties props = ParserProperties.defaults().shouldSortOptions(false);
         assertEquals(80, props.getUsageWidth());
-        assertEquals(false, props.willSortOptions());
+        assertEquals(false, props.shouldSortOptions());
     }
 
     public void testFailOnNegativeWidth() {
@@ -42,12 +42,5 @@ public class ParserPropertiesUnitTest extends TestCase {
         } catch (IllegalArgumentException x) {
             fail("rejected zero width");
         }
-    }
-
-    public void testEachIsImmutable() {
-        ParserProperties firstProps = ParserProperties.defaults();
-        ParserProperties secondProps = firstProps.doSortOptions(false);
-        assertEquals("changing property mutated original", true, firstProps.willSortOptions());
-        assertEquals(false, secondProps.willSortOptions());
     }
 }

@@ -116,7 +116,7 @@ public class CmdLineParser {
         // Parse the metadata and create the setters
         new ClassParser().parse(bean,this);
 
-        if (parserProperties.willSortOptions()) {
+        if (parserProperties.shouldSortOptions()) {
             // for display purposes, keep the arguments in argument order, but sort the options in alphabetical order
             Collections.sort(options, new Comparator<OptionHandler>() {
                 public int compare(OptionHandler o1, OptionHandler o2) {

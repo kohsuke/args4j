@@ -10,16 +10,14 @@ public class ParserProperties {
     private static final int DEFAULT_USAGE_WIDTH = 80;
     private static final boolean DEFAULT_SHOULD_SORT_OPTIONS = true;
 
-    private final int usageWidth;
-    private final boolean doSortOptions;
+    private int usageWidth = DEFAULT_USAGE_WIDTH;
+    private boolean shouldSortOptions = DEFAULT_SHOULD_SORT_OPTIONS;
 
-    private ParserProperties(int usageWidth, boolean sortOptions) {
-        this.usageWidth = usageWidth;
-        this.doSortOptions = sortOptions;
+    private ParserProperties() {
     }
 
     public static ParserProperties defaults() {
-        return new ParserProperties(DEFAULT_USAGE_WIDTH, DEFAULT_SHOULD_SORT_OPTIONS);
+        return new ParserProperties();
     }
 
     /**
@@ -34,28 +32,26 @@ public class ParserProperties {
     public ParserProperties withUsageWidth(int usageWidth) {
         if (usageWidth < 0)
             throw new IllegalArgumentException("Usage width is negative");
-        if (this.usageWidth == usageWidth)
-            return this;
-        return new ParserProperties(usageWidth, this.doSortOptions);
+        this.usageWidth = usageWidth;
+        return this;
     }
 
     /**
      * @return the width of a usage line.
      */
-    public int getUsageWidth() {
+    int getUsageWidth() {
         return usageWidth;
     }
 
     /**
-     * @param doSortOptions
+     * @param shouldSortOptions
      *      If true, options are sorted in alphabetical order for display purposes,
      *      while arguments are in defined order. If false, options are also shown
      *      in defined order.
      */
-    public ParserProperties doSortOptions(boolean doSortOptions) {
-        if (this.doSortOptions == doSortOptions)
-            return this;
-        return new ParserProperties(this.usageWidth, doSortOptions);
+    public ParserProperties shouldSortOptions(boolean shouldSortOptions) {
+        this.shouldSortOptions = shouldSortOptions;
+        return this;
     }
 
     /**
@@ -64,7 +60,7 @@ public class ParserProperties {
      *      while arguments are in defined order; false means options are also shown
      *      in defined order.
      */
-    public boolean willSortOptions() {
-        return doSortOptions;
+    boolean shouldSortOptions() {
+        return shouldSortOptions;
     }
 }
