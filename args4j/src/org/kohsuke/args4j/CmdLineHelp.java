@@ -11,13 +11,16 @@ import org.kohsuke.args4j.spi.OptionHandler;
 
 /**
  * Displays command line help in various ways.
+ * Is created using {@link CmdLineParser#createCmdLineHelp() }.
  * @author Stephan Fuhrmann
  */
 public class CmdLineHelp {
     private final CmdLineParser cmdLineParser;
     private final ParserProperties props;
 
-    public CmdLineHelp(CmdLineParser cmdLineParser, ParserProperties props) {
+    /** Is created using {@link CmdLineParser#createCmdLineHelp() }.
+     */
+    CmdLineHelp(CmdLineParser cmdLineParser, ParserProperties props) {
         this.cmdLineParser = cmdLineParser;
         this.props = props;
     }
