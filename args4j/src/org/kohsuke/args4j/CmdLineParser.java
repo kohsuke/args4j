@@ -110,7 +110,8 @@ public class CmdLineParser {
         Utilities.checkNonNull(setter, "Setter");
         Utilities.checkNonNull(a, "Argument");
         
-        OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
+        OptionHandler h = OptionHandlerRegistry.getRegistry().createOptionHandler(this,
+                new OptionDef(a,setter.isMultiValued()),setter);
     	int index = a.index();
     	// make sure the argument will fit in the list
     	while (index >= arguments.size()) {
@@ -138,7 +139,8 @@ public class CmdLineParser {
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
         }
-        options.add(createOptionHandler(new NamedOptionDef(o), setter));
+        options.add(OptionHandlerRegistry.getRegistry().createOptionHandler(
+                this, new NamedOptionDef(o), setter));
     }
 
     /**
@@ -166,6 +168,7 @@ public class CmdLineParser {
     /**
      * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
      * and the {@link Setter} instance.
+     * @deprecated You should use {@link OptionHandlerRegistry#createOptionHandler(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.OptionDef, org.kohsuke.args4j.spi.Setter) } instead.
      */
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
         Utilities.checkNonNull(o, "OptionDef");
@@ -695,6 +698,7 @@ public class CmdLineParser {
      *      {@link OptionHandler#OptionHandler(CmdLineParser, OptionDef, Setter)}
      * @throws NullPointerException if {@code valueType} or {@code handlerClass} is {@code null}.
      * @throws IllegalArgumentException if {@code handlerClass} is not a subtype of {@code OptionHandler}.
+     * @deprecated You should use {@link OptionHandlerRegistry#registerHandler(java.lang.Class, java.lang.Class)} instead.
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
         Utilities.checkNonNull(valueType, "valueType");
