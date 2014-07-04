@@ -104,10 +104,10 @@ public class CmdLineParser {
 
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
         Collections.sort(options, new Comparator<OptionHandler>() {
-			public int compare(OptionHandler o1, OptionHandler o2) {
-				return o1.option.toString().compareTo(o2.option.toString());
-			}
-		});
+            public int compare(OptionHandler o1, OptionHandler o2) {
+                return o1.option.toString().compareTo(o2.option.toString());
+            }
+        });
     }
     
     /** This method is similar to {@code Objects.requireNonNull()}.
@@ -297,7 +297,7 @@ public class CmdLineParser {
      *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
      */
     public String printExample(ExampleMode mode, ResourceBundle rb) {
-        return printExample((OptionHandlerFilter)mode,rb);
+        return printExample((OptionHandlerFilter) mode, rb);
     }
 
     /**
@@ -558,7 +558,7 @@ public class CmdLineParser {
             }
         }
 
-        if (! helpSet) {
+        if (!helpSet) {
             checkRequiredOptionsAndArguments(present);
         }
     }
@@ -577,15 +577,14 @@ public class CmdLineParser {
         List<String> result = new ArrayList<String>();
         for (String arg : args) {
             if (arg.startsWith("@")) {
-                String fileS = arg.substring(1);
-                File file = new File(fileS);
-                List<String> lines;
+                File file = new File(arg.substring(1));
+                if (!file.exists())
+                    throw new CmdLineException(this,Messages.NO_SUCH_FILE,file.getPath());
                 try {
-                    lines = readAllLines(file);
+                    result.addAll(readAllLines(file));
                 } catch (IOException ex) {
-                    throw new CmdLineException(this, ex);
+                    throw new CmdLineException(this, "Failed to parse "+file,ex);
                 }
-                result.addAll(lines);
             } else {
                 result.add(arg);
             }
@@ -593,22 +592,21 @@ public class CmdLineParser {
         return result.toArray(new String[result.size()]);
     }
     
-    /** Reads all lines of a file with the platform encoding. */
+    /**
+     * Reads all lines of a file with the platform encoding.
+     */
     private static List<String> readAllLines(File f) throws IOException {
-        FileReader fileReader = new FileReader(f);
-        BufferedReader bufferedReader = new BufferedReader(fileReader);
-        String line;
-
-        List<String> result = new ArrayList<String>();
+        BufferedReader r = new BufferedReader(new FileReader(f));
         try {
-            while ((line = bufferedReader.readLine()) != null) {
+            List<String> result = new ArrayList<String>();
+            String line;
+            while ((line = r.readLine()) != null) {
                 result.add(line);
             }
-        } 
-        finally {
-            bufferedReader.close();
+            return result;
+        }  finally {
+            r.close();
         }
-        return result;
     }
 
     private void checkRequiredOptionsAndArguments(Set<OptionHandler> present) throws CmdLineException {
@@ -841,7 +839,7 @@ public class CmdLineParser {
 	public void printSingleLineUsage(OutputStream out) {
         checkNonNull(out, "OutputStream");
         
-		printSingleLineUsage(new OutputStreamWriter(out),null);
+		printSingleLineUsage(new OutputStreamWriter(out), null);
 	}
 
     /**
