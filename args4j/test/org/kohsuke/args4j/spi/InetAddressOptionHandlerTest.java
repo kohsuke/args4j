@@ -23,7 +23,7 @@ public class InetAddressOptionHandlerTest extends TestCase {
 		assertEquals(expectedIp, ip);
 	}
 
-	public void tignoreestParseFailure() throws Exception {
+	public void testParseFailure() throws Exception {
 		try {
 		handler.parse("bogus.ip.address.nosuch.");
 		} catch (CmdLineException e) {
