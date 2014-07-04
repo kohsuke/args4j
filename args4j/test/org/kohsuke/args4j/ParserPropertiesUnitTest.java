@@ -6,25 +6,25 @@ public class ParserPropertiesUnitTest extends TestCase {
     public void testDefaults() {
         ParserProperties props = ParserProperties.defaults();
         assertEquals(80, props.getUsageWidth());
-        assertEquals(ParserProperties.DEFAULT_COMPARATOR, props.optionSorter());
+        assertEquals(ParserProperties.DEFAULT_COMPARATOR, props.getOptionSorter());
     }
 
     public void testSetToSame() {
         ParserProperties props = ParserProperties.defaults().withUsageWidth(80);
         assertEquals(80, props.getUsageWidth());
-        assertEquals(ParserProperties.DEFAULT_COMPARATOR, props.optionSorter());
+        assertEquals(ParserProperties.DEFAULT_COMPARATOR, props.getOptionSorter());
     }
 
     public void testSetToDifferent() {
-        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).optionSorter(null);
+        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).withOptionSorter(null);
         assertEquals(90, props.getUsageWidth());
-        assertEquals(null, props.optionSorter());
+        assertEquals(null, props.getOptionSorter());
     }
 
     public void testSetOnlyOne() {
-        ParserProperties props = ParserProperties.defaults().optionSorter(null);
+        ParserProperties props = ParserProperties.defaults().withOptionSorter(null);
         assertEquals(80, props.getUsageWidth());
-        assertEquals(null, props.optionSorter());
+        assertEquals(null, props.getOptionSorter());
     }
 
     public void testFailOnNegativeWidth() {

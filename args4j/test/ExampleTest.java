@@ -87,7 +87,7 @@ public class ExampleTest extends TestCase {
     }
 
     public void testNoOptionsSort() {
-        ParserProperties properties = ParserProperties.defaults().optionSorter(null);
+        ParserProperties properties = ParserProperties.defaults().withOptionSorter(null);
         String s = new CmdLineParser(this, properties).printExample(ExampleMode.ALL);
         assertEquals(" -h -a N -b <output> -c IP ADDRESS", s);
     }

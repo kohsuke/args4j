@@ -53,7 +53,7 @@ public class ParserProperties {
      * @param sorter
      *      If non-null, options are sorted in the order induced by this comparator.
      */
-    public ParserProperties optionSorter(Comparator<OptionHandler> sorter) {
+    public ParserProperties withOptionSorter(Comparator<OptionHandler> sorter) {
         this.optionSorter = sorter;
         return this;
     }
@@ -64,7 +64,7 @@ public class ParserProperties {
      *      Otherwise the returned comparator is used to sort options.
      *      The default value is a comparator that sorts options alphabetically.
      */
-    Comparator<OptionHandler> optionSorter() {
+    Comparator<OptionHandler> getOptionSorter() {
         return optionSorter;
     }
 

@@ -117,8 +117,8 @@ public class CmdLineParser {
         // Parse the metadata and create the setters
         new ClassParser().parse(bean,this);
 
-        if (parserProperties.optionSorter()!=null) {
-            Collections.sort(options, parserProperties.optionSorter());
+        if (parserProperties.getOptionSorter()!=null) {
+            Collections.sort(options, parserProperties.getOptionSorter());
         }
     }
 
