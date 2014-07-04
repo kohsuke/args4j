@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -116,13 +115,8 @@ public class CmdLineParser {
         // Parse the metadata and create the setters
         new ClassParser().parse(bean,this);
 
-        if (parserProperties.shouldSortOptions()) {
-            // for display purposes, keep the arguments in argument order, but sort the options in alphabetical order
-            Collections.sort(options, new Comparator<OptionHandler>() {
-                public int compare(OptionHandler o1, OptionHandler o2) {
-                    return o1.option.toString().compareTo(o2.option.toString());
-                }
-            });
+        if (parserProperties.optionSorter()!=null) {
+            Collections.sort(options, parserProperties.optionSorter());
         }
     }
 

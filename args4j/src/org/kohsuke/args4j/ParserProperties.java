@@ -1,5 +1,9 @@
 package org.kohsuke.args4j;
 
+import org.kohsuke.args4j.spi.OptionHandler;
+
+import java.util.Comparator;
+
 /**
  * Set of properties that controls {@link CmdLineParser} behaviours.
  *
@@ -8,10 +12,9 @@ package org.kohsuke.args4j;
 public class ParserProperties {
 
     private static final int DEFAULT_USAGE_WIDTH = 80;
-    private static final boolean DEFAULT_SHOULD_SORT_OPTIONS = true;
 
     private int usageWidth = DEFAULT_USAGE_WIDTH;
-    private boolean shouldSortOptions = DEFAULT_SHOULD_SORT_OPTIONS;
+    private Comparator<OptionHandler> optionSorter = DEFAULT_COMPARATOR;
 
     private ParserProperties() {
     }
@@ -44,23 +47,29 @@ public class ParserProperties {
     }
 
     /**
-     * @param shouldSortOptions
-     *      If true, options are sorted in alphabetical order for display purposes,
-     *      while arguments are in defined order. If false, options are also shown
-     *      in defined order.
+     * Controls how options are sorted in the usage screen.
+     *
+     * @param sorter
+     *      If non-null, options are sorted in the order induced by this comparator.
      */
-    public ParserProperties shouldSortOptions(boolean shouldSortOptions) {
-        this.shouldSortOptions = shouldSortOptions;
+    public ParserProperties optionSorter(Comparator<OptionHandler> sorter) {
+        this.optionSorter = sorter;
         return this;
     }
 
     /**
      * @return
-     *      True means options are sorted in alphabetical order for display purposes,
-     *      while arguments are in defined order; false means options are also shown
-     *      in defined order.
+     *      null if options are left unsorted and should be listed by their discovery order.
+     *      Otherwise the returned comparator is used to sort options.
+     *      The default value is a comparator that sorts options alphabetically.
      */
-    boolean shouldSortOptions() {
-        return shouldSortOptions;
+    Comparator<OptionHandler> optionSorter() {
+        return optionSorter;
     }
+
+    static final Comparator<OptionHandler> DEFAULT_COMPARATOR = new Comparator<OptionHandler>() {
+        public int compare(OptionHandler o1, OptionHandler o2) {
+            return o1.option.toString().compareTo(o2.option.toString());
+        }
+    };
 }
