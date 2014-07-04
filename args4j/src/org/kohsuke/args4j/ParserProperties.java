@@ -15,6 +15,7 @@ public class ParserProperties {
 
     private int usageWidth = DEFAULT_USAGE_WIDTH;
     private Comparator<OptionHandler> optionSorter = DEFAULT_COMPARATOR;
+    private boolean useEqualsForOptionsDisplay;
 
     private ParserProperties() {
     }
@@ -65,6 +66,19 @@ public class ParserProperties {
      */
     Comparator<OptionHandler> optionSorter() {
         return optionSorter;
+    }
+
+    /**
+     * Set whether usage for options should show space or equals sign between name and meta.
+     * Default is false (space delimiter).
+     */
+    public ParserProperties withEqualsForOptions(boolean useEqualsForOptionsDisplay) {
+        this.useEqualsForOptionsDisplay = useEqualsForOptionsDisplay;
+        return this;
+    }
+
+    public boolean getEqualsForOptions() {
+        return this.useEqualsForOptionsDisplay;
     }
 
     static final Comparator<OptionHandler> DEFAULT_COMPARATOR = new Comparator<OptionHandler>() {

@@ -1,11 +1,12 @@
 package org.kohsuke.args4j.spi;
 
-import java.util.Collection;
-import java.util.ResourceBundle;
-
-import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
+import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.ParserProperties;
+
+import java.util.Collection;
+import java.util.ResourceBundle;
 
 
 /**
@@ -95,21 +96,22 @@ public abstract class OptionHandler<T> {
      * @param rb ResourceBundle to get localized version of meta string
      */
     public final String getNameAndMeta(ResourceBundle rb) {
-        return getNameAndMeta(rb, false);
+        return getNameAndMeta(rb, ParserProperties.defaults());
     }
 
     /**
      * Get string representing usage for this option, of the form "name metaval" or "name=metaval,
      * e.g. "--foo VALUE" or "--foo=VALUE"
      * @param rb ResourceBundle to get localized version of meta string
-     * @param useEqualsForOptions if true, separator is '=' rather than ' '
+     * @param properties
+     *      Affects the formatting behaviours.
      */
-    public final String getNameAndMeta(ResourceBundle rb, boolean useEqualsForOptions) {
+    public final String getNameAndMeta(ResourceBundle rb, ParserProperties properties) {
     	String str = option.isArgument() ? "" : option.toString();
     	String meta = getMetaVariable(rb);
     	if (meta != null) {
     		if (str.length() > 0) {
-    			str += (useEqualsForOptions ? "=" : " ");
+    			str += (properties.getEqualsForOptions() ? "=" : " ");
     		}
     		str += meta;
     	}

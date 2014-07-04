@@ -76,11 +76,6 @@ public class CmdLineParser {
 	private ParserProperties parserProperties;
 
     /**
-     * Whether usage for options should show space or equals sign between name and meta.
-     */
-    private boolean useEqualsForOptionsDisplay = false;
-
-    /**
      * Creates a new command line owner that
      * parses arguments/options and set them into
      * the given object.
@@ -303,7 +298,7 @@ public class CmdLineParser {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb, useEqualsForOptionsDisplay));
+            buf.append(h.getNameAndMeta(rb, parserProperties));
         }
 
         return buf.toString();
@@ -398,7 +393,7 @@ public class CmdLineParser {
     	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, useEqualsForOptionsDisplay), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, parserProperties), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -447,7 +442,7 @@ public class CmdLineParser {
 		if(h.option.usage().length()==0)
 			return 0;
 
-		return h.getNameAndMeta(rb, useEqualsForOptionsDisplay).length();
+		return h.getNameAndMeta(rb, parserProperties).length();
 	}
 
     /**
@@ -800,18 +795,7 @@ public class CmdLineParser {
     }
 
     /**
-<<<<<<< HEAD
      * Sets the width of the usage output.
-=======
-     * Set whether usage for options should show space or equals sign between name and meta.
-     * Default is false (space delimiter).
-     */
-    public void setUseEqualsForOptionsDisplay(boolean useEqualsForOptionsDisplay) {
-        this.useEqualsForOptionsDisplay = useEqualsForOptionsDisplay;
-    }
-
-    /** Sets the width of the usage output.
->>>>>>> pull-73
      * @param usageWidth the width of the usage output in columns.
      * @throws IllegalArgumentException if {@code usageWidth} is negative
      * @deprecated
@@ -872,7 +856,7 @@ public class CmdLineParser {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb, useEqualsForOptionsDisplay));
+		pw.print(h.getNameAndMeta(rb, parserProperties));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}
