@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.TreeMap;
 import java.util.regex.Pattern;
 
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
@@ -689,7 +688,7 @@ public class CmdLineParser {
             name = name.substring(0, pos);
 			}
 		return findOptionByName(name);
-		}
+    }
 
 	/**
 	 * Finds a registered {@code OptionHandler} by its name or its alias.
@@ -710,25 +709,6 @@ public class CmdLineParser {
 		}
 		return null;
 	}
-
-    private Map<String, OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
-        Map<String, OptionHandler> rv = new TreeMap<String, OptionHandler>();
-        for (OptionHandler h : opt) {
-            NamedOptionDef option = (NamedOptionDef) h.option;
-            String prefix = "";
-            for (String alias : option.aliases()) {
-                if (keyFilter.startsWith(alias)) {
-                    prefix = keyFilter;
-                    break;
-                }
-            }
-            if (option.name().startsWith(keyFilter)) {
-                prefix = keyFilter;
-            }
-            rv.put(prefix, h);
-        }
-        return rv;
-    }
 
     /**
      * Returns {@code true} if the given token is an option
