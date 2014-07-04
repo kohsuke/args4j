@@ -21,7 +21,8 @@ enum Messages implements Localizable {
     NO_OPTIONHANDLER,
     NO_CONSTRUCTOR_ON_HANDLER,
     REQUIRES_OPTION_MISSING,
-    FORBIDDEN_OPTION_PRESENT
+    FORBIDDEN_OPTION_PRESENT,
+    NO_SUCH_FILE
     ;
 
     public String formatWithLocale( Locale locale, Object... args ) {
