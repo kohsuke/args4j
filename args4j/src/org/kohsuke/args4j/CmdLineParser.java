@@ -160,7 +160,7 @@ public class CmdLineParser {
     	if(arguments.get(index)!=null) {
             throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_ARGUMENT.format(index));
         }
-    	arguments.set(index,h);
+    	arguments.set(index, h);
     }
 
     /**
@@ -261,7 +261,7 @@ public class CmdLineParser {
      *      Use {@link #printExample(OptionHandlerFilter)}
      */
     public String printExample(ExampleMode mode) {
-        return printExample(mode,null);
+        return printExample(mode, null);
     }
 
     /**
@@ -334,7 +334,7 @@ public class CmdLineParser {
      * Short for {@code printUsage(out,rb,OptionHandlerFilter.PUBLIC)}
      */
     public void printUsage(Writer out, ResourceBundle rb) {
-        printUsage(out,rb,OptionHandlerFilter.PUBLIC);
+        printUsage(out, rb, OptionHandlerFilter.PUBLIC);
     }
 
     /**
@@ -669,24 +669,24 @@ public class CmdLineParser {
 	}
 
 
-  private Map<String,OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
-    Map<String,OptionHandler> rv = new TreeMap<String,OptionHandler>();
-    for (OptionHandler h : opt) {
-      NamedOptionDef option = (NamedOptionDef)h.option;
-      String prefix = "";
-      for (String alias : option.aliases()) {
-        if (keyFilter.startsWith(alias)) {
-          prefix = keyFilter;
-          break;
+    private Map<String, OptionHandler> filter(List<OptionHandler> opt, String keyFilter) {
+        Map<String, OptionHandler> rv = new TreeMap<String, OptionHandler>();
+        for (OptionHandler h : opt) {
+            NamedOptionDef option = (NamedOptionDef) h.option;
+            String prefix = "";
+            for (String alias : option.aliases()) {
+                if (keyFilter.startsWith(alias)) {
+                    prefix = keyFilter;
+                    break;
+                }
+            }
+            if (option.name().startsWith(keyFilter)) {
+                prefix = keyFilter;
+            }
+            rv.put(prefix, h);
         }
-      }
-      if (option.name().startsWith(keyFilter)){
-        prefix = keyFilter;
-      }
-      rv.put(prefix, h);
+        return rv;
     }
-    return rv;
-  }
 
 
     /**
@@ -778,7 +778,8 @@ public class CmdLineParser {
         }
     }
 
-    /** Sets the width of the usage output.
+    /**
+     * Sets the width of the usage output.
      * @param usageWidth the width of the usage output in columns.
      * @throws IllegalArgumentException if {@code usageWidth} is negative
      */
@@ -786,7 +787,8 @@ public class CmdLineParser {
         parserProperties = parserProperties.withUsageWidth(usageWidth);
 	}
 
-    /** Signals the parser that parsing the options has finished.
+    /**
+     * Signals the parser that parsing the options has finished.
      * 
      * <p>
      * Everything seen after this call is treaded as an argument
@@ -807,7 +809,7 @@ public class CmdLineParser {
 	public void printSingleLineUsage(OutputStream out) {
         checkNonNull(out, "OutputStream");
         
-		printSingleLineUsage(new OutputStreamWriter(out),null);
+		printSingleLineUsage(new OutputStreamWriter(out), null);
 	}
 
     /**
