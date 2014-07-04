@@ -74,7 +74,7 @@ public abstract class OptionHandler<T> {
      */
     public abstract String getDefaultMetaVariable();
 
-    public final String getMetaVariable(ResourceBundle rb) {
+    public String getMetaVariable(ResourceBundle rb) {
         String token = option.metaVar();
         if(token.length()==0)
             token = getDefaultMetaVariable();

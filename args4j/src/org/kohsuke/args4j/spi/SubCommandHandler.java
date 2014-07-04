@@ -7,6 +7,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 
 import java.util.AbstractList;
+import java.util.ResourceBundle;
 
 /**
  * {@link OptionHandler} used with {@link Argument} for parsing typical "sub-command" pattern.
@@ -148,6 +149,18 @@ public class SubCommandHandler extends OptionHandler<Object> {
 
     @Override
     public String getDefaultMetaVariable() {
-        return Messages.DEFAULT_META_SUB_COMMAND_HANDLER.format();            
+        StringBuffer rv = new StringBuffer();
+        rv.append("[");
+        for (SubCommand sc : commands.value()) {
+            rv.append(sc.name()).append(" | ");
+        }
+        rv.delete(rv.length()-3, rv.length());
+        rv.append("]");
+        return rv.toString();
+    }
+
+    @Override
+    public String getMetaVariable(ResourceBundle rb) {
+        return getDefaultMetaVariable();
     }
 }
