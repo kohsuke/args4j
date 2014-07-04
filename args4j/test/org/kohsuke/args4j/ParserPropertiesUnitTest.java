@@ -16,13 +16,13 @@ public class ParserPropertiesUnitTest extends TestCase {
     }
 
     public void testSetToDifferent() {
-        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).optionSorter(null);
+        ParserProperties props = ParserProperties.defaults().withUsageWidth(90).withOptionSorter(null);
         assertEquals(90, props.getUsageWidth());
         assertEquals(null, props.optionSorter());
     }
 
     public void testSetOnlyOne() {
-        ParserProperties props = ParserProperties.defaults().optionSorter(null);
+        ParserProperties props = ParserProperties.defaults().withOptionSorter(null);
         assertEquals(80, props.getUsageWidth());
         assertEquals(null, props.optionSorter());
     }

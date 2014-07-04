@@ -52,7 +52,7 @@ public class ParserProperties {
      * @param sorter
      *      If non-null, options are sorted in the order induced by this comparator.
      */
-    public ParserProperties optionSorter(Comparator<OptionHandler> sorter) {
+    public ParserProperties withOptionSorter(Comparator<OptionHandler> sorter) {
         this.optionSorter = sorter;
         return this;
     }
