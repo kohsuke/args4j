@@ -19,6 +19,10 @@ public class ParserProperties {
     private ParserProperties() {
     }
 
+    /** Returns an instance of the default parser properties.
+     * This instance can be manipulated with the {@code withXXX()} methods
+     * in this class.
+     */
     public static ParserProperties defaults() {
         return new ParserProperties();
     }
