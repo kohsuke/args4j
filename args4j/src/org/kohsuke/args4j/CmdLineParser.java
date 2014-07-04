@@ -648,8 +648,8 @@ public class CmdLineParser {
         //make sure that all forbids arguments are not present
         for (OptionHandler handler : present) {
             if (handler.option instanceof NamedOptionDef && !isHandlerAllowOtherOptions((NamedOptionDef) handler.option, present)) {
-                throw new CmdLineException(this, Messages.FORBIDDEN_OPTION_PRESENT
-                        .format(handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).forbids())));
+                throw new CmdLineException(this, Messages.FORBIDDEN_OPTION_PRESENT,
+                        handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).forbids()));
             }
         }
     }
