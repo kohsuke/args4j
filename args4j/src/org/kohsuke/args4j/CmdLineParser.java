@@ -122,6 +122,10 @@ public class CmdLineParser {
         }
     }
 
+    public ParserProperties getProperties() {
+        return parserProperties;
+    }
+
     /** This method is similar to {@code Objects.requireNonNull()}.
      * But this one is available for JDK 1.6 which is the
      * current target of args4j.
@@ -649,7 +653,7 @@ public class CmdLineParser {
         for (OptionHandler handler : present) {
             if (handler.option instanceof NamedOptionDef && !isHandlerAllowOtherOptions((NamedOptionDef) handler.option, present)) {
                 throw new CmdLineException(this, Messages.FORBIDDEN_OPTION_PRESENT,
-                        handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).forbids()));
+                        handler.option.toString(), Arrays.toString(((NamedOptionDef) handler.option).forbids()));
             }
         }
     }
@@ -681,7 +685,7 @@ public class CmdLineParser {
         int pos = name.indexOf('=');
         if (pos > 0) {
             name = name.substring(0, pos);
-			}
+        }
 		return findOptionByName(name);
     }
 

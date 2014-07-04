@@ -111,7 +111,7 @@ public abstract class OptionHandler<T> {
     	String meta = getMetaVariable(rb);
     	if (meta != null) {
     		if (str.length() > 0) {
-    			str += (properties.getEqualsForOptions() ? "=" : " ");
+    			str += properties.getOptionValueDelimiter();
     		}
     		str += meta;
     	}

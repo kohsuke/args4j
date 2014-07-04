@@ -50,7 +50,7 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
 
     public void testEqualsSeparator() {
         args = new String[]{"-wrong-usage"};
-        parser.setUseEqualsForOptionsDisplay(true);
+        parser.getProperties().withOptionValueDelimiter("=");
         try {
             parser.parseArgument(args);
             fail("Doesn't detect wrong parameters.");
@@ -67,7 +67,7 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
 
     public void testExplicitNoEqualsSeparator() {
         args = new String[]{"-wrong-usage"};
-        parser.setUseEqualsForOptionsDisplay(false);
+        parser.getProperties().withOptionValueDelimiter(" ");
         try {
             parser.parseArgument(args);
             fail("Doesn't detect wrong parameters.");
