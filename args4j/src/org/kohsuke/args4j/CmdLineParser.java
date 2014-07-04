@@ -239,6 +239,12 @@ public class CmdLineParser {
         }
     }
 
+    /** Create a command line help instance.
+     */
+    public CmdLineHelp createCmdLineHelp() {
+        return new CmdLineHelp(this, parserProperties);
+    }
+    
     /**
      * Formats a command line example into a string.
      *
@@ -248,9 +254,10 @@ public class CmdLineParser {
      *      must not be {@code null}.
      * @return
      *      always non-{@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
     public String printExample(OptionHandlerFilter filter) {
-        return printExample(filter,null);
+        return createCmdLineHelp().printExample(filter);
     }
 
     /**
@@ -287,22 +294,10 @@ public class CmdLineParser {
      *      This allows you to do something like:
      *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
      * @throws NullPointerException if {@code mode} is {@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
     public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
-        StringBuilder buf = new StringBuilder();
-
-        checkNonNull(mode, "mode");
-        
-        for (OptionHandler h : options) {
-            OptionDef option = h.option;
-            if(option.usage().length()==0)  continue;   // ignore
-            if(!mode.select(h))             continue;
-
-            buf.append(' ');
-            buf.append(h.getNameAndMeta(rb));
-        }
-
-        return buf.toString();
+        return createCmdLineHelp().printExample(mode, rb);
     }
 
     /**
@@ -310,7 +305,7 @@ public class CmdLineParser {
      *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
      */
     public String printExample(ExampleMode mode, ResourceBundle rb) {
-        return printExample((OptionHandlerFilter) mode, rb);
+        return createCmdLineHelp().printExample((OptionHandlerFilter) mode, rb);
     }
 
     /**
@@ -319,9 +314,10 @@ public class CmdLineParser {
      * <p>
      * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
      * so that you can do {@code printUsage(System.err)}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
     public void printUsage(OutputStream out) {
-        printUsage(new OutputStreamWriter(out),null);
+        createCmdLineHelp().printUsage(new OutputStreamWriter(out),null);
     }
 
     /**
@@ -329,9 +325,10 @@ public class CmdLineParser {
      *
      * <p>
      * Short for {@code printUsage(out,rb,OptionHandlerFilter.PUBLIC)}
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
     public void printUsage(Writer out, ResourceBundle rb) {
-        printUsage(out, rb, OptionHandlerFilter.PUBLIC);
+        createCmdLineHelp().printUsage(out, rb, OptionHandlerFilter.PUBLIC);
     }
 
     /**
@@ -342,29 +339,10 @@ public class CmdLineParser {
      *      as a key to obtain the actual message from this resource bundle.
      * @param filter
      *      Controls which options to be printed.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
     public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
-        PrintWriter w = new PrintWriter(out);
-        // determine the length of the option + metavar first
-        int len = 0;
-        for (OptionHandler h : arguments) {
-            int curLen = getPrefixLen(h, rb);
-            len = Math.max(len,curLen);
-        }
-        for (OptionHandler h: options) {
-            int curLen = getPrefixLen(h, rb);
-            len = Math.max(len,curLen);
-        }
-
-        // then print
-        for (OptionHandler h : arguments) {
-        	printOption(w, h, len, rb, filter);
-        }
-        for (OptionHandler h : options) {
-        	printOption(w, h, len, rb, filter);
-        }
-
-        w.flush();
+        createCmdLineHelp().printUsage(out, rb, filter);
     }
 
     /**
@@ -379,72 +357,11 @@ public class CmdLineParser {
      * @param len      Maximum length of metadata column
      * @param rb       {@code ResourceBundle} for I18N
      * @see Setter#asAnnotatedElement()
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
     protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
-    	// Hiding options without usage information
-    	if (handler.option.usage() == null ||
-            handler.option.usage().length() == 0 ||
-            !filter.select(handler)) {
-    		return;
-    	}
-
-    	// What is the width of the two data columns
-        int totalUsageWidth = parserProperties.getUsageWidth();
-    	int widthMetadata = Math.min(len, (totalUsageWidth - 4) / 2);
-    	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
-
-    	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
-    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
-
-    	// Output
-    	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
-    		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
-			String usage       = (i >= usages.size())        ? "" : usages.get(i);
-			String format      = ((nameAndMeta.length() > 0) && (i == 0))
-			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
-			                   : " %1$-" + widthMetadata + "s   %2$-1s";
-			String output = String.format(format, nameAndMeta, usage);
-			out.println(output);
-    	}
+        createCmdLineHelp().printOption(out, handler, len, rb, filter);
     }
-
-    private String localize(String s, ResourceBundle rb) {
-        if(rb!=null)    return rb.getString(s);
-        return s;
-    }
-
-    /**
-     * Wraps a line so that the resulting parts are not longer than a given maximum length.
-     *
-     * @param line       Line to wrap
-     * @param maxLength  maximum length for the resulting parts
-     * @return list of all wrapped parts
-     */
-    private List<String> wrapLines(String line, final int maxLength) {
-    	List<String> rv = new ArrayList<String>();
-        for (String restOfLine : line.split("\\n")) {
-            while (restOfLine.length() > maxLength) {
-                // try to wrap at space, but don't try too hard as some languages don't even have whitespaces.
-                int lineLength;
-                String candidate = restOfLine.substring(0, maxLength);
-                int sp=candidate.lastIndexOf(' ');
-                if(sp>maxLength*3/5)    lineLength=sp;
-                else                    lineLength=maxLength;
-                rv.add(restOfLine.substring(0, lineLength));
-                restOfLine = restOfLine.substring(lineLength).trim();
-            }
-            rv.add(restOfLine);
-        }
-    	return rv;
-    }
-
-	private int getPrefixLen(OptionHandler h, ResourceBundle rb) {
-		if(h.option.usage().length()==0)
-			return 0;
-
-		return h.getNameAndMeta(rb).length();
-	}
 
     /**
      * Essentially a pointer over a {@link String} array.
