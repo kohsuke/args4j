@@ -782,9 +782,11 @@ public class CmdLineParser {
      * Sets the width of the usage output.
      * @param usageWidth the width of the usage output in columns.
      * @throws IllegalArgumentException if {@code usageWidth} is negative
+     * @deprecated
+     *      Use {@link ParserProperties#withUsageWidth(int)} instead.
      */
 	public void setUsageWidth(int usageWidth) {
-        parserProperties = parserProperties.withUsageWidth(usageWidth);
+        parserProperties.withUsageWidth(usageWidth);
 	}
 
     /**
