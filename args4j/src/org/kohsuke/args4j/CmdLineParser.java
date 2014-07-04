@@ -791,7 +791,7 @@ public class CmdLineParser {
      * Signals the parser that parsing the options has finished.
      * 
      * <p>
-     * Everything seen after this call is treaded as an argument
+     * Everything seen after this call is treated as an argument
      * as opposed to an option.
      */
 	public void stopOptionParsing() {
