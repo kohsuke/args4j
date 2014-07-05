@@ -20,6 +20,10 @@ public class ParserProperties {
     private ParserProperties() {
     }
 
+    /** Returns an instance of the default parser properties.
+     * This instance can be manipulated with the {@code withXXX()} methods
+     * in this class.
+     */
     public static ParserProperties defaults() {
         return new ParserProperties();
     }
@@ -51,7 +55,7 @@ public class ParserProperties {
      * Controls how options are sorted in the usage screen.
      *
      * @param sorter
-     *      If non-null, options are sorted in the order induced by this comparator.
+     *      If non-{@code null}, options are sorted in the order induced by this comparator.
      */
     public ParserProperties withOptionSorter(Comparator<OptionHandler> sorter) {
         this.optionSorter = sorter;
@@ -60,7 +64,7 @@ public class ParserProperties {
 
     /**
      * @return
-     *      null if options are left unsorted and should be listed by their discovery order.
+     *      {@code null} if options are left unsorted and should be listed by their discovery order.
      *      Otherwise the returned comparator is used to sort options.
      *      The default value is a comparator that sorts options alphabetically.
      */
