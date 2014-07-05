@@ -8,44 +8,18 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.io.Writer;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.net.InetAddress;
-import java.net.URI;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.regex.Pattern;
 
-import org.kohsuke.args4j.spi.BooleanOptionHandler;
-import org.kohsuke.args4j.spi.ByteOptionHandler;
-import org.kohsuke.args4j.spi.CharOptionHandler;
-import org.kohsuke.args4j.spi.DoubleOptionHandler;
-import org.kohsuke.args4j.spi.EnumOptionHandler;
-import org.kohsuke.args4j.spi.FileOptionHandler;
-import org.kohsuke.args4j.spi.FloatOptionHandler;
-import org.kohsuke.args4j.spi.InetAddressOptionHandler;
-import org.kohsuke.args4j.spi.IntOptionHandler;
-import org.kohsuke.args4j.spi.LongOptionHandler;
-import org.kohsuke.args4j.spi.MapOptionHandler;
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
-import org.kohsuke.args4j.spi.PathOptionHandler;
-import org.kohsuke.args4j.spi.PatternOptionHandler;
 import org.kohsuke.args4j.spi.Setter;
-import org.kohsuke.args4j.spi.ShortOptionHandler;
-import org.kohsuke.args4j.spi.StringOptionHandler;
-import org.kohsuke.args4j.spi.URIOptionHandler;
-import org.kohsuke.args4j.spi.URLOptionHandler;
-
 
 /**
  * Command line argument owner.
@@ -57,6 +31,7 @@ import org.kohsuke.args4j.spi.URLOptionHandler;
  *     Kohsuke Kawaguchi (kk@kohsuke.org)
  */
 public class CmdLineParser {
+
     /**
      * Discovered {@link OptionHandler}s for options.
      */
@@ -148,10 +123,11 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code setter} or {@code a} is {@code null}.
      */
     public void addArgument(Setter setter, Argument a) {
-        checkNonNull(setter, "Setter");
-        checkNonNull(a, "Argument");
+        Utilities.checkNonNull(setter, "Setter");
+        Utilities.checkNonNull(a, "Argument");
         
-        OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
+        OptionHandler h = OptionHandlerRegistry.getRegistry().createOptionHandler(this,
+                new OptionDef(a,setter.isMultiValued()),setter);
     	int index = a.index();
     	// make sure the argument will fit in the list
     	while (index >= arguments.size()) {
@@ -172,14 +148,15 @@ public class CmdLineParser {
      * @throws IllegalAnnotationError if the option name or one of the aliases is already taken.
      */
     public void addOption(Setter setter, Option o) {
-        checkNonNull(setter, "Setter");
-        checkNonNull(o, "Option");
+        Utilities.checkNonNull(setter, "Setter");
+        Utilities.checkNonNull(o, "Option");
     
         checkOptionNotInMap(o.name());
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
         }
-        options.add(createOptionHandler(new NamedOptionDef(o), setter));
+        options.add(OptionHandlerRegistry.getRegistry().createOptionHandler(
+                this, new NamedOptionDef(o), setter));
     }
 
     /**
@@ -197,7 +174,7 @@ public class CmdLineParser {
     }
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
-        checkNonNull(name, "name");
+        Utilities.checkNonNull(name, "name");
         
 		if(findOptionByName(name)!=null) {
             throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_OPTION.format(name));
@@ -207,39 +184,12 @@ public class CmdLineParser {
     /**
      * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
      * and the {@link Setter} instance.
+     * @deprecated You should use {@link OptionHandlerRegistry#createOptionHandler(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.OptionDef, org.kohsuke.args4j.spi.Setter) } instead.
      */
-   @SuppressWarnings("unchecked")
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
-        checkNonNull(o, "OptionDef is null");
-        checkNonNull(setter, "Setter is null");
-
-        Constructor<? extends OptionHandler> handlerType;
-        Class<? extends OptionHandler> h = o.handler();
-
-        if(h==OptionHandler.class) {
-            // infer the type
-
-            // enum is the special case
-            Class t = setter.getType();
-            if(Enum.class.isAssignableFrom(t))
-                return new EnumOptionHandler(this,o,setter,t);
-
-            handlerType = handlerClasses.get(t);
-            if(handlerType==null)
-                throw new IllegalAnnotationError(Messages.UNKNOWN_HANDLER.format(t));
-        } else {
-            handlerType = getConstructor(h);
-        }
-
-        try {
-            return handlerType.newInstance(this,o,setter);
-        } catch (InstantiationException e) {
-            throw new IllegalAnnotationError(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalAnnotationError(e);
-        } catch (InvocationTargetException e) {
-            throw new IllegalAnnotationError(e);
-        }
+        Utilities.checkNonNull(o, "OptionDef");
+        Utilities.checkNonNull(setter, "Setter");
+        return OptionHandlerRegistry.getRegistry().createOptionHandler(this, o, setter);
     }
 
     /**
@@ -294,7 +244,7 @@ public class CmdLineParser {
     public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
 
-        checkNonNull(mode, "mode");
+        Utilities.checkNonNull(mode, "mode");
         
         for (OptionHandler h : options) {
             OptionDef option = h.option;
@@ -474,12 +424,14 @@ public class CmdLineParser {
             pos += n;
         }
 
+        @Override
         public String getParameter(int idx) throws CmdLineException {
 			if( pos+idx>=args.length || pos+idx<0 )
                 throw new CmdLineException(CmdLineParser.this, Messages.MISSING_OPERAND, getOptionName());
             return args[pos+idx];
         }
 
+        @Override
         public int size() {
             return args.length-pos;
         }
@@ -522,7 +474,7 @@ public class CmdLineParser {
      */
     public void parseArgument(final String... args) throws CmdLineException {
         
-        checkNonNull(args, "args");
+        Utilities.checkNonNull(args, "args");
         
         String expandedArgs[] = expandAtFiles(args);
         CmdLineImpl cmdLine = new CmdLineImpl(expandedArgs);
@@ -720,19 +672,10 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code arg} is {@code null}.
      */
     protected boolean isOption(String arg) {
-        checkNonNull(arg, "arg");
+        Utilities.checkNonNull(arg, "arg");
         
         return parsingOptions && arg.startsWith("-");
     }
-
-
-    /**
-     * All {@link OptionHandler}s known to the {@link CmdLineParser}.
-     *
-     * Constructors of {@link OptionHandler}-derived class keyed by their supported types.
-     */
-    private static final Map<Class,Constructor<? extends OptionHandler>> handlerClasses =
-            Collections.synchronizedMap(new HashMap<Class,Constructor<? extends OptionHandler>>());
 
     /**
      * Registers a user-defined {@link OptionHandler} class with args4j.
@@ -749,58 +692,13 @@ public class CmdLineParser {
      *      {@link OptionHandler#OptionHandler(CmdLineParser, OptionDef, Setter)}
      * @throws NullPointerException if {@code valueType} or {@code handlerClass} is {@code null}.
      * @throws IllegalArgumentException if {@code handlerClass} is not a subtype of {@code OptionHandler}.
+     * @deprecated You should use {@link OptionHandlerRegistry#registerHandler(java.lang.Class, java.lang.Class)} instead.
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
-        checkNonNull(valueType, "valueType");
-        checkNonNull(handlerClass, "handlerClass");
+        Utilities.checkNonNull(valueType, "valueType");
+        Utilities.checkNonNull(handlerClass, "handlerClass");
 
-        if(!OptionHandler.class.isAssignableFrom(handlerClass))
-            throw new IllegalArgumentException(Messages.NO_OPTIONHANDLER.format());
-
-        Constructor<? extends OptionHandler> c = getConstructor(handlerClass);
-        handlerClasses.put(valueType,c);
-    }
-
-    private static Constructor<? extends OptionHandler> getConstructor(Class<? extends OptionHandler> handlerClass) {
-        try {
-            return handlerClass.getConstructor(CmdLineParser.class, OptionDef.class, Setter.class);
-        } catch (NoSuchMethodException e) {
-            throw new IllegalArgumentException(Messages.NO_CONSTRUCTOR_ON_HANDLER.format(handlerClass));
-        }
-    }
-
-    static {
-        registerHandler(Boolean.class,BooleanOptionHandler.class);
-        registerHandler(boolean.class,BooleanOptionHandler.class);
-        registerHandler(File.class,FileOptionHandler.class);
-        registerHandler(URL.class, URLOptionHandler.class);
-        registerHandler(URI.class, URIOptionHandler.class);
-        registerHandler(Integer.class,IntOptionHandler.class);
-        registerHandler(int.class,IntOptionHandler.class);
-        registerHandler(Double.class, DoubleOptionHandler.class);
-        registerHandler(double.class,DoubleOptionHandler.class);
-        registerHandler(String.class,StringOptionHandler.class);
-        registerHandler(Byte.class, ByteOptionHandler.class);
-        registerHandler(byte.class, ByteOptionHandler.class);
-        registerHandler(Character.class, CharOptionHandler.class);
-        registerHandler(char.class, CharOptionHandler.class);
-        registerHandler(Float.class, FloatOptionHandler.class);
-        registerHandler(float.class, FloatOptionHandler.class);
-        registerHandler(Long.class, LongOptionHandler.class);
-        registerHandler(long.class, LongOptionHandler.class);
-        registerHandler(Short.class, ShortOptionHandler.class);
-        registerHandler(short.class, ShortOptionHandler.class);
-        registerHandler(InetAddress.class, InetAddressOptionHandler.class);
-        registerHandler(Pattern.class, PatternOptionHandler.class);
-        // enum is a special case
-        registerHandler(Map.class,MapOptionHandler.class);
-
-        try {
-            Class p = Class.forName("java.nio.file.Path");
-            registerHandler(p, PathOptionHandler.class);
-        } catch (ClassNotFoundException e) {
-            // running in Java6 or earlier
-        }
+        OptionHandlerRegistry.getRegistry().registerHandler(valueType, handlerClass);
     }
 
     /**
@@ -834,7 +732,7 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code out} is {@code null}.
      */
 	public void printSingleLineUsage(OutputStream out) {
-        checkNonNull(out, "OutputStream");
+        Utilities.checkNonNull(out, "OutputStream");
         
 		printSingleLineUsage(new OutputStreamWriter(out), null);
 	}
@@ -849,7 +747,7 @@ public class CmdLineParser {
      */
     // TODO test this!
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
-        checkNonNull(w, "Writer");
+        Utilities.checkNonNull(w, "Writer");
         
 		PrintWriter pw = new PrintWriter(w);
 		for (OptionHandler h : arguments) {
