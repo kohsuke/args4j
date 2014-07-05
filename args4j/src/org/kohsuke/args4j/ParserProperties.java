@@ -71,7 +71,9 @@ public class ParserProperties {
     /**
      * Sets the string used to separate option name and its value (such as --foo=bar vs --foo bar)
      *
-     * Default is whitespace.
+     * Default to whitespace. Note that the tokens separated in the argument array (such as '-foo','bar')
+     * is always recognized as a valid name/value separator.
+     *
      */
     public ParserProperties withOptionValueDelimiter(String v) {
         this.optionValueDelimiter = v;

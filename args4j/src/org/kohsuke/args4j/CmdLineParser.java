@@ -533,7 +533,9 @@ public class CmdLineParser {
         while( cmdLine.hasMore() ) {
             String arg = cmdLine.getCurrentToken();
             if( isOption(arg) ) {
-            	boolean isKeyValuePair = arg.indexOf('=')!=-1;
+                // '=' is for historical compatibility fallback
+                boolean isKeyValuePair = arg.contains(parserProperties.getOptionValueDelimiter()) || arg.indexOf('=')!=-1;
+
                 // parse this as an option.
                 currentOptionHandler = isKeyValuePair ? findOptionHandler(arg) : findOptionByName(arg);
 
@@ -682,7 +684,10 @@ public class CmdLineParser {
     
     private OptionHandler findOptionHandler(String name) {
         // Look for key/value pair first.
-        int pos = name.indexOf('=');
+        int pos = name.indexOf(parserProperties.getOptionValueDelimiter());
+        if (pos < 0) {
+            pos = name.indexOf('=');    // historical compatibility fallback
+        }
         if (pos > 0) {
             name = name.substring(0, pos);
         }
