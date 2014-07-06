@@ -8,12 +8,12 @@ import org.kohsuke.args4j.*;
 /**
  * Parses options into a {@link Map}.
  *
- * <pre>{@code 
+ * <pre><code>
  * class Foo {
- *   &#64;Option(name="-P",handler={@link MapOptionHandler}.class)
+ *  {@literal @}Option(name="-P",handler={@link MapOptionHandler}.class)
  *   Map&lt;String,String&gt; args;
  * }
- * }</pre>
+ * </code></pre>
  *
  * <p>
  * With this, <code>-P x=1 -P y=2</code> parses to map of size {@code 2}.
