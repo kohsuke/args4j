@@ -15,16 +15,16 @@ import org.kohsuke.args4j.OptionDef;
  * For example, if you have the following class:
  *
  * <pre>
- * {@code 
+ * <code> 
  * class Foo {
- *   &#64;Argument
- *   &#64;Option(name="--",handler={@link StopOptionHandler}.class)
+ *  {@literal @}Argument
+ *  {@literal @}Option(name="--",handler={@link StopOptionHandler}.class)
  *   List&lt;String> args;
  *
- *   &#64;Option(name="-n")
+ *  {@literal @}Option(name="-n")
  *   int n;
  * }
- * }</pre>
+ * </code></pre>
  *
  * <p>
  * The command line <code>-n 5 abc def</code> would parse into {@code n=5, args={"abc",def"}},
