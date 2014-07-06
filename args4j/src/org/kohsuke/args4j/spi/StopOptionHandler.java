@@ -19,7 +19,7 @@ import org.kohsuke.args4j.OptionDef;
  * class Foo {
  *  {@literal @}Argument
  *  {@literal @}Option(name="--",handler={@link StopOptionHandler}.class)
- *   List&lt;String> args;
+ *   List&lt;String&gt; args;
  *
  *  {@literal @}Option(name="-n")
  *   int n;
