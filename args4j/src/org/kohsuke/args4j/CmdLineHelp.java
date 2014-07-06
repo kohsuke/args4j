@@ -87,7 +87,7 @@ public class CmdLineHelp {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb));
+            buf.append(h.getNameAndMeta(rb, props));
         }
 
         return buf.toString();
@@ -182,7 +182,7 @@ public class CmdLineHelp {
     	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, props), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -231,7 +231,7 @@ public class CmdLineHelp {
             if(h.option.usage().length()==0)
                     return 0;
 
-            return h.getNameAndMeta(rb).length();
+            return h.getNameAndMeta(rb, props).length();
     }
 
     /**
