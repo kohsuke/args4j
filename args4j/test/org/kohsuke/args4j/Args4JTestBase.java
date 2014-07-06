@@ -87,7 +87,7 @@ public abstract class Args4JTestBase<T> extends TestCase {
         Locale oldDefault = Locale.getDefault();
         Locale.setDefault(Locale.ENGLISH);
         Stream2String s2s = new Stream2String();
-        parser.printUsage(s2s);
+        parser.createCmdLineHelp().printUsage(s2s);
         Locale.setDefault(oldDefault);
         return s2s.getString().split(System.getProperty("line.separator"));
     }

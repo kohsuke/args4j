@@ -644,7 +644,7 @@ public class CmdLineParser {
      *      Use {@link #printExample(OptionHandlerFilter)}
      */
     public String printExample(ExampleMode mode) {
-        return printExample(mode, null);
+        return createCmdLineHelp().printExample(mode, null);
     }
 
     /**

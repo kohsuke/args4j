@@ -39,12 +39,12 @@ public class ExampleTest extends TestCase {
     }    
     
     public void testPrintExampleModeAll() {
-        String s = new CmdLineParser(this).printExample(ExampleMode.ALL);
+        String s = new CmdLineParser(this).createCmdLineHelp().printExample(ExampleMode.ALL);
         assertEquals(" -a N -b <output> -c IP ADDRESS -h", s);
     }
 
     public void testPrintExampleModeRequired() {
-        String s = new CmdLineParser(this).printExample(ExampleMode.REQUIRED);
+        String s = new CmdLineParser(this).createCmdLineHelp().printExample(ExampleMode.REQUIRED);
         assertEquals(" -a N", s);
     }
 
@@ -88,7 +88,7 @@ public class ExampleTest extends TestCase {
 
     public void testNoOptionsSort() {
         ParserProperties properties = ParserProperties.defaults().withOptionSorter(null);
-        String s = new CmdLineParser(this, properties).printExample(ExampleMode.ALL);
+        String s = new CmdLineParser(this, properties).createCmdLineHelp().printExample(ExampleMode.ALL);
         assertEquals(" -h -a N -b <output> -c IP ADDRESS", s);
     }
 }
