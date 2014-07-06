@@ -14,7 +14,7 @@ import java.util.ResourceBundle;
  *
  * <p>
  * The "sub-command" pattern refers to the design of the command line like <tt>git</tt> and <tt>svn</tt>, where
- * the first argument to the command designates a sub-command (say <samp>git checkout</samp>), then everything
+ * the first argument to the command designates a sub-command (say <code>git checkout</code>), then everything
  * that follows afterward are parsed by this sub-command (which is usually different depending on
  * which sub-command was selected.)
  *
@@ -22,7 +22,7 @@ import java.util.ResourceBundle;
  * This {@link OptionHandler} models this design pattern with the {@link SubCommands} annotation.
  * See the following example:
  *
- * <code><pre>
+ * <pre>{@code
  * class Git {
  *      &#64;Argument(handler={@link SubCommandHandler}.class)
  *      &#64;SubCommands({
@@ -48,10 +48,10 @@ import java.util.ResourceBundle;
  *
  *     ...
  * }
- * </pre></code>
+ * }</pre>
  *
  * <p>
- * An example of legal command line option for this is <samp>-r checkout -a</samp>.
+ * An example of legal command line option for this is <code>-r checkout -a</code>.
  *
  * <ul>
  * <li>

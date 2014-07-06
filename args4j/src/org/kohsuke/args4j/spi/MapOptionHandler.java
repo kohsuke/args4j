@@ -8,17 +8,17 @@ import org.kohsuke.args4j.*;
 /**
  * Parses options into a {@link Map}.
  *
- * <code><pre>
+ * <pre>{@code 
  * class Foo {
  *   &#64;Option(name="-P",handler={@link MapOptionHandler}.class)
- *   Map&lt;String,String> args;
+ *   Map&lt;String,String&gt; args;
  * }
- * </pre></code>
+ * }</pre>
  *
  * <p>
- * With this, <samp>-P x=1 -P y=2</samp> parses to map of size {@code 2}.
+ * With this, <code>-P x=1 -P y=2</code> parses to map of size {@code 2}.
  * This option handler can be subtyped if you want to convert values to different types
- * or to handle <samp>key=value</samp> in other formats, like <samp>key:=value</samp>.
+ * or to handle <code>key=value</code> in other formats, like <code>key:=value</code>.
  * */
 public class MapOptionHandler extends OptionHandler<Map<?,?>> {
 
