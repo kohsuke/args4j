@@ -16,13 +16,13 @@ import org.kohsuke.args4j.spi.OptionHandler;
  */
 public class CmdLineHelp {
     private final CmdLineParser cmdLineParser;
-    private final ParserProperties props;
+    private final ParserProperties parserProperties;
 
     /** Is created using {@link CmdLineParser#createCmdLineHelp() }.
      */
     CmdLineHelp(CmdLineParser cmdLineParser, ParserProperties props) {
         this.cmdLineParser = cmdLineParser;
-        this.props = props;
+        this.parserProperties = props;
     }
     
         /**
@@ -87,7 +87,7 @@ public class CmdLineHelp {
             if(!mode.select(h))             continue;
 
             buf.append(' ');
-            buf.append(h.getNameAndMeta(rb, props));
+            buf.append(h.getNameAndMeta(rb, parserProperties));
         }
 
         return buf.toString();
@@ -177,12 +177,12 @@ public class CmdLineHelp {
     	}
 
     	// What is the width of the two data columns
-        int totalUsageWidth = props.getUsageWidth();
+        int totalUsageWidth = parserProperties.getUsageWidth();
     	int widthMetadata = Math.min(len, (totalUsageWidth - 4) / 2);
     	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
 
     	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, props), widthMetadata);
+    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, parserProperties), widthMetadata);
     	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
 
     	// Output
@@ -231,7 +231,7 @@ public class CmdLineHelp {
             if(h.option.usage().length()==0)
                     return 0;
 
-            return h.getNameAndMeta(rb, props).length();
+            return h.getNameAndMeta(rb, parserProperties).length();
     }
 
     /**
@@ -275,7 +275,7 @@ public class CmdLineHelp {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
-		pw.print(h.getNameAndMeta(rb, props));
+		pw.print(h.getNameAndMeta(rb, parserProperties));
 		if (h.option.isMultiValued()) {
 			pw.print(" ...");
 		}
