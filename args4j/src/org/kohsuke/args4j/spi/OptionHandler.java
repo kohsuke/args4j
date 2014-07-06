@@ -4,6 +4,7 @@ import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.ParserProperties;
+import org.kohsuke.args4j.OptionHandlerRegistry;
 
 import java.util.Collection;
 import java.util.ResourceBundle;
@@ -17,7 +18,10 @@ import java.util.ResourceBundle;
  *
  * <p>
  * Implementation of this class needs to be registered to args4j by using
- * {@link CmdLineParser#registerHandler(Class,Class)} 
+ * {@link OptionHandlerRegistry#registerHandler(Class,Class)}.
+ * For registration to work, subclasses will need to implement the constructor
+ * with the signature
+ * {@link OptionHandler#OptionHandler(CmdLineParser, OptionDef, Setter)}.
  *
  * @param <T>
  *      The {@code component} type of the field that this {@link OptionHandler} works with.

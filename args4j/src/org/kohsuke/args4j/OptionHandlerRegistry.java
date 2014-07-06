@@ -45,7 +45,8 @@ public class OptionHandlerRegistry {
      */
     private static OptionHandlerRegistry instance;
     
-    /** Gets the option handler registry instance.
+    /** Gets the option handler registry singleton instance.
+     * @return a shared instance of the registry.
      */
     public synchronized static OptionHandlerRegistry getRegistry() {
         if (instance == null) {
