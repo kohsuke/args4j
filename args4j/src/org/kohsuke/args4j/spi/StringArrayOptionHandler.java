@@ -15,17 +15,17 @@ import org.kohsuke.args4j.OptionDef;
  * <p>
  * Example for parameter {@code -s}, which is type {@code String[]}:</p>
  *
- * <code><pre>
+ * <pre>{@code
  * java -jar aaa.jar -s banan hruska jablko
  * java -jar aaa.jar -s banan "hruska jablko"
  * java -jar aaa.jar -s "banan hruska jablko"
  * java -jar aaa.jar -s banan hruska jablko -l 4 -r
  * java -jar aaa.jar -t 222 -s banan hruska jablko -r
- * </pre></code>
+ * }</pre>
  *
  * <p>
  * All of them result in a single string array that contains three tokens: 
- * <samp>banan</samp>, <samp>hruska</samp>, and <samp>jablko</samp>.</p>
+ * <code>banan</code>, <code>hruska</code>, and <code>jablko</code>.</p>
  *
  * <p>
  * This {@code OptionHandler} scans for parameter which begins with <tt>-</tt>. If found, it will stop.</p>

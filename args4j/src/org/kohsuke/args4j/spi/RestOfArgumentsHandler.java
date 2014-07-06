@@ -11,8 +11,8 @@ import org.kohsuke.args4j.CmdLineException;
  * <p>
  * Used with {@link Argument}, this implements a semantics where
  * non-option token causes the option parsing to terminate.
- * An example of this is <tt>ssh(1)</tt>, where <samp>ssh -p 222 abc</samp> will treat 
- * <samp>-p</samp> as an option to <tt>ssh</tt>, but <samp>ssh abc -p 222</samp> is 
+ * An example of this is <tt>ssh(1)</tt>, where <code>ssh -p 222 abc</code> will treat 
+ * <code>-p</code> as an option to <tt>ssh</tt>, but <code>ssh abc -p 222</code> is 
  * considered to have no option for <tt>ssh</tt>.
  *
  * @author Kohsuke Kawaguchi
