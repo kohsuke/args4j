@@ -19,7 +19,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  *
  * <p>
  * This annotation can be placed on a field of type T or the method
- * of the form <code>void <i><samp>methodName</samp></i>(T value)</code>. Its access
+ * of the form <code>void <i><code>methodName</code></i>(T value)</code>. Its access
  * modified can be anything, but if it's not public, your application
  * needs to run in a security context that allows args4j to access
  * the field/method (see {@link AccessibleObject#setAccessible(boolean)}.
@@ -31,7 +31,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * <h2>Boolean Switch</h2>
  * <p>
  * When <var>T</var> is {@code boolean} , it represents
- * a {@code boolean} option that takes the form of <samp>-OPT</samp>. When this option is set,
+ * a {@code boolean} option that takes the form of <code>-OPT</code>. When this option is set,
  * the property will be set to {@code true}.
  *
  * <h2>String Switch</h2>
@@ -47,8 +47,8 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
  * the operand and the enum constant name is done in a case insensitive fashion.
  * <p>
  * For example, the following definition will represent command line options
- * like <samp>-coin penny</samp> or <samp>-coin DIME</samp>,
- * but things like <samp>-coin</samp> or <samp>-coin abc</samp> are errors.
+ * like <code>-coin penny</code> or <code>-coin DIME</code>,
+ * but things like <code>-coin</code> or <code>-coin abc</code> are errors.
  *
  * <pre>
  * enum Coin { PENNY,NICKEL,DIME,QUARTER }
@@ -70,12 +70,12 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 @Target({FIELD,METHOD,PARAMETER})
 public @interface Option {
     /**
-     * Name of the option, such as <samp>-foo</samp> or <samp>-bar</samp>.
+     * Name of the option, such as <code>-foo</code> or <code>-bar</code>.
      */
     String name();
     
     /**
-     * Aliases for the options, such as <samp>--long-option-name</samp>.
+     * Aliases for the options, such as <code>--long-option-name</code>.
      */
     String[] aliases() default { };
 
@@ -108,7 +108,7 @@ public @interface Option {
      * -x FOO  : blah blah blah
      * </pre>
      *
-     * You can replace the <samp>FOO</samp> token by using this parameter.
+     * You can replace the <code>FOO</code> token by using this parameter.
      *
      * <p>
      * If left unspecified, this value is infered from the type of the option.
