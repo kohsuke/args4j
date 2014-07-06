@@ -32,16 +32,9 @@
 <p>The typical use involves writing a small bean class and providing the annotations.</p>
 <p>This feature is available since the first Args4J release:</p>
 
-<!-- TODO: 
-    Javadoc stops when reaching the at-sign. When I load the package.html directly into Firefox,
-    all is fine. But when creating the javadoc it stops copying the content at that sign.
-    (a) is a compromise here ...
-
-    Does anyone know how to handle that?
--->
-<code><pre>
+<pre>
 public class Bean {
-    (a)Option(name="-text")
+    &amp;Option(name="-text")
     String text;
 }
 public class Main {
@@ -51,7 +44,7 @@ public class Main {
         parser.parse(args);
     }
 }
-</pre></code>
+</pre>
 
 
 <p>An easy way to initialize fields without touching the bean source code is to use the <code>FieldParser</code>.</p>
