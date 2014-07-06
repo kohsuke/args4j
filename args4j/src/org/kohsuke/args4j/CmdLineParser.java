@@ -242,130 +242,6 @@ public class CmdLineParser {
         }
     }
 
-    /** Create a command line help instance.
-     */
-    public CmdLineHelp createCmdLineHelp() {
-        return new CmdLineHelp(this, parserProperties);
-    }
-    
-    /**
-     * Formats a command line example into a string.
-     *
-     * See {@link #printExample(OptionHandlerFilter, ResourceBundle)} for more details.
-     *
-     * @param filter
-     *      must not be {@code null}.
-     * @return
-     *      always non-{@code null}.
-     * @deprecated use {@link #createCmdLineHelp()} and its methods.
-     */
-    public String printExample(OptionHandlerFilter filter) {
-        return createCmdLineHelp().printExample(filter);
-    }
-
-    /**
-     * @deprecated
-     *      Use {@link #printExample(OptionHandlerFilter)}
-     */
-    public String printExample(ExampleMode mode) {
-        return printExample(mode, null);
-    }
-
-    /**
-     * Formats a command line example into a string.
-     *
-     * <p>
-     * This method produces a string like <samp> -d &lt;dir> -v -b</samp>.
-     * This is useful for printing a command line example (perhaps
-     * as a part of the usage screen).
-     *
-     *
-     * @param mode
-     *      Determines which options will be a part of the returned string.
-     *      Must not be {@code null}.
-     * @param rb
-     *      If non-{@code null}, meta variables (<samp>&lt;dir></samp> in the above example)
-     *      is treated as a key to this resource bundle, and the associated
-     *      value is printed. See {@link Option#metaVar()}. This is to support
-     *      localization.
-     *
-     *      Passing {@code null} would print {@link Option#metaVar()} directly.
-     * @return
-     *      always non-{@code null}. If there's no option, this method returns
-     *      just the empty string {@code ""}. Otherwise, this method returns a
-     *      string that contains a space at the beginning (but not at the end).
-     *      This allows you to do something like:
-     *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
-     * @throws NullPointerException if {@code mode} is {@code null}.
-     * @deprecated use {@link #createCmdLineHelp()} and its methods.
-     */
-    public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
-        return createCmdLineHelp().printExample(mode, rb);
-    }
-
-    /**
-     * @deprecated
-     *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
-     */
-    public String printExample(ExampleMode mode, ResourceBundle rb) {
-        return createCmdLineHelp().printExample((OptionHandlerFilter) mode, rb);
-    }
-
-    /**
-     * Prints the list of options and their usages to the screen.
-     *
-     * <p>
-     * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
-     * so that you can do {@code printUsage(System.err)}.
-     * @deprecated use {@link #createCmdLineHelp()} and its methods.
-     */
-    public void printUsage(OutputStream out) {
-        createCmdLineHelp().printUsage(new OutputStreamWriter(out),null);
-    }
-
-    /**
-     * Prints the list of all the non-hidden options and their usages to the screen.
-     *
-     * <p>
-     * Short for {@code printUsage(out,rb,OptionHandlerFilter.PUBLIC)}
-     * @deprecated use {@link #createCmdLineHelp()} and its methods.
-     */
-    public void printUsage(Writer out, ResourceBundle rb) {
-        createCmdLineHelp().printUsage(out, rb, OptionHandlerFilter.PUBLIC);
-    }
-
-    /**
-     * Prints the list of all the non-hidden options and their usages to the screen.
-     *
-     * @param rb
-     *      If non-{@code null}, {@link Option#usage()} is treated
-     *      as a key to obtain the actual message from this resource bundle.
-     * @param filter
-     *      Controls which options to be printed.
-     * @deprecated use {@link #createCmdLineHelp()} and its methods.
-     */
-    public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
-        createCmdLineHelp().printUsage(out, rb, filter);
-    }
-
-    /**
-     * Prints usage information for a given option.
-     *
-     * <p>
-     * Subtypes may override this method and determine which options get printed (or other things),
-     * based on {@link OptionHandler} (perhaps by using {@code handler.setter.asAnnotatedElement()}).
-     *
-     * @param out      Writer to write into
-     * @param handler  handler where to receive the information
-     * @param len      Maximum length of metadata column
-     * @param rb       {@code ResourceBundle} for I18N
-     * @see Setter#asAnnotatedElement()
-     * @deprecated use {@link #createCmdLineHelp()} and its methods.
-     */
-    protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
-        createCmdLineHelp().printOption(out, handler, len, rb, filter);
-    }
-
     /**
      * Essentially a pointer over a {@link String} array.
      * Can move forward; can look ahead.
@@ -741,6 +617,130 @@ public class CmdLineParser {
 	public void stopOptionParsing() {
 		parsingOptions = false;
 	}
+    
+    /** Create a command line help instance.
+     */
+    public CmdLineHelp createCmdLineHelp() {
+        return new CmdLineHelp(this, parserProperties);
+    }
+    
+    /**
+     * Formats a command line example into a string.
+     *
+     * See {@link #printExample(OptionHandlerFilter, ResourceBundle)} for more details.
+     *
+     * @param filter
+     *      must not be {@code null}.
+     * @return
+     *      always non-{@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public String printExample(OptionHandlerFilter filter) {
+        return createCmdLineHelp().printExample(filter);
+    }
+
+    /**
+     * @deprecated
+     *      Use {@link #printExample(OptionHandlerFilter)}
+     */
+    public String printExample(ExampleMode mode) {
+        return printExample(mode, null);
+    }
+
+    /**
+     * Formats a command line example into a string.
+     *
+     * <p>
+     * This method produces a string like <samp> -d &lt;dir> -v -b</samp>.
+     * This is useful for printing a command line example (perhaps
+     * as a part of the usage screen).
+     *
+     *
+     * @param mode
+     *      Determines which options will be a part of the returned string.
+     *      Must not be {@code null}.
+     * @param rb
+     *      If non-{@code null}, meta variables (<samp>&lt;dir></samp> in the above example)
+     *      is treated as a key to this resource bundle, and the associated
+     *      value is printed. See {@link Option#metaVar()}. This is to support
+     *      localization.
+     *
+     *      Passing {@code null} would print {@link Option#metaVar()} directly.
+     * @return
+     *      always non-{@code null}. If there's no option, this method returns
+     *      just the empty string {@code ""}. Otherwise, this method returns a
+     *      string that contains a space at the beginning (but not at the end).
+     *      This allows you to do something like:
+     *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
+     * @throws NullPointerException if {@code mode} is {@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
+        return createCmdLineHelp().printExample(mode, rb);
+    }
+
+    /**
+     * @deprecated
+     *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
+     */
+    public String printExample(ExampleMode mode, ResourceBundle rb) {
+        return createCmdLineHelp().printExample((OptionHandlerFilter) mode, rb);
+    }
+
+    /**
+     * Prints the list of options and their usages to the screen.
+     *
+     * <p>
+     * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
+     * so that you can do {@code printUsage(System.err)}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public void printUsage(OutputStream out) {
+        createCmdLineHelp().printUsage(new OutputStreamWriter(out),null);
+    }
+
+    /**
+     * Prints the list of all the non-hidden options and their usages to the screen.
+     *
+     * <p>
+     * Short for {@code printUsage(out,rb,OptionHandlerFilter.PUBLIC)}
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public void printUsage(Writer out, ResourceBundle rb) {
+        createCmdLineHelp().printUsage(out, rb, OptionHandlerFilter.PUBLIC);
+    }
+
+    /**
+     * Prints the list of all the non-hidden options and their usages to the screen.
+     *
+     * @param rb
+     *      If non-{@code null}, {@link Option#usage()} is treated
+     *      as a key to obtain the actual message from this resource bundle.
+     * @param filter
+     *      Controls which options to be printed.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
+        createCmdLineHelp().printUsage(out, rb, filter);
+    }
+
+    /**
+     * Prints usage information for a given option.
+     *
+     * <p>
+     * Subtypes may override this method and determine which options get printed (or other things),
+     * based on {@link OptionHandler} (perhaps by using {@code handler.setter.asAnnotatedElement()}).
+     *
+     * @param out      Writer to write into
+     * @param handler  handler where to receive the information
+     * @param len      Maximum length of metadata column
+     * @param rb       {@code ResourceBundle} for I18N
+     * @see Setter#asAnnotatedElement()
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
+        createCmdLineHelp().printOption(out, handler, len, rb, filter);
+    }
 
     /**
      * Prints a single-line usage to the screen.
