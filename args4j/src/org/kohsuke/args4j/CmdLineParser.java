@@ -618,7 +618,9 @@ public class CmdLineParser {
 		parsingOptions = false;
 	}
     
-    /** Create a command line help instance.
+    /** Create a command line help instance. This object can
+     * be used to output the help documentation to the
+     * console.
      */
     public CmdLineHelp createCmdLineHelp() {
         return new CmdLineHelp(this, parserProperties);
