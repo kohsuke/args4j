@@ -243,213 +243,6 @@ public class CmdLineParser {
     }
 
     /**
-     * Formats a command line example into a string.
-     *
-     * See {@link #printExample(OptionHandlerFilter, ResourceBundle)} for more details.
-     *
-     * @param filter
-     *      must not be {@code null}.
-     * @return
-     *      always non-{@code null}.
-     */
-    public String printExample(OptionHandlerFilter filter) {
-        return printExample(filter,null);
-    }
-
-    /**
-     * @deprecated
-     *      Use {@link #printExample(OptionHandlerFilter)}
-     */
-    public String printExample(ExampleMode mode) {
-        return printExample(mode, null);
-    }
-
-    /**
-     * Formats a command line example into a string.
-     *
-     * <p>
-     * This method produces a string like <samp> -d &lt;dir> -v -b</samp>.
-     * This is useful for printing a command line example (perhaps
-     * as a part of the usage screen).
-     *
-     *
-     * @param mode
-     *      Determines which options will be a part of the returned string.
-     *      Must not be {@code null}.
-     * @param rb
-     *      If non-{@code null}, meta variables (<samp>&lt;dir></samp> in the above example)
-     *      is treated as a key to this resource bundle, and the associated
-     *      value is printed. See {@link Option#metaVar()}. This is to support
-     *      localization.
-     *
-     *      Passing {@code null} would print {@link Option#metaVar()} directly.
-     * @return
-     *      always non-{@code null}. If there's no option, this method returns
-     *      just the empty string {@code ""}. Otherwise, this method returns a
-     *      string that contains a space at the beginning (but not at the end).
-     *      This allows you to do something like:
-     *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
-     * @throws NullPointerException if {@code mode} is {@code null}.
-     */
-    public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
-        StringBuilder buf = new StringBuilder();
-
-        checkNonNull(mode, "mode");
-        
-        for (OptionHandler h : options) {
-            OptionDef option = h.option;
-            if(option.usage().length()==0)  continue;   // ignore
-            if(!mode.select(h))             continue;
-
-            buf.append(' ');
-            buf.append(h.getNameAndMeta(rb, parserProperties));
-        }
-
-        return buf.toString();
-    }
-
-    /**
-     * @deprecated
-     *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
-     */
-    public String printExample(ExampleMode mode, ResourceBundle rb) {
-        return printExample((OptionHandlerFilter) mode, rb);
-    }
-
-    /**
-     * Prints the list of options and their usages to the screen.
-     *
-     * <p>
-     * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
-     * so that you can do {@code printUsage(System.err)}.
-     */
-    public void printUsage(OutputStream out) {
-        printUsage(new OutputStreamWriter(out),null);
-    }
-
-    /**
-     * Prints the list of all the non-hidden options and their usages to the screen.
-     *
-     * <p>
-     * Short for {@code printUsage(out,rb,OptionHandlerFilter.PUBLIC)}
-     */
-    public void printUsage(Writer out, ResourceBundle rb) {
-        printUsage(out, rb, OptionHandlerFilter.PUBLIC);
-    }
-
-    /**
-     * Prints the list of all the non-hidden options and their usages to the screen.
-     *
-     * @param rb
-     *      If non-{@code null}, {@link Option#usage()} is treated
-     *      as a key to obtain the actual message from this resource bundle.
-     * @param filter
-     *      Controls which options to be printed.
-     */
-    public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
-        PrintWriter w = new PrintWriter(out);
-        // determine the length of the option + metavar first
-        int len = 0;
-        for (OptionHandler h : arguments) {
-            int curLen = getPrefixLen(h, rb);
-            len = Math.max(len,curLen);
-        }
-        for (OptionHandler h: options) {
-            int curLen = getPrefixLen(h, rb);
-            len = Math.max(len,curLen);
-        }
-
-        // then print
-        for (OptionHandler h : arguments) {
-        	printOption(w, h, len, rb, filter);
-        }
-        for (OptionHandler h : options) {
-        	printOption(w, h, len, rb, filter);
-        }
-
-        w.flush();
-    }
-
-    /**
-     * Prints usage information for a given option.
-     *
-     * <p>
-     * Subtypes may override this method and determine which options get printed (or other things),
-     * based on {@link OptionHandler} (perhaps by using {@code handler.setter.asAnnotatedElement()}).
-     *
-     * @param out      Writer to write into
-     * @param handler  handler where to receive the information
-     * @param len      Maximum length of metadata column
-     * @param rb       {@code ResourceBundle} for I18N
-     * @see Setter#asAnnotatedElement()
-     */
-    protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
-    	// Hiding options without usage information
-    	if (handler.option.usage() == null ||
-            handler.option.usage().length() == 0 ||
-            !filter.select(handler)) {
-    		return;
-    	}
-
-    	// What is the width of the two data columns
-        int totalUsageWidth = parserProperties.getUsageWidth();
-    	int widthMetadata = Math.min(len, (totalUsageWidth - 4) / 2);
-    	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
-
-    	// Line wrapping
-    	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, parserProperties), widthMetadata);
-    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
-
-    	// Output
-    	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
-    		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
-			String usage       = (i >= usages.size())        ? "" : usages.get(i);
-			String format      = ((nameAndMeta.length() > 0) && (i == 0))
-			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
-			                   : " %1$-" + widthMetadata + "s   %2$-1s";
-			String output = String.format(format, nameAndMeta, usage);
-			out.println(output);
-    	}
-    }
-
-    private String localize(String s, ResourceBundle rb) {
-        if(rb!=null)    return rb.getString(s);
-        return s;
-    }
-
-    /**
-     * Wraps a line so that the resulting parts are not longer than a given maximum length.
-     *
-     * @param line       Line to wrap
-     * @param maxLength  maximum length for the resulting parts
-     * @return list of all wrapped parts
-     */
-    private List<String> wrapLines(String line, final int maxLength) {
-    	List<String> rv = new ArrayList<String>();
-        for (String restOfLine : line.split("\\n")) {
-            while (restOfLine.length() > maxLength) {
-                // try to wrap at space, but don't try too hard as some languages don't even have whitespaces.
-                int lineLength;
-                String candidate = restOfLine.substring(0, maxLength);
-                int sp=candidate.lastIndexOf(' ');
-                if(sp>maxLength*3/5)    lineLength=sp;
-                else                    lineLength=maxLength;
-                rv.add(restOfLine.substring(0, lineLength));
-                restOfLine = restOfLine.substring(lineLength).trim();
-            }
-            rv.add(restOfLine);
-        }
-    	return rv;
-    }
-
-	private int getPrefixLen(OptionHandler h, ResourceBundle rb) {
-		if(h.option.usage().length()==0)
-			return 0;
-
-		return h.getNameAndMeta(rb, parserProperties).length();
-	}
-
-    /**
      * Essentially a pointer over a {@link String} array.
      * Can move forward; can look ahead.
      */
@@ -824,6 +617,132 @@ public class CmdLineParser {
 	public void stopOptionParsing() {
 		parsingOptions = false;
 	}
+    
+    /** Create a command line help instance. This object can
+     * be used to output the help documentation to the
+     * console.
+     */
+    public CmdLineHelp createCmdLineHelp() {
+        return new CmdLineHelp(this, parserProperties);
+    }
+    
+    /**
+     * Formats a command line example into a string.
+     *
+     * See {@link #printExample(OptionHandlerFilter, ResourceBundle)} for more details.
+     *
+     * @param filter
+     *      must not be {@code null}.
+     * @return
+     *      always non-{@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public String printExample(OptionHandlerFilter filter) {
+        return createCmdLineHelp().printExample(filter);
+    }
+
+    /**
+     * @deprecated
+     *      Use {@link #printExample(OptionHandlerFilter)}
+     */
+    public String printExample(ExampleMode mode) {
+        return createCmdLineHelp().printExample(mode, null);
+    }
+
+    /**
+     * Formats a command line example into a string.
+     *
+     * <p>
+     * This method produces a string like <samp> -d &lt;dir> -v -b</samp>.
+     * This is useful for printing a command line example (perhaps
+     * as a part of the usage screen).
+     *
+     *
+     * @param mode
+     *      Determines which options will be a part of the returned string.
+     *      Must not be {@code null}.
+     * @param rb
+     *      If non-{@code null}, meta variables (<samp>&lt;dir></samp> in the above example)
+     *      is treated as a key to this resource bundle, and the associated
+     *      value is printed. See {@link Option#metaVar()}. This is to support
+     *      localization.
+     *
+     *      Passing {@code null} would print {@link Option#metaVar()} directly.
+     * @return
+     *      always non-{@code null}. If there's no option, this method returns
+     *      just the empty string {@code ""}. Otherwise, this method returns a
+     *      string that contains a space at the beginning (but not at the end).
+     *      This allows you to do something like:
+     *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
+     * @throws NullPointerException if {@code mode} is {@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
+        return createCmdLineHelp().printExample(mode, rb);
+    }
+
+    /**
+     * @deprecated
+     *      Use {@link #printExample(OptionHandlerFilter,ResourceBundle)}
+     */
+    public String printExample(ExampleMode mode, ResourceBundle rb) {
+        return createCmdLineHelp().printExample((OptionHandlerFilter) mode, rb);
+    }
+
+    /**
+     * Prints the list of options and their usages to the screen.
+     *
+     * <p>
+     * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
+     * so that you can do {@code printUsage(System.err)}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public void printUsage(OutputStream out) {
+        createCmdLineHelp().printUsage(new OutputStreamWriter(out),null);
+    }
+
+    /**
+     * Prints the list of all the non-hidden options and their usages to the screen.
+     *
+     * <p>
+     * Short for {@code printUsage(out,rb,OptionHandlerFilter.PUBLIC)}
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public void printUsage(Writer out, ResourceBundle rb) {
+        createCmdLineHelp().printUsage(out, rb, OptionHandlerFilter.PUBLIC);
+    }
+
+    /**
+     * Prints the list of all the non-hidden options and their usages to the screen.
+     *
+     * @param rb
+     *      If non-{@code null}, {@link Option#usage()} is treated
+     *      as a key to obtain the actual message from this resource bundle.
+     * @param filter
+     *      Controls which options to be printed.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
+        createCmdLineHelp().printUsage(out, rb, filter);
+    }
+
+    /**
+     * Prints usage information for a given option.
+     *
+     * <p>
+     * Subtypes may override this method and determine which options get printed (or other things),
+     * based on {@link OptionHandler} (perhaps by using {@code handler.setter.asAnnotatedElement()}).
+     *
+     * @param out      Writer to write into
+     * @param handler  handler where to receive the information
+     * @param len      Maximum length of metadata column
+     * @param rb       {@code ResourceBundle} for I18N
+     * @see Setter#asAnnotatedElement()
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
+     */
+    protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
+        createCmdLineHelp().printOption(out, handler, len, rb, filter);
+    }
 
     /**
      * Prints a single-line usage to the screen.
@@ -832,11 +751,10 @@ public class CmdLineParser {
      * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
      * so that you can do {@code printUsage(System.err)}.
      * @throws NullPointerException if {@code out} is {@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
 	public void printSingleLineUsage(OutputStream out) {
-        checkNonNull(out, "OutputStream");
-        
-		printSingleLineUsage(new OutputStreamWriter(out), null);
+        createCmdLineHelp().printSingleLineUsage(out);
 	}
 
     /**
@@ -846,30 +764,9 @@ public class CmdLineParser {
      *      if this is non-{@code null}, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
      * @throws NullPointerException if {@code w} is {@code null}.
+     * @deprecated use {@link #createCmdLineHelp()} and its methods.
      */
-    // TODO test this!
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
-        checkNonNull(w, "Writer");
-        
-		PrintWriter pw = new PrintWriter(w);
-		for (OptionHandler h : arguments) {
-			printSingleLineOption(pw, h, rb);
-		}
-		for (OptionHandler h : options) {
-			printSingleLineOption(pw, h, rb);
-		}
-		pw.flush();
-	}
-
-	private void printSingleLineOption(PrintWriter pw, OptionHandler h, ResourceBundle rb) {
-		pw.print(' ');
-		if (!h.option.required())
-			pw.print('[');
-		pw.print(h.getNameAndMeta(rb, parserProperties));
-		if (h.option.isMultiValued()) {
-			pw.print(" ...");
-		}
-		if (!h.option.required())
-			pw.print(']');
+        createCmdLineHelp().printSingleLineUsage(w, rb);
 	}
 }

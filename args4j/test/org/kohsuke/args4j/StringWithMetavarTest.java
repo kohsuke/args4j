@@ -43,7 +43,7 @@ public class StringWithMetavarTest extends Args4JTestBase<StringWithMetavar> {
 
     private String getSingleLineUsage() {
         StringWriter buffer = new StringWriter();
-        parser.printSingleLineUsage(buffer, null);
+        parser.createCmdLineHelp().printSingleLineUsage(buffer, null);
         buffer.flush();
         return buffer.toString();
     }

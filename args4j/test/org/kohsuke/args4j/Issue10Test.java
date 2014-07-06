@@ -21,7 +21,7 @@ public class Issue10Test extends TestCase {
 	// The bug should be fixed with changing from manual printing to printf.
 	public void testIssue10() {
 		CmdLineParser parser = new CmdLineParser(this);
-		parser.printUsage(new ByteArrayOutputStream());
+		parser.createCmdLineHelp().printUsage(new ByteArrayOutputStream());
 		// occurred error: StringIndexOutOfBoundsException with index < 0
 
 	}
