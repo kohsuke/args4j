@@ -13,23 +13,23 @@ import org.xml.sax.InputSource;
  * Parses an XML-file specifying the 'annotations'.
  * The XML must have the structure:
  * <pre>
- * &lt;args>
- *     &lt;option field="" method="" name="" usage="" metavar="" handler=""/>
- *     &lt;argument field="" method="" usage="" metavar="" handler=""/>
- * &lt;/args>
+ * &lt;args&gt;
+ *     &lt;option field="" method="" name="" usage="" metavar="" handler=""/&gt;
+ *     &lt;argument field="" method="" usage="" metavar="" handler=""/&gt;
+ * &lt;/args&gt;
  * </pre>
  * Exactly one of the attributes 'field' or 'method' must be set.
  * The 'handler' value specifies a full qualified class name.
  *
  * <h3>Example</h3>
  * <pre>
- * &lt;args>
- *     &lt;option field="recursive" name="-r" usage="recursively run something"/>
- *     &lt;option field="out" name="-o" usage="output to this file" metavar="OUTPUT"/>
- *     &lt;option method="setStr(String)" name="-str"/>
- *     &lt;option field="data" name="-custom" handler="org.kohsuke.args4j.spi.BooleanOptionHandler" usage="boolean value for checking the custom handler"/>
- *     &lt;argument field="arguments"/>
- * &lt;args>
+ * &lt;args&gt;
+ *     &lt;option field="recursive" name="-r" usage="recursively run something"/&gt;
+ *     &lt;option field="out" name="-o" usage="output to this file" metavar="OUTPUT"/&gt;
+ *     &lt;option method="setStr(String)" name="-str"/&gt;
+ *     &lt;option field="data" name="-custom" handler="org.kohsuke.args4j.spi.BooleanOptionHandler" usage="boolean value for checking the custom handler"/&gt;
+ *     &lt;argument field="arguments"/&gt;
+ * &lt;args&gt;
  * </pre>
  *
  * @author Jan Materne

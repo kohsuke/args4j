@@ -1,7 +1,7 @@
 package org.kohsuke.args4j.spi;
 
 /**
- * The ConfigElement is an <tt>&lt;option></tt> or <tt>&lt;argument></tt> tag
+ * The ConfigElement is an <tt>&lt;option&gt;</tt> or <tt>&lt;argument&gt;</tt> tag
  * in the xml configuration file.
  * @author Jan Materne
  */
