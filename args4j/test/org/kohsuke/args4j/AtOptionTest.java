@@ -3,6 +3,7 @@ package org.kohsuke.args4j;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 
 /**
  * Tests the AT sign that reads options from an external file.
@@ -25,7 +26,8 @@ public class AtOptionTest extends Args4JTestBase<AtOption> {
         parser.parseArgument(args);
         
         assertEquals("foo", testObject.str);
-        assertEquals(null, testObject.noUsage);
+        assertNull(testObject.noUsage);
+        assertNull(testObject.arguments);
         
         tmp.delete();
     }
@@ -42,6 +44,7 @@ public class AtOptionTest extends Args4JTestBase<AtOption> {
         
         assertEquals("foo", testObject.str);
         assertEquals("lala", testObject.noUsage);
+        assertNull(testObject.arguments);
         
         tmp.delete();
     }
@@ -58,7 +61,30 @@ public class AtOptionTest extends Args4JTestBase<AtOption> {
         
         assertEquals("foo", testObject.str);
         assertEquals("lala", testObject.noUsage);
+        assertNull(testObject.arguments);
         
         tmp.delete();
     }
+    
+    public void testAtOptsWithBeingDisabled() throws IOException, CmdLineException {
+        
+        parser.getProperties().withAtSyntax(false);
+        
+        File tmp = File.createTempFile("atoption", null);
+        PrintWriter printWriter = new PrintWriter(tmp);
+        printWriter.println("-string\nfoo");
+        printWriter.close();
+        
+        // this time the @-option gets not interpreted because
+        // it's disabled
+        args = new String[]{"-noUsage", "foo", "@"+tmp.getAbsolutePath()};
+        parser.parseArgument(args);
+        
+        assertEquals("default", testObject.str);
+        assertEquals("foo", testObject.noUsage);
+        assertEquals(Arrays.asList(new String[] {"@"+tmp.getAbsolutePath()}), 
+                Arrays.asList(testObject.arguments));
+        
+        tmp.delete();
+    }    
 }

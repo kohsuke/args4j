@@ -524,7 +524,10 @@ public class CmdLineParser {
         
         checkNonNull(args, "args");
         
-        String expandedArgs[] = expandAtFiles(args);
+        String expandedArgs[] = args;
+        if (parserProperties.getAtSyntax()) {
+            expandedArgs = expandAtFiles(args);
+        }
         CmdLineImpl cmdLine = new CmdLineImpl(expandedArgs);
 
         Set<OptionHandler> present = new HashSet<OptionHandler>();
