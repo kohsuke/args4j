@@ -7,4 +7,7 @@ public class AtOption {
     
     @Option(name="-noUsage")
     public String noUsage;
+    
+    @Argument
+    public String arguments[];
 }

@@ -16,7 +16,8 @@ public class ParserProperties {
     private int usageWidth = DEFAULT_USAGE_WIDTH;
     private Comparator<OptionHandler> optionSorter = DEFAULT_COMPARATOR;
     private String optionValueDelimiter=" ";
-
+    private boolean atSyntax = true;
+    
     private ParserProperties() {
     }
 
@@ -26,6 +27,26 @@ public class ParserProperties {
      */
     public static ParserProperties defaults() {
         return new ParserProperties();
+    }
+
+    /** Toggles the parsing of @-prefixes in values.
+     * If a command line value starts with @, it is interpreted
+     * as being a file, loaded, and interpreted as if
+     * the file content would have been passed to the command line.
+     * @param atSyntax {@code true} if at sign is being parsed, {@code false}
+     * if it is to be ignored. Defaults to {@code true}.
+     * @see #getAtSyntax() 
+     */
+    public ParserProperties withAtSyntax(boolean atSyntax) {
+        this.atSyntax = atSyntax;
+        return this;
+    }
+    
+    /** Gets whether @-prefix-parsing is enabled.
+     * @see #withAtSyntax(boolean) 
+     */
+    public boolean getAtSyntax() {
+        return atSyntax;
     }
 
     /**
