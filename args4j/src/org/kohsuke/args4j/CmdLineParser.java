@@ -148,8 +148,8 @@ public class CmdLineParser {
      * @throws IllegalAnnotationError if the option name or one of the aliases is already taken.
      */
     public void addOption(Setter setter, Option o) {
-        Utilities.checkNonNull(setter, "Setter");
-        Utilities.checkNonNull(o, "Option");
+        checkNonNull(setter, "Setter");
+        checkNonNull(o, "Option");
     
         checkOptionNotInMap(o.name());
         for (String alias : o.aliases()) {
@@ -174,7 +174,7 @@ public class CmdLineParser {
     }
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
-        Utilities.checkNonNull(name, "name");
+        checkNonNull(name, "name");
         
 		if(findOptionByName(name)!=null) {
             throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_OPTION.format(name));
@@ -187,8 +187,8 @@ public class CmdLineParser {
      * @deprecated You should use {@link OptionHandlerRegistry#createOptionHandler(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.OptionDef, org.kohsuke.args4j.spi.Setter) } instead.
      */
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
-        Utilities.checkNonNull(o, "OptionDef");
-        Utilities.checkNonNull(setter, "Setter");
+        checkNonNull(o, "OptionDef");
+        checkNonNull(setter, "Setter");
         return OptionHandlerRegistry.getRegistry().createOptionHandler(this, o, setter);
     }
 
@@ -424,14 +424,12 @@ public class CmdLineParser {
             pos += n;
         }
 
-        @Override
         public String getParameter(int idx) throws CmdLineException {
 			if( pos+idx>=args.length || pos+idx<0 )
                 throw new CmdLineException(CmdLineParser.this, Messages.MISSING_OPERAND, getOptionName());
             return args[pos+idx];
         }
 
-        @Override
         public int size() {
             return args.length-pos;
         }
@@ -695,8 +693,8 @@ public class CmdLineParser {
      * @deprecated You should use {@link OptionHandlerRegistry#registerHandler(java.lang.Class, java.lang.Class)} instead.
      */
     public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
-        Utilities.checkNonNull(valueType, "valueType");
-        Utilities.checkNonNull(handlerClass, "handlerClass");
+        checkNonNull(valueType, "valueType");
+        checkNonNull(handlerClass, "handlerClass");
 
         OptionHandlerRegistry.getRegistry().registerHandler(valueType, handlerClass);
     }
@@ -732,7 +730,7 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code out} is {@code null}.
      */
 	public void printSingleLineUsage(OutputStream out) {
-        Utilities.checkNonNull(out, "OutputStream");
+        checkNonNull(out, "OutputStream");
         
 		printSingleLineUsage(new OutputStreamWriter(out), null);
 	}
