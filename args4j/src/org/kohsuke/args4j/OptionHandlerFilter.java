@@ -20,7 +20,7 @@ public interface OptionHandlerFilter {
     /**
      *
      * @param o
-     *      Never {@code null}. Internally options (like <samp>-r</samp>) and arguments (others)
+     *      Never {@code null}. Internally options (like <code>-r</code>) and arguments (others)
      *      are treated uniformly as {@link OptionHandler}. 
      *      See {@link OptionDef#isArgument()} to distinguish them.
      * @return

@@ -16,9 +16,9 @@ public interface Parameters  {
      *
      * @param idx
      *      specifying 0 will retrieve the token next to the option.
-     *      For example, if the command line looks like <samp>-o abc -d x</samp>,
-     *      then {@code getParameter(0)} for <samp>-o</samp> returns {@code abc}
-     *      and {@code getParameter(1)} will return <samp>-d</samp>.
+     *      For example, if the command line looks like <code>-o abc -d x</code>,
+     *      then {@code getParameter(0)} for <code>-o</code> returns {@code abc}
+     *      and {@code getParameter(1)} will return <code>-d</code>.
      *
      * @return
      *      Always return non-{@code null} valid {@code String}. If an attempt is

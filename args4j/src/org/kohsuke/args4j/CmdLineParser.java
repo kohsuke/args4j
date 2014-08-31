@@ -218,7 +218,7 @@ public class CmdLineParser {
      * Formats a command line example into a string.
      *
      * <p>
-     * This method produces a string like <samp> -d &lt;dir> -v -b</samp>.
+     * This method produces a string like <code> -d &lt;dir&gt; -v -b</code>.
      * This is useful for printing a command line example (perhaps
      * as a part of the usage screen).
      *
@@ -227,7 +227,7 @@ public class CmdLineParser {
      *      Determines which options will be a part of the returned string.
      *      Must not be {@code null}.
      * @param rb
-     *      If non-{@code null}, meta variables (<samp>&lt;dir></samp> in the above example)
+     *      If non-{@code null}, meta variables (<code>&lt;dir&gt;</code> in the above example)
      *      is treated as a key to this resource bundle, and the associated
      *      value is printed. See {@link Option#metaVar()}. This is to support
      *      localization.
@@ -238,7 +238,7 @@ public class CmdLineParser {
      *      just the empty string {@code ""}. Otherwise, this method returns a
      *      string that contains a space at the beginning (but not at the end).
      *      This allows you to do something like:
-     *      <code><pre>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</pre></code>
+     *      <code>System.err.println("java -jar my.jar"+parser.printExample(REQUIRED)+" arg1 arg2");</code>
      * @throws NullPointerException if {@code mode} is {@code null}.
      */
     public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {

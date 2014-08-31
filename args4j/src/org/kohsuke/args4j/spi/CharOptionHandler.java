@@ -6,7 +6,7 @@ import org.kohsuke.args4j.CmdLineException;
 
 
 /**
- * {@link Char}
+ * {@link Character}
  * {@link OptionHandler}
  * {@link OneArgumentOptionHandler}
  * @author Jan Materne

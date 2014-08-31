@@ -14,20 +14,21 @@ import org.kohsuke.args4j.OptionDef;
  * <p>
  * For example, if you have the following class:
  *
- * <code><pre>
+ * <pre>
+ * <code> 
  * class Foo {
- *   &#64;Argument
- *   &#64;Option(name="--",handler={@link StopOptionHandler}.class)
- *   List&lt;String> args;
+ *  {@literal @}Argument
+ *  {@literal @}Option(name="--",handler={@link StopOptionHandler}.class)
+ *   List&lt;String&gt; args;
  *
- *   &#64;Option(name="-n")
+ *  {@literal @}Option(name="-n")
  *   int n;
  * }
- * </pre></code>
+ * </code></pre>
  *
  * <p>
- * The command line <samp>-n 5 abc def</samp> would parse into {@code n=5, args={"abc",def"}},
- * but <samp> -- -n 5 abc def</samp> would parse into {@code n=0, args={"-n","5","abc","def"}}.
+ * The command line <code>-n 5 abc def</code> would parse into {@code n=5, args={"abc",def"}},
+ * but <code> -- -n 5 abc def</code> would parse into {@code n=0, args={"-n","5","abc","def"}}.
  *
  * @author Kohsuke Kawaguchi
  */
