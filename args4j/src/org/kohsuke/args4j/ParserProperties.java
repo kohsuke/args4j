@@ -21,7 +21,8 @@ public class ParserProperties {
     private ParserProperties() {
     }
 
-    /** Returns an instance of the default parser properties.
+    /**
+     * Returns an instance of the default parser properties.
      * This instance can be manipulated with the {@code withXXX()} methods
      * in this class.
      */
@@ -29,7 +30,8 @@ public class ParserProperties {
         return new ParserProperties();
     }
 
-    /** Toggles the parsing of @-prefixes in values.
+    /**
+     * Toggles the parsing of @-prefixes in values.
      * If a command line value starts with @, it is interpreted
      * as being a file, loaded, and interpreted as if
      * the file content would have been passed to the command line.
@@ -42,7 +44,8 @@ public class ParserProperties {
         return this;
     }
     
-    /** Gets whether @-prefix-parsing is enabled.
+    /**
+     * Gets whether @-prefix-parsing is enabled.
      * @see #withAtSyntax(boolean) 
      */
     public boolean getAtSyntax() {
@@ -50,10 +53,10 @@ public class ParserProperties {
     }
 
     /**
-     *  Sets the width of a usage line.
-     *  If the usage message is longer than this value, the parser wraps the line.
+     * Sets the width of a usage line.
+     * If the usage message is longer than this value, the parser wraps the line.
      *
-     *  Defaults to {@code 80}.
+     * Defaults to {@code 80}.
      *
      * @param usageWidth the width of the usage output in columns.
      * @throws IllegalArgumentException if {@code usageWidth} is negative

@@ -40,12 +40,14 @@ import org.kohsuke.args4j.spi.URLOptionHandler;
  */
 public class OptionHandlerRegistry {
 
-    /** The shared reference. 
+    /**
+     * The shared reference.
      * @see #getRegistry() 
      */
     private static OptionHandlerRegistry instance;
     
-    /** Gets the option handler registry singleton instance.
+    /**
+     * Gets the option handler registry singleton instance.
      * @return a shared instance of the registry.
      */
     public synchronized static OptionHandlerRegistry getRegistry() {
@@ -55,7 +57,8 @@ public class OptionHandlerRegistry {
         return instance;
     }
     
-    /** Constructs an option handler manager with the
+    /**
+     * Constructs an option handler manager with the
      * default handlers initialized.
      */
     private OptionHandlerRegistry() {
