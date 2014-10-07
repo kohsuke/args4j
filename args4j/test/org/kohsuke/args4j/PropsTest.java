@@ -29,6 +29,21 @@ public class PropsTest extends Args4JTestBase<Props> {
         }
     }
 
+    public void testHasEqual() {
+        args = new String[]{"-T", "key1=value1=more", "-T", "key2=value2=more"};
+        try {
+            parser.parseArgument(args);
+            Map<String,String> map = testObject.props;
+            assertTrue("The key was not set.", map.containsKey("key1"));
+            assertTrue("The key was not set.", map.containsKey("key2"));
+            assertEquals("More keys than expected.", map.size(), 2);
+            assertEquals("Key has wrong value", map.get("key1"), "value1=more");
+            assertEquals("Key has wrong value", map.get("key2"), "value2=more");
+        } catch (CmdLineException e) {
+            fail("Cought an invalid exception: " + e.getMessage());
+        }
+    }
+
     public void testSinglePair() {
         args = new String[]{"-T", "key1=value1"};
         try {
