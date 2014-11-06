@@ -20,11 +20,11 @@ public class ClassParser {
             for( Method m : c.getDeclaredMethods() ) {
                 Option o = m.getAnnotation(Option.class);
                 if(o!=null) {
-                	parser.addOption(new MethodSetter(parser,bean,m), o);
+                	parser.addOption(new MethodSetter(parser,bean,m, true), o);
                 }
                 Argument a = m.getAnnotation(Argument.class);
                 if(a!=null) {
-                    parser.addArgument(new MethodSetter(parser,bean,m), a);
+                    parser.addArgument(new MethodSetter(parser,bean,m,a.multiValued()),a);
                 }
             }
 

@@ -20,7 +20,7 @@ public class Setters {
     
     public static Setter create(CmdLineParser parser, AccessibleObject fieldOrMethod, Object bean) {
         if (fieldOrMethod instanceof Method) {
-            return new MethodSetter(parser,bean,(Method) fieldOrMethod);
+            return new MethodSetter(parser,bean,(Method) fieldOrMethod, true);
         } else {
             return create((Field)fieldOrMethod,bean);
         }
