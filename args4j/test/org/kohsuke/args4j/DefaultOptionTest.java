@@ -23,6 +23,8 @@ public class DefaultOptionTest extends Args4JTestBase<DefaultOption> {
         " BOURBON | BRANDY]                         ",
         " -drinkArray [BEER | WHISKEY | SCOTCH   : my favorite drinks (default: [BEER,",
         " | BOURBON | BRANDY]                      BOURBON])",
+        " -drinkList [BEER | WHISKEY | SCOTCH |  : my favorite drinks (default: [BEER,",
+        " BOURBON | BRANDY]                        BRANDY])",
         " -req VAL                               : set a string",
         " -str VAL                               : set a string (default: pretty string)",
         " -strArray VAL                          : my favorite strarr (default: [san,",

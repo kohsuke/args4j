@@ -1,5 +1,8 @@
 package org.kohsuke.args4j;
 
+import java.util.Arrays;
+import java.util.List;
+
 @SuppressWarnings("unused")
 public class DefaultOption {
     @Option(name="-str",usage="set a string")
@@ -33,6 +36,9 @@ public class DefaultOption {
     
     @Option(name="-drink", usage="my favorite drink")
     public DrinkName drink = DrinkName.BEER;
+    
+    @Option(name="-drinkList", usage="my favorite drinks")
+    public List<DrinkName> drinkList = Arrays.asList(DrinkName.BEER, DrinkName.BRANDY);
     
     @Argument
     public String arguments[] = new String[] { "foo", "bar" };

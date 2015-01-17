@@ -6,6 +6,9 @@ package org.kohsuke.args4j.spi;
  * @author Stephan Fuhrmann
  */
 public interface Getter<T> {
+    
+    final static String NULL = "null";
+    
     /**
      * Gets the value of the property of the option bean.
      *
