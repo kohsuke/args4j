@@ -6,7 +6,6 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
-import org.kohsuke.args4j.CmdLineException;
 
 /**
  * {@link Setter} that allows multiple values to be stored into one array field.
