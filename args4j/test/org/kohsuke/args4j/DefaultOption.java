@@ -17,7 +17,7 @@ public class DefaultOption {
     @Option(name="-byteVal", usage = "my favorite byte")
     public byte byteVal;
     
-    @Option(name="-strArray")
+    @Option(name="-strArray", usage="my favorite strarr")
     public String strArray[] = new String[] { "san", "dra", "chen"};
     
     public enum DrinkName {
@@ -28,10 +28,10 @@ public class DefaultOption {
         BRANDY
     };
     
-    @Option(name="-drinkArray")
+    @Option(name="-drinkArray", usage="my favorite drinks")
     public DrinkName drinkArray[] = new DrinkName[] { DrinkName.BEER, DrinkName.BOURBON };
     
-    @Option(name="-drink")
+    @Option(name="-drink", usage="my favorite drink")
     public DrinkName drink = DrinkName.BEER;
     
     @Argument

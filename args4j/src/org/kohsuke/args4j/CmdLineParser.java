@@ -374,7 +374,8 @@ public class CmdLineParser {
             Getter getter = (Getter)handler.setter;
             Object defObj = getter.getValue();
             if (defObj != null) {
-                String defaultStr = Messages.DEFAULT_VALUE.format(defObj.toString()); // TODO arrays?
+                String defObjStr = getter.toString(defObj);
+                String defaultStr = Messages.DEFAULT_VALUE.format(defObjStr);
                 defaultValuePart = " " + defaultStr;
             }
         }

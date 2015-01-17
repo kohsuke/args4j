@@ -14,4 +14,11 @@ public interface Getter<T> {
      * and the instance of the option bean.
      */
     T getValue();
+    
+    /**
+     * Formats the value for outputting it to the command line help.
+     * @param value the value as returned by {@link #getValue()}
+     * @return the human readable value representation.
+     */
+    String toString(T value);
 }
