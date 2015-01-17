@@ -16,7 +16,7 @@ import org.kohsuke.args4j.Option;
  *
  * @author Stephan Fuhrmann
  */
-public class MacAddressHandlerTest extends TestCase {
+public class MacAddressOptionHandlerTest extends TestCase {
 
     private class TestBean {
 
