@@ -101,7 +101,7 @@ final class ArrayFieldSetter implements Getter, Setter {
         f.set(bean, ary);
     }
 
-    public Object getValue() throws CmdLineException {
+    public Object getValue() {
         f.setAccessible(true);
         try {        
             return f.get(bean);
