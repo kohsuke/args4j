@@ -15,7 +15,7 @@ public class LongUsageTest extends Args4JTestBase<LongUsage> {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             String expectedLine1 = " -LongNamedStringOption USE_A_NICE_STRING : set a string";
-            String expectedLine2 = " -i N                                     : set an int";
+            String expectedLine2 = " -i N                                     : set an int (default: 0)";
             String[] usageLines = getUsageMessage();
             assertUsageLength(2);
             assertEquals("First line wrong", expectedLine1, usageLines[0]);
@@ -33,7 +33,7 @@ public class LongUsageTest extends Args4JTestBase<LongUsage> {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
             String expectedLine1 = " -LongNamedStringOption USE_A_NICE_STRING : set a string";
-            String expectedLine2 = " -i N                                     : set an int";
+            String expectedLine2 = " -i N                                     : set an int (default: 0)";
             String[] usageLines = getUsageMessage();
             assertUsageLength(2);
             assertEquals("First line wrong", expectedLine1, usageLines[0]);

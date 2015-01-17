@@ -17,6 +17,7 @@ public class ParserProperties {
     private Comparator<OptionHandler> optionSorter = DEFAULT_COMPARATOR;
     private String optionValueDelimiter=" ";
     private boolean atSyntax = true;
+    private boolean showDefaults = true;
     
     private ParserProperties() {
     }
@@ -44,6 +45,7 @@ public class ParserProperties {
         return this;
     }
     
+    
     /**
      * Gets whether @-prefix-parsing is enabled.
      * @see #withAtSyntax(boolean) 
@@ -52,6 +54,25 @@ public class ParserProperties {
         return atSyntax;
     }
 
+    /**
+     * Toggles the showing of default values in the command line help.
+     * @param showDefaults {@code true} if to show defaults, {@code false}
+     * otherweise. Defaults to {@code true}.
+     * @see #getShowDefaults() 
+     */
+    public ParserProperties withShowDefaults(boolean showDefaults) {
+        this.showDefaults = showDefaults;
+        return this;
+    }    
+    
+    /**
+     * Gets whether show defaults is enabled.
+     * @see #withShowDefaults(boolean) 
+     */
+    public boolean getShowDefaults() {
+        return showDefaults;
+    }
+    
     /**
      * Sets the width of a usage line.
      * If the usage message is longer than this value, the parser wraps the line.

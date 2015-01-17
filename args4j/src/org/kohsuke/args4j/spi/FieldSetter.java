@@ -8,7 +8,7 @@ import java.lang.reflect.Field;
  *
  * @author Kohsuke Kawaguchi
  */
-public final class FieldSetter implements Setter {
+public final class FieldSetter implements Getter, Setter {
     private final Field f;
     private final Object bean;
 

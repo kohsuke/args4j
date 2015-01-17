@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import org.kohsuke.args4j.spi.Getter;
 
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
@@ -346,9 +347,13 @@ public class CmdLineParser {
     	int widthMetadata = Math.min(len, (totalUsageWidth - 4) / 2);
     	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
 
+        String defaultValuePart = createDefaultValuePart(handler);
+        
     	// Line wrapping
+        // the 'left' side
     	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, parserProperties), widthMetadata);
-    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
+        // the 'right' side
+    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb) + defaultValuePart, widthUsage);
 
     	// Output
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
@@ -358,8 +363,22 @@ public class CmdLineParser {
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
+                                                
 			out.println(output);
     	}
+    }
+
+    private static String createDefaultValuePart(OptionHandler handler) {
+        String defaultValuePart = "";
+        if (!handler.option.required() && handler.setter instanceof Getter) {
+            Getter getter = (Getter)handler.setter;
+            Object defObj = getter.getValue();
+            if (defObj != null) {
+                String defaultStr = Messages.DEFAULT_VALUE.format(defObj.toString()); // TODO arrays?
+                defaultValuePart = " " + defaultStr;
+            }
+        }
+        return defaultValuePart;
     }
 
     private String localize(String s, ResourceBundle rb) {

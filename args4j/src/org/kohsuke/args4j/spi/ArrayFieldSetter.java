@@ -6,6 +6,7 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import org.kohsuke.args4j.CmdLineException;
 
 /**
  * {@link Setter} that allows multiple values to be stored into one array field.
@@ -18,7 +19,7 @@ import java.lang.reflect.Field;
  *
  * @author Kohsuke Kawaguchi
  */
-final class ArrayFieldSetter implements Setter {
+final class ArrayFieldSetter implements Getter, Setter {
     private final Object bean;
     private final Field f;
     
@@ -98,6 +99,16 @@ final class ArrayFieldSetter implements Setter {
         }
 
         f.set(bean, ary);
+    }
+
+    public Object getValue() throws CmdLineException {
+        f.setAccessible(true);
+        try {        
+            return f.get(bean);
+        } 
+        catch (IllegalAccessException ex) {
+            throw new IllegalAccessError(ex.getMessage());
+        }
     }
 }
 

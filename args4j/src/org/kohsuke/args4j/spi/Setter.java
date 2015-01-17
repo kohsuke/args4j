@@ -13,7 +13,7 @@ import java.lang.reflect.AnnotatedElement;
  * This abstracts away the difference between a field and a setter method, 
  * which object we are setting the value to,
  * and/or how we handle collection fields differently.
- *
+ * @see Getter
  * @author Kohsuke Kawaguchi
  */
 public interface Setter<T> {
