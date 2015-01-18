@@ -368,9 +368,9 @@ public class CmdLineParser {
     	}
     }
 
-    private static String createDefaultValuePart(OptionHandler handler) {
+    private String createDefaultValuePart(OptionHandler handler) {
         String defaultValuePart = "";
-        if (!handler.option.required() && handler.setter instanceof Getter) {
+        if (parserProperties.getShowDefaults() && !handler.option.required() && handler.setter instanceof Getter) {
             Getter getter = (Getter)handler.setter;
             Object defObj = getter.getValue();
             if (defObj != null) {
