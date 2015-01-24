@@ -334,10 +334,8 @@ public class CmdLineParser {
      * @see Setter#asAnnotatedElement()
      */
     protected void printOption(PrintWriter out, OptionHandler handler, int len, ResourceBundle rb, OptionHandlerFilter filter) {
-    	// Hiding options without usage information
-    	if (handler.option.usage() == null ||
-            handler.option.usage().length() == 0 ||
-            !filter.select(handler)) {
+    	// Hiding options filtered
+    	if (!filter.select(handler)) {
     		return;
     	}
 
@@ -348,13 +346,14 @@ public class CmdLineParser {
 
     	// Line wrapping
     	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, parserProperties), widthMetadata);
-    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
+        String usageString = handler.option.usage() != null ? handler.option.usage() : "";
+    	List<String> usages        = wrapLines(localize(usageString,rb), widthUsage);
 
     	// Output
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
     		String nameAndMeta = (i >= namesAndMetas.size()) ? "" : namesAndMetas.get(i);
 			String usage       = (i >= usages.size())        ? "" : usages.get(i);
-			String format      = ((nameAndMeta.length() > 0) && (i == 0))
+			String format      = ((nameAndMeta.length() > 0) && (i == 0) && usage.length() > 0)
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
