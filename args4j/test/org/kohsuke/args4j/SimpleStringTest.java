@@ -37,7 +37,7 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
             fail("Doesnt detect wrong parameters.");
         } catch (CmdLineException e) {
             String expectedError = "\"-wrong-usage\" is not a valid option";
-            String expectedUsage   = " -str VAL : set a string";
+            String expectedUsage   = " -str VAL : set a string (default: default)";
             String[] usageLines = getUsageMessage();
             assertErrorMessagePrefix(expectedError, e);
             assertUsageLength(1);
@@ -52,7 +52,7 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
             fail("Should miss one parameter.");
         } catch (CmdLineException e) {
             String expectedError = "Option \"-str\" takes an operand";
-            String expectedUsage   = " -str VAL : set a string";
+            String expectedUsage   = " -str VAL : set a string (default: default)";
             String[] usageLines = getUsageMessage();
             String errorMessage = e.getMessage();
             assertUsageLength(1);

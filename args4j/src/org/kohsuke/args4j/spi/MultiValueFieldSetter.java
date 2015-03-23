@@ -14,7 +14,7 @@ import java.util.List;
  *
  * @author Kohsuke Kawaguchi
  */
-final class MultiValueFieldSetter implements Setter {
+final class MultiValueFieldSetter implements Getter, Setter {
     private final Object bean;
     private final Field f;
 
@@ -74,5 +74,15 @@ final class MultiValueFieldSetter implements Setter {
             throw new IllegalAnnotationError(Messages.ILLEGAL_LIST.format(f));
 
         ((List)o).add(value);
+    }
+
+    public List<Object> getValueList() {
+        try {
+            f.setAccessible(true);
+            return (List)f.get(bean);
+        }
+        catch (IllegalAccessException ex) {
+            throw new IllegalAccessError(ex.getMessage());
+        }
     }
 }

@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import org.kohsuke.args4j.spi.Getter;
 
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
@@ -203,7 +204,7 @@ public class CmdLineParser {
      *      always non-{@code null}.
      */
     public String printExample(OptionHandlerFilter filter) {
-        return printExample(filter,null);
+        return printExample(filter, null);
     }
 
     /**
@@ -346,9 +347,13 @@ public class CmdLineParser {
     	int widthMetadata = Math.min(len, (totalUsageWidth - 4) / 2);
     	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
 
+        String defaultValuePart = createDefaultValuePart(handler);
+        
     	// Line wrapping
+        // the 'left' side
     	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, parserProperties), widthMetadata);
-    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb), widthUsage);
+        // the 'right' side
+    	List<String> usages        = wrapLines(localize(handler.option.usage(),rb) + defaultValuePart, widthUsage);
 
     	// Output
     	for(int i=0; i<Math.max(namesAndMetas.size(), usages.size()); i++) {
@@ -358,8 +363,18 @@ public class CmdLineParser {
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
+                                                
 			out.println(output);
     	}
+    }
+
+    private String createDefaultValuePart(OptionHandler handler) {
+        if (parserProperties.getShowDefaults() && !handler.option.required() && handler.setter instanceof Getter) {
+            String v = handler.printDefaultValue();
+            if (v!=null)
+                return " " + Messages.DEFAULT_VALUE.format(v);
+        }
+        return "";
     }
 
     private String localize(String s, ResourceBundle rb) {

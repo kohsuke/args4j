@@ -13,7 +13,7 @@ import java.lang.reflect.AnnotatedElement;
  * This abstracts away the difference between a field and a setter method, 
  * which object we are setting the value to,
  * and/or how we handle collection fields differently.
- *
+ * @see Getter
  * @author Kohsuke Kawaguchi
  */
 public interface Setter<T> {
@@ -55,7 +55,7 @@ public interface Setter<T> {
      *   <li>This lets {@link OptionHandler}s bypass the collection/array handling of fields.
      *       This is useful if you're defining an option handler that produces array or collection
      *       from a single argument.</li>
-     *   <li>The other is to retrieve the current value of the field (via {@link FieldSetter#getValue()}).</li>
+     *   <li>The other is to retrieve the current value of the field (via {@link FieldSetter#getValueList()}).</li>
      * </ol>
      *
      * @return

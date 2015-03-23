@@ -6,6 +6,8 @@ import org.kohsuke.args4j.IllegalAnnotationError;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * {@link Setter} that allows multiple values to be stored into one array field.
@@ -18,7 +20,7 @@ import java.lang.reflect.Field;
  *
  * @author Kohsuke Kawaguchi
  */
-final class ArrayFieldSetter implements Setter {
+final class ArrayFieldSetter implements Getter, Setter {
     private final Object bean;
     private final Field f;
     
@@ -98,6 +100,24 @@ final class ArrayFieldSetter implements Setter {
         }
 
         f.set(bean, ary);
+    }
+
+    public List<Object> getValueList() {
+        f.setAccessible(true);
+        try {
+            List<Object> r = new ArrayList<Object>();
+
+
+            // array element might be primitive, so Arrays.asList() won't always work
+            Object array = f.get(bean);
+            int len = Array.getLength(array);
+            for (int i=0; i<len; i++)
+                r.add(Array.get(array, i));
+
+            return r;
+        } catch (IllegalAccessException ex) {
+            throw new IllegalAccessError(ex.getMessage());
+        }
     }
 }
 
