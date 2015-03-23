@@ -21,8 +21,8 @@ How can I use it?
 
 1. Check [the sample](https://github.com/kohsuke/args4j/blob/master/args4j/examples/SampleMain.java). This is how your
    code will look like.
-2. [Download](http://maven.glassfish.org/content/groups/public/args4j/) the distribution or include the library from
-   sthe Maven Repository at java.net.
+2. [Download](http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22args4j%22%20AND%20a%3A%22args4j%22) the distribution or include the library from
+   the Maven Repository.
 3. Write your code.
 
 More Resources

@@ -9,7 +9,7 @@
   <body>
    <menu name="Overview">
       <item name="Home"                   href="/index.html"/>
-      <item name="Download"               href="http://maven.jenkins-ci.org/content/repositories/releases/args4j/"/>
+      <item name="Download"               href="http://search.maven.org/#search%7Cgav%7C1%7Cg%3A%22args4j%22%20AND%20a%3A%22args4j%22"/>
       <item name="Javadoc"                   href="/args4j/apidocs/"/>
       <item name="Source code" href="https://github.com/kohsuke/args4j"/>
       <item name="Issues" href="http://java.net/jira/browse/ARGS4J"/>
