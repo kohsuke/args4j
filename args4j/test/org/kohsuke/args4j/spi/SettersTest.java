@@ -16,16 +16,14 @@ public class SettersTest extends TestCase {
 
     public void testSNotCreateSetterForFinalField() throws Exception {
         // given
-        Exception illegalStateException = null;
         Field f = SettersTest.class.getDeclaredField("finalField");
         // when
         try {
             Setters.create(f, null);
+            fail();
         } catch (IllegalStateException e) {
-            illegalStateException = e;
+            // expected
         }
-        // then asset the exception object
-        Assert.assertNotNull("No expected exception", illegalStateException);
     }
 
     public void testSCreateSetterForMutableField() throws Exception {
