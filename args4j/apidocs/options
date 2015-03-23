@@ -1,28 +1,28 @@
 -classpath
-'/files/kohsuke/ws/args4j/target/checkout/args4j/target/classes'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/target/classes'
 -encoding
 'UTF-8'
 -protected
 -sourcepath
-'/files/kohsuke/ws/args4j/target/checkout/args4j/src'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/src'
 -author
 -bottom
 'Copyright &#169; 2003-2015 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'/files/kohsuke/ws/args4j/target/checkout/args4j/target/site/apidocs'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/target/site/apidocs'
 -docencoding
 'UTF-8'
 -doctitle
-'args4j 2.0.31 API'
+'args4j 2.32 API'
+-link
+'http://java.sun.com/j2se/1.5.0/docs/api'
 -linkoffline
-'http://args4j.kohsuke.org/args4j-tools/apidocs' '/files/kohsuke/ws/args4j/target/checkout/args4j-tools/target/site/apidocs'
+'http://args4j.kohsuke.org/args4j-tools/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/site/apidocs'
 -linkoffline
-'http://args4j.kohsuke.org/args4j-maven-plugin/apidocs' '/files/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin/target/site/apidocs'
--linkoffline
-'http://args4j.kohsuke.org/args4j-maven-plugin-example/apidocs' '/files/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/site/apidocs'
+'http://args4j.kohsuke.org/args4j-maven-plugin-example/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/site/apidocs'
 -use
 -version
 -windowtitle
-'args4j 2.0.31 API'
+'args4j 2.32 API'

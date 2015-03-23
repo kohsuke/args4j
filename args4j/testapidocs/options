@@ -1,24 +1,26 @@
 -classpath
-'/files/kohsuke/ws/args4j/target/checkout/args4j/target/classes:/files/kohsuke/ws/args4j/target/checkout/args4j/target/test-classes:/home/kohsuke/.m2/repository/junit/junit/3.8.1/junit-3.8.1.jar'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j/target/test-classes:/files/kohsuke/.m2/repository/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar:/files/kohsuke/.m2/repository/junit/junit/4.11/junit-4.11.jar'
 -encoding
 'UTF-8'
 -protected
 -sourcepath
-'/files/kohsuke/ws/args4j/target/checkout/args4j/test'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/test'
 -author
 -bottom
 'Copyright &#169; 2003-2015 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
-'/files/kohsuke/ws/args4j/target/checkout/args4j/target/site/testapidocs'
+'/home/kohsuke/ws/args4j/target/checkout/args4j/target/site/testapidocs'
 -docencoding
 'UTF-8'
 -doctitle
-'args4j 2.0.31 Test API'
+'args4j 2.32 Test API'
+-link
+'http://java.sun.com/j2se/1.5.0/docs/api'
 -linkoffline
-'http://args4j.kohsuke.org/args4j-tools/apidocs' '/files/kohsuke/ws/args4j/target/checkout/args4j-tools/target/site/testapidocs'
+'http://args4j.kohsuke.org/args4j-tools/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j-tools/target/site/testapidocs'
 -use
 -version
 -windowtitle
-'args4j 2.0.31 Test API'
+'args4j 2.32 Test API'
