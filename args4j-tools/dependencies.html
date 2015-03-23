@@ -62,7 +62,7 @@
 <tr class="b">
 <td>args4j</td>
 <td><a class="externalLink" href="http://args4j.kohsuke.org/args4j/">args4j</a></td>
-<td>2.0.31</td>
+<td>2.32</td>
 <td>jar</td>
 <td><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></td></tr></table></div><a name="Project_Dependencies_test"></a>
 <div class="section">
@@ -78,7 +78,7 @@
 <tr class="b">
 <td>junit</td>
 <td><a class="externalLink" href="http://junit.org">junit</a></td>
-<td>3.8.2</td>
+<td>4.11</td>
 <td>jar</td>
 <td><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></td></tr>
 <tr class="a">
@@ -105,7 +105,23 @@
 <td>-</td></tr></table></div></div><a name="Project_Transitive_Dependencies"></a>
 <div class="section">
 <h2>Project Transitive Dependencies<a name="Project_Transitive_Dependencies"></a></h2>
-<p>No transitive dependencies are required for this project.</p></div><a name="Project_Dependency_Graph"></a>
+<p>The following is a list of transitive dependencies for this project. Transitive dependencies are the dependencies of the project dependencies.</p><a name="Project_Transitive_Dependencies_test"></a>
+<div class="section">
+<h3>test<a name="test"></a></h3>
+<p>The following is a list of test dependencies for this project. These dependencies are only required to compile and run unit tests for the application:</p>
+<table border="0" class="bodyTable">
+<tr class="a">
+<th>GroupId</th>
+<th>ArtifactId</th>
+<th>Version</th>
+<th>Type</th>
+<th>License</th></tr>
+<tr class="b">
+<td>org.hamcrest</td>
+<td><a class="externalLink" href="https://github.com/hamcrest/JavaHamcrest/hamcrest-core">hamcrest-core</a></td>
+<td>1.3</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</a></td></tr></table></div></div><a name="Project_Dependency_Graph"></a>
 <div class="section">
 <h2>Project Dependency Graph<a name="Project_Dependency_Graph"></a></h2><script language="javascript" type="text/javascript">
       function toggleDependencyDetail( divId, imgId )
@@ -128,7 +144,7 @@
 <div class="section">
 <h3>Dependency Tree<a name="Dependency_Tree"></a></h3>
 <ul>
-<li>args4j:args4j-tools:bundle:2.0.31 <img id="_713832364" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1953642277', '_713832364' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1953642277" style="display:none">
+<li>args4j:args4j-tools:bundle:2.32 <img id="_561578776" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_290731443', '_561578776' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_290731443" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>args4j-tools</th></tr>
@@ -138,7 +154,7 @@
 <p><b>URL: </b><a class="externalLink" href="http://args4j.kohsuke.org/args4j-tools/">http://args4j.kohsuke.org/args4j-tools/</a></p>
 <p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p></td></tr></table></div>
 <ul>
-<li>args4j:args4j:jar:2.0.31 (compile) <img id="_974624730" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1093062615', '_974624730' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1093062615" style="display:none">
+<li>args4j:args4j:jar:2.32 (compile) <img id="_1259150656" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_256816348', '_1259150656' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_256816348" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>args4j</th></tr>
@@ -147,16 +163,27 @@
 <p><b>Description: </b>args4j : Java command line arguments parser</p>
 <p><b>URL: </b><a class="externalLink" href="http://args4j.kohsuke.org/args4j/">http://args4j.kohsuke.org/args4j/</a></p>
 <p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p></td></tr></table></div></li>
-<li>junit:junit:jar:3.8.2 (test) <img id="_599395544" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1151270619', '_599395544' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1151270619" style="display:none">
+<li>junit:junit:jar:4.11 (test) <img id="_1303411912" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1558480625', '_1303411912' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1558480625" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>JUnit</th></tr>
 <tr class="b">
 <td>
-<p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck. It is used by the developer who implements unit tests in Java.</p>
+<p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck.
+        It is used by the developer who implements unit tests in Java.</p>
 <p><b>URL: </b><a class="externalLink" href="http://junit.org">http://junit.org</a></p>
-<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></p></td></tr></table></div></li>
-<li>org.mockito:mockito-all:jar:1.8.5 (test) <img id="_1856546457" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1392506180', '_1856546457' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1392506180" style="display:none">
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></p></td></tr></table></div>
+<ul>
+<li>org.hamcrest:hamcrest-core:jar:1.3 (test) <img id="_1933443105" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1126989821', '_1933443105' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1126989821" style="display:none">
+<table border="0" class="bodyTable">
+<tr class="a">
+<th>Hamcrest Core</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.</p>
+<p><b>URL: </b><a class="externalLink" href="https://github.com/hamcrest/JavaHamcrest/hamcrest-core">https://github.com/hamcrest/JavaHamcrest/hamcrest-core</a></p>
+<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</a></p></td></tr></table></div></li></ul></li>
+<li>org.mockito:mockito-all:jar:1.8.5 (test) <img id="_560023886" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1080772991', '_560023886' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1080772991" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>Mockito</th></tr>
@@ -165,16 +192,17 @@
 <p><b>Description: </b>Mock objects library for java</p>
 <p><b>URL: </b><a class="externalLink" href="http://www.mockito.org">http://www.mockito.org</a></p>
 <p><b>Project License: </b><a class="externalLink" href="http://code.google.com/p/mockito/wiki/License">The MIT License</a></p></td></tr></table></div></li>
-<li>jdk:tools:jar:5.0 (system) <img id="_558223939" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1465159109', '_558223939' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1465159109" style="display:none">
+<li>jdk:tools:jar:5.0 (system) <img id="_1910976844" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1775452385', '_1910976844' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1775452385" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>jdk:tools:jar:5.0</th></tr>
 <tr class="b">
 <td>
 <p><b>Description: </b>There is currently no description associated with this project.</p>
-<p><b>URL: </b>/usr/local/java7u7/jre/../lib/tools.jar</p></td></tr></table></div></li></ul></li></ul></div></div><a name="Licenses"></a>
+<p><b>URL: </b>/usr/local/jdk1.7.0_21/jre/../lib/tools.jar</p></td></tr></table></div></li></ul></li></ul></div></div><a name="Licenses"></a>
 <div class="section">
 <h2>Licenses<a name="Licenses"></a></h2>
+<p><b>New BSD License: </b>Hamcrest Core</p>
 <p><b>Common Public License Version 1.0: </b>JUnit</p>
 <p><b>MIT License: </b>args4j, args4j-tools</p>
 <p><b>The MIT License: </b>Mockito</p></div><a name="Dependency_File_Details"></a>
@@ -190,10 +218,10 @@
 <th>JDK Rev</th>
 <th>Debug</th></tr>
 <tr class="b">
-<td>args4j-2.0.31.jar</td>
-<td>85.15 kB</td>
-<td>91</td>
-<td>71</td>
+<td>args4j-2.32.jar</td>
+<td>150.26 kB</td>
+<td>163</td>
+<td>72</td>
 <td>2</td>
 <td>1.5</td>
 <td>debug</td></tr>
@@ -206,14 +234,22 @@
 <td>1.6</td>
 <td>debug</td></tr>
 <tr class="b">
-<td>junit-3.8.2.jar</td>
-<td>117.81 kB</td>
-<td>120</td>
-<td>102</td>
-<td>6</td>
-<td>1.2</td>
+<td>junit-4.11.jar</td>
+<td>239.30 kB</td>
+<td>266</td>
+<td>233</td>
+<td>28</td>
+<td>1.5</td>
 <td>debug</td></tr>
 <tr class="a">
+<td>hamcrest-core-1.3.jar</td>
+<td>43.97 kB</td>
+<td>52</td>
+<td>45</td>
+<td>3</td>
+<td>1.5</td>
+<td>debug</td></tr>
+<tr class="b">
 <td>mockito-all-1.8.5.jar</td>
 <td>1.35 MB</td>
 <td>1,216</td>
@@ -221,7 +257,7 @@
 <td>62</td>
 <td>1.5</td>
 <td>debug</td></tr>
-<tr class="b">
+<tr class="a">
 <th>Total</th>
 <th>Size</th>
 <th>Entries</th>
@@ -229,31 +265,31 @@
 <th>Packages</th>
 <th>JDK Rev</th>
 <th>Debug</th></tr>
-<tr class="a">
-<td>4</td>
-<td>16.06 MB</td>
-<td>5,862</td>
-<td>4,913</td>
-<td>275</td>
-<td>1.6</td>
-<td>4</td></tr>
 <tr class="b">
+<td>5</td>
+<td>16.28 MB</td>
+<td>6,132</td>
+<td>5,090</td>
+<td>300</td>
+<td>1.6</td>
+<td>5</td></tr>
+<tr class="a">
 <td>compile: 1</td>
-<td>compile: 85.15 kB</td>
-<td>compile: 91</td>
-<td>compile: 71</td>
+<td>compile: 150.26 kB</td>
+<td>compile: 163</td>
+<td>compile: 72</td>
 <td>compile: 2</td>
 <td>-</td>
 <td>compile: 1</td></tr>
-<tr class="a">
-<td>test: 2</td>
-<td>test: 1.47 MB</td>
-<td>test: 1,336</td>
-<td>test: 720</td>
-<td>test: 68</td>
-<td>-</td>
-<td>test: 2</td></tr>
 <tr class="b">
+<td>test: 3</td>
+<td>test: 1.63 MB</td>
+<td>test: 1,534</td>
+<td>test: 896</td>
+<td>test: 93</td>
+<td>-</td>
+<td>test: 3</td></tr>
+<tr class="a">
 <td>system: 1</td>
 <td>system: 14.51 MB</td>
 <td>system: 4,435</td>
@@ -281,17 +317,19 @@
 <tr class="a">
 <th>Artifact</th></tr>
 <tr class="b">
-<td>args4j:args4j:jar:2.0.31</td></tr>
+<td>args4j:args4j:jar:2.32</td></tr>
 <tr class="a">
 <td>jdk:tools:jar:5.0</td></tr>
 <tr class="b">
-<td>junit:junit:jar:3.8.2</td></tr>
+<td>junit:junit:jar:4.11</td></tr>
 <tr class="a">
-<td>org.mockito:mockito-all:jar:1.8.5</td></tr>
+<td>org.hamcrest:hamcrest-core:jar:1.3</td></tr>
 <tr class="b">
-<th>Total</th></tr>
+<td>org.mockito:mockito-all:jar:1.8.5</td></tr>
 <tr class="a">
-<td>4 (compile: 1, test: 2, system: 1)</td></tr></table></div>
+<th>Total</th></tr>
+<tr class="b">
+<td>5 (compile: 1, test: 3, system: 1)</td></tr></table></div>
       </div>
     </div>
     <div id="footer">
@@ -304,8 +342,8 @@
 
   
   
-  &nbsp;| Last Published: 2015-03-19
-  &nbsp;| Version: 2.0.31
+  &nbsp;| Last Published: 2015-03-22
+  &nbsp;| Version: 2.32
 </div>
       <div class="clear">
         <hr/>
