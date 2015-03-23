@@ -21,6 +21,8 @@
 -linkoffline
 'http://args4j.kohsuke.org/args4j/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j/target/site/apidocs'
 -linkoffline
+'http://args4j.kohsuke.org/args4j-maven-plugin/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin/target/site/apidocs'
+-linkoffline
 'http://args4j.kohsuke.org/args4j-maven-plugin-example/apidocs' '/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/site/apidocs'
 -use
 -version
