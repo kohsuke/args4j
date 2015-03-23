@@ -76,10 +76,10 @@ final class MultiValueFieldSetter implements Getter, Setter {
         ((List)o).add(value);
     }
 
-    public Object getValue() {
+    public List<Object> getValue() {
         try {
             f.setAccessible(true);
-            return f.get(bean);
+            return (List)f.get(bean);
         }
         catch (IllegalAccessException ex) {
             throw new IllegalAccessError(ex.getMessage());

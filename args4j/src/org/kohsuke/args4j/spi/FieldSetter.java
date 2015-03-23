@@ -2,6 +2,8 @@ package org.kohsuke.args4j.spi;
 
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Field;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * {@link Setter} that sets to a {@link Field}.
@@ -48,18 +50,23 @@ public final class FieldSetter implements Getter, Setter {
         }
     }
 
-    public Object getValue() {
+    public List<Object> getValue() {
         try {
-            return f.get(bean);
+            return asList(f.get(bean));
         } catch (IllegalAccessException ex) {
             // try again
             f.setAccessible(true);
             try {
-                return f.get(bean);
+                return asList(f.get(bean));
             } catch (IllegalAccessException e) {
                 throw new IllegalAccessError(e.getMessage());
             }
         }
+    }
+
+    private List<Object> asList(Object o) {
+        if (o!=null)    return Collections.singletonList(o);
+        return Collections.emptyList();
     }
 
     public String toString(Object value) {

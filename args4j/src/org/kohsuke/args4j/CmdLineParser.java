@@ -204,7 +204,7 @@ public class CmdLineParser {
      *      always non-{@code null}.
      */
     public String printExample(OptionHandlerFilter filter) {
-        return printExample(filter,null);
+        return printExample(filter, null);
     }
 
     /**
@@ -369,17 +369,24 @@ public class CmdLineParser {
     }
 
     private String createDefaultValuePart(OptionHandler handler) {
-        String defaultValuePart = "";
         if (parserProperties.getShowDefaults() && !handler.option.required() && handler.setter instanceof Getter) {
             Getter getter = (Getter)handler.setter;
-            Object defObj = getter.getValue();
-            if (defObj != null) {
-                String defObjStr = getter.toString(defObj);
-                String defaultStr = Messages.DEFAULT_VALUE.format(defObjStr);
-                defaultValuePart = " " + defaultStr;
+            List<Object> defaultValues = getter.getValue();
+            if (defaultValues != null && !defaultValues.isEmpty()) {
+                StringBuilder buf = new StringBuilder();
+                if (defaultValues.size()>1) {
+                    for (Object v : defaultValues) {
+                        buf.append( buf.length()==0 ? '[' : ',' );
+                        buf.append(getter.toString(v));
+                    }
+                    buf.append(']');
+                } else {
+                    buf.append(getter.toString(defaultValues.get(0)));
+                }
+                return " " + Messages.DEFAULT_VALUE.format(buf.toString());
             }
         }
-        return defaultValuePart;
+        return "";
     }
 
     private String localize(String s, ResourceBundle rb) {
