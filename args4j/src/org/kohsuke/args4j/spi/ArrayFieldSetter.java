@@ -7,9 +7,7 @@ import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
 
 /**
  * {@link Setter} that allows multiple values to be stored into one array field.
@@ -120,29 +118,6 @@ final class ArrayFieldSetter implements Getter, Setter {
         } catch (IllegalAccessException ex) {
             throw new IllegalAccessError(ex.getMessage());
         }
-    }
-
-    public String toString(Object value) {
-        if (value == null) {
-            return "null";
-        }
-        StringBuilder sb = new StringBuilder();
-               
-        int len = Array.getLength(value);
-
-        sb.append("[");
-        
-        for (int i=0; i < len; i++) {
-            if (i != 0) {
-                sb.append(", ");
-            }
-            Object element = Array.get(value, i);
-            sb.append(element);
-        }
-        
-        sb.append("]");
-            
-        return sb.toString();
     }
 }
 

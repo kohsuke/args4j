@@ -19,11 +19,4 @@ public interface Getter<T> {
      *      empty list or null if there's no current value.
      */
     List<T> getValue();
-    
-    /**
-     * Formats the value for outputting it to the command line help.
-     * @param value the value as returned by {@link #getValue()}
-     * @return the human readable value representation.
-     */
-    String toString(T value);
 }

@@ -1,12 +1,9 @@
 package org.kohsuke.args4j.spi;
 
-import org.kohsuke.args4j.CmdLineException;
-import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.OptionDef;
-import org.kohsuke.args4j.ParserProperties;
-import org.kohsuke.args4j.OptionHandlerRegistry;
+import org.kohsuke.args4j.*;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.ResourceBundle;
 
 
@@ -120,5 +117,40 @@ public abstract class OptionHandler<T> {
     		str += meta;
     	}
     	return str;
+    }
+
+    /**
+     * The opposite of the parse operation.
+     *
+     * This method is used to print the usage screen.
+     */
+    protected String print(T v) {
+        return String.valueOf(v);
+    }
+
+    /**
+     * Prints the default value by introspecting the current setter as {@link Getter}.
+     *
+     * @return null if the current value of the setter isn't available.
+     */
+    public String printDefaultValue() {
+        if (setter instanceof Getter) {
+            Getter getter = (Getter)setter;
+            List<T> defaultValues = getter.getValue();
+            if (defaultValues != null && !defaultValues.isEmpty()) {
+                StringBuilder buf = new StringBuilder();
+                if (defaultValues.size()>1) {
+                    for (T v : defaultValues) {
+                        buf.append( buf.length()==0 ? '[' : ',' );
+                        buf.append(print(v));
+                    }
+                    buf.append(']');
+                } else {
+                    buf.append(print(defaultValues.get(0)));
+                }
+                return buf.toString();
+            }
+        }
+        return null;
     }
 }

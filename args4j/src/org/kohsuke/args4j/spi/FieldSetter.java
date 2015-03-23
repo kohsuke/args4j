@@ -68,8 +68,4 @@ public final class FieldSetter implements Getter, Setter {
         if (o!=null)    return Collections.singletonList(o);
         return Collections.emptyList();
     }
-
-    public String toString(Object value) {
-        return String.valueOf(value);
-    }
 }

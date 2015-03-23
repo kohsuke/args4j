@@ -5,6 +5,8 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 
+import java.util.List;
+
 /**
  * Partial {@link OptionHandler} implementation that takes a single value to the option,
  * which is then gets split into individual tokens using fixed delimiter.
@@ -44,5 +46,25 @@ public abstract class DelimitedOptionHandler<T> extends OptionHandler<T> {
         final String tMetaVar = individualOptionHandler.getDefaultMetaVariable();
         if (tMetaVar == null || tMetaVar.trim().isEmpty()) return tMetaVar;
         return "<" + tMetaVar  + delimiter + tMetaVar + delimiter + "...>";
+    }
+
+    /**
+     * Prints the default value by introspecting the current setter as {@link Getter}.
+     *
+     * @return null if the current value of the setter isn't available.
+     */
+    public String printDefaultValue() {
+        if (setter instanceof Getter) {
+            Getter getter = (Getter)setter;
+            List<T> defaultValues = getter.getValue();
+
+            StringBuilder buf = new StringBuilder();
+            for (T v : defaultValues) {
+                if (buf.length()>0)     buf.append(delimiter);
+                buf.append(print(v));
+            }
+            return buf.toString();
+        }
+        return null;
     }
 }

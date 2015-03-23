@@ -370,21 +370,9 @@ public class CmdLineParser {
 
     private String createDefaultValuePart(OptionHandler handler) {
         if (parserProperties.getShowDefaults() && !handler.option.required() && handler.setter instanceof Getter) {
-            Getter getter = (Getter)handler.setter;
-            List<Object> defaultValues = getter.getValue();
-            if (defaultValues != null && !defaultValues.isEmpty()) {
-                StringBuilder buf = new StringBuilder();
-                if (defaultValues.size()>1) {
-                    for (Object v : defaultValues) {
-                        buf.append( buf.length()==0 ? '[' : ',' );
-                        buf.append(getter.toString(v));
-                    }
-                    buf.append(']');
-                } else {
-                    buf.append(getter.toString(defaultValues.get(0)));
-                }
-                return " " + Messages.DEFAULT_VALUE.format(buf.toString());
-            }
+            String v = handler.printDefaultValue();
+            if (v!=null)
+                return " " + Messages.DEFAULT_VALUE.format(v);
         }
         return "";
     }

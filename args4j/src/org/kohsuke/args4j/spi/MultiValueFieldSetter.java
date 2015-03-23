@@ -85,8 +85,4 @@ final class MultiValueFieldSetter implements Getter, Setter {
             throw new IllegalAccessError(ex.getMessage());
         }
     }
-
-    public String toString(Object value) {
-        return String.valueOf(value);
-    }
 }
