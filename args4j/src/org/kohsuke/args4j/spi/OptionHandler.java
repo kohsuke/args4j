@@ -136,7 +136,7 @@ public abstract class OptionHandler<T> {
     public String printDefaultValue() {
         if (setter instanceof Getter) {
             Getter getter = (Getter)setter;
-            List<T> defaultValues = getter.getValue();
+            List<T> defaultValues = getter.getValueList();
             if (defaultValues != null && !defaultValues.isEmpty()) {
                 StringBuilder buf = new StringBuilder();
                 if (defaultValues.size()>1) {

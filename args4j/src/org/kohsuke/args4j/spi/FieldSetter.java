@@ -50,18 +50,22 @@ public final class FieldSetter implements Getter, Setter {
         }
     }
 
-    public List<Object> getValue() {
+    public Object getValue() {
         try {
-            return asList(f.get(bean));
+            return f.get(bean);
         } catch (IllegalAccessException ex) {
             // try again
             f.setAccessible(true);
             try {
-                return asList(f.get(bean));
+                return f.get(bean);
             } catch (IllegalAccessException e) {
                 throw new IllegalAccessError(e.getMessage());
             }
         }
+    }
+
+    public List<Object> getValueList() {
+        return asList(getValue());
     }
 
     private List<Object> asList(Object o) {

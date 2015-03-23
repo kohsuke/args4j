@@ -55,7 +55,7 @@ public interface Setter<T> {
      *   <li>This lets {@link OptionHandler}s bypass the collection/array handling of fields.
      *       This is useful if you're defining an option handler that produces array or collection
      *       from a single argument.</li>
-     *   <li>The other is to retrieve the current value of the field (via {@link FieldSetter#getValue()}).</li>
+     *   <li>The other is to retrieve the current value of the field (via {@link FieldSetter#getValueList()}).</li>
      * </ol>
      *
      * @return

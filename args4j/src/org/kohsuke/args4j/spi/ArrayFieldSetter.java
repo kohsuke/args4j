@@ -102,7 +102,7 @@ final class ArrayFieldSetter implements Getter, Setter {
         f.set(bean, ary);
     }
 
-    public List<Object> getValue() {
+    public List<Object> getValueList() {
         f.setAccessible(true);
         try {
             List<Object> r = new ArrayList<Object>();

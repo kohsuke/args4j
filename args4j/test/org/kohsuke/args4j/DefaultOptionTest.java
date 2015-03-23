@@ -21,14 +21,14 @@ public class DefaultOptionTest extends Args4JTestBase<DefaultOption> {
         " -byteVal N                             : my favorite byte (default: 0)",
         " -drink [BEER | WHISKEY | SCOTCH |      : my favorite drink (default: BEER)",
         " BOURBON | BRANDY]                         ",
-        " -drinkArray [BEER | WHISKEY | SCOTCH   : my favorite drinks (default: [BEER,",
-        " | BOURBON | BRANDY]                      BOURBON])",
-        " -drinkList [BEER | WHISKEY | SCOTCH |  : my favorite drinks (default: [BEER,",
-        " BOURBON | BRANDY]                        BRANDY])",
+        " -drinkArray [BEER | WHISKEY | SCOTCH   : my favorite drinks (default:",
+        " | BOURBON | BRANDY]                      [BEER,BOURBON])",
+        " -drinkList [BEER | WHISKEY | SCOTCH |  : my favorite drinks (default:",
+        " BOURBON | BRANDY]                        [BEER,BRANDY])",
         " -req VAL                               : set a string",
         " -str VAL                               : set a string (default: pretty string)",
-        " -strArray VAL                          : my favorite strarr (default: [san,",
-        "                                          dra, chen])"
+        " -strArray VAL                          : my favorite strarr (default:",
+        "                                          [san,dra,chen])"
         };
 
         for (int i=0; i < usageMessage.length; i++) {

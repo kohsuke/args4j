@@ -18,5 +18,5 @@ public interface Getter<T> {
      * @return
      *      empty list or null if there's no current value.
      */
-    List<T> getValue();
+    List<T> getValueList();
 }

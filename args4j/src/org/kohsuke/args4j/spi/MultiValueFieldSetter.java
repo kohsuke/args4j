@@ -76,7 +76,7 @@ final class MultiValueFieldSetter implements Getter, Setter {
         ((List)o).add(value);
     }
 
-    public List<Object> getValue() {
+    public List<Object> getValueList() {
         try {
             f.setAccessible(true);
             return (List)f.get(bean);
