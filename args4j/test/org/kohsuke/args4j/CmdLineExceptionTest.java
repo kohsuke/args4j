@@ -52,7 +52,7 @@ public class CmdLineExceptionTest extends TestCase {
             CmdLineException e = new CmdLineException(parser, Messages.NO_ARGUMENT_ALLOWED, "foofoo");
 
             assertEquals("No argument is allowed: foofoo", e.getMessage());
-            assertEquals("Kein Argument erlaubt: foofoo", e.getLocalizedMessage());
+            assertEquals("Kein Argument erlaubt: \"foofoo\"", e.getLocalizedMessage());
             assertSame(parser, e.getParser());
         } catch (Exception e1) {
             Locale.setDefault(cur);
