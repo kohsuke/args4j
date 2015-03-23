@@ -29,7 +29,7 @@ public class Setters {
 
     public static Setter create(Field f, Object bean) {
         if (Modifier.isFinal(f.getModifiers()))
-            throw new IllegalStateException(String.format("Cannot set value to a final field '%s'.", f.getName()));
+            throw new IllegalStateException(String.format("Cannot set value to a final field '%s'.", f.getDeclaringClass().getName()+"."+f.getName()));
         if(f.getType().isArray())
             return new ArrayFieldSetter(bean,f);
         if(List.class.isAssignableFrom(f.getType()))
