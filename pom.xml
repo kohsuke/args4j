@@ -116,6 +116,7 @@
           <instructions>
             <Bundle-SymbolicName>org.kohsuke.${pom.artifactId}</Bundle-SymbolicName>
             <_includeresource>${basedir}/../LICENSE</_includeresource>
+            <_sources>true</_sources>
           </instructions>
         </configuration>
       </plugin>
