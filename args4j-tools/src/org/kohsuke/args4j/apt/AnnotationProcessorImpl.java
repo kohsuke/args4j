@@ -109,13 +109,9 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
         if(o==null) return;
 
         String usage = getUsage(o);
-        if(isOptionHidden(usage))    return;
+        if(o.hidden())    return;
 
         visitor.onOption(new OptionWithUsage(o, usage));
-    }
-
-    private boolean isOptionHidden(String usage) {
-        return usage==null || usage.length()==0;
     }
 
     private String getUsage(Option o) {
@@ -124,7 +120,7 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
         else
             return resource.getProperty(o.usage());
     }
-
+    
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
 

@@ -94,10 +94,7 @@ public @interface Option {
      * by querying a {@link ResourceBundle} instance supplied to
      * {@link CmdLineParser} by this key. This allows the usage
      * screen to be properly localized.
-     *
-     * <p>
-     * If this value is empty, the option will not be displayed
-     * in the usage screen.
+     * @see #hidden() 
      */
     String usage() default "";
 

@@ -19,7 +19,7 @@ public class HelpOptionTest extends Args4JTestBase<HelpOption> {
             String expectedError = "Option \"-req\" is required";
             String[] usageLines = getUsageMessage();
             String errorMessage = e.getMessage();
-            assertUsageLength(2);
+            assertUsageLength(3);
             assertTrue("Got wrong error message", errorMessage.startsWith(expectedError));
         }
     }

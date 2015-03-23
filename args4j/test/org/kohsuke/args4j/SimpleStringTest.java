@@ -37,11 +37,11 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
             fail("Doesnt detect wrong parameters.");
         } catch (CmdLineException e) {
             String expectedError = "\"-wrong-usage\" is not a valid option";
-            String expectedUsage   = " -str VAL : set a string";
             String[] usageLines = getUsageMessage();
             assertErrorMessagePrefix(expectedError, e);
-            assertUsageLength(1);
-            assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
+            assertUsageLength(2);
+            assertEquals("Got wrong usage message", " -nu VAL     ", usageLines[0]);
+            assertEquals("Got wrong usage message", " -str VAL : set a string", usageLines[1]);
         }
     }
 
@@ -52,12 +52,12 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
             fail("Should miss one parameter.");
         } catch (CmdLineException e) {
             String expectedError = "Option \"-str\" takes an operand";
-            String expectedUsage   = " -str VAL : set a string";
             String[] usageLines = getUsageMessage();
             String errorMessage = e.getMessage();
-            assertUsageLength(1);
+            assertUsageLength(2);
             assertTrue("Got wrong error message: " + errorMessage, errorMessage.startsWith(expectedError));
-            assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
+            assertEquals("Got wrong usage message", " -nu VAL     ", usageLines[0]);
+            assertEquals("Got wrong usage message", " -str VAL : set a string", usageLines[1]);
         }
     }
     
