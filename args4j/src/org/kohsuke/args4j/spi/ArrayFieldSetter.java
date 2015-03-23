@@ -126,8 +126,7 @@ final class ArrayFieldSetter implements Getter, Setter {
                 sb.append(", ");
             }
             Object element = Array.get(value, i);
-            String elementStr = element != null ? element.toString() : NULL;
-            sb.append(elementStr);
+            sb.append(element);
         }
         
         sb.append("]");

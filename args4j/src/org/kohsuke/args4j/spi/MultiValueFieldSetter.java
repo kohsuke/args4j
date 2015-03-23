@@ -87,6 +87,6 @@ final class MultiValueFieldSetter implements Getter, Setter {
     }
 
     public String toString(Object value) {
-        return value != null ? value.toString() : NULL;
+        return String.valueOf(value);
     }
 }
