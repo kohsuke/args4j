@@ -30,6 +30,8 @@ import org.kohsuke.args4j.spi.StringOptionHandler;
 import org.kohsuke.args4j.spi.URIOptionHandler;
 import org.kohsuke.args4j.spi.URLOptionHandler;
 
+import static org.kohsuke.args4j.Utilities.checkNonNull;
+
 /**
  * Manages the registration of option handlers.
  * This is good for registering custom handlers
@@ -127,8 +129,8 @@ public class OptionHandlerRegistry {
      * @throws IllegalArgumentException if {@code handlerClass} is not a subtype of {@code OptionHandler}.
      */
     public void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
-        Utilities.checkNonNull(valueType, "valueType");
-        Utilities.checkNonNull(handlerClass, "handlerClass");
+        checkNonNull(valueType, "valueType");
+        checkNonNull(handlerClass, "handlerClass");
 
         if(!OptionHandler.class.isAssignableFrom(handlerClass))
             throw new IllegalArgumentException(Messages.NO_OPTIONHANDLER.format());
@@ -143,9 +145,9 @@ public class OptionHandlerRegistry {
      */
    @SuppressWarnings("unchecked")
     protected OptionHandler createOptionHandler(CmdLineParser parser, OptionDef o, Setter setter) {
-        Utilities.checkNonNull(o, "CmdLineParser");
-        Utilities.checkNonNull(o, "OptionDef");
-        Utilities.checkNonNull(setter, "Sette");
+        checkNonNull(o, "CmdLineParser");
+        checkNonNull(o, "OptionDef");
+        checkNonNull(setter, "Sette");
 
         Constructor<? extends OptionHandler> handlerType;
         Class<? extends OptionHandler> h = o.handler();
