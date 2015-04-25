@@ -27,22 +27,6 @@ public class OptionHandlerRegistryTest extends TestCase {
         private CustomType foo;
     }
     
-    /** Tests whether OptionHandlerRegistry.getRegistry() returns an instance. */
-    public void testGetRegistry() {
-        OptionHandlerRegistry instance = OptionHandlerRegistry.getRegistry();
-        assertNotNull(instance);
-    }
-    
-    /** Tests whether OptionHandlerRegistry.getRegistry() is a real singleton. */
-    public void testGetRegistryWithSingleton() {
-        OptionHandlerRegistry instance1 = OptionHandlerRegistry.getRegistry();
-        OptionHandlerRegistry instance2 = OptionHandlerRegistry.getRegistry();
-        OptionHandlerRegistry instance3 = OptionHandlerRegistry.getRegistry();
-        
-        assertSame(instance1, instance2);
-        assertSame(instance1, instance3);
-    }
-    
     /** Tests whether unknown types raise an exception. */
     public void testCmdLineParserWithUnregistered() {
         try {        
@@ -58,9 +42,11 @@ public class OptionHandlerRegistryTest extends TestCase {
     /** Tests whether registering a handler works. */
     public void testCmdLineParserWithCustomRegistered() throws CmdLineException {
         TestBean bean = new TestBean();
-        OptionHandlerRegistry.getRegistry().registerHandler(CustomType.class,
-                CustomTypeOptionHandler.class);
-        CmdLineParser parser = new CmdLineParser(bean);
+
+        OptionHandlerRegistry registry = new OptionHandlerRegistry();
+        registry.registerHandler(CustomType.class, CustomTypeOptionHandler.class);
+
+        CmdLineParser parser = new CmdLineParser(bean, ParserProperties.defaults(), registry);
         parser.parseArgument("-foo", "5");
         
         assertEquals(5, bean.foo.value);
