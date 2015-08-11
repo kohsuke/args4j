@@ -34,34 +34,16 @@ import org.kohsuke.args4j.spi.URLOptionHandler;
  * Manages the registration of option handlers.
  * This is good for registering custom handlers
  * for specific parameter classes not yet implemented.
- * The registry is a singleton that can be
- * retrieved with the {@link #getRegistry()} call.
+ *
  * @author Stephan Fuhrmann
  */
 public class OptionHandlerRegistry {
 
     /**
-     * The shared reference.
-     * @see #getRegistry() 
-     */
-    private static OptionHandlerRegistry instance;
-    
-    /**
-     * Gets the option handler registry singleton instance.
-     * @return a shared instance of the registry.
-     */
-    public synchronized static OptionHandlerRegistry getRegistry() {
-        if (instance == null) {
-            instance = new OptionHandlerRegistry();
-        }
-        return instance;
-    }
-    
-    /**
      * Constructs an option handler manager with the
      * default handlers initialized.
      */
-    private OptionHandlerRegistry() {
+    public OptionHandlerRegistry() {
         initHandlers();
     }
 
@@ -145,7 +127,7 @@ public class OptionHandlerRegistry {
     protected OptionHandler createOptionHandler(CmdLineParser parser, OptionDef o, Setter setter) {
         Utilities.checkNonNull(o, "CmdLineParser");
         Utilities.checkNonNull(o, "OptionDef");
-        Utilities.checkNonNull(setter, "Sette");
+        Utilities.checkNonNull(setter, "Setter");
 
         Constructor<? extends OptionHandler> handlerType;
         Class<? extends OptionHandler> h = o.handler();

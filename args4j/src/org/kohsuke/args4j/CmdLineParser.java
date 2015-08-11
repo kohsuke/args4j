@@ -49,7 +49,8 @@ public class CmdLineParser {
 	/**
      * settings for the parser
 	 */
-	private ParserProperties parserProperties;
+	private final ParserProperties parserProperties;
+    private final OptionHandlerRegistry registry;
 
     /**
      * Creates a new command line owner that
@@ -85,13 +86,35 @@ public class CmdLineParser {
      *      if the option bean class is using args4j annotations incorrectly.
      */
     public CmdLineParser(Object bean, ParserProperties parserProperties) {
+        this(bean, parserProperties, new OptionHandlerRegistry());
+    }
+
+    /**
+     * Creates a new command line owner that
+     * parses arguments/options and set them into
+     * the given object.
+     *
+     * @param bean
+     *      instance of a class annotated by {@link Option} and {@link Argument}.
+     *      this object will receive values. If this is {@code null}, the processing will
+     *      be skipped, which is useful if you'd like to feed metadata from other sources.
+     *
+     * @param parserProperties various settings for this class
+     *
+     * @param registry option handlers registry
+     *
+     * @throws IllegalAnnotationError
+     *      if the option bean class is using args4j annotations incorrectly.
+     */
+    public CmdLineParser(Object bean, ParserProperties parserProperties, OptionHandlerRegistry registry) {
         this.parserProperties = parserProperties;
+        this.registry = registry;
         // A 'return' in the constructor just skips the rest of the implementation
         // and returns the new object directly.
         if (bean==null) return;
 
         // Parse the metadata and create the setters
-        new ClassParser().parse(bean,this);
+        new ClassParser().parse(bean, this);
 
         if (parserProperties.getOptionSorter()!=null) {
             Collections.sort(options, parserProperties.getOptionSorter());
@@ -127,8 +150,7 @@ public class CmdLineParser {
         Utilities.checkNonNull(setter, "Setter");
         Utilities.checkNonNull(a, "Argument");
         
-        OptionHandler h = OptionHandlerRegistry.getRegistry().createOptionHandler(this,
-                new OptionDef(a,setter.isMultiValued()),setter);
+        OptionHandler h = registry.createOptionHandler(this, new OptionDef(a, setter.isMultiValued()), setter);
     	int index = a.index();
     	// make sure the argument will fit in the list
     	while (index >= arguments.size()) {
@@ -156,8 +178,7 @@ public class CmdLineParser {
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
         }
-        options.add(OptionHandlerRegistry.getRegistry().createOptionHandler(
-                this, new NamedOptionDef(o), setter));
+        options.add(registry.createOptionHandler(this, new NamedOptionDef(o), setter));
     }
 
     /**
@@ -190,7 +211,7 @@ public class CmdLineParser {
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
         checkNonNull(o, "OptionDef");
         checkNonNull(setter, "Setter");
-        return OptionHandlerRegistry.getRegistry().createOptionHandler(this, o, setter);
+        return registry.createOptionHandler(this, o, setter);
     }
 
     /**
@@ -710,11 +731,11 @@ public class CmdLineParser {
      * @throws IllegalArgumentException if {@code handlerClass} is not a subtype of {@code OptionHandler}.
      * @deprecated You should use {@link OptionHandlerRegistry#registerHandler(java.lang.Class, java.lang.Class)} instead.
      */
-    public static void registerHandler( Class valueType, Class<? extends OptionHandler> handlerClass ) {
+    public void registerHandler(Class valueType, Class<? extends OptionHandler> handlerClass) {
         checkNonNull(valueType, "valueType");
         checkNonNull(handlerClass, "handlerClass");
 
-        OptionHandlerRegistry.getRegistry().registerHandler(valueType, handlerClass);
+        registry.registerHandler(valueType, handlerClass);
     }
 
     /**
