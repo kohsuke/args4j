@@ -22,6 +22,8 @@ import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
 
+import static org.kohsuke.args4j.Utilities.checkNonNull;
+
 /**
  * Command line argument owner.
  *
@@ -102,20 +104,6 @@ public class CmdLineParser {
         return parserProperties;
     }
 
-    /** This method is similar to {@code Objects.requireNonNull()}.
-     * But this one is available for JDK 1.6 which is the
-     * current target of args4j.
-     * I didn't want to break compatibility with JDK 1.6.
-     * @param obj the object to check for {@code null} value.
-     * @param name the object name. If {@code obj} is {@code null}, then
-     * an exception is constructed from this name.
-     */
-    private static void checkNonNull(Object obj, String name) {
-        if (obj == null) {
-            throw new NullPointerException(name+" is null");
-        }
-    }
-
     /**
      * Programmatically defines an argument (instead of reading it from annotations as normal).
      *
@@ -124,8 +112,8 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code setter} or {@code a} is {@code null}.
      */
     public void addArgument(Setter setter, Argument a) {
-        Utilities.checkNonNull(setter, "Setter");
-        Utilities.checkNonNull(a, "Argument");
+        checkNonNull(setter, "Setter");
+        checkNonNull(a, "Argument");
         
         OptionHandler h = OptionHandlerRegistry.getRegistry().createOptionHandler(this,
                 new OptionDef(a,setter.isMultiValued()),setter);
@@ -245,7 +233,7 @@ public class CmdLineParser {
     public String printExample(OptionHandlerFilter mode, ResourceBundle rb) {
         StringBuilder buf = new StringBuilder();
 
-        Utilities.checkNonNull(mode, "mode");
+        checkNonNull(mode, "mode");
         
         for (OptionHandler h : options) {
             OptionDef option = h.option;
@@ -487,7 +475,7 @@ public class CmdLineParser {
      */
     public void parseArgument(final String... args) throws CmdLineException {
         
-        Utilities.checkNonNull(args, "args");
+        checkNonNull(args, "args");
         
         String expandedArgs[] = args;
         if (parserProperties.getAtSyntax()) {
@@ -688,7 +676,7 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code arg} is {@code null}.
      */
     protected boolean isOption(String arg) {
-        Utilities.checkNonNull(arg, "arg");
+        checkNonNull(arg, "arg");
         
         return parsingOptions && arg.startsWith("-");
     }
@@ -763,7 +751,7 @@ public class CmdLineParser {
      */
     // TODO test this!
 	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
-        Utilities.checkNonNull(w, "Writer");
+        checkNonNull(w, "Writer");
         
 		PrintWriter pw = new PrintWriter(w);
 		for (OptionHandler h : arguments) {
