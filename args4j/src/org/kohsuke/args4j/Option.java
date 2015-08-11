@@ -200,7 +200,7 @@ public @interface Option {
      *  &#64;Option(name="-a")
      *  int a;
      *  //-b is not required but if it's provided, then a becomes required
-     *  &#64;Option(name="-b", depends={"-a"}
+     *  &#64;Option(name="-b", depends={"-a"})
      *  int b;
      * </pre>
      *
@@ -221,7 +221,7 @@ public @interface Option {
      *  &#64;Option(name="-a")
      *  int a;
      *  // -h and -a cannot be specified together
-     *  &#64;Option(name="-h", forbids={"-a"}
+     *  &#64;Option(name="-h", forbids={"-a"})
      *  boolean h;
      * </pre>
      *
