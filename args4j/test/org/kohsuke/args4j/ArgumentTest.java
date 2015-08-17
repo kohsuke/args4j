@@ -2,7 +2,10 @@ package org.kohsuke.args4j;
 
 import junit.framework.TestCase;
 
+import java.io.File;
+import java.io.StringWriter;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class ArgumentTest extends TestCase {
     protected static class MultiValueHolder {
@@ -18,6 +21,14 @@ public class ArgumentTest extends TestCase {
 	protected static class BooleanValueHolder {
 		@Argument(metaVar = "thing", required = true)
 		public boolean b;
+	}
+
+	protected static class I18NValueHolder {
+		@Argument(usage = "FILE2READ", required = true)
+		public File b;
+
+		@Option(name = "-a", usage = "1 2 3")
+		public String opt;
 	}
 
 	public void testMultiValue() throws Exception {
@@ -63,5 +74,14 @@ public class ArgumentTest extends TestCase {
 			return;
 		}
 		fail("expected " + CmdLineException.class);
+	}
+
+	public void testI18N() {
+		I18NValueHolder holder = new I18NValueHolder();
+		CmdLineParser parser = new CmdLineParser(holder);
+		StringWriter sw = new StringWriter();
+		ResourceBundle rb = ResourceBundle.getBundle("org/kohsuke/args4j/ArgumentTestI18N");
+		parser.printUsage(sw, rb);
+		assertTrue(sw.toString()!=null);
 	}
 }
