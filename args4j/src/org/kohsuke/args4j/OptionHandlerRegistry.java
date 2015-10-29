@@ -135,55 +135,98 @@ public class OptionHandlerRegistry {
         if(!OptionHandler.class.isAssignableFrom(handlerClass))
             throw new IllegalArgumentException(Messages.NO_OPTIONHANDLER.format());
 
-        Constructor<? extends OptionHandler> c = getConstructor(handlerClass);
-        handlerClasses.put(valueType,c);
+        handlers.put(valueType, new DefaultConstructorHandlerFactory(handlerClass));
     }
-    
+
+    /**
+     * Registers a user-defined {@link OptionHandler} class with args4j.
+     *
+     * <p>
+     * This method allows users to extend the behavior of args4j by writing
+     * their own {@link OptionHandler} implementation.
+     *
+     * @param valueType
+     *      The specified handler is used when the field/method annotated by {@link Option}
+     *      is of this type.
+     * @param factory
+     *      Factory to instantiate handler upon request.
+     * @throws NullPointerException if {@code valueType} or {@code factory} is {@code null}.
+     */
+    public void registerHandler(Class valueType, OptionHandlerFactory factory) {
+        checkNonNull(valueType, "valueType");
+        checkNonNull(factory, "factory");
+
+        handlers.put(valueType, factory);
+    }
+
     /**
      * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
      * and the {@link Setter} instance.
      */
-   @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     protected OptionHandler createOptionHandler(CmdLineParser parser, OptionDef o, Setter setter) {
         checkNonNull(o, "CmdLineParser");
         checkNonNull(o, "OptionDef");
-        checkNonNull(setter, "Sette");
+        checkNonNull(setter, "Setter");
 
-        Constructor<? extends OptionHandler> handlerType;
         Class<? extends OptionHandler> h = o.handler();
-
         if(h==OptionHandler.class) {
             // infer the type
+            Class<?> t = setter.getType();
 
             // enum is the special case
-            Class t = setter.getType();
             if(Enum.class.isAssignableFrom(t))
                 return new EnumOptionHandler(parser,o,setter,t);
 
-            handlerType = handlerClasses.get(t);
-            if(handlerType==null)
+            OptionHandlerFactory factory = handlers.get(t);
+            if (factory==null)
                 throw new IllegalAnnotationError(Messages.UNKNOWN_HANDLER.format(t));
-        } else {
-            handlerType = getConstructor(h);
-        }
 
-        try {
-            return handlerType.newInstance(parser,o,setter);
-        } catch (InstantiationException e) {
-            throw new IllegalAnnotationError(e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalAnnotationError(e);
-        } catch (InvocationTargetException e) {
-            throw new IllegalAnnotationError(e);
+            return factory.getHandler(parser, o, setter);
+        } else {
+            // explicit handler specified
+            return new DefaultConstructorHandlerFactory(h).getHandler(parser, o, setter);
         }
     }
-    
+
     /**
      * All {@link OptionHandler}s known to the {@link CmdLineParser}.
      *
      * Constructors of {@link OptionHandler}-derived class keyed by their supported types.
      */
-    private final Map<Class,Constructor<? extends OptionHandler>> handlerClasses =
-            Collections.synchronizedMap(new HashMap<Class,Constructor<? extends OptionHandler>>());
+    private final Map<Class, OptionHandlerFactory> handlers =
+            Collections.synchronizedMap(new HashMap<Class, OptionHandlerFactory>());
 
+    /**
+     * Provide custom logic for creating {@link OptionHandler} implementation.
+     *
+     * @author ogondza
+     */
+    public interface OptionHandlerFactory {
+        /**
+         * Provide a handler instance to use.
+         */
+        OptionHandler<?> getHandler(CmdLineParser parser, OptionDef o, Setter setter);
+    }
+
+    private class DefaultConstructorHandlerFactory implements OptionHandlerFactory {
+
+        private final Constructor<? extends OptionHandler> cons;
+
+        public DefaultConstructorHandlerFactory(Class type) {
+            this.cons = getConstructor(type);
+        }
+
+        public OptionHandler<?> getHandler(CmdLineParser parser, OptionDef o, Setter setter) {
+            try {
+                return cons.newInstance(parser, o, setter);
+            } catch (InstantiationException e) {
+                throw new IllegalAnnotationError(e);
+            } catch (IllegalAccessException e) {
+                throw new IllegalAnnotationError(e);
+            } catch (InvocationTargetException e) {
+                throw new IllegalAnnotationError(e);
+            }
+        }
+    }
 }

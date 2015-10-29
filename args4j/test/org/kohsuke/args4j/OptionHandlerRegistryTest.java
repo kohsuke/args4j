@@ -2,6 +2,9 @@ package org.kohsuke.args4j;
 
 import junit.framework.TestCase;
 import org.kohsuke.args4j.spi.OneArgumentOptionHandler;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
 
 public class OptionHandlerRegistryTest extends TestCase {
     
@@ -64,5 +67,43 @@ public class OptionHandlerRegistryTest extends TestCase {
         parser.parseArgument("-foo", "5");
         
         assertEquals(5, bean.foo.value);
-    }    
+    }
+
+    public void testOptionHandlerFactory() throws CmdLineException {
+        final int injected = 42;
+        OptionHandlerRegistry.getRegistry().registerHandler(
+                OhfTestType.class,
+                new OptionHandlerRegistry.OptionHandlerFactory() {
+                    public OptionHandler<?> getHandler(CmdLineParser parser, OptionDef o, Setter setter) {
+                        return new OptionHandler<OhfTestType>(parser, o, setter) {
+                            @Override
+                            public int parseArguments(Parameters params) throws CmdLineException {
+                                OhfTestType value = new OhfTestType();
+                                value.value = injected;
+                                setter.addValue(value);
+                                return 1;
+                            }
+
+                            @Override
+                            public String getDefaultMetaVariable() {
+                                return "OHF_TEST_BEAN";
+                            }
+                        };
+                    }
+                }
+        );
+
+        OhfTestBean bean = new OhfTestBean();
+        CmdLineParser parser = new CmdLineParser(bean);
+        parser.parseArgument("something");
+
+        assertEquals(injected, bean.value.value);
+    }
+    public static class OhfTestType {
+        public int value = 0;
+    }
+    public static class OhfTestBean {
+        @Argument
+        private OhfTestType value;
+    }
 }
