@@ -115,8 +115,7 @@ public class CmdLineParser {
         checkNonNull(setter, "Setter");
         checkNonNull(a, "Argument");
         
-        OptionHandler h = OptionHandlerRegistry.getRegistry().createOptionHandler(this,
-                new OptionDef(a,setter.isMultiValued()),setter);
+        OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
     	int index = a.index();
     	// make sure the argument will fit in the list
     	while (index >= arguments.size()) {
@@ -144,8 +143,7 @@ public class CmdLineParser {
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
         }
-        options.add(OptionHandlerRegistry.getRegistry().createOptionHandler(
-                this, new NamedOptionDef(o), setter));
+        options.add(createOptionHandler(new NamedOptionDef(o), setter));
     }
 
     /**
@@ -173,7 +171,6 @@ public class CmdLineParser {
     /**
      * Creates an {@link OptionHandler} that handles the given {@link Option} annotation
      * and the {@link Setter} instance.
-     * @deprecated You should use {@link OptionHandlerRegistry#createOptionHandler(org.kohsuke.args4j.CmdLineParser, org.kohsuke.args4j.OptionDef, org.kohsuke.args4j.spi.Setter) } instead.
      */
     protected OptionHandler createOptionHandler(OptionDef o, Setter setter) {
         checkNonNull(o, "OptionDef");
