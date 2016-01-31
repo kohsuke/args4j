@@ -1,5 +1,5 @@
 -classpath
-'/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.32.jar'
+'/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/target/classes:/home/kohsuke/ws/args4j/target/checkout/args4j/target/args4j-2.33.jar'
 -encoding
 'UTF-8'
 -protected
@@ -7,7 +7,7 @@
 '/home/kohsuke/ws/args4j/target/checkout/args4j-maven-plugin-example/src/main/java'
 -author
 -bottom
-'Copyright &#169; 2011-2015 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
+'Copyright &#169; 2011-2016 <a href="http://www.kohsuke.org/">Kohsuke Kawaguchi</a>. All Rights Reserved.'
 -charset
 'UTF-8'
 -d
@@ -15,7 +15,7 @@
 -docencoding
 'UTF-8'
 -doctitle
-'Args4j Maven Plugin Example 2.32 API'
+'Args4j Maven Plugin Example 2.33 API'
 -link
 'http://java.sun.com/j2se/1.5.0/docs/api'
 -linkoffline
@@ -27,4 +27,4 @@
 -use
 -version
 -windowtitle
-'Args4j Maven Plugin Example 2.32 API'
+'Args4j Maven Plugin Example 2.33 API'
