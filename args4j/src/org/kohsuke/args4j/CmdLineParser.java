@@ -456,7 +456,7 @@ public class CmdLineParser {
      * Same as {@link #parseArgument(String[])}
      */
     public void parseArgument(Collection<String> args) throws CmdLineException {
-        parseArgument(args.toArray(new String[args.size()]));
+        parseArgument(args.toArray(new String[0]));
     }
 
     /**
@@ -561,7 +561,7 @@ public class CmdLineParser {
                 result.add(arg);
             }
         }
-        return result.toArray(new String[result.size()]);
+        return result.toArray(new String[0]);
     }
     
     /**
