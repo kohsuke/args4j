@@ -3,7 +3,10 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
+import org.kohsuke.args4j.spi.Messages;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,11 +52,11 @@ public class SampleMain {
     }
 
     public void doMain(String[] args) throws IOException {
-        CmdLineParser parser = new CmdLineParser(this);
-        
+
         // if you have a wider console, you could increase the value;
         // here 80 is also the default
-        parser.setUsageWidth(80);
+        ParserProperties properties = ParserProperties.defaults().withUsageWidth(80);
+        CmdLineParser parser = new CmdLineParser(this, properties);
 
         try {
             // parse the arguments.
@@ -65,7 +68,7 @@ public class SampleMain {
             // after parsing arguments, you should check
             // if enough arguments are given.
             if( arguments.isEmpty() )
-                throw new CmdLineException(parser,"No argument is given");
+                throw new CmdLineException(parser, Messages.ILLEGAL_PATH, "No argument is given");
 
         } catch( CmdLineException e ) {
             // if there's a problem in the command line,
@@ -78,7 +81,7 @@ public class SampleMain {
             System.err.println();
 
             // print option sample. This is useful some time
-            System.err.println("  Example: java SampleMain"+parser.printExample(ALL));
+            System.err.println("  Example: java SampleMain"+parser.printExample(OptionHandlerFilter.ALL));
 
             return;
         }
