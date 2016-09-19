@@ -284,20 +284,20 @@ public class CmdLineParser {
         PrintWriter w = new PrintWriter(out);
         // determine the length of the option + metavar first
         int len = 0;
-        for (OptionHandler h : arguments) {
+        for (OptionHandler h: options) {
             int curLen = getPrefixLen(h, rb);
             len = Math.max(len,curLen);
         }
-        for (OptionHandler h: options) {
+        for (OptionHandler h : arguments) {
             int curLen = getPrefixLen(h, rb);
             len = Math.max(len,curLen);
         }
 
         // then print
-        for (OptionHandler h : arguments) {
+        for (OptionHandler h : options) {
         	printOption(w, h, len, rb, filter);
         }
-        for (OptionHandler h : options) {
+        for (OptionHandler h : arguments) {
         	printOption(w, h, len, rb, filter);
         }
 
