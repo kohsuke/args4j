@@ -16,13 +16,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+import static org.kohsuke.args4j.Utilities.checkNonNull;
 import org.kohsuke.args4j.spi.Getter;
-
 import org.kohsuke.args4j.spi.OptionHandler;
 import org.kohsuke.args4j.spi.Parameters;
 import org.kohsuke.args4j.spi.Setter;
-
-import static org.kohsuke.args4j.Utilities.checkNonNull;
 
 /**
  * Command line argument owner.
@@ -114,7 +112,7 @@ public class CmdLineParser {
     public void addArgument(Setter setter, Argument a) {
         checkNonNull(setter, "Setter");
         checkNonNull(a, "Argument");
-        
+
         OptionHandler h = createOptionHandler(new OptionDef(a,setter.isMultiValued()),setter);
     	int index = a.index();
     	// make sure the argument will fit in the list
@@ -138,7 +136,7 @@ public class CmdLineParser {
     public void addOption(Setter setter, Option o) {
         checkNonNull(setter, "Setter");
         checkNonNull(o, "Option");
-    
+
         checkOptionNotInMap(o.name());
         for (String alias : o.aliases()) {
         	checkOptionNotInMap(alias);
@@ -162,7 +160,7 @@ public class CmdLineParser {
 
 	private void checkOptionNotInMap(String name) throws IllegalAnnotationError {
         checkNonNull(name, "name");
-        
+
 		if(findOptionByName(name)!=null) {
             throw new IllegalAnnotationError(Messages.MULTIPLE_USE_OF_OPTION.format(name));
         }
@@ -231,7 +229,7 @@ public class CmdLineParser {
         StringBuilder buf = new StringBuilder();
 
         checkNonNull(mode, "mode");
-        
+
         for (OptionHandler h : options) {
             OptionDef option = h.option;
             if(option.usage().length()==0)  continue;   // ignore
@@ -333,7 +331,7 @@ public class CmdLineParser {
     	int widthUsage    = totalUsageWidth - 4 - widthMetadata;
 
         String defaultValuePart = createDefaultValuePart(handler);
-        
+
     	// Line wrapping
         // the 'left' side
     	List<String> namesAndMetas = wrapLines(handler.getNameAndMeta(rb, parserProperties), widthMetadata);
@@ -348,7 +346,7 @@ public class CmdLineParser {
 			                   ? " %1$-" + widthMetadata + "s : %2$-1s"
 			                   : " %1$-" + widthMetadata + "s   %2$-1s";
 			String output = String.format(format, nameAndMeta, usage);
-                                                
+
 			out.println(output);
     	}
     }
@@ -471,9 +469,9 @@ public class CmdLineParser {
      * @throws NullPointerException if {@code args} is {@code null}.
      */
     public void parseArgument(final String... args) throws CmdLineException {
-        
+
         checkNonNull(args, "args");
-        
+
         String expandedArgs[] = args;
         if (parserProperties.getAtSyntax()) {
             expandedArgs = expandAtFiles(args);
@@ -534,16 +532,16 @@ public class CmdLineParser {
             checkRequiredOptionsAndArguments(present);
         }
     }
-    
+
     /**
      * Expands every entry prefixed with the AT sign by
      * reading the file. The AT sign is used to reference
      * another file that contains command line options separated
-     * by line breaks. 
+     * by line breaks.
      * @param args the command line arguments to be preprocessed.
      * @return args with the @ sequences replaced by the text files referenced
      * by the @ sequences, split around the line breaks.
-     * @throws CmdLineException 
+     * @throws CmdLineException
      */
     private String[] expandAtFiles(String args[]) throws CmdLineException {
         List<String> result = new ArrayList<String>();
@@ -563,7 +561,7 @@ public class CmdLineParser {
         }
         return result.toArray(new String[result.size()]);
     }
-    
+
     /**
      * Reads all lines of a file with the platform encoding.
      */
@@ -603,7 +601,7 @@ public class CmdLineParser {
                         handler.option.toString(), Arrays.toString(((NamedOptionDef)handler.option).depends()));
             }
         }
-        
+
         //make sure that all forbids arguments are not present
         for (OptionHandler handler : present) {
             if (handler.option instanceof NamedOptionDef && !isHandlerAllowOtherOptions((NamedOptionDef) handler.option, present)) {
@@ -634,7 +632,7 @@ public class CmdLineParser {
         }
         return true;
     }
-    
+
     private OptionHandler findOptionHandler(String name) {
         // Look for key/value pair first.
         int pos = name.indexOf(parserProperties.getOptionValueDelimiter());
@@ -674,7 +672,7 @@ public class CmdLineParser {
      */
     protected boolean isOption(String arg) {
         checkNonNull(arg, "arg");
-        
+
         return parsingOptions && arg.startsWith("-");
     }
 
@@ -715,7 +713,7 @@ public class CmdLineParser {
 
     /**
      * Signals the parser that parsing the options has finished.
-     * 
+     *
      * <p>
      * Everything seen after this call is treated as an argument
      * as opposed to an option.
@@ -730,37 +728,66 @@ public class CmdLineParser {
      * <p>
      * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
      * so that you can do {@code printUsage(System.err)}.
+     * @param prefix Custom usage prefix e.g. {@code java -jar my-app.jar}
      * @throws NullPointerException if {@code out} is {@code null}.
      */
-	public void printSingleLineUsage(OutputStream out) {
-        checkNonNull(out, "OutputStream");
-        
-		printSingleLineUsage(new OutputStreamWriter(out), null);
-	}
+	public void printSingleLineUsage(final OutputStream out, final String prefix) {
+        printSingleLineUsage(new OutputStreamWriter(out), null, prefix);
+    }
 
     /**
      * Prints a single-line usage to the screen.
      *
+     * <p>
+     * This is a convenience method for calling {@code printUsage(new OutputStreamWriter(out),null)}
+     * so that you can do {@code printUsage(System.err)}.
+     * @throws NullPointerException if {@code out} is {@code null}.
+     */
+	public void printSingleLineUsage(OutputStream out) {
+        checkNonNull(out, "OutputStream");
+
+		printSingleLineUsage(new OutputStreamWriter(out), null);
+	}
+
+    /**
+     * Prints a single-line usage with a custom prefix to the screen.
+     *
+     * @param w Target Writer
+     * @param rb
+     *      if this is non-{@code null}, {@link Option#usage()} is treated
+     *      as a key to obtain the actual message from this resource bundle.
+     * @param prefix Custom usage prefix e.g. {@code java -jar my-app.jar}
+     * @throws NullPointerException if {@code w} is {@code null}.
+     */
+	public void printSingleLineUsage(final Writer w, final ResourceBundle rb, final String prefix) {
+        new PrintWriter(w).print(prefix);
+        printSingleLineUsage(w, rb);
+    }
+
+    /**
+     * Prints a single-line usage to the screen.
+     *
+     * @param w Target Writer
      * @param rb
      *      if this is non-{@code null}, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
      * @throws NullPointerException if {@code w} is {@code null}.
      */
     // TODO test this!
-	public void printSingleLineUsage(Writer w, ResourceBundle rb) {
+	public void printSingleLineUsage(final Writer w, final ResourceBundle rb) {
         checkNonNull(w, "Writer");
-        
-		PrintWriter pw = new PrintWriter(w);
-		for (OptionHandler h : arguments) {
+
+		final PrintWriter pw = new PrintWriter(w);
+		for (OptionHandler h : options) {
 			printSingleLineOption(pw, h, rb);
 		}
-		for (OptionHandler h : options) {
+		for (OptionHandler h : arguments) {
 			printSingleLineOption(pw, h, rb);
 		}
 		pw.flush();
 	}
 
-	private void printSingleLineOption(PrintWriter pw, OptionHandler h, ResourceBundle rb) {
+	private void printSingleLineOption(final PrintWriter pw, final OptionHandler h, final ResourceBundle rb) {
 		pw.print(' ');
 		if (!h.option.required())
 			pw.print('[');
