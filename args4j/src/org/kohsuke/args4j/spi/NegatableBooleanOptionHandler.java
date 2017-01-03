@@ -24,53 +24,53 @@ import org.kohsuke.args4j.spi.Setter;
  */
 public class NegatableBooleanOptionHandler extends OptionHandler<Boolean> {
 
-  private final String negatedName;
+    private final String negatedName;
 
-  public NegatableBooleanOptionHandler(CmdLineParser parser,
-      OptionDef option, Setter<? super Boolean> setter) {
-    super(parser, option, setter);
+    public NegatableBooleanOptionHandler(CmdLineParser parser,
+	    OptionDef option, Setter<? super Boolean> setter) {
+	super(parser, option, setter);
 
-    if (!(option instanceof NamedOptionDef)) {
-      throw new IllegalAnnotationError("NegatableBooleanOptionHandler can only be used for named options.");
+	if (!(option instanceof NamedOptionDef)) {
+	    throw new IllegalAnnotationError("NegatableBooleanOptionHandler can only be used for named options.");
+	}
+
+	NamedOptionDef namedOption = (NamedOptionDef) option;
+	this.negatedName = namedOption.name().replaceFirst("(-*)", "$1no");
+
+	if (!find(negatedName, namedOption.aliases())) {
+	    throw new IllegalAnnotationError("There is no negated version of "+namedOption.name()+" in the option aliases.");
+	}
     }
 
-    NamedOptionDef namedOption = (NamedOptionDef) option;
-    this.negatedName = namedOption.name().replaceFirst("(-*)", "$1no");
-
-    if (!find(negatedName, namedOption.aliases())) {
-      throw new IllegalAnnotationError("There is no negated version of "+namedOption.name()+" in the option aliases.");
+    @Override
+    public int parseArguments(Parameters params) throws CmdLineException {
+	if (params.getParameter(-1).equals(negatedName)) {
+	    setter.addValue(false);
+	} else {
+	    setter.addValue(true);
+	}
+	return 0;
     }
-  }
 
-  @Override
-  public int parseArguments(Parameters params) throws CmdLineException {
-    if (params.getParameter(-1).equals(negatedName)) {
-      setter.addValue(false);
-    } else {
-      setter.addValue(true);
+    @Override
+    public String getDefaultMetaVariable() {
+	return null;
     }
-    return 0;
-  }
 
-  @Override
-  public String getDefaultMetaVariable() {
-    return null;
-  }
-
-  /**
-   * Look for a string in an array of strings
-   * @param str String to look for
-   * @param strings Array of strings to search
-   * @return {@code true} if {@code str} is present in {@code strings}
-   */
-  private static boolean find(String str, String[] strings) {
-    for (String alias : strings) {
-      if (alias.equals(str)) {
-        return true;
-      }
-      System.err.println(alias + " != " + str);
+    /**
+     * Look for a string in an array of strings
+     * @param str String to look for
+     * @param strings Array of strings to search
+     * @return {@code true} if {@code str} is present in {@code strings}
+     */
+    private static boolean find(String str, String[] strings) {
+	for (String alias : strings) {
+	    if (alias.equals(str)) {
+		return true;
+	    }
+	    System.err.println(alias + " != " + str);
+	}
+	return false;
     }
-    return false;
-  }
 
 }
