@@ -11,6 +11,13 @@ import junit.framework.TestCase;
 public class NegatableBooleanOptionHandlerTest extends TestCase {
 
     private static class SimpleTestBean {
+	@Option(name = "--option",
+		handler=NegatableBooleanOptionHandler.class,
+		usage = "Standard option")
+	private boolean option;
+    }
+
+    private static class ExistingAliasBean {
 	@Option(name = "--option", aliases = { "--nooption" },
 		handler=NegatableBooleanOptionHandler.class,
 		usage = "Standard option")
@@ -18,7 +25,7 @@ public class NegatableBooleanOptionHandlerTest extends TestCase {
     }
 
     private static class NoNoTestBean {
-	@Option(name = "--notify", aliases = { "--nonotify" },
+	@Option(name = "--notify",
 		handler=NegatableBooleanOptionHandler.class,
 		usage = "Option that naturally starts with --no")
 	private boolean option = true;
@@ -34,6 +41,20 @@ public class NegatableBooleanOptionHandlerTest extends TestCase {
 
     public void testSimpleOptionNegated() throws Exception {
 	SimpleTestBean args = new SimpleTestBean();
+	CmdLineParser parser = new CmdLineParser(args);
+	parser.parseArgument("--nooption");
+	assertEquals(false, args.option);
+    }
+
+    public void testExistingAliasPresent() throws Exception {
+	ExistingAliasBean args = new ExistingAliasBean();
+	CmdLineParser parser = new CmdLineParser(args);
+	parser.parseArgument("--option");
+	assertEquals(true, args.option);
+    }
+
+    public void testExistingAliasNegated() throws Exception {
+	ExistingAliasBean args = new ExistingAliasBean();
 	CmdLineParser parser = new CmdLineParser(args);
 	parser.parseArgument("--nooption");
 	assertEquals(false, args.option);
