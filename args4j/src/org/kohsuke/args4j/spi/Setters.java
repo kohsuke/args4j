@@ -5,6 +5,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.List;
+import org.kohsuke.args4j.Argument;
 
 import org.kohsuke.args4j.CmdLineParser;
 
@@ -20,10 +21,15 @@ public class Setters {
     }
     
     public static Setter create(CmdLineParser parser, AccessibleObject fieldOrMethod, Object bean) {
-        if (fieldOrMethod instanceof Method) {
-            return new MethodSetter(parser,bean,(Method) fieldOrMethod);
+        if(fieldOrMethod instanceof Method) {
+
+            Argument a = ((Method) fieldOrMethod).getAnnotation(Argument.class);
+
+            boolean isMultiValued = (a == null) ? true : a.multiValued();
+            
+            return new MethodSetter(parser, bean, (Method) fieldOrMethod, isMultiValued);
         } else {
-            return create((Field)fieldOrMethod,bean);
+            return create((Field) fieldOrMethod, bean);
         }
     }
 

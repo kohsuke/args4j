@@ -15,11 +15,13 @@ public final class MethodSetter implements Setter {
     private final CmdLineParser parser;
     private final Object bean;
     private final Method m;
+    private final boolean isMultiValued;
 
-    public MethodSetter(CmdLineParser parser, Object bean, Method m) {
+    public MethodSetter(CmdLineParser parser, Object bean, Method m, boolean isMultiValued) {
         this.parser = parser;
         this.bean = bean;
         this.m = m;
+        this.isMultiValued = isMultiValued;
         if(m.getParameterTypes().length!=1)
             throw new IllegalAnnotationError(Messages.ILLEGAL_METHOD_SIGNATURE.format(m));
     }
@@ -29,8 +31,9 @@ public final class MethodSetter implements Setter {
     }
 
     public boolean isMultiValued() {
-        // multiple values can be handled by calling methods repeatedly
-    	return true;
+        /*SHOULD HANDLE BOTH MULTIVALUE ARGS AND NON-MULTI VALUE ARGS
+        seehttps://github.com/kohsuke/args4j/issues/92*/
+    	return this.isMultiValued;
     }
 
     public FieldSetter asFieldSetter() {
