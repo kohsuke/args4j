@@ -61,12 +61,16 @@ public class SampleMain {
             // you can parse additional arguments if you want.
             // parser.parseArgument("more","args");
         } catch (CmdLineException e) {
-            e.printStackTrace();
+            System.err.println(e.getMessage()+"\n");
+            System.err.println("java SampleMain [options...] arguments...");
+            // print the list of available options
+            parser.printUsage(System.err);
+            System.err.println();
             return;
         }
 
         if( arguments.isEmpty() )
-            System.out.println("No args given. Example useage: java SampleMain" + parser.printExample(OptionHandlerFilter.ALL));
+            System.err.println("No args given. Example useage: java SampleMain" + parser.printExample(OptionHandlerFilter.ALL));
 
         // this will redirect the output to the specified output
         System.out.println(out);
