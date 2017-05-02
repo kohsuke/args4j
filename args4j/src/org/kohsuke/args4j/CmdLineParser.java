@@ -276,7 +276,7 @@ public class CmdLineParser {
     /**
      * Prints the list of all the non-hidden options and their usages to the screen.
      * <p>
-     * Short for {@code printUsage(w,rb,OptionHandlerFilter.PUBLIC)}
+     * Short for {@code printUsage(PrintWriter, ResourceBundle, OptionHandlerFilter)}
      * @param rb
      *      If non-{@code null}, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
