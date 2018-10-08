@@ -17,6 +17,8 @@ public class AtOptionTest extends Args4JTestBase<AtOption> {
 
     public void testSimpleAt() throws IOException, CmdLineException {
         
+        parser.getProperties().withAtSyntax(true);
+        
         File tmp = File.createTempFile("atoption", null);
         PrintWriter printWriter = new PrintWriter(tmp);
         printWriter.println("-string\nfoo");
@@ -33,6 +35,8 @@ public class AtOptionTest extends Args4JTestBase<AtOption> {
     }
     
     public void testAtAfterOpts() throws IOException, CmdLineException {
+        
+        parser.getProperties().withAtSyntax(true);
         
         File tmp = File.createTempFile("atoption", null);
         PrintWriter printWriter = new PrintWriter(tmp);
@@ -51,6 +55,8 @@ public class AtOptionTest extends Args4JTestBase<AtOption> {
     
     public void testAtBeforeOpts() throws IOException, CmdLineException {
         
+        parser.getProperties().withAtSyntax(true);
+        
         File tmp = File.createTempFile("atoption", null);
         PrintWriter printWriter = new PrintWriter(tmp);
         printWriter.println("-string\nfoo");
@@ -67,8 +73,6 @@ public class AtOptionTest extends Args4JTestBase<AtOption> {
     }
     
     public void testAtOptsWithBeingDisabled() throws IOException, CmdLineException {
-        
-        parser.getProperties().withAtSyntax(false);
         
         File tmp = File.createTempFile("atoption", null);
         PrintWriter printWriter = new PrintWriter(tmp);
