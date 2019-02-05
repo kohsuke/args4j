@@ -34,7 +34,12 @@ public abstract class DelimitedOptionHandler<T> extends OptionHandler<T> {
         String full = params.getParameter(0);
         String[] delimitedStrs = full.split(delimiter);
         for (String delimitedStr : delimitedStrs) {
-            setter.addValue(individualOptionHandler.parse(delimitedStr));
+            try {
+                setter.addValue(individualOptionHandler.parse(delimitedStr));
+            }
+            catch (NumberFormatException ex) {
+                 throw new CmdLineException(owner, Messages.ILLEGAL_OPERAND, params.getParameter(-1), delimitedStr);
+            }
         }
 
         // The number of Parameters consumed (not the number set)
