@@ -6,7 +6,7 @@ application. See more info at [http://args4j.kohsuke.org/]
 Why should I use it?
 --------------------
 
-See [the quick intro](http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html)
+See [the quick intro](https://web.archive.org/web/20120605024439/http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html)
 
 - It makes command line parsing very easy by using annotations
 - Generate usage text very easily
