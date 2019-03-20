@@ -1,15 +1,15 @@
-import static org.kohsuke.args4j.ExampleMode.ALL;
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.OptionHandlerFilter;
+import org.kohsuke.args4j.ParserProperties;
 import org.kohsuke.args4j.spi.BooleanOptionHandler;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
 
 /**
  * Sample program that shows how you can use args4j.
@@ -49,39 +49,28 @@ public class SampleMain {
     }
 
     public void doMain(String[] args) throws IOException {
-        CmdLineParser parser = new CmdLineParser(this);
-        
+
         // if you have a wider console, you could increase the value;
         // here 80 is also the default
-        parser.setUsageWidth(80);
+        ParserProperties properties = ParserProperties.defaults().withUsageWidth(80);
+        CmdLineParser parser = new CmdLineParser(this, properties);
 
         try {
-            // parse the arguments.
             parser.parseArgument(args);
 
             // you can parse additional arguments if you want.
             // parser.parseArgument("more","args");
-
-            // after parsing arguments, you should check
-            // if enough arguments are given.
-            if( arguments.isEmpty() )
-                throw new CmdLineException(parser,"No argument is given");
-
-        } catch( CmdLineException e ) {
-            // if there's a problem in the command line,
-            // you'll get this exception. this will report
-            // an error message.
-            System.err.println(e.getMessage());
+        } catch (CmdLineException e) {
+            System.err.println(e.getMessage()+"\n");
             System.err.println("java SampleMain [options...] arguments...");
             // print the list of available options
             parser.printUsage(System.err);
             System.err.println();
-
-            // print option sample. This is useful some time
-            System.err.println("  Example: java SampleMain"+parser.printExample(ALL));
-
             return;
         }
+
+        if( arguments.isEmpty() )
+            System.err.println("No args given. Example useage: java SampleMain" + parser.printExample(OptionHandlerFilter.ALL));
 
         // this will redirect the output to the specified output
         System.out.println(out);
