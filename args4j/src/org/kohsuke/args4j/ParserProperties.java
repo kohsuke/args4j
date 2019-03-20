@@ -16,7 +16,7 @@ public class ParserProperties {
     private int usageWidth = DEFAULT_USAGE_WIDTH;
     private Comparator<OptionHandler> optionSorter = DEFAULT_COMPARATOR;
     private String optionValueDelimiter=" ";
-    private boolean atSyntax = true;
+    private boolean atSyntax = false;
     private boolean showDefaults = true;
     
     private ParserProperties() {
@@ -33,11 +33,16 @@ public class ParserProperties {
 
     /**
      * Toggles the parsing of @-prefixes in values.
-     * If a command line value starts with @, it is interpreted
-     * as being a file, loaded, and interpreted as if
-     * the file content would have been passed to the command line.
+     *
+     * If a command line value starts with @, it is interpreted as being a file,
+     * loaded, and interpreted as if the file content would have been passed to
+     * the command line. This behavior is potentially insecure if args4j is
+     * being accessed over a network to parse user-provided options, since it
+     * may allow users on the network to read arbitrary files on the server's
+     * filesystem.
+     *
      * @param atSyntax {@code true} if at sign is being parsed, {@code false}
-     * if it is to be ignored. Defaults to {@code true}.
+     * if it is to be ignored. Defaults to {@code false}.
      * @see #getAtSyntax() 
      */
     public ParserProperties withAtSyntax(boolean atSyntax) {
