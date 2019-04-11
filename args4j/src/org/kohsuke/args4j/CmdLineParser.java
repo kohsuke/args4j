@@ -545,7 +545,7 @@ public class CmdLineParser {
      * by the @ sequences, split around the line breaks.
      * @throws CmdLineException 
      */
-    private String[] expandAtFiles(String args[]) throws CmdLineException {
+    protected String[] expandAtFiles(String args[]) throws CmdLineException {
         List<String> result = new ArrayList<String>();
         for (String arg : args) {
             if (arg.startsWith("@")) {
@@ -553,7 +553,7 @@ public class CmdLineParser {
                 if (!file.exists())
                     throw new CmdLineException(this,Messages.NO_SUCH_FILE,file.getPath());
                 try {
-                    result.addAll(readAllLines(file));
+                    result.addAll(readAtFile(file));
                 } catch (IOException ex) {
                     throw new CmdLineException(this, "Failed to parse "+file,ex);
                 }
@@ -563,7 +563,14 @@ public class CmdLineParser {
         }
         return result.toArray(new String[result.size()]);
     }
-    
+
+    /**
+     * Reads command line options from a file.
+     */
+    protected List<String> readAtFile(File f) throws IOException {
+        return readAllLines(f);
+    }
+
     /**
      * Reads all lines of a file with the platform encoding.
      */
