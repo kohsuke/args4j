@@ -1,5 +1,10 @@
 package org.kohsuke.args4j;
 
+import org.kohsuke.args4j.spi.Getter;
+import org.kohsuke.args4j.spi.OptionHandler;
+import org.kohsuke.args4j.spi.Parameters;
+import org.kohsuke.args4j.spi.Setter;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,11 +21,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
-import org.kohsuke.args4j.spi.Getter;
-
-import org.kohsuke.args4j.spi.OptionHandler;
-import org.kohsuke.args4j.spi.Parameters;
-import org.kohsuke.args4j.spi.Setter;
 
 import static org.kohsuke.args4j.Utilities.checkNonNull;
 
@@ -440,7 +440,10 @@ public class CmdLineParser {
          */
         void splitToken() {
             if (pos < args.length && pos >= 0) {
-                int idx = args[pos].indexOf("=");
+                int idx = args[pos].indexOf(parserProperties.getOptionValueDelimiter());
+                if (idx < 0) {
+                    idx = args[pos].indexOf("="); // historical compatibility fallback
+                }
                 if (idx > 0) {
                     args[pos] = args[pos].substring(idx + 1);
                 }
