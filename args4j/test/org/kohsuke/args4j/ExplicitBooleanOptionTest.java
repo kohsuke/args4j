@@ -100,11 +100,22 @@ public class ExplicitBooleanOptionTest extends Args4JTestBase<BooleanOptionHolde
 
     public void testUsage() {
         args = new String[] { "-wrong" };
+
         try {
             parser.parseArgument(args);
         } catch (CmdLineException e) {
-            assertUsageContains("Usage message should contain 'VAL'", "VAL");
+            assertUsageContains("Usage message should contain '[true|false]'", "[true|false]");
         }
     }
 
+    public void testUsageWithEquals() {
+        args = new String[] { "-wrong" };
+        parser = new CmdLineParser(testObject, ParserProperties.defaults().withOptionValueDelimiter("="));
+
+        try {
+            parser.parseArgument(args);
+        } catch (CmdLineException e) {
+            assertUsageContains("Usage message should contain '[=true|false]'", "[=true|false]");
+        }
+    }
 }

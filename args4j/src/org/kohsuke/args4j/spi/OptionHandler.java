@@ -107,7 +107,7 @@ public abstract class OptionHandler<T> {
      * @param properties
      *      Affects the formatting behaviours.
      */
-    public final String getNameAndMeta(ResourceBundle rb, ParserProperties properties) {
+    public String getNameAndMeta(ResourceBundle rb, ParserProperties properties) {
     	String str = option.isArgument() ? "" : option.toString();
     	String meta = getMetaVariable(rb);
     	if (meta != null) {
