@@ -1,5 +1,8 @@
 package org.kohsuke.args4j.apt;
 
+import static javax.tools.Diagnostic.Kind.ERROR;
+import static javax.tools.Diagnostic.Kind.NOTE;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
@@ -21,12 +24,10 @@ import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
 import javax.lang.model.util.SimpleElementVisitor6;
 import javax.lang.model.util.Types;
-import javax.tools.Diagnostic.Kind;
 
 import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.Option;
-
-import static javax.tools.Diagnostic.Kind.*;
+import org.kohsuke.args4j.apt.exceptions.AnnotationProcessingError;
 
 /**
  * Annotation {@link Processor} to be invoked by javac.
@@ -55,7 +56,7 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
                 resource = new Properties();
                 resource.load(new FileInputStream(res));
             } catch (IOException e) {
-                throw new Error(e);
+                throw new AnnotationProcessingError(e);
             }
         }
     }
@@ -94,11 +95,12 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
     }
 
     private void scan(TypeElement decl, AnnotationVisitor visitor) {
-        while (decl != null) {
-            for (Element f : decl.getEnclosedElements()) {
+    	TypeElement declValue = decl;
+        while (declValue != null) {
+            for (Element f : declValue.getEnclosedElements()) {
                 scan(f, visitor);
             }
-            decl = (TypeElement) typeUtils.asElement(decl.getSuperclass());
+            declValue = (TypeElement) typeUtils.asElement(declValue.getSuperclass());
         }
 
         visitor.done();
@@ -142,6 +144,7 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
                     return null;
                 }
 
+                @Override
                 public Void visitExecutable(ExecutableElement m, Void p) {
                     optionBeans.add((TypeElement) m.getEnclosingElement());
                     return null;
