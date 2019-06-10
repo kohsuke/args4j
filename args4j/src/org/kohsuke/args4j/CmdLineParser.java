@@ -12,10 +12,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.Set;
+
 import org.kohsuke.args4j.spi.Getter;
 
 import org.kohsuke.args4j.spi.OptionHandler;
@@ -282,7 +284,7 @@ public class CmdLineParser {
      * @param filter
      *      Controls which options to be printed.
      */
-    public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
+    public void printUsage(Writer out, final ResourceBundle rb, OptionHandlerFilter filter) {
         PrintWriter w = new PrintWriter(out);
         // determine the length of the option + metavar first
         int len = 0;
@@ -295,11 +297,32 @@ public class CmdLineParser {
             len = Math.max(len,curLen);
         }
 
+        // ensure options/arguments are sorted before printing
+        List<OptionHandler> optionsAndArguments = new ArrayList<OptionHandler>(arguments.size() + options.size());
+        optionsAndArguments.addAll(arguments);
+        optionsAndArguments.addAll(options);
+        Collections.sort(optionsAndArguments, new Comparator<OptionHandler>() {
+            public int compare(OptionHandler o1, OptionHandler o2) {
+                // same instance
+                if(o1 == o2) {
+                    return 0;
+                }
+                // sort primarily by option
+                int result = o1.getNameAndMeta(rb, parserProperties).compareTo(o2.getNameAndMeta(rb, parserProperties));
+                // then by usage
+                if(result == 0 && o1.option != null && o2.option != null) {
+                    result = localize(o1.option.usage(),rb).compareTo(localize(o2.option.usage(), rb));
+                }
+                // finally by object identity
+                if(result == 0) {
+                    return System.identityHashCode(o1) - System.identityHashCode(o2);
+                }
+                return result;
+            }
+        });
+
         // then print
-        for (OptionHandler h : arguments) {
-        	printOption(w, h, len, rb, filter);
-        }
-        for (OptionHandler h : options) {
+        for (OptionHandler h : optionsAndArguments) {
         	printOption(w, h, len, rb, filter);
         }
 
