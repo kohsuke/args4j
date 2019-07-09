@@ -32,7 +32,6 @@ More Resources
 2. [javadoc](http://args4j.kohsuke.org/args4j/apidocs/)
 3. [How to generate a documentation for your CLI](http://args4j.kohsuke.org/apt.html)
 4. [Extend args4j to handle other Java types](http://args4j.kohsuke.org/implementOptionhandler.html)
-5. [Kohsuke's Blog: Parsing command line options in JDK 5.0 style]
-   (http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html)
+5. [Kohsuke's Blog: Parsing command line options in JDK 5.0 style](http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html)
 6. [A comparison between Commons CLI and Args4j](http://hikage.developpez.com/java/articles/api/cli-vs-args4j/) in
    French
