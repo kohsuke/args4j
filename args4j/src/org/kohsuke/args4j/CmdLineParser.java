@@ -275,7 +275,8 @@ public class CmdLineParser {
 
     /**
      * Prints the list of all the non-hidden options and their usages to the screen.
-     *
+     * <p>
+     * Short for {@code printUsage(PrintWriter, ResourceBundle, OptionHandlerFilter)}
      * @param rb
      *      If non-{@code null}, {@link Option#usage()} is treated
      *      as a key to obtain the actual message from this resource bundle.
@@ -283,7 +284,19 @@ public class CmdLineParser {
      *      Controls which options to be printed.
      */
     public void printUsage(Writer out, ResourceBundle rb, OptionHandlerFilter filter) {
-        PrintWriter w = new PrintWriter(out);
+        printUsage(new PrintWriter(out), rb, filter);
+    }
+
+    /**
+     * Prints the list of all the non-hidden options and their usages to the screen.
+     *
+     * @param rb
+     *      If non-{@code null}, {@link Option#usage()} is treated
+     *      as a key to obtain the actual message from this resource bundle.
+     * @param filter
+     *      Controls which options to be printed.
+     */
+    public void printUsage(PrintWriter w, ResourceBundle rb, OptionHandlerFilter filter) {
         // determine the length of the option + metavar first
         int len = 0;
         for (OptionHandler h : arguments) {
@@ -297,10 +310,10 @@ public class CmdLineParser {
 
         // then print
         for (OptionHandler h : arguments) {
-        	printOption(w, h, len, rb, filter);
+            printOption(w, h, len, rb, filter);
         }
         for (OptionHandler h : options) {
-        	printOption(w, h, len, rb, filter);
+            printOption(w, h, len, rb, filter);
         }
 
         w.flush();
