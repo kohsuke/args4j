@@ -18,6 +18,7 @@ public class ParserProperties {
     private String optionValueDelimiter=" ";
     private boolean atSyntax = true;
     private boolean showDefaults = true;
+    private boolean ignoreUndefinedOptions = false;
     
     private ParserProperties() {
     }
@@ -129,7 +130,19 @@ public class ParserProperties {
         return this;
     }
 
-    public String getOptionValueDelimiter() {
+	public boolean isIgnoreUndefinedOptions() {
+		return ignoreUndefinedOptions;
+	}
+
+	public ParserProperties withIgnoreUndefinedOptions(boolean b){
+    	this.ignoreUndefinedOptions = b;
+    	return this;
+
+	}
+
+
+
+	public String getOptionValueDelimiter() {
         return this.optionValueDelimiter;
     }
 
