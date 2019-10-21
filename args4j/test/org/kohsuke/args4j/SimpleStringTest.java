@@ -30,6 +30,28 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
         }
     }
 
+    public void testSettingLongString() {
+        SimpleString bo = testObject;
+        args = new String[]{"-str", "\"longer", "string", "inside", "quotes\""};
+        try {
+            parser.parseArgument(args);
+            assertEquals( "longer string inside quotes", bo.str);
+        } catch (CmdLineException e) {
+            fail("Setting a string inside quotes should be possible");
+        }
+    }
+
+    public void testSettingMultiLineString() {
+        SimpleString bo = testObject;
+        args = new String[]{"-str", "\"multiline", "\n", "string\""};
+        try {
+            parser.parseArgument(args);
+            assertEquals( "multiline \n string", bo.str);
+        } catch (CmdLineException e) {
+            fail("Setting a string inside quotes should be possible");
+        }
+    }
+
     public void testSettingUsage() {
         args = new String[]{"-wrong-usage"};
         try {
@@ -60,7 +82,7 @@ public class SimpleStringTest extends Args4JTestBase<SimpleString> {
             assertEquals("Got wrong usage message", expectedUsage, usageLines[0]);
         }
     }
-    
+
     /*
      * Bug 5: Option without "usage" are hidden.
      * TODO: it seems that this is intended:
