@@ -16,8 +16,24 @@ public class StringOptionHandler extends OptionHandler<String> {
 
     @Override
     public int parseArguments(Parameters params) throws CmdLineException {
-        setter.addValue(params.getParameter(0));
-        return 1;
+        int consumed = 0;
+        String param = params.getParameter(consumed);
+
+        if(param.startsWith("\"") || param.startsWith("'")) {
+            String end = String.valueOf(param.charAt(0));
+            StringBuilder builder = new StringBuilder();
+            param = param.substring(1); // remove the quote-starting character
+            while(!param.endsWith(end)) {
+                builder.append(param); builder.append(" ");
+                consumed++;
+                param = params.getParameter(consumed);
+            }
+            builder.append(param, 0, param.length()-1); // append without the quote-ending character
+            setter.addValue(builder.toString());
+        } else {
+            setter.addValue(param);
+        }
+        return consumed + 1;
     }
 
     @Override
