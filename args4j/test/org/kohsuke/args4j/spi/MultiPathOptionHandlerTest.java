@@ -2,7 +2,6 @@ package org.kohsuke.args4j.spi;
 
 import junit.framework.TestCase;
 import org.kohsuke.args4j.CmdLineException;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.lang.reflect.AnnotatedElement;
 import java.nio.file.Path;
@@ -100,11 +99,11 @@ public class MultiPathOptionHandlerTest extends TestCase {
         }
 
         public FieldSetter asFieldSetter() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         public AnnotatedElement asAnnotatedElement() {
-            throw new NotImplementedException();
+            throw new UnsupportedOperationException();
         }
 
         List<Path> getCollection() {
