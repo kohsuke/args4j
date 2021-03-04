@@ -18,6 +18,11 @@ public @interface SubCommand {
     String name();
 
     /**
+     * Aliases for the command.
+     */
+    String[] aliases() default { };
+
+    /**
      * The implementation class of this sub command.
      *
      * When a sub-command is selected, this class is instantiated and the rest of the arguments

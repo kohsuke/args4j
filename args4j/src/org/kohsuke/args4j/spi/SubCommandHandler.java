@@ -7,6 +7,7 @@ import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.ResourceBundle;
 
 /**
@@ -98,7 +99,7 @@ public class SubCommandHandler extends OptionHandler<Object> {
         String subCmd = params.getParameter(0);
 
         for (SubCommand c : commands.value()) {
-            if (c.name().equals(subCmd)) {
+            if (c.name().equals(subCmd) || Arrays.asList(c.aliases()).contains(subCmd)) {
                 setter.addValue(subCommand(c,params));
                 return params.size();   // consume all the remaining tokens
             }
