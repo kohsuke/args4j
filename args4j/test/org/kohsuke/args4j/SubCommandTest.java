@@ -13,7 +13,7 @@ public class SubCommandTest extends Args4JTestBase<SubCommandTest.Foo> {
         @Argument(handler= SubCommandHandler.class)
         @SubCommands({
                 @SubCommand(name="cmd1",impl=Cmd1.class),
-                @SubCommand(name="cmd2",impl=Cmd2.class)
+                @SubCommand(name="cmd2", aliases = {"c2a", "c2b", "c2c"}, impl=Cmd2.class)
         })
         SubCmd value;
 
@@ -44,6 +44,11 @@ public class SubCommandTest extends Args4JTestBase<SubCommandTest.Foo> {
 
     public void testCmd2() throws Exception {
         parser.parseArgument("cmd2");
+        assertTrue(testObject.value instanceof Cmd2);
+    }
+
+    public void testCmd2Alias() throws Exception {
+        parser.parseArgument("c2c");
         assertTrue(testObject.value instanceof Cmd2);
     }
 }
