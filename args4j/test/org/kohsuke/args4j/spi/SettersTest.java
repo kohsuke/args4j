@@ -2,7 +2,7 @@ package org.kohsuke.args4j.spi;
 
 import java.lang.reflect.Field;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 import junit.framework.TestCase;
 
 /**

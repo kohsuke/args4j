@@ -19,7 +19,7 @@ import javax.lang.model.element.Element;
 import javax.lang.model.element.ExecutableElement;
 import javax.lang.model.element.TypeElement;
 import javax.lang.model.element.VariableElement;
-import javax.lang.model.util.SimpleElementVisitor6;
+import javax.lang.model.util.SimpleElementVisitor7;
 import javax.lang.model.util.Types;
 import javax.tools.Diagnostic.Kind;
 
@@ -36,7 +36,6 @@ import static javax.tools.Diagnostic.Kind.*;
  * 
  * @author Kohsuke Kawaguchi
  */
-@SuppressWarnings("Since15")
 public class AnnotationProcessorImpl extends AbstractProcessor {
 
     private File outDir;
@@ -134,7 +133,7 @@ public class AnnotationProcessorImpl extends AbstractProcessor {
 
         for (Element d : params) {
 
-            d.accept(new SimpleElementVisitor6<Void, Void>() {
+            d.accept(new SimpleElementVisitor7<Void, Void>() {
                 @Override
                 public Void visitVariable(VariableElement e, Void p) {
                     TypeElement dt = (TypeElement) e.getEnclosingElement();
