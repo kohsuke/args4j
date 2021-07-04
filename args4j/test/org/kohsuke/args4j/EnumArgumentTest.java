@@ -2,7 +2,7 @@ package org.kohsuke.args4j;
 
 import org.kohsuke.args4j.EnumAttribute.Animal;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 
 public class EnumArgumentTest extends Args4JTestBase<EnumArgument> {
