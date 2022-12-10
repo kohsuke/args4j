@@ -134,7 +134,7 @@ public class SubCommandHandler extends OptionHandler<Object> {
     }
 
     protected CmdLineParser configureParser(Object subCmd, SubCommand c) {
-        return new CmdLineParser(subCmd);
+        return new CmdLineParser(subCmd, owner.getProperties());
     }
 
     protected Object instantiate(SubCommand c) {
