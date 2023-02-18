@@ -25,7 +25,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
         String s = params.getParameter(0).replaceAll("-", "_");
         T value = null;
         for( T o : enumType.getEnumConstants() )
-            if(o.name().equalsIgnoreCase(s)) {
+            if(o.name().equalsIgnoreCase(s) || o.toString().equalsIgnoreCase(s)) {
                 value = o;
                 break;
             }
