@@ -38,6 +38,9 @@
               <addClasspath>true</addClasspath>
               <mainClass>${mainClass}</mainClass>
             </manifest>
+            <manifestEntries>
+              <Automatic-Module-Name>args4j.tools</Automatic-Module-Name>
+            </manifestEntries>
           </archive>
         </configuration>
       </plugin>
@@ -84,21 +87,4 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  <profiles>
-    <profile>
-      <id>jdk-tools-jar</id>
-      <activation>
-        <os><family>!mac</family></os>
-      </activation>
-      <dependencies>
-        <dependency>
-          <groupId>jdk</groupId>
-          <artifactId>tools</artifactId>
-          <version>5.0</version>
-          <scope>system</scope>
-          <systemPath>${java.home}/../lib/tools.jar</systemPath>
-        </dependency>
-      </dependencies>
-    </profile>
-  </profiles>
 </project>
