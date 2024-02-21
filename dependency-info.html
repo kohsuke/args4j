@@ -11,7 +11,7 @@
 
 <html>
   <head>
-    <title>args4j parent - Reactor Dependency Convergence</title>
+    <title>args4j parent - Dependency Information</title>
     <style type="text/css" media="all">
       @import url("./css/maven-base.css");
       @import url("./css/maven-theme.css");
@@ -74,9 +74,9 @@
               
       
             
-            
-            
       
+            
+            
             
       
             
@@ -109,11 +109,11 @@
         </li>
                   
     <li class="none">
-              <strong>Dependency Convergence</strong>
+              <a href="dependency-convergence.html">Dependency Convergence</a>
         </li>
                   
     <li class="none">
-              <a href="dependency-info.html">Dependency Information</a>
+              <strong>Dependency Information</strong>
         </li>
                   
     <li class="none">
@@ -167,73 +167,44 @@
     <div id="content">
       <div id="contentBox">
         <div class="section">
-<h2>Reactor Dependency Convergence<a name="Reactor_Dependency_Convergence"></a></h2>
-<table border="0" class="bodyTable"><caption>
-  <b>Legend:</b>
-</caption>
-<tr class="a">
-<td><img alt="[Error]" src="images/icon_error_sml.gif" /></td>
-<td>At least one dependency has a differing version of the dependency or has SNAPSHOT dependencies.</td></tr></table><br />
-<table border="0" class="bodyTable"><caption>
-  <b>Statistics:</b>
-</caption>
-<tr class="b">
-<th>Number of modules:</th>
-<td>5</td></tr>
-<tr class="a">
-<th>Number of dependencies (NOD):</th>
-<td>20</td></tr>
-<tr class="b">
-<th>Number of unique artifacts (NOA):</th>
-<td>22</td></tr>
-<tr class="a">
-<th>Number of version-conflicting artifacts (NOC):</th>
-<td>2</td></tr>
-<tr class="b">
-<th>Number of SNAPSHOT artifacts (NOS):</th>
-<td>0</td></tr>
-<tr class="a">
-<th>Convergence (NOD/NOA):</th>
-<td><img alt="[Error]" src="images/icon_error_sml.gif" />&#160;<b>90 %</b></td></tr>
-<tr class="b">
-<th>Ready for release (100% convergence and no SNAPSHOTS):</th>
-<td><img alt="[Error]" src="images/icon_error_sml.gif" />&#160;<b>Error</b><br />You do not have 100% convergence.</td></tr></table></div>
+<h2>Dependency Information<a name="Dependency_Information"></a></h2><a name="Dependency_Information"></a>
 <div class="section">
-<h3>Dependencies used in modules<a name="Dependencies_used_in_modules"></a></h3>
+<h3>Apache Maven<a name="Apache_Maven"></a></h3><a name="Apache_Maven"></a>
+<div class="source">
+<pre>&lt;dependency&gt;
+  &lt;groupId&gt;args4j&lt;/groupId&gt;
+  &lt;artifactId&gt;args4j-site&lt;/artifactId&gt;
+  &lt;version&gt;2.35&lt;/version&gt;
+  &lt;type&gt;pom&lt;/type&gt;
+&lt;/dependency&gt;</pre></div></div>
 <div class="section">
-<h4>org.codehaus.plexus:plexus-classworlds<a name="org.codehaus.plexus:plexus-classworlds"></a></h4>
-<table border="0" class="bodyTable">
-<tr class="a">
-<td><img alt="[Error]" src="images/icon_error_sml.gif" /></td>
-<td>
-<table border="0" class="bodyTable">
-<tr class="b">
-<td width="25%">2.5.2</td>
-<td>
-<ol style="list-style-type: decimal">
-<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.35<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;\-&#160;org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.4:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-classworlds:jar:2.5.2:compile - omitted for conflict with 2.6.0)<br /></li><br /></ol></td></tr>
-<tr class="a">
-<td width="25%">2.6.0</td>
-<td>
-<ol style="list-style-type: decimal">
-<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.35<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;\-&#160;org.codehaus.plexus:plexus-classworlds:jar:2.6.0:compile<br /></li><br /></ol></td></tr></table></td></tr></table></div>
+<h3>Apache Buildr<a name="Apache_Buildr"></a></h3><a name="Apache_Buildr"></a>
+<div class="source">
+<pre>'args4j:args4j-site:pom:2.35'</pre></div></div>
 <div class="section">
-<h4>org.codehaus.plexus:plexus-utils<a name="org.codehaus.plexus:plexus-utils"></a></h4>
-<table border="0" class="bodyTable">
-<tr class="b">
-<td><img alt="[Error]" src="images/icon_error_sml.gif" /></td>
-<td>
-<table border="0" class="bodyTable">
-<tr class="a">
-<td width="25%">3.0.17</td>
-<td>
-<ol style="list-style-type: decimal">
-<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.35<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;\-&#160;org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.4:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:3.0.17:compile - omitted for conflict with 3.2.1)<br /></li><br /></ol></td></tr>
-<tr class="b">
-<td width="25%">3.2.1</td>
-<td>
-<ol style="list-style-type: decimal">
-<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.35<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-model:jar:3.8.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:3.2.1:compile - omitted for duplicate)<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-artifact:jar:3.8.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:3.2.1:compile - omitted for duplicate)<br />&#160;&#160;&#160;\-&#160;org.codehaus.plexus:plexus-utils:jar:3.2.1:compile<br /></li><br /></ol></td></tr></table></td></tr></table></div></div>
+<h3>Apache Ivy<a name="Apache_Ivy"></a></h3><a name="Apache_Ivy"></a>
+<div class="source">
+<pre>&lt;dependency org=&quot;args4j&quot; name=&quot;args4j-site&quot; rev=&quot;2.35&quot;&gt;
+  &lt;artifact name=&quot;args4j-site&quot; type=&quot;pom&quot; /&gt;
+&lt;/dependency&gt;</pre></div></div>
+<div class="section">
+<h3>Groovy Grape<a name="Groovy_Grape"></a></h3><a name="Groovy_Grape"></a>
+<div class="source">
+<pre>@Grapes(
+@Grab(group='args4j', module='args4j-site', version='2.35')
+)</pre></div></div>
+<div class="section">
+<h3>Gradle/Grails<a name="GradleGrails"></a></h3><a name="GradleGrails"></a>
+<div class="source">
+<pre>compile 'args4j:args4j-site:2.35'</pre></div></div>
+<div class="section">
+<h3>Scala SBT<a name="Scala_SBT"></a></h3><a name="Scala_SBT"></a>
+<div class="source">
+<pre>libraryDependencies += &quot;args4j&quot; % &quot;args4j-site&quot; % &quot;2.35&quot;</pre></div></div>
+<div class="section">
+<h3>Leiningen<a name="Leiningen"></a></h3><a name="Leiningen"></a>
+<div class="source">
+<pre>[args4j/args4j-site &quot;2.35&quot;]</pre></div></div></div>
       </div>
     </div>
     <div id="footer">
