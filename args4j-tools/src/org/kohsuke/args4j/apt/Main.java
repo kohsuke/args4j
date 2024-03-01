@@ -4,6 +4,9 @@ import org.kohsuke.args4j.Argument;
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
+import org.kohsuke.args4j.apt.exceptions.ClassLoaderError;
+import org.kohsuke.args4j.apt.exceptions.ProcessMethodError;
+import org.kohsuke.args4j.apt.exceptions.RunException;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -43,7 +46,7 @@ public class Main {
         System.exit(new Main().run(args));
     }
 
-    public int run(String[] args) throws Exception {
+    public int run(String[] args) throws RunException {
         CmdLineParser parser = new CmdLineParser(this);
         try {
             parser.parseArgument(args);
@@ -80,21 +83,21 @@ public class Main {
         parser.printUsage(System.err);
     }
 
-    private Method getProcessMethod(Class<?> apt) {
-        for(Method m : apt.getDeclaredMethods()) {
-            if(!m.getName().equals("process"))
-                continue;
-
-            Class<?>[] p = m.getParameterTypes();
-            if(p.length!=2) continue;
-
-            if(p[1]!=String[].class)    continue;
-            if(!p[0].getName().endsWith("AnnotationProcessorFactory"))  continue;
-
-            return m;
-        }
-        throw new Error("Unable to find the entry point to APT. Please use the latest version of JDK 5.0");
-    }
+//    private Method getProcessMethod(Class<?> apt) {
+//        for(Method m : apt.getDeclaredMethods()) {
+//            if(!m.getName().equals("process"))
+//                continue;
+//
+//            Class<?>[] p = m.getParameterTypes();
+//            if(p.length!=2) continue;
+//
+//            if(p[1]!=String[].class)    continue;
+//            if(!p[0].getName().endsWith("AnnotationProcessorFactory"))  continue;
+//
+//            return m;
+//        }
+//        throw new ProcessMethodError("Unable to find the entry point to APT. Please use the latest version of JDK 5.0");
+//    }
 
     public ClassLoader loadToolsJar() {
         File jreHome = new File(System.getProperty("java.home"));
@@ -104,7 +107,7 @@ public class Main {
             return new ReloadingClassLoader(new URLClassLoader(
                     new URL[]{ toolsJar.toURL() }, new IsolatingClassLoader(Main.class.getClassLoader())) );
         } catch (MalformedURLException e) {
-            throw new Error(e);
+            throw new ClassLoaderError(e);
         }
     }
 }

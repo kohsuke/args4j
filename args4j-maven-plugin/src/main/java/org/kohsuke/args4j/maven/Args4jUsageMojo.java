@@ -8,11 +8,15 @@ import org.kohsuke.args4j.apt.Main;
 import java.io.*;
 import java.net.URLDecoder;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * @goal usage
  */
 public class Args4jUsageMojo extends AbstractMojo {
+	
+	private static final Logger LOGGER = Logger.getLogger(Args4jUsageMojo.class.getName());
 
     /**
      * Mode. 'TXT' 'XML' or 'HTML'
@@ -43,7 +47,7 @@ public class Args4jUsageMojo extends AbstractMojo {
     private File jar;
 
     public void execute() throws MojoExecutionException, MojoFailureException {
-        if (sourceFiles == null || sourceFiles.size() == 0) {
+        if (sourceFiles == null || sourceFiles.isEmpty()) {
             getLog().info("No sourceFiles defined. Skipping");
             return;
         }
@@ -120,7 +124,7 @@ public class Args4jUsageMojo extends AbstractMojo {
         BufferedReader br = new BufferedReader(isr);
         String line;
         while ((line = br.readLine()) != null) {
-          System.out.println(line);
+          LOGGER.log(Level.FINE, line);
         }
         return isr;
     }

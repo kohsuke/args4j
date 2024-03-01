@@ -1,10 +1,15 @@
 package org.kohsuke.args4j.maven;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.Option;
 
 public class Example {
+	private static final Logger LOGGER = Logger.getLogger(Example.class.getName());
+	
     @Option(name = "-o", usage="Option")
     public String option;
 
@@ -22,13 +27,13 @@ public class Example {
             run();
             return 0;
         } catch (CmdLineException e) {
-            System.err.println(e.getMessage());
+            LOGGER.log(Level.WARNING, e.getMessage());
             p.printUsage(System.err);
             return 1;
         }
     }
 
     private void run() {
-        System.out.format("Option %s Required %s\n", option, required);
+        LOGGER.log(Level.FINE, "Option {0} Required {1}\n", new Object[] {option, required});
     }
 }

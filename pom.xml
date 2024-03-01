@@ -123,7 +123,7 @@
         <extensions>true</extensions>
         <configuration>
           <instructions>
-            <Bundle-SymbolicName>org.kohsuke.${pom.artifactId}</Bundle-SymbolicName>
+            <Bundle-SymbolicName>org.kohsuke.${project.artifactId}</Bundle-SymbolicName>
             <_includeresource>${basedir}/../LICENSE</_includeresource>
             <_sources>true</_sources>
           </instructions>
