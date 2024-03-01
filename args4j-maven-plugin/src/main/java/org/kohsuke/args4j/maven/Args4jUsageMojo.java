@@ -3,6 +3,8 @@ package org.kohsuke.args4j.maven;
 import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 import org.apache.maven.plugin.MojoFailureException;
+import org.apache.maven.plugins.annotations.Mojo;
+import org.apache.maven.plugins.annotations.Parameter;
 import org.kohsuke.args4j.apt.Main;
 
 import java.io.*;
@@ -10,34 +12,33 @@ import java.net.URLDecoder;
 import java.util.List;
 
 /**
- * @goal usage
+ * Maven goal to create a usage description file.
  */
+@Mojo(name = "usage")
 public class Args4jUsageMojo extends AbstractMojo {
 
     /**
      * Mode. 'TXT' 'XML' or 'HTML'
-     * @parameter default-value="TXT"
-     * @required
      */
+	@Parameter(defaultValue = "TXT", required = true)
     private String mode;
 
     /**
      * Location of the source files.
-     * @parameter expression="${basedir}/src/main/java"
-     * @required
      */
+	@Parameter(defaultValue = "${basedir}/src/main/java", required = true)
     private String sourceDir;
 
     /**
      * directory where the the usage are generated
-     * @parameter expression="${project.build.directory}/args4j"
-     * @required
      */
+	@Parameter(defaultValue = "${project.build.directory}/args4j", required = true)
     protected String args4jBuildDirPath;
 
     /**
-     * @parameter
+     * Source files to analyze.
      */
+	@Parameter
     private List<String> sourceFiles;
 
     private File jar;
