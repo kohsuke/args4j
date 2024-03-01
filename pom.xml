@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.kohsuke</groupId>
     <artifactId>pom</artifactId>
-    <version>14</version>
+    <version>21</version>
   </parent>
 
   <groupId>args4j</groupId>
