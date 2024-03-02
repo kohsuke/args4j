@@ -13,9 +13,6 @@
 
   <description>Example of running the maven plugin</description>
 
-  <prerequisites>
-    <maven>2.0</maven>
-  </prerequisites>
   <inceptionYear>2011</inceptionYear>
 
   <build>

@@ -62,6 +62,17 @@
                   <mainClass>${mainClass}</mainClass>
                 </transformer>
               </transformers>
+              
+              <!-- Ecluded duplicate resources -->
+              <filters>
+                <filter>
+                  <artifact>args4j:args4j</artifact>
+                  <excludes>
+                    <exclude>LICENSE</exclude>
+                    <exclude>META-INF/MANIFEST.MF</exclude>
+                  </excludes>
+                </filter>
+              </filters>              
             </configuration>
           </execution>
         </executions>
