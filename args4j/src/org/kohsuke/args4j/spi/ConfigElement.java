@@ -18,7 +18,7 @@ public class ConfigElement {
 	public boolean hidden = false;
 	/**
 	 * Ensures that only a field XOR a method is set.
-	 * @return
+	 * @return Whether this element has invalid settings.
 	 */
 	public boolean isInvalid() {
 		return field == null && method == null || field != null && method != null;
