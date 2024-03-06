@@ -83,7 +83,7 @@
 
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    <java.level>8</java.level>
+    <java.level>11</java.level>
   </properties>
 
   <build>
@@ -93,8 +93,8 @@
           <artifactId>maven-compiler-plugin</artifactId>
           <version>3.8.1</version>
           <configuration>
-            <source>1.${java.level}</source>
-            <target>1.${java.level}</target>
+            <source>${java.level}</source>
+            <target>${java.level}</target>
             <compilerArgument>-proc:none</compilerArgument>
           </configuration>
         </plugin>
