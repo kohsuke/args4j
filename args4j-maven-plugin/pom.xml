@@ -22,7 +22,6 @@
       <groupId>args4j</groupId>
       <artifactId>args4j-tools</artifactId>
       <version>${project.version}</version>
-      <classifier>all</classifier>
     </dependency>
     <dependency>
       <groupId>org.apache.maven</groupId>
