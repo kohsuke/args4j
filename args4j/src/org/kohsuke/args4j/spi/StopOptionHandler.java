@@ -5,11 +5,11 @@ import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
 
 /**
- * {@link OptionHandler} for the option terminator <tt>--</tt>.
+ * {@link OptionHandler} for the option terminator <code>--</code>.
  *
  * <p>
  * This {@link OptionHandler} can be used to implement the special token
- * <tt>--</tt> that indicates that the rest of tokens are not options, but arguments.
+ * <code>--</code> that indicates that the rest of tokens are not options, but arguments.
  *
  * <p>
  * For example, if you have the following class:

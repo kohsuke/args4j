@@ -30,7 +30,7 @@ public class SampleStarter {
 	}
 
 	/**
-	 * First try is to run this <tt>run()</tt> method.
+	 * First try is to run this <code>run()</code> method.
 	 */
 	public void xrun() {
 		System.out.println("SampleStarter.run()");
@@ -39,7 +39,7 @@ public class SampleStarter {
 	
 	/**
 	 * If you want to get the args-Array from the command line
-	 * use the signature <tt>run(String[] args)</tt>. But then there must 
+	 * use the signature <code>run(String[] args)</code>. But then there must 
 	 * not be a run() because that is executed prior to this.
 	 * @param args The arguments as specified on the command line
 	 */

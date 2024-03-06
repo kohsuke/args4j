@@ -28,7 +28,7 @@ import org.kohsuke.args4j.OptionDef;
  * <code>banan</code>, <code>hruska</code>, and <code>jablko</code>.</p>
  *
  * <p>
- * This {@code OptionHandler} scans for parameter which begins with <tt>-</tt>. If found, it will stop.</p>
+ * This {@code OptionHandler} scans for parameter which begins with <code>-</code>. If found, it will stop.</p>
  *
  * @author PlainText,LuVar
  */

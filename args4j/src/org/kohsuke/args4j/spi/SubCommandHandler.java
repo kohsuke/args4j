@@ -13,7 +13,7 @@ import java.util.ResourceBundle;
  * {@link OptionHandler} used with {@link Argument} for parsing typical "sub-command" pattern.
  *
  * <p>
- * The "sub-command" pattern refers to the design of the command line like <tt>git</tt> and <tt>svn</tt>, where
+ * The "sub-command" pattern refers to the design of the command line like <code>git</code> and <code>svn</code>, where
  * the first argument to the command designates a sub-command (say <code>git checkout</code>), then everything
  * that follows afterward are parsed by this sub-command (which is usually different depending on
  * which sub-command was selected.)
@@ -61,7 +61,7 @@ import java.util.ResourceBundle;
  * The same field/setter must be also annotated with {@link SubCommands} that specify possible sub-commands.
  *
  * <li>
- * Any {@link Option}s that you define in the <tt>Git</tt> class above can parse options that appear
+ * Any {@link Option}s that you define in the <code>Git</code> class above can parse options that appear
  * prior to the sub-command name. This is useful for defining global options that work across sub-commands.
  *
  * <li>

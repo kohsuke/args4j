@@ -43,7 +43,7 @@ public class EnumOptionHandler<T extends Enum<T>> extends OptionHandler<T> {
 
     /* 
      * Returns all values of an enum type split by pipe.
-     * <tt>[ one | two | three]</tt>
+     * <code>[ one | two | three]</code>
      * @see org.kohsuke.args4j.spi.OptionHandler#getDefaultMetaVariable()
      */
     @Override
