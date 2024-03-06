@@ -8,6 +8,7 @@ import org.apache.maven.plugins.annotations.Parameter;
 import org.kohsuke.args4j.apt.Main;
 
 import java.io.*;
+import java.lang.ProcessBuilder.Redirect;
 import java.net.URLDecoder;
 import java.util.List;
 
@@ -85,14 +86,13 @@ public class Args4jUsageMojo extends AbstractMojo {
         String outputDir = args4jBuildDir.getAbsolutePath();
         ProcessBuilder pb = new ProcessBuilder();
         pb.command("java","-jar", jar.getAbsolutePath(), "-o", outputDir, "-mode", mode, sourceFile);
+        pb.redirectError(Redirect.INHERIT);
+        pb.redirectOutput(Redirect.INHERIT);
 
         printCommand(pb);
         Process process = pb.start();
 
-        InputStreamReader isr = dumpOutput(process);
         int r = process.waitFor();
-
-        isr.close();
         if (r !=0)
             throw new IOException("args4j generation failed: "+r);
     }
@@ -113,16 +113,5 @@ public class Args4jUsageMojo extends AbstractMojo {
             return new File(System.getProperty("user.dir"));
         }
         return directory;
-    }
-
-    private InputStreamReader dumpOutput(Process process) throws IOException {
-        InputStream is = process.getInputStream();
-        InputStreamReader isr = new InputStreamReader(is);
-        BufferedReader br = new BufferedReader(isr);
-        String line;
-        while ((line = br.readLine()) != null) {
-          System.out.println(line);
-        }
-        return isr;
     }
 }
