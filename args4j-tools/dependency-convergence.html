@@ -52,125 +52,73 @@
   <b>Legend:</b>
 </caption>
 <tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
-<td>All projects share one version of the dependency.</td></tr>
-<tr class="b">
-<td><img alt="error" src="images/icon_error_sml.gif" /></td>
-<td>At least one project has a differing version of the dependency.</td></tr></table><br />
+<td><img alt="[Error]" src="images/icon_error_sml.gif" /></td>
+<td>At least one dependency has a differing version of the dependency or has SNAPSHOT dependencies.</td></tr></table><br />
 <table border="0" class="bodyTable"><caption>
   <b>Statistics:</b>
 </caption>
-<tr class="a">
-<th>Number of sub-projects:</th>
-<td>5</td></tr>
 <tr class="b">
-<th>Number of dependencies (NOD):</th>
-<td>7</td></tr>
+<th>Number of modules:</th>
+<td>5</td></tr>
 <tr class="a">
+<th>Number of dependencies (NOD):</th>
+<td>21</td></tr>
+<tr class="b">
 <th>Number of unique artifacts (NOA):</th>
-<td>7</td></tr>
+<td>23</td></tr>
+<tr class="a">
+<th>Number of version-conflicting artifacts (NOC):</th>
+<td>2</td></tr>
 <tr class="b">
 <th>Number of SNAPSHOT artifacts (NOS):</th>
 <td>0</td></tr>
 <tr class="a">
 <th>Convergence (NOD/NOA):</th>
-<td><img alt="success" src="images/icon_success_sml.gif" />&#160;<b>100%</b></td></tr>
+<td><img alt="[Error]" src="images/icon_error_sml.gif" />&#160;<b>91 %</b></td></tr>
 <tr class="b">
-<th>Ready for Release (100% Convergence and no SNAPSHOTS):</th>
-<td><img alt="success" src="images/icon_success_sml.gif" />&#160;<b>Success</b></td></tr></table></div>
+<th>Ready for release (100% convergence and no SNAPSHOTS):</th>
+<td><img alt="[Error]" src="images/icon_error_sml.gif" />&#160;<b>Error</b><br />You do not have 100% convergence.</td></tr></table></div>
 <div class="section">
-<h3>Dependencies used in sub-projects<a name="Dependencies_used_in_sub-projects"></a></h3>
+<h3>Dependencies used in modules<a name="Dependencies_used_in_modules"></a></h3>
 <div class="section">
-<h4>args4j:args4j<a name="args4j:args4j"></a></h4>
+<h4>org.codehaus.plexus:plexus-classworlds<a name="org.codehaus.plexus:plexus-classworlds"></a></h4>
 <table border="0" class="bodyTable">
 <tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td><img alt="[Error]" src="images/icon_error_sml.gif" /></td>
 <td>
 <table border="0" class="bodyTable">
 <tr class="b">
-<td width="25%">2.33</td>
+<td width="25%">2.5.2</td>
 <td>
-<ol style="list-style-type: lower-alpha">
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-maven-plugin-example/">args4j:args4j-maven-plugin-example</a></li>
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-tools/">args4j:args4j-tools</a></li></ol></td></tr></table></td></tr></table></div>
+<ol style="list-style-type: decimal">
+<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.37<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;\-&#160;org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.4:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-classworlds:jar:2.5.2:compile - omitted for conflict with 2.6.0)<br /></li><br /></ol></td></tr>
+<tr class="a">
+<td width="25%">2.6.0</td>
+<td>
+<ol style="list-style-type: decimal">
+<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.37<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;\-&#160;org.codehaus.plexus:plexus-classworlds:jar:2.6.0:compile<br /></li><br /></ol></td></tr></table></td></tr></table></div>
 <div class="section">
-<h4>args4j:args4j-tools<a name="args4j:args4j-tools"></a></h4>
+<h4>org.codehaus.plexus:plexus-utils<a name="org.codehaus.plexus:plexus-utils"></a></h4>
+<table border="0" class="bodyTable">
+<tr class="b">
+<td><img alt="[Error]" src="images/icon_error_sml.gif" /></td>
+<td>
 <table border="0" class="bodyTable">
 <tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
+<td width="25%">3.0.17</td>
 <td>
-<table border="0" class="bodyTable">
+<ol style="list-style-type: decimal">
+<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.37<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;\-&#160;org.eclipse.sisu:org.eclipse.sisu.plexus:jar:0.3.4:compile<br />&#160;&#160;&#160;&#160;&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:3.0.17:compile - omitted for conflict with 3.2.1)<br /></li><br /></ol></td></tr>
 <tr class="b">
-<td width="25%">2.33</td>
+<td width="25%">3.2.1</td>
 <td>
-<ol style="list-style-type: lower-alpha">
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-maven-plugin/">org.kohsuke.args4j:args4j-maven-plugin</a></li></ol></td></tr></table></td></tr></table></div>
-<div class="section">
-<h4>jdk:tools<a name="jdk:tools"></a></h4>
-<table border="0" class="bodyTable">
-<tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
-<td>
-<table border="0" class="bodyTable">
-<tr class="b">
-<td width="25%">5.0</td>
-<td>
-<ol style="list-style-type: lower-alpha">
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-tools/">args4j:args4j-tools</a></li></ol></td></tr></table></td></tr></table></div>
-<div class="section">
-<h4>junit:junit<a name="junit:junit"></a></h4>
-<table border="0" class="bodyTable">
-<tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
-<td>
-<table border="0" class="bodyTable">
-<tr class="b">
-<td width="25%">4.11</td>
-<td>
-<ol style="list-style-type: lower-alpha">
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-tools/">args4j:args4j-tools</a></li>
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j/">args4j:args4j</a></li></ol></td></tr></table></td></tr></table></div>
-<div class="section">
-<h4>org.apache.maven:maven-plugin-api<a name="org.apache.maven:maven-plugin-api"></a></h4>
-<table border="0" class="bodyTable">
-<tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
-<td>
-<table border="0" class="bodyTable">
-<tr class="b">
-<td width="25%">2.0</td>
-<td>
-<ol style="list-style-type: lower-alpha">
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-maven-plugin/">org.kohsuke.args4j:args4j-maven-plugin</a></li></ol></td></tr></table></td></tr></table></div>
-<div class="section">
-<h4>org.apache.maven:maven-project<a name="org.apache.maven:maven-project"></a></h4>
-<table border="0" class="bodyTable">
-<tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
-<td>
-<table border="0" class="bodyTable">
-<tr class="b">
-<td width="25%">2.0.4</td>
-<td>
-<ol style="list-style-type: lower-alpha">
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-maven-plugin/">org.kohsuke.args4j:args4j-maven-plugin</a></li></ol></td></tr></table></td></tr></table></div>
-<div class="section">
-<h4>org.mockito:mockito-all<a name="org.mockito:mockito-all"></a></h4>
-<table border="0" class="bodyTable">
-<tr class="a">
-<td><img alt="success" src="images/icon_success_sml.gif" /></td>
-<td>
-<table border="0" class="bodyTable">
-<tr class="b">
-<td width="25%">1.8.5</td>
-<td>
-<ol style="list-style-type: lower-alpha">
-<li><a class="externalLink" href="http://args4j.kohsuke.org/args4j-tools/">args4j:args4j-tools</a></li></ol></td></tr></table></td></tr></table></div></div>
+<ol style="list-style-type: decimal">
+<li>org.kohsuke.args4j:args4j-maven-plugin:maven-plugin:2.37<br />\-&#160;org.apache.maven:maven-plugin-api:jar:3.8.1:compile<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-model:jar:3.8.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:3.2.1:compile - omitted for duplicate)<br />&#160;&#160;&#160;+-&#160;org.apache.maven:maven-artifact:jar:3.8.1:compile<br />&#160;&#160;&#160;|&#160;&#160;\-&#160;(org.codehaus.plexus:plexus-utils:jar:3.2.1:compile - omitted for duplicate)<br />&#160;&#160;&#160;\-&#160;org.codehaus.plexus:plexus-utils:jar:3.2.1:compile<br /></li><br /></ol></td></tr></table></td></tr></table></div></div>
       </div>
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2003-2016
+          2003-2024
     
           Kohsuke Kawaguchi
           
@@ -178,8 +126,8 @@
 
   
   
-  &nbsp;| Last Published: 2016-01-31
-  &nbsp;| Version: 2.33
+  &nbsp;| Last Published: 2024-03-06
+  &nbsp;| Version: 2.37
 </div>
       <div class="clear">
         <hr/>

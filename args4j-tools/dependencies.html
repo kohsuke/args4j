@@ -58,11 +58,11 @@
 <th>ArtifactId</th>
 <th>Version</th>
 <th>Type</th>
-<th>License</th></tr>
+<th>Licenses</th></tr>
 <tr class="b">
 <td>args4j</td>
 <td><a class="externalLink" href="http://args4j.kohsuke.org/args4j/">args4j</a></td>
-<td>2.33</td>
+<td>2.37</td>
 <td>jar</td>
 <td><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></td></tr></table></div><a name="Project_Dependencies_test"></a>
 <div class="section">
@@ -74,35 +74,19 @@
 <th>ArtifactId</th>
 <th>Version</th>
 <th>Type</th>
-<th>License</th></tr>
+<th>Licenses</th></tr>
 <tr class="b">
 <td>junit</td>
 <td><a class="externalLink" href="http://junit.org">junit</a></td>
-<td>4.11</td>
+<td>4.13.2</td>
 <td>jar</td>
-<td><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></td></tr>
+<td><a class="externalLink" href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License 1.0</a></td></tr>
 <tr class="a">
 <td>org.mockito</td>
-<td><a class="externalLink" href="http://www.mockito.org">mockito-all</a></td>
-<td>1.8.5</td>
+<td><a class="externalLink" href="https://github.com/mockito/mockito">mockito-core</a></td>
+<td>3.11.2</td>
 <td>jar</td>
-<td><a class="externalLink" href="http://code.google.com/p/mockito/wiki/License">The MIT License</a></td></tr></table></div><a name="Project_Dependencies_system"></a>
-<div class="section">
-<h3>system<a name="system"></a></h3>
-<p>The following is a list of system dependencies for this project. These dependencies are required to compile the application:</p>
-<table border="0" class="bodyTable">
-<tr class="a">
-<th>GroupId</th>
-<th>ArtifactId</th>
-<th>Version</th>
-<th>Type</th>
-<th>License</th></tr>
-<tr class="b">
-<td>jdk</td>
-<td>tools</td>
-<td>5.0</td>
-<td>jar</td>
-<td>-</td></tr></table></div></div><a name="Project_Transitive_Dependencies"></a>
+<td><a class="externalLink" href="https://github.com/mockito/mockito/blob/main/LICENSE">The MIT License</a></td></tr></table></div></div><a name="Project_Transitive_Dependencies"></a>
 <div class="section">
 <h2>Project Transitive Dependencies<a name="Project_Transitive_Dependencies"></a></h2>
 <p>The following is a list of transitive dependencies for this project. Transitive dependencies are the dependencies of the project dependencies.</p><a name="Project_Transitive_Dependencies_test"></a>
@@ -115,16 +99,35 @@
 <th>ArtifactId</th>
 <th>Version</th>
 <th>Type</th>
-<th>License</th></tr>
+<th>Licenses</th></tr>
+<tr class="b">
+<td>net.bytebuddy</td>
+<td><a class="externalLink" href="https://bytebuddy.net/byte-buddy">byte-buddy</a></td>
+<td>1.11.3</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></td></tr>
+<tr class="a">
+<td>net.bytebuddy</td>
+<td><a class="externalLink" href="https://bytebuddy.net/byte-buddy-agent">byte-buddy-agent</a></td>
+<td>1.11.3</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></td></tr>
 <tr class="b">
 <td>org.hamcrest</td>
 <td><a class="externalLink" href="https://github.com/hamcrest/JavaHamcrest/hamcrest-core">hamcrest-core</a></td>
 <td>1.3</td>
 <td>jar</td>
-<td><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</a></td></tr></table></div></div><a name="Project_Dependency_Graph"></a>
+<td><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</a></td></tr>
+<tr class="a">
+<td>org.objenesis</td>
+<td><a class="externalLink" href="http://objenesis.org/objenesis">objenesis</a></td>
+<td>3.2</td>
+<td>jar</td>
+<td><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></td></tr></table></div></div><a name="Project_Dependency_Graph"></a>
 <div class="section">
-<h2>Project Dependency Graph<a name="Project_Dependency_Graph"></a></h2><script language="javascript" type="text/javascript">
-      function toggleDependencyDetail( divId, imgId )
+<h2>Project Dependency Graph<a name="Project_Dependency_Graph"></a></h2>
+<script language="javascript" type="text/javascript">
+      function toggleDependencyDetails( divId, imgId )
       {
         var div = document.getElementById( divId );
         var img = document.getElementById( imgId );
@@ -132,11 +135,13 @@
         {
           div.style.display = 'none';
           img.src='./images/icon_info_sml.gif';
+          img.alt='[Information]';
         }
         else
         {
           div.style.display = '';
           img.src='./images/close.gif';
+          img.alt='[Close]';
         }
       }
 </script>
@@ -144,7 +149,7 @@
 <div class="section">
 <h3>Dependency Tree<a name="Dependency_Tree"></a></h3>
 <ul>
-<li>args4j:args4j-tools:bundle:2.33 <img id="_1147324357" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1621035107', '_1147324357' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1621035107" style="display:none">
+<li>args4j:args4j-tools:bundle:2.37 <img id="_img1" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep0', '_img1' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep0" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>args4j-tools</th></tr>
@@ -152,9 +157,9 @@
 <td>
 <p><b>Description: </b>development-time tool for generating additional artifacits</p>
 <p><b>URL: </b><a class="externalLink" href="http://args4j.kohsuke.org/args4j-tools/">http://args4j.kohsuke.org/args4j-tools/</a></p>
-<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p></td></tr></table></div>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p></td></tr></table></div>
 <ul>
-<li>args4j:args4j:jar:2.33 (compile) <img id="_1007918161" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_545340251', '_1007918161' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_545340251" style="display:none">
+<li>args4j:args4j:jar:2.37 (compile) <img id="_img3" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep2', '_img3' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep2" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>args4j</th></tr>
@@ -162,19 +167,18 @@
 <td>
 <p><b>Description: </b>args4j : Java command line arguments parser</p>
 <p><b>URL: </b><a class="externalLink" href="http://args4j.kohsuke.org/args4j/">http://args4j.kohsuke.org/args4j/</a></p>
-<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p></td></tr></table></div></li>
-<li>junit:junit:jar:4.11 (test) <img id="_822006977" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_244844546', '_822006977' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_244844546" style="display:none">
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.opensource.org/licenses/mit-license.php">MIT License</a></p></td></tr></table></div></li>
+<li>junit:junit:jar:4.13.2 (test) <img id="_img5" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep4', '_img5' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep4" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>JUnit</th></tr>
 <tr class="b">
 <td>
-<p><b>Description: </b>JUnit is a regression testing framework written by Erich Gamma and Kent Beck.
-        It is used by the developer who implements unit tests in Java.</p>
+<p><b>Description: </b>JUnit is a unit testing framework for Java, created by Erich Gamma and Kent Beck.</p>
 <p><b>URL: </b><a class="externalLink" href="http://junit.org">http://junit.org</a></p>
-<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/cpl1.0.txt">Common Public License Version 1.0</a></p></td></tr></table></div>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.eclipse.org/legal/epl-v10.html">Eclipse Public License 1.0</a></p></td></tr></table></div>
 <ul>
-<li>org.hamcrest:hamcrest-core:jar:1.3 (test) <img id="_562952719" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_1266487680', '_562952719' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_1266487680" style="display:none">
+<li>org.hamcrest:hamcrest-core:jar:1.3 (test) <img id="_img7" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep6', '_img7' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep6" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>Hamcrest Core</th></tr>
@@ -182,30 +186,52 @@
 <td>
 <p><b>Description: </b>This is the core API of hamcrest matcher framework to be used by third-party framework providers. This includes the a foundation set of matcher implementations for common operations.</p>
 <p><b>URL: </b><a class="externalLink" href="https://github.com/hamcrest/JavaHamcrest/hamcrest-core">https://github.com/hamcrest/JavaHamcrest/hamcrest-core</a></p>
-<p><b>Project License: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</a></p></td></tr></table></div></li></ul></li>
-<li>org.mockito:mockito-all:jar:1.8.5 (test) <img id="_363124426" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_683154886', '_363124426' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_683154886" style="display:none">
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.opensource.org/licenses/bsd-license.php">New BSD License</a></p></td></tr></table></div></li></ul></li>
+<li>org.mockito:mockito-core:jar:3.11.2 (test) <img id="_img9" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep8', '_img9' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep8" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
-<th>Mockito</th></tr>
+<th>mockito-core</th></tr>
 <tr class="b">
 <td>
-<p><b>Description: </b>Mock objects library for java</p>
-<p><b>URL: </b><a class="externalLink" href="http://www.mockito.org">http://www.mockito.org</a></p>
-<p><b>Project License: </b><a class="externalLink" href="http://code.google.com/p/mockito/wiki/License">The MIT License</a></p></td></tr></table></div></li>
-<li>jdk:tools:jar:5.0 (system) <img id="_1430566438" src="./images/icon_info_sml.gif" alt="Information" onclick="toggleDependencyDetail( '_323075550', '_1430566438' );" style="cursor: pointer;vertical-align:text-bottom;"></img><div id="_323075550" style="display:none">
+<p><b>Description: </b>Mockito mock objects library core API and implementation</p>
+<p><b>URL: </b><a class="externalLink" href="https://github.com/mockito/mockito">https://github.com/mockito/mockito</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="https://github.com/mockito/mockito/blob/main/LICENSE">The MIT License</a></p></td></tr></table></div>
+<ul>
+<li>net.bytebuddy:byte-buddy:jar:1.11.3 (test) <img id="_img11" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep10', '_img11' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep10" style="display:none">
 <table border="0" class="bodyTable">
 <tr class="a">
-<th>jdk:tools:jar:5.0</th></tr>
+<th>Byte Buddy (without dependencies)</th></tr>
 <tr class="b">
 <td>
-<p><b>Description: </b>There is currently no description associated with this project.</p>
-<p><b>URL: </b>/usr/local/jdk1.7.0_15/jre/../lib/tools.jar</p></td></tr></table></div></li></ul></li></ul></div></div><a name="Licenses"></a>
+<p><b>Description: </b>Byte Buddy is a Java library for creating Java classes at run time.
+        This artifact is a build of Byte Buddy with all ASM dependencies repackaged into its own name space.</p>
+<p><b>URL: </b><a class="externalLink" href="https://bytebuddy.net/byte-buddy">https://bytebuddy.net/byte-buddy</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></p></td></tr></table></div></li>
+<li>net.bytebuddy:byte-buddy-agent:jar:1.11.3 (test) <img id="_img13" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep12', '_img13' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep12" style="display:none">
+<table border="0" class="bodyTable">
+<tr class="a">
+<th>Byte Buddy agent</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>The Byte Buddy agent offers convenience for attaching an agent to the local or a remote VM.</p>
+<p><b>URL: </b><a class="externalLink" href="https://bytebuddy.net/byte-buddy-agent">https://bytebuddy.net/byte-buddy-agent</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></p></td></tr></table></div></li>
+<li>org.objenesis:objenesis:jar:3.2 (test) <img id="_img15" src="./images/icon_info_sml.gif" alt="[Information]" onclick="toggleDependencyDetails( '_dep14', '_img15' );" style="cursor: pointer; vertical-align: text-bottom;"></img><div id="_dep14" style="display:none">
+<table border="0" class="bodyTable">
+<tr class="a">
+<th>Objenesis</th></tr>
+<tr class="b">
+<td>
+<p><b>Description: </b>A library for instantiating Java objects</p>
+<p><b>URL: </b><a class="externalLink" href="http://objenesis.org/objenesis">http://objenesis.org/objenesis</a></p>
+<p><b>Project Licenses: </b><a class="externalLink" href="http://www.apache.org/licenses/LICENSE-2.0.txt">Apache License, Version 2.0</a></p></td></tr></table></div></li></ul></li></ul></li></ul></div></div><a name="Licenses"></a>
 <div class="section">
 <h2>Licenses<a name="Licenses"></a></h2>
-<p><b>New BSD License: </b>Hamcrest Core</p>
-<p><b>Common Public License Version 1.0: </b>JUnit</p>
+<p><b>Eclipse Public License 1.0: </b>JUnit</p>
 <p><b>MIT License: </b>args4j, args4j-tools</p>
-<p><b>The MIT License: </b>Mockito</p></div><a name="Dependency_File_Details"></a>
+<p><b>The MIT License: </b>mockito-core</p>
+<p><b>Apache License, Version 2.0: </b>Byte Buddy (without dependencies), Byte Buddy agent, Objenesis</p>
+<p><b>New BSD License: </b>Hamcrest Core</p></div><a name="Dependency_File_Details"></a>
 <div class="section">
 <h2>Dependency File Details<a name="Dependency_File_Details"></a></h2>
 <table border="0" class="bodyTable">
@@ -215,88 +241,96 @@
 <th>Entries</th>
 <th>Classes</th>
 <th>Packages</th>
-<th>JDK Rev</th>
-<th>Debug</th></tr>
+<th>Java Version</th>
+<th title="Indicates whether these dependencies have been compiled with debug information.">Debug Information</th></tr>
 <tr class="b">
-<td>args4j-2.33.jar</td>
-<td>151.74 kB</td>
+<td>args4j-2.37.jar</td>
+<td>158.4 kB</td>
 <td>165</td>
 <td>74</td>
 <td>2</td>
-<td>1.5</td>
-<td>debug</td></tr>
+<td>-</td>
+<td>Yes</td></tr>
 <tr class="a">
-<td>tools.jar</td>
-<td>14.51 MB</td>
-<td>4,435</td>
-<td>4,122</td>
-<td>205</td>
-<td>1.6</td>
-<td>debug</td></tr>
+<td>junit-4.13.2.jar</td>
+<td>384.6 kB</td>
+<td>389</td>
+<td>350</td>
+<td>32</td>
+<td>1.5</td>
+<td>Yes</td></tr>
 <tr class="b">
-<td>junit-4.11.jar</td>
-<td>239.30 kB</td>
-<td>266</td>
-<td>233</td>
-<td>28</td>
-<td>1.5</td>
-<td>debug</td></tr>
+<td>byte-buddy-1.11.3.jar</td>
+<td>3.6 MB</td>
+<td>2565</td>
+<td>2508</td>
+<td>37</td>
+<td>1.6</td>
+<td>Yes</td></tr>
 <tr class="a">
+<td>byte-buddy-agent-1.11.3.jar</td>
+<td>251.2 kB</td>
+<td>81</td>
+<td>62</td>
+<td>1</td>
+<td>1.5</td>
+<td>Yes</td></tr>
+<tr class="b">
 <td>hamcrest-core-1.3.jar</td>
-<td>43.97 kB</td>
+<td>45 kB</td>
 <td>52</td>
 <td>45</td>
 <td>3</td>
 <td>1.5</td>
-<td>debug</td></tr>
+<td>Yes</td></tr>
+<tr class="a">
+<td>mockito-core-3.11.2.jar</td>
+<td>671.4 kB</td>
+<td>664</td>
+<td>591</td>
+<td>65</td>
+<td>1.8</td>
+<td>Yes</td></tr>
 <tr class="b">
-<td>mockito-all-1.8.5.jar</td>
-<td>1.35 MB</td>
-<td>1,216</td>
-<td>618</td>
-<td>62</td>
-<td>1.5</td>
-<td>debug</td></tr>
+<td>objenesis-3.2.jar</td>
+<td>49.4 kB</td>
+<td>59</td>
+<td>43</td>
+<td>10</td>
+<td>1.8</td>
+<td>Yes</td></tr>
 <tr class="a">
 <th>Total</th>
 <th>Size</th>
 <th>Entries</th>
 <th>Classes</th>
 <th>Packages</th>
-<th>JDK Rev</th>
-<th>Debug</th></tr>
+<th>Java Version</th>
+<th>Debug Information</th></tr>
 <tr class="b">
-<td>5</td>
-<td>16.29 MB</td>
-<td>6,134</td>
-<td>5,092</td>
-<td>300</td>
-<td>1.6</td>
-<td>5</td></tr>
+<td>7</td>
+<td>5.1 MB</td>
+<td>3975</td>
+<td>3673</td>
+<td>150</td>
+<td>1.8</td>
+<td>7</td></tr>
 <tr class="a">
 <td>compile: 1</td>
-<td>compile: 151.74 kB</td>
+<td>compile: 158.4 kB</td>
 <td>compile: 165</td>
 <td>compile: 74</td>
 <td>compile: 2</td>
 <td>-</td>
 <td>compile: 1</td></tr>
 <tr class="b">
-<td>test: 3</td>
-<td>test: 1.63 MB</td>
-<td>test: 1,534</td>
-<td>test: 896</td>
-<td>test: 93</td>
+<td>test: 6</td>
+<td>test: 5 MB</td>
+<td>test: 3810</td>
+<td>test: 3599</td>
+<td>test: 148</td>
 <td>-</td>
-<td>test: 3</td></tr>
-<tr class="a">
-<td>system: 1</td>
-<td>system: 14.51 MB</td>
-<td>system: 4,435</td>
-<td>system: 4,122</td>
-<td>system: 205</td>
-<td>-</td>
-<td>system: 1</td></tr></table></div><a name="Dependency_Repository_Locations"></a>
+<td>test: 6</td></tr></table></div><a name="Dependency_Repository_Locations"></a>
 <div class="section">
 <h2>Dependency Repository Locations<a name="Dependency_Repository_Locations"></a></h2>
 <table border="0" class="bodyTable">
@@ -306,42 +340,77 @@
 <th>Release</th>
 <th>Snapshot</th></tr>
 <tr class="b">
-<td>cloudbees-internal</td>
-<td><a class="externalLink" href="https://repo-internal.cloudbees.com">https://repo-internal.cloudbees.com</a></td>
+<td>central</td>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2">https://repo.maven.apache.org/maven2</a></td>
 <td>Yes</td>
-<td>-</td>
-<td>-</td></tr></table>
+<td>No</td></tr>
+<tr class="a">
+<td>atlassian</td>
+<td><a class="externalLink" href="https://repo.jenkins-ci.org/snapshots/">https://repo.jenkins-ci.org/snapshots/</a></td>
+<td>No</td>
+<td>Yes</td></tr>
+<tr class="b">
+<td>repo.jenkins-ci.org</td>
+<td><a class="externalLink" href="https://repo.jenkins-ci.org/public/">https://repo.jenkins-ci.org/public/</a></td>
+<td>Yes</td>
+<td>Yes</td></tr></table>
 <p>Repository locations for each of the Dependencies.</p>
 <table border="0" class="bodyTable">
 <tr class="a">
 <th>Artifact</th>
-<th>cloudbees-internal</th></tr>
+<th>central</th>
+<th>atlassian</th>
+<th>repo.jenkins-ci.org</th></tr>
 <tr class="b">
-<td>args4j:args4j:jar:2.33</td>
+<td>args4j:args4j:jar:2.37</td>
+<td>-</td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="a">
-<td>jdk:tools:jar:5.0</td>
+<td>junit:junit:jar:4.13.2</td>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
 <td>-</td></tr>
 <tr class="b">
-<td>junit:junit:jar:4.11</td>
-<td><a class="externalLink" href="https://repo-internal.cloudbees.com/junit/junit/4.11/junit-4.11.jar"><img alt="Found at https://repo-internal.cloudbees.com" src="images/icon_success_sml.gif" /></a></td></tr>
+<td>net.bytebuddy:byte-buddy:jar:1.11.3</td>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy/1.11.3/byte-buddy-1.11.3.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
+<td>-</td></tr>
 <tr class="a">
+<td>net.bytebuddy:byte-buddy-agent:jar:1.11.3</td>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2/net/bytebuddy/byte-buddy-agent/1.11.3/byte-buddy-agent-1.11.3.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
+<td>-</td></tr>
+<tr class="b">
 <td>org.hamcrest:hamcrest-core:jar:1.3</td>
-<td><a class="externalLink" href="https://repo-internal.cloudbees.com/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"><img alt="Found at https://repo-internal.cloudbees.com" src="images/icon_success_sml.gif" /></a></td></tr>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2/org/hamcrest/hamcrest-core/1.3/hamcrest-core-1.3.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
+<td>-</td></tr>
+<tr class="a">
+<td>org.mockito:mockito-core:jar:3.11.2</td>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2/org/mockito/mockito-core/3.11.2/mockito-core-3.11.2.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
+<td>-</td></tr>
 <tr class="b">
-<td>org.mockito:mockito-all:jar:1.8.5</td>
-<td><a class="externalLink" href="https://repo-internal.cloudbees.com/org/mockito/mockito-all/1.8.5/mockito-all-1.8.5.jar"><img alt="Found at https://repo-internal.cloudbees.com" src="images/icon_success_sml.gif" /></a></td></tr>
+<td>org.objenesis:objenesis:jar:3.2</td>
+<td><a class="externalLink" href="https://repo.maven.apache.org/maven2/org/objenesis/objenesis/3.2/objenesis-3.2.jar"><img alt="Found at https://repo.maven.apache.org/maven2" src="images/icon_success_sml.gif" /></a></td>
+<td>-</td>
+<td>-</td></tr>
 <tr class="a">
 <th>Total</th>
-<th>cloudbees-internal</th></tr>
+<th>central</th>
+<th>atlassian</th>
+<th>repo.jenkins-ci.org</th></tr>
 <tr class="b">
-<td>5 (compile: 1, test: 3, system: 1)</td>
-<td>3</td></tr></table></div>
+<td>7 (compile: 1, test: 6)</td>
+<td>6</td>
+<td>0</td>
+<td>0</td></tr></table></div>
       </div>
     </div>
     <div id="footer">
       <div class="xright">&#169;  
-          2003-2016
+          2003-2024
     
           Kohsuke Kawaguchi
           
@@ -349,8 +418,8 @@
 
   
   
-  &nbsp;| Last Published: 2016-01-31
-  &nbsp;| Version: 2.33
+  &nbsp;| Last Published: 2024-03-06
+  &nbsp;| Version: 2.37
 </div>
       <div class="clear">
         <hr/>
