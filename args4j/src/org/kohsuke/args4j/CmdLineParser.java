@@ -68,7 +68,7 @@ public class CmdLineParser {
      */
     public CmdLineParser(Object bean) {
         // for display purposes, we like the arguments in argument order, but the options in alphabetical order
-        this(bean, ParserProperties.defaults());
+        this(bean, new ClassParser(), ParserProperties.defaults());
     }
 
     /**
@@ -87,13 +87,53 @@ public class CmdLineParser {
      *      if the option bean class is using args4j annotations incorrectly.
      */
     public CmdLineParser(Object bean, ParserProperties parserProperties) {
+        this(bean, new ClassParser(), ParserProperties.defaults());
+    }
+
+    /**
+     * Creates a new command line owner that
+     * parses arguments/options and set them into
+     * the given object.
+     *
+     * @param bean
+     *      instance of a class annotated by {@link Option} and {@link Argument}.
+     *      this object will receive values. If this is {@code null}, the processing will
+     *      be skipped, which is useful if you'd like to feed metadata from other sources.
+     *
+     * @param classParser class which parses annotations from given the bean
+     *
+     * @throws IllegalAnnotationError
+     *      if the option bean class is using args4j annotations incorrectly.
+     */
+    public CmdLineParser(Object bean, ClassParser classParser) {
+        this(bean, classParser, ParserProperties.defaults());
+    }
+
+    /**
+     * Creates a new command line owner that
+     * parses arguments/options and set them into
+     * the given object.
+     *
+     * @param bean
+     *      instance of a class annotated by {@link Option} and {@link Argument}.
+     *      this object will receive values. If this is {@code null}, the processing will
+     *      be skipped, which is useful if you'd like to feed metadata from other sources.
+     *
+     * @param classParser class which parses annotations from given the bean
+     *
+     * @param parserProperties various settings for this class
+     *
+     * @throws IllegalAnnotationError
+     *      if the option bean class is using args4j annotations incorrectly.
+     */
+    public CmdLineParser(Object bean, ClassParser classParser, ParserProperties parserProperties) {
         this.parserProperties = parserProperties;
         // A 'return' in the constructor just skips the rest of the implementation
         // and returns the new object directly.
         if (bean==null) return;
 
         // Parse the metadata and create the setters
-        new ClassParser().parse(bean,this);
+        classParser.parse(bean,this);
 
         if (parserProperties.getOptionSorter()!=null) {
             Collections.sort(options, parserProperties.getOptionSorter());
