@@ -5,10 +5,12 @@ import static java.lang.Boolean.TRUE;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
 import org.kohsuke.args4j.OptionDef;
+import org.kohsuke.args4j.ParserProperties;
 
 /**
  * Boolean {@link OptionHandler} that (unlike the standard {@link BooleanOptionHandler}
@@ -60,5 +62,27 @@ public class ExplicitBooleanOptionHandler extends OptionHandler<Boolean> {
     @Override
     public String getDefaultMetaVariable() {
         return Messages.DEFAULT_META_EXPLICIT_BOOLEAN_OPTION_HANDLER.format();
+    }
+
+    @Override
+    public String getNameAndMeta(ResourceBundle rb, ParserProperties properties) {
+        String str = option.isArgument() ? "" : option.toString();
+        String meta = getMetaVariable(rb);
+        if (meta != null) {
+            if (option.isArgument()) {
+                str += '[';
+            } else {
+                String delimiter = properties.getOptionValueDelimiter();
+                if (delimiter.trim().equals(delimiter)) {
+                    // not blank, bracket before delimiter
+                    str += '[' + delimiter;
+                } else {
+                    // blank, bracket after space
+                    str += delimiter + '[';
+                }
+            }
+            str += meta + ']';
+        }
+        return str;
     }
 }
