@@ -5,12 +5,12 @@ import java.util.Arrays;
 /**
  * Immutable run-time copy of {@link Option} annotation.
  */
-public final class NamedOptionDef extends OptionDef {
+public class NamedOptionDef extends OptionDef {
     private final String name;
 	private final String[] aliases;
     private final String[] depends;
     private final String[] forbids;
-    
+
     /**
      * @deprecated
      *      multi-valuedness as option definition does not make sense. It's driven by the setter.
@@ -27,7 +27,20 @@ public final class NamedOptionDef extends OptionDef {
         this.depends = createZeroSizedArrayIfNull(o.depends());
         this.forbids = createZeroSizedArrayIfNull(o.forbids());
     }
-    
+
+    /**
+     * Create a copy of another NamedOptionDef
+     * @param o The original option
+     */
+    public NamedOptionDef(NamedOptionDef o) {
+    	super(o.usage(),o.metaVar(),o.required(),o.help(),o.hidden(),o.handler(),false);
+
+    	this.name = o.name();
+    	this.aliases = o.aliases();
+        this.depends = o.depends();
+        this.forbids = o.forbids();
+    }
+
     private static String[] createZeroSizedArrayIfNull(String in[]) {
         if (in == null) {
             return new String[0];
@@ -39,7 +52,7 @@ public final class NamedOptionDef extends OptionDef {
     public String name() {
     	return name;
     }
-    
+
     public String[] aliases() {
     	return Arrays.copyOf(aliases, aliases.length);
     }
@@ -51,12 +64,12 @@ public final class NamedOptionDef extends OptionDef {
     public String[] forbids() {
         return Arrays.copyOf(forbids, forbids.length);
     }
-    
+
     @Override
     public String toString() {
-    	if (aliases.length > 0) {
+    	if (aliases().length > 0) {
     		String str = "";
-    		for (String alias : aliases) {
+    		for (String alias : aliases()) {
     			if (str.length() > 0) {
     				str += ", ";
     			}
@@ -66,7 +79,7 @@ public final class NamedOptionDef extends OptionDef {
     	}
     	return name();
     }
-    
+
     @Override
     public boolean isArgument() {
     	return false;
