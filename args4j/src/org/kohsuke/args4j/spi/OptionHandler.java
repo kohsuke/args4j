@@ -82,10 +82,8 @@ public abstract class OptionHandler<T> {
             token = getDefaultMetaVariable();
         if(token==null) return null;
 
-        if(rb!=null) {
-            String localized = rb.getString(token);
-            if(localized!=null)
-                token = localized;
+        if(rb!=null && rb.containsKey(token)) {
+            token = rb.getString(token);
         }
 
         return token;

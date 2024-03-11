@@ -363,7 +363,9 @@ public class CmdLineParser {
     }
 
     private String localize(String s, ResourceBundle rb) {
-        if(rb!=null)    return rb.getString(s);
+        if(rb!=null && rb.containsKey(s)) {
+            return rb.getString(s);
+        }
         return s;
     }
 
