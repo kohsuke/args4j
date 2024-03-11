@@ -1,4 +1,4 @@
-args4j
+args4j [![Maven Central](https://maven-badges.herokuapp.com/maven-central/args4j/args4j/badge.svg)](https://maven-badges.herokuapp.com/maven-central/args4j/args4j)
 ======
 args4j is a small Java class library that makes it easy to parse command line options/arguments in your CUI
 application. See more info at https://args4j.kohsuke.org/
