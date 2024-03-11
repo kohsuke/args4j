@@ -8,7 +8,7 @@
 
 Why should I use it?
 
-  See {{{http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html}my quick intro}}.
+  See {{{https://web.archive.org/web/20120605024439/http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html}my quick intro}}.
 
  * It makes command line parsing very easy by using annotations
 
@@ -44,7 +44,7 @@ More Resources
 
  [[1]] {{{./implementOptionhandler.html}Extend args4j to handle other Java types}}
 
- [[1]] {{{http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html}Kohsuke's Blog: Parsing command line options in JDK 5.0 style}}
+ [[1]] {{{https://web.archive.org/web/20120605024439/http://weblogs.java.net/blog/kohsuke/archive/2005/05/parsing_command.html}Kohsuke's Blog: Parsing command line options in JDK 5.0 style}}
 
  [[1]] {{{http://hikage.developpez.com/java/articles/api/cli-vs-args4j/}A comparison between Commons CLI and Args4j}} in French
 
