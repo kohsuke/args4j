@@ -291,8 +291,10 @@ public class CmdLineParser {
             len = Math.max(len,curLen);
         }
         for (OptionHandler h: options) {
-            int curLen = getPrefixLen(h, rb);
-            len = Math.max(len,curLen);
+            if (filter.select(h)) {
+	        int curLen = getPrefixLen(h, rb);
+                len = Math.max(len,curLen);
+	    }
         }
 
         // then print
